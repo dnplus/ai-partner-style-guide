@@ -1,0 +1,180 @@
+{
+  "version": "1.0",
+  "kind": "fixture",
+  "nickname": "示範旅人",
+  "consent": {
+    "localAnalysisApproved": true,
+    "aggregateUploadApproved": true
+  },
+  "observedPeriod": {
+    "from": "2026-09-26",
+    "to": "2026-10-09"
+  },
+  "coverage": {
+    "scope": "partial",
+    "sources": [
+      "codex"
+    ],
+    "gaps": [
+      "web_history_unavailable",
+      "other_sources_missing"
+    ],
+    "sampledSessions": 18
+  },
+  "metrics": {
+    "humanSessions": 18,
+    "automatedSessions": 3,
+    "subagentSessions": 5,
+    "userMessages": 86,
+    "inputTokens": null,
+    "outputTokens": null,
+    "tokenSource": "unavailable",
+    "modelUsage": [
+      {
+        "family": "openai",
+        "count": 15
+      },
+      {
+        "family": "anthropic",
+        "count": 3
+      }
+    ],
+    "modelUsageUnit": "sessions",
+    "mostUsedModelFamily": "openai",
+    "mostUsedClient": "codex"
+  },
+  "cases": [
+    {
+      "id": "E001",
+      "source": "codex",
+      "kind": "artifact_test"
+    },
+    {
+      "id": "E002",
+      "source": "codex",
+      "kind": "reuse"
+    }
+  ],
+  "signals": {
+    "unsafeAdoption": {
+      "status": "unknown",
+      "cases": []
+    },
+    "iterativeRetry": {
+      "status": "unknown",
+      "cases": []
+    },
+    "stableSingleTask": {
+      "status": "observed",
+      "cases": [
+        "E001",
+        "E002"
+      ]
+    },
+    "preciseInstruction": {
+      "status": "observed",
+      "cases": [
+        "E001",
+        "E002"
+      ]
+    },
+    "effectiveCorrection": {
+      "status": "observed",
+      "cases": [
+        "E001",
+        "E002"
+      ]
+    },
+    "reusableArtifact": {
+      "status": "observed",
+      "cases": [
+        "E001",
+        "E002"
+      ]
+    },
+    "testedBeforeUse": {
+      "status": "observed",
+      "cases": [
+        "E001",
+        "E002"
+      ]
+    },
+    "repeatedUse": {
+      "status": "observed",
+      "cases": [
+        "E001",
+        "E002"
+      ]
+    },
+    "handoffReady": {
+      "status": "observed",
+      "cases": [
+        "E001",
+        "E002"
+      ]
+    },
+    "selfTestCases": {
+      "status": "observed",
+      "cases": [
+        "E001",
+        "E002"
+      ]
+    },
+    "rolesAndCriteria": {
+      "status": "unknown",
+      "cases": []
+    },
+    "exceptionHandling": {
+      "status": "unknown",
+      "cases": []
+    },
+    "maintenanceFeedback": {
+      "status": "unknown",
+      "cases": []
+    },
+    "sharedRulesActualUse": {
+      "status": "unknown",
+      "cases": []
+    }
+  },
+  "workflows": {
+    "independentWorkflows": 1,
+    "independentRuns": 2,
+    "sustainedDays": 5,
+    "cloudDependent": true,
+    "entrypoints": [
+      "codex"
+    ]
+  },
+  "axes": {
+    "preparation": {
+      "value": "P",
+      "cases": [
+        "E001"
+      ]
+    },
+    "verification": {
+      "value": "V",
+      "cases": [
+        "E001"
+      ]
+    },
+    "reuse": {
+      "value": "S",
+      "cases": [
+        "E002"
+      ]
+    },
+    "execution": {
+      "value": "E",
+      "cases": [
+        "E001",
+        "E002"
+      ]
+    }
+  },
+  "assessment": {
+    "level": "LV4+",
+    "type": "PVSE"
+  }
+}

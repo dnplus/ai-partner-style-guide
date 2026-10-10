@@ -48,3 +48,26 @@ Use case: identity-preserve / illustration-story. Create a polished derivative i
 Q 版：
 Use case: identity-preserve / illustration-story. Create ONE separate chibi derivative illustration of the same GPT dragon girl. Image 1 is the character identity and chibi proportions reference. Image 2 is her matching regular PVSE Systems Architect card edition; match its violet floating systems-panel theme and materials. Asset: portrait 2:3 premium noncommercial anime collectible card character cutout. Preserve her specific recognizable design: very long silver-white hair, large lavender eyes, paired ridged ivory dragon horns, pointed ears, silver knot hair ornament with dangling tassel, white high-collar flowing dress with silver geometric trims, knot waist ornament, lavender dragon wings, pearly scaled tail, white shoes. Charming large head, petite chibi body, complete full-body silhouette. Cheerful focused systems architect with one small hand arranging 3 elegant floating violet blueprint system panels featuring ONLY clean abstract rectangle nodes and connecting lines, while the other small hand supports a compact silver armillary astrolabe around a glowing violet star. Match source's silver/white/lavender palette, delicate anime linework and premium luminous collectible finish. Her expression is a clever gentle smile. All wings, tail, horns, hair, feet, panels fit entirely inside canvas with at least 7 percent empty margin on every edge. IMPORTANT produce true transparent background alpha around character and floating objects, NOT black or gray backdrop, NOT gradient, no glow fog filling empty space, no checkerboard drawn into picture, no floor. Keep restrained sparkle rays close to panels and astrolabe, isolated cutout. No text, letters, title, watermark, signature, card frame or official-origin badge. This is GPT娘的Codex主題同人改編, PVSE 系統建築師; do not render these words.
 
+
+## 本機接收補記：六家族 PVSE／12 張
+
+2026-10-10，本網站工作區由 Library 接收上述 GPT/Codex 兩張，以及父任務提供的 Claude、Gemini、Grok、DeepSeek、GLM 一般／Q 版各兩張。依當次 `prepare_materialize` 回傳、官方 Library transfer helper 落地，逐張檢視實際 PNG。尺寸均為 1024 × 1536 RGBA，透明像素與檔案 SHA-256 記錄於 `ASSET-VERIFICATION.json`；未以雲端路徑冒充本機檔案。
+
+本段記錄接收的衍生素材，不宣稱本網站任務重新生成了這十張，也不捏造未收到的生成提示詞。Claude、Gemini、Grok、GLM 的來源作者與角色參考同上；DeepSeek 另加上善無形角色署名。所有素材依可授權權利範圍維持 CC BY-NC-SA 4.0、非商業、同方式分享及未完整核實權利鏈的限制。其他 15 種風格未提供新圖，不用 PVSE 圖冒稱。
+
+| 本機 `public/art/` 檔案 | 接收 Library ID |
+| --- | --- |
+| codex-pvse-regular.png | `libfile_872f26e182c0819180ccb9c4860fc84d` |
+| codex-pvse-chibi.png | `libfile_76056be2f6508191b0919edcb39ae7ce` |
+| claude-pvse-regular.png | `libfile_a217a296b6ac81918adf8a4980a75613` |
+| claude-pvse-chibi.png | `libfile_37ace4bfb35481919f6c9bae21983a1b` |
+| gemini-pvse-regular.png | `libfile_1b14e767ae14819186053c2acbdb5f96` |
+| gemini-pvse-chibi.png | `libfile_27984f439d5881919ffe6514b0eaee01` |
+| deepseek-pvse-regular.png | `libfile_21cd21cc44088191ab084c1375e84b1f` |
+| deepseek-pvse-chibi.png | `libfile_01047e00950c8191b9d84df74811dae7` |
+| glm-pvse-regular.png | `libfile_981a777862c881918bbab92156165d3d` |
+| glm-pvse-chibi.png | `libfile_a2c3a67eb6c08191a318ff9fdc53d386` |
+| grok-pvse-regular.png | `libfile_e920b21a37d8819181bb8c1752416754` |
+| grok-pvse-chibi.png | `libfile_5d3e5e21735481918941ef3f3b991cc8` |
+
+GPT/Codex 的原始生成及署名記錄 Library ID：`libfile_6848479b446c8191915f342c7322c403`。

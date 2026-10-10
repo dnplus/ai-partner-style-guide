@@ -1,0 +1,36 @@
+
+> ai-persona-card@0.1.0 test
+> node --test tests/*.test.ts
+
+✔ fixture preserves pinned PVSE LV4+ and unknown tokens (2.763333ms)
+✔ missing evidence remains unknown, never LV0 (0.425625ms)
+✔ token volume does not affect level (0.059292ms)
+✔ LV4 requires real testing, reuse and handoff signals (0.059459ms)
+✔ LV4+ requires self-test evidence, not simply a plus by missing data (0.039208ms)
+✔ LV5 needs sustained independent workflows, maintenance and actual multiple entrypoints (0.057125ms)
+✔ local-only LLM workflows do not require two clients (0.042583ms)
+✔ model family is separate from client and must match model aggregates (0.369917ms)
+✔ ties and unavailable model metadata stay unknown (0.177291ms)
+✔ raw content, paths, extra fields, invented unavailable tokens and unknown references are rejected (0.820917ms)
+✔ cannot force a target grade or type, and unknown axes persist (0.214375ms)
+✔ invalid dates, future period, negative counts and missing consent fail (0.665708ms)
+✔ complete extensible catalog has twelve ready PVSE art variants (0.0765ms)
+✔ the next UTC date is future even when it is less than 24 hours away (0.139541ms)
+✔ create → submit → read persists aggregates, not email or bearer tokens in report (136.376ms)
+✔ separate authorities and cross-session capabilities (21.553292ms)
+✔ dispatch owner binds reading without requiring callback caller identity (22.124125ms)
+✔ one submission and exact canonical idempotent retry (38.532958ms)
+✔ concurrent independent payloads cannot overwrite each other (19.568042ms)
+✔ expired pending and submitted sessions reject callback and read, then purge (26.138ms)
+✔ revoke deletes profile and report; old authority no longer works (20.603916ms)
+✔ invalid, oversized, unknown fields, wrong nickname and missing approval reject (27.161833ms)
+✔ origin and PII purpose restrictions (6.410209ms)
+✔ D1 survives runtime restart and preserves authority and report (100.45ms)
+ℹ tests 24
+ℹ suites 0
+ℹ pass 24
+ℹ fail 0
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 582.723792

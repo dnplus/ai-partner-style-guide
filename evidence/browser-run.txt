@@ -1,0 +1,16 @@
+
+> ai-persona-card@0.1.0 test:browser
+> playwright test
+
+
+Running 5 tests using 1 worker
+
+(node:62227) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+  ✓  1 tests/browser/journey.spec.ts:5:1 › desktop form → callback → report → both styles → PNG → nickname-only → delete (4.7s)
+  ✓  2 tests/browser/journey.spec.ts:54:1 › mobile 390×844: real touch drag, Q toggle, dialog and no horizontal overflow (764ms)
+  ✓  3 tests/browser/journey.spec.ts:74:1 › reduced motion disables tilt while retaining static artwork and export (575ms)
+  ✓  4 tests/browser/journey.spec.ts:84:1 › catalog is truthful and unknown/tied metadata can reach a real report (686ms)
+  ✓  5 tests/browser/journey.spec.ts:95:1 › all twelve PVSE artworks load without changing the assessment or observed model (1.7s)
+
+  5 passed (9.2s)

@@ -2,9 +2,9 @@
 
 The active v2 agent-workstyle rubric, thresholds, labels and descriptions are original project material. Letter-pair names and the standard 16 code notation refer to the Myers & Briggs Foundation. This is not an official MBTI assessment, and it does not use the official instrument, questions or scoring.
 
-## Historical framework provenance
+## Usage-level framework provenance
 
-Earlier project versions used ai-level-check v0.4.6 at commit d262ca67a6efa59ffb0e0a2a2843978a149e047d. Its source references and the following MIT notice remain in vendor/ai-level-check and historical project records. Version 2 does not map, convert or score using the earlier level/type rules.
+The independent usage-level-v1 evidence rules draw on the outcome-based LV0–5 framework in ai-level-check v0.4.6 at commit d262ca67a6efa59ffb0e0a2a2843978a149e047d. This project adds its own conservative machine-checkable evidence thresholds, including tested reuse and sustained independent workflows. It is an adaptation, not an official upstream assessment or certification. The source references and following MIT notice remain in vendor/ai-level-check. The separate agent-workstyle-v1 rubric does not map or convert the earlier P/Q, V/A, S/O, E/C style types into MBTI codes.
 
 Source: https://github.com/Raymondhou0917/ai-level-check/tree/d262ca67a6efa59ffb0e0a2a2843978a149e047d
 

@@ -3,20 +3,23 @@
 import { useEffect, useRef, useState } from "react";
 import { z } from "zod";
 import { toReport, validateSubmission, type CardObservation, type Report } from "../lib/assessment.ts";
+import {usageLevelSchema} from "../lib/usage-level.ts";
 import { nicknameSchema, assessmentSchema, PROTOCOL_VERSION } from "../lib/contract.ts";
 import type { LocalSession } from "../lib/collector-instructions.ts";
 import { receivedProgressSchema, emptyProgress, type ReceivedProgress } from "../lib/collector-progress.ts";
 
 export const SESSION_KEY = "agent-mbti-session-v2";
 const sessionSchema = z.object({ id:z.string().uuid(), readToken:z.string().regex(/^[0-9a-f]{64}$/), writeToken:z.string().regex(/^[0-9a-f]{64}$/).optional(), expiresAt:z.number(), nickname:nicknameSchema });
-const cardSchema = z.object({ nickname:nicknameSchema, kind:z.enum(["fixture","observed"]), assessment:assessmentSchema, modelFamily:z.enum(["openai","anthropic","google","xai","deepseek","zai","other","unknown"]) }).strict();
+const cardSchema = z.object({ nickname:nicknameSchema, kind:z.enum(["fixture","observed"]), assessment:assessmentSchema, usageLevel:usageLevelSchema,brief:z.array(z.string()).max(3),modelFamily:z.enum(["openai","anthropic","google","xai","deepseek","zai","other","unknown"]) }).strict();
 const resultSchema = z.object({ id:z.string().uuid(), expiresAt:z.number(), status:z.enum(["pending","complete"]), card:cardSchema.nullable(), report:z.record(z.unknown()).nullable(), reportAccess:z.enum(["email","card_only"]), delivery:z.enum(["not_configured","not_requested"]), progress:receivedProgressSchema });
-export type SessionResult = { card:CardObservation; report:Report | null; reportAccess:"email" | "card_only"; delivery:"not_configured" | "not_requested" };
+export type SessionResult = { id:string; expiresAt:number; card:CardObservation; report:Report | null; reportAccess:"email" | "card_only"; delivery:"not_configured" | "not_requested" };
 
-export function usePersonaSession() {
+export function usePersonaSession(authenticated=true) {
   const [ready,setReady] = useState(false);
   const [session,setSession] = useState<LocalSession | null>(null);
   const [result,setResult] = useState<SessionResult | null>(null);
+  const [lastResult,setLastResult] = useState<SessionResult|null>(null);
+  const [rememberError,setRememberError] = useState(false);
   const [busy,setBusy] = useState(false);
   const [error,setError] = useState("");
   const [connection,setConnection] = useState<"checking" | "connected" | "retrying">("checking");
@@ -28,14 +31,29 @@ export function usePersonaSession() {
   const [retry,setRetry] = useState(0);
   const generation = useRef(0);
   const working = useRef(false);
+  const remembering = useRef<Promise<void>|null>(null);
 
+  function parseResult(data:{id:string;expiresAt:number;card:CardObservation;report:Record<string,unknown>|null;reportAccess:"email"|"card_only";delivery:"not_configured"|"not_requested"}):SessionResult{
+    let report:Report|null=null;
+    if(data.reportAccess==="email"&&data.report){const {rubric,axisFindings,caveat,usageLevel,...submission}=data.report;void rubric;void axisFindings;void caveat;void usageLevel;report=toReport(validateSubmission(submission));}
+    return {id:data.id,expiresAt:data.expiresAt,card:data.card,report,reportAccess:data.reportAccess,delivery:data.delivery};
+  }
   useEffect(()=>{
-    try {
-      const saved=sessionSchema.safeParse(JSON.parse(sessionStorage.getItem(SESSION_KEY) ?? "null"));
-      if(saved.success){setSession(saved.data);setExpired(saved.data.expiresAt <= Date.now());}
-      else sessionStorage.removeItem(SESSION_KEY);
-    } catch { sessionStorage.removeItem(SESSION_KEY); }
-    setReady(true);
+    let mounted=true;
+    async function restore(){
+      try{
+        const saved=sessionSchema.safeParse(JSON.parse(sessionStorage.getItem(SESSION_KEY)??"null"));
+        if(saved.success&&authenticated){setSession(saved.data);setExpired(saved.data.expiresAt<=Date.now());}else sessionStorage.removeItem(SESSION_KEY);
+      }catch{sessionStorage.removeItem(SESSION_KEY);}
+      try{
+        if(!authenticated){setReady(true);return;}
+        const r=await fetch("/api/remembered",{cache:"no-store",redirect:"error",signal:AbortSignal.timeout(5000)});
+        const data=await r.json() as {found?:boolean};
+        if(r.ok&&data.found&&mounted){const valid=z.object({id:z.string().uuid(),expiresAt:z.number(),card:cardSchema,report:z.record(z.unknown()).nullable(),reportAccess:z.enum(["email","card_only"]),delivery:z.enum(["not_configured","not_requested"])}).parse(data);if(valid.expiresAt>Date.now())setLastResult(parseResult(valid));}
+      }catch{}
+      if(mounted)setReady(true);
+    }
+    void restore();return ()=>{mounted=false;};
   },[]);
 
   useEffect(()=>{
@@ -64,9 +82,10 @@ export function usePersonaSession() {
         if(data.id!==session!.id || data.expiresAt!==session!.expiresAt) throw new Error("會話不一致。");
         setLastChecked(Date.now());setAgentProgress(data.progress);setConnection("connected");failures=0;
         if(data.status==="complete" && data.card){
-          let report:Report | null=null;
-          if(data.reportAccess==="email" && data.report){const {rubric,axisFindings,caveat,...submission}=data.report;void rubric;void axisFindings;void caveat;report=toReport(validateSubmission(submission));}
-          setResult({card:data.card,report,reportAccess:data.reportAccess,delivery:data.delivery});return;
+          const complete=parseResult({...data,card:data.card});setResult(complete);
+          const current=generation.current;
+          remembering.current=fetch("/api/remembered",{method:"POST",headers:{"Content-Type":"application/json"},body:JSON.stringify({sessionId:session!.id,readToken:session!.readToken}),redirect:"error",signal:AbortSignal.timeout(8000)}).then(async r=>{if(!r.ok)throw new Error();const saved=z.object({saved:z.literal(true),expiresAt:z.number()}).parse(await r.json());if(current===generation.current){setLastResult({...complete,expiresAt:saved.expiresAt});setRememberError(false);}}).catch(()=>{if(current===generation.current)setRememberError(true);});
+          return;
         }
       } catch { if(!stopped){setConnection("retrying");failures++;} }
       finally { clearTimeout(timeout); }
@@ -76,7 +95,7 @@ export function usePersonaSession() {
     return ()=>{stopped=true;controller?.abort();clearTimeout(timer);};
   },[session,expired,result,retry]);
 
-  async function create(profile:{nickname:string;email?:string;emailResultOnlyConsent?:boolean}) {
+  async function create(profile:{nickname:string;marketingOptIn?:boolean}) {
     if(working.current) return null;
     working.current=true;setBusy(true);setError("");
     const current=++generation.current;
@@ -95,17 +114,19 @@ export function usePersonaSession() {
     finally{working.current=false;setBusy(false);}
   }
 
-  async function erase(){
+  async function erase(preserveRemembered=false){
     if(working.current) return false;
     working.current=true;setBusy(true);setError("");
     try {
+      await remembering.current;
       if(session){
-        const response=await fetch(`/api/sessions/${session.id}`,{method:"DELETE",headers:{Authorization:`Bearer ${session.readToken}`},redirect:"error"});
+        const response=await fetch(`/api/sessions/${session.id}${preserveRemembered?"?retainResult=1":""}`,{method:"DELETE",headers:{Authorization:`Bearer ${session.readToken}`},redirect:"error"});
         if(!response.ok && ![404,410].includes(response.status)) throw new Error("暫時無法結束，請再試一次。");
       }
+      if(!preserveRemembered){const removed=await fetch("/api/remembered",{method:"DELETE",redirect:"error"});if(!removed.ok)throw new Error("暫時無法結束，請再試一次。");setLastResult(null);}
       generation.current++;sessionStorage.removeItem(SESSION_KEY);setSession(null);setResult(null);setExpired(false);setLastChecked(null);setAgentProgress(emptyProgress);return true;
     } catch(e){setError((e as Error).message);return false;}
     finally{working.current=false;setBusy(false);}
   }
-  return {ready,session,result,busy,error,setError,connection,expired,remaining,lastChecked,agentProgress,clock,create,erase,retry:()=>setRetry(n=>n+1)};
+  return {ready,session,result,lastResult,rememberError,openLast:()=>{if(lastResult&&lastResult.expiresAt>Date.now())setResult(lastResult);},startFresh:()=>erase(true),busy,error,setError,connection,expired,remaining,lastChecked,agentProgress,clock,create,erase,retry:()=>setRetry(n=>n+1)};
 }

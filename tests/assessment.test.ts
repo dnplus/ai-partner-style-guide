@@ -7,12 +7,12 @@ import { artFor, families, personas } from "../lib/catalog.ts";
 
 const now=Date.parse("2026-10-10T12:00:00Z");
 const valid=(f:Submission)=>validateSubmission({...f,assessment:deriveAssessment(f)},now);
-test("three independent tasks support the new INTJ workstyle without levels",()=>{
+test("three independent tasks support the new INTJ workstyle independently from usage level",()=>{
   const f=validateSubmission(makeFixture(),now);
   assert.deepEqual(f.assessment,{type:"INTJ",pattern:"INTJ",status:"complete"});
   assert.equal(new Set(f.tasks.map(t=>t.id)).size,3);
   assert.deepEqual(inspectAxes(f).map(a=>a.eligibleTasks),[3,3,3,3]);
-  assert.doesNotMatch(JSON.stringify(toReport(f)),/level|PVSE|Raymond|signals|workflows/);
+  assert.equal(toReport(f).usageLevel.value,null);assert.doesNotMatch(JSON.stringify(toReport(f)),/PVSE/);
 });
 test("all 16 standard codes are reachable with independent visible behavior",()=>{
   const behavior:Record<string,Behavior>={E:"collaborative_iteration",I:"consolidated_delivery",S:"concrete_evidence",N:"pattern_exploration",T:"consistent_criteria",F:"people_context",J:"early_commitment",P:"reversible_experiments"};
@@ -109,6 +109,6 @@ test("task and observation integrity: uniqueness, references, dates, owner axis 
 });
 test("card projection excludes report evidence, dates and metrics",()=>{
   const card=toCardObservation(toReport(makeFixture()));
-  assert.deepEqual(Object.keys(card).sort(),["assessment","kind","modelFamily","nickname"]);
+  assert.deepEqual(Object.keys(card).sort(),["assessment","brief","kind","modelFamily","nickname","usageLevel"]);
   assert.doesNotMatch(JSON.stringify(card),/observations|tasks|Tokens|period|email|rubric/);
 });

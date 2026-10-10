@@ -1,62 +1,43 @@
-import {translator,bodyFonts,type Locale} from "./i18n.ts";
-import { artFor, artTitle, artCredit, families, personaFor, type ArtStyle, type Family } from "./catalog.ts";
-import type { CardObservation } from "./assessment.ts";
-
-export async function downloadCard(report: CardObservation, style: ArtStyle, family: Family, nicknameOnly: boolean, locale:Locale="zh-TW") {
-  const t=translator(locale);
-  const font=bodyFonts[locale];
-  await document.fonts.load("32px "+font,t("你的 Agent MBTI"));
-  await document.fonts.ready;
-  const canvas = document.createElement("canvas");
-  canvas.width = 1080; canvas.height = 1620;
-  const c = canvas.getContext("2d");
-  if (!c) throw new Error("無法建立圖片，請換一個瀏覽器再試。");
-  const write=(text:string,x:number,y:number,maxWidth=830)=>{
-    const prior=c.font;
-    const size=Number(prior.match(/([0-9.]+)px/)?.[1]??20);
-    const measured=c.measureText(text).width;
-    if(measured>maxWidth)c.font=prior.replace(/[0-9.]+px/,(size*maxWidth/measured).toFixed(2)+"px");
-    c.fillText(text,x,y);
-    c.font=prior;
-  };
-  const theme = families.find((f) => f.id === family)!;
-  c.fillStyle = "#f5f3fa"; c.fillRect(0, 0, 1080, 1620);
-  c.shadowColor = "#2d17504d"; c.shadowBlur = 45; c.shadowOffsetY = 20;
-  c.fillStyle = "#131019"; c.beginPath(); c.roundRect(60, 48, 960, 1440, 52); c.fill();
-  c.shadowBlur = 0; c.shadowOffsetY = 0;
-  const foil = c.createLinearGradient(80, 100, 1000, 1420);
-  [[0,"#cfadef"],[0.2,"#7af2e5"],[0.4,"#ffd492"],[0.6,"#be91fc"],[0.8,"#f6b0d4"],[1,"#aff9dd"]].forEach(([p, color]) => foil.addColorStop(Number(p), String(color)));
-  c.strokeStyle = foil; c.lineWidth = 8; c.beginPath(); c.roundRect(72, 60, 936, 1416, 43); c.stroke();
-  c.lineWidth = 1.5; c.beginPath(); c.roundRect(94, 83, 892, 1371, 26); c.stroke();
-  c.save(); c.beginPath(); c.roundRect(96, 86, 888, 1366, 24); c.clip();
-  const glow = c.createRadialGradient(540, 660, 50, 540, 660, 670); glow.addColorStop(0,"#573a73");glow.addColorStop(1,"#17121e");c.fillStyle=glow;c.fillRect(96,86,888,1366);
-  c.strokeStyle="#c1a5ef35";c.lineWidth=2;c.beginPath();c.ellipse(540,650,330,470,-.3,0,Math.PI*2);c.stroke();
-  const art = artFor(family, report.assessment.type, style);
-  if(report.assessment.type && !art)throw new Error("這張專屬插畫仍在製作，完成後才能下載。");
-  if (art) {
-    const img = new Image(); img.src = art;
-    await img.decode();
-    const scale=Math.min(820/img.naturalWidth,950/img.naturalHeight);
-    const w=img.naturalWidth*scale,h=img.naturalHeight*scale;
-    c.drawImage(img,540-w/2,185+(950-h)/2,w,h);
-  } else { c.fillStyle="#d5c1f4";c.font="68px "+font;c.textAlign="center";write("✧",540,610);c.font="48px "+font;write(t("輪廓還在形成"),540,730);c.font="28px "+font;write(t("保留未知，等待更多線索"),540,790);c.textAlign="left"; }
-  const shade = c.createLinearGradient(0, 1050, 0, 1450);shade.addColorStop(0,"#15111c00");shade.addColorStop(.55,"#15111ce8");shade.addColorStop(1,"#15111c");c.fillStyle=shade;c.fillRect(96,1000,888,452);
-  c.restore();
-  c.fillStyle="#ece0ff";c.font='34px Georgia, serif';write(`✧  ${theme.label.toUpperCase()}`,125,153);
-  c.textAlign="right";c.font="25px "+font;write(report.kind === "fixture" ? t("示範資料 · 非個人評估") : t("你的 Agent MBTI"),948,153,430);c.textAlign="left";
-  if (!nicknameOnly) {
-    c.fillStyle=foil;c.font=report.assessment.type ? '116px Georgia, serif' : "bold 76px "+font;write(report.assessment.type ?? t("未定型"),126,1240);
-    c.fillStyle="#f9f3ff";c.font="bold 44px "+font;write(t(personaFor(report.assessment.type).name),126,1309,690);
-  }
-  c.fillStyle="#f5ecff";c.font=`${nicknameOnly ? "bold 62px" : "32px"} `+font;write(report.nickname,126,1380,640);
-  c.fillStyle="#c0b6ce";c.font="20px "+font;write(t("合作風格觀察 · 非官方 MBTI 評量 · 造型與分型無關"),126,1425);
-  c.fillStyle="#50455f";c.textAlign="center";c.font="20px "+font;
-  write(art ? artTitle(family,locale) : t("你的 Agent MBTI · 中性觀察卡"),540,1532,960);
-  c.font="18px "+font;write(art ? artCredit(family,locale) : t("證據不足的方向不補猜，不使用其他分型的插畫"),540,1562,960);
-  write(art ? t("CC BY-NC-SA 4.0 · 非官方／非商業 · 來源：Apprentice-Geo/AI-Fanworks") : t("使用風格觀察 · 非官方／非商業 · 非心理測驗"),540,1590,960);
-  const blob = await new Promise<Blob>((resolve, reject) => canvas.toBlob((b) => b ? resolve(b) : reject(new Error("圖片匯出失敗")), "image/png"));
-  const url = URL.createObjectURL(blob);
-  const a = document.createElement("a");a.href=url;a.download="agent-mbti-"+family+"-"+style+"-"+locale+"-"+t("角色卡")+(nicknameOnly?"-"+t("僅暱稱")+"-nickname":"")+".png";a.click();
-  setTimeout(() => URL.revokeObjectURL(url), 10000);
-  return { width: canvas.width, height: canvas.height, bytes: blob.size, locale, fontFamily:font, filename:a.download };
+import QRCode from 'qrcode';
+import {translator,type Locale} from './i18n.ts';
+import type {ArtStyle,Family} from './catalog.ts';
+import type {CardObservation} from './assessment.ts';
+import {cardComposition,cardSvg} from './card-composition.ts';
+import {QUIZ_HOME} from './site-config.ts';
+export const exportFormats={card:{width:1080,height:1620,label:'收藏卡'},feed:{width:1080,height:1350,label:'直式貼文'},story:{width:1080,height:1920,label:'限時尺寸'},square:{width:1080,height:1080,label:'正方形'},landscape:{width:1200,height:630,label:'橫式貼文'}} as const;
+export type ExportFormat=keyof typeof exportFormats;
+const imageCache=new Map<string,Promise<string>>();
+async function dataImage(src:string){
+ if(!imageCache.has(src))imageCache.set(src,fetch(src,{redirect:'error'}).then(async response=>{if(!response.ok)throw new Error('Art unavailable');const blob=await response.blob();return await new Promise<string>((resolve,reject)=>{const reader=new FileReader();reader.onload=()=>resolve(String(reader.result));reader.onerror=reject;reader.readAsDataURL(blob);});}).catch(e=>{imageCache.delete(src);throw e;}));
+ return imageCache.get(src)!;
+}
+export async function makeCardFile(report:CardObservation,style:ArtStyle,family:Family,nicknameOnly:boolean,locale:Locale='zh-TW',format:ExportFormat='card'){
+ const model=cardComposition(report,style,family,nicknameOnly,locale),t=translator(locale),size=exportFormats[format];
+ await document.fonts.load('32px '+model.font,model.title+model.nickname);await document.fonts.ready;
+ const canvas=document.createElement('canvas');canvas.width=size.width;canvas.height=size.height;const ctx=canvas.getContext('2d');if(!ctx)throw new Error('無法建立圖片，請換一個瀏覽器再試。');
+ const svg=cardSvg(model,model.art?await dataImage(model.art):'');const image=new Image();const svgURL=URL.createObjectURL(new Blob([svg],{type:'image/svg+xml;charset=utf-8'}));image.src=svgURL;
+ try{await image.decode();}catch{URL.revokeObjectURL(svgURL);throw new Error('圖片匯出失敗');}
+ const landscape=format==='landscape',square=format==='square',portrait=!landscape&&!square;
+ const bg=ctx.createLinearGradient(0,0,size.width,size.height);bg.addColorStop(0,'#faf7ff');bg.addColorStop(.65,'#e9def8');bg.addColorStop(1,'#c8b4e8');ctx.fillStyle=bg;ctx.fillRect(0,0,size.width,size.height);
+ const availableH=size.height-(portrait?270:130);const cardH=Math.min(availableH,format==='card'?1450:format==='story'?1530:2000);const cardW=cardH*2/3;const cardX=landscape?62:square?60:(size.width-cardW)/2,cardY=landscape?43:square?44:40;
+ ctx.shadowColor='#30114940';ctx.shadowBlur=32;ctx.shadowOffsetY=20;ctx.drawImage(image,cardX,cardY,cardW,cardH);ctx.shadowBlur=0;ctx.shadowOffsetY=0;URL.revokeObjectURL(svgURL);
+ const qr=QRCode.create(QUIZ_HOME,{errorCorrectionLevel:'M'}),modules=qr.modules,cell=landscape?3:4,qrSize=(modules.size+8)*cell;
+ const qrX=landscape?size.width-qrSize-55:square?size.width-qrSize-76:size.width-qrSize-58,qrY=landscape?size.height-qrSize-70:square?size.height-qrSize-100:size.height-qrSize-52;
+ ctx.fillStyle='#fff';ctx.fillRect(qrX,qrY,qrSize,qrSize);ctx.fillStyle='#15101e';for(let y=0;y<modules.size;y++)for(let x=0;x<modules.size;x++)if(modules.get(y,x))ctx.fillRect(qrX+(x+4)*cell,qrY+(y+4)*cell,cell,cell);
+ const write=(text:string,x:number,y:number,fontSize:number,maxWidth:number,color='#35213f',weight='400')=>{
+  ctx.fillStyle=color;ctx.font=weight+' '+fontSize+'px '+model.font;const measured=ctx.measureText(text).width;if(measured>maxWidth)ctx.font=weight+' '+Math.floor(fontSize*maxWidth/measured)+'px '+model.font;ctx.fillText(text,x,y);
+ }
+ const textX=landscape?440:square?cardX+cardW+46:58,textMax=landscape?680:square?size.width-textX-50:qrX-85;
+ if(!portrait){write(model.modelLabel,textX,landscape?122:139,34,textMax);write(model.type?model.type+' · '+model.level:model.nickname,textX,landscape?197:224,landscape?58:48,textMax,'#35213f','600');write(model.title||t('角色卡'),textX,landscape?255:286,31,textMax);if(model.tagline)write(model.tagline,textX,landscape?305:338,24,textMax,'#735d85');}
+ const promoY=portrait?size.height-120:landscape?400:460;write(t('你的 Agent，會是哪一型？'),textX,promoY,portrait?28:27,textMax,'#4c345f','600');write('agent-mbti-cards.dnplus.chatgpt.site',textX,promoY+40,19,textMax,'#785e8b');
+ write(model.credit,40,size.height-18,landscape?12:16,size.width-80,'#675674');
+ const blob=await new Promise<Blob>((resolve,reject)=>canvas.toBlob(b=>b?resolve(b):reject(new Error('圖片匯出失敗')),'image/png'));
+ const filename='agent-mbti-'+family+'-'+style+'-'+locale+'-'+format+'-'+t('角色卡')+(nicknameOnly?'-nickname':'')+'.png';return {file:new File([blob],filename,{type:'image/png'}),width:size.width,height:size.height,composition:model,qr:QUIZ_HOME,format};
+}
+export function saveCardFile(file:File){const url=URL.createObjectURL(file),a=document.createElement('a');a.href=url;a.download=file.name;a.click();setTimeout(()=>URL.revokeObjectURL(url),10000);}
+export async function downloadCard(report:CardObservation,style:ArtStyle,family:Family,nicknameOnly:boolean,locale:Locale='zh-TW',format:ExportFormat='card'){
+ const result=await makeCardFile(report,style,family,nicknameOnly,locale,format);saveCardFile(result.file);return {width:result.width,height:result.height,bytes:result.file.size,locale,filename:result.file.name};
+}
+export function shareText(report:CardObservation,nicknameOnly:boolean,locale:Locale='zh-TW',includeBrief=true){
+ const t=translator(locale);return [t('你的 Agent MBTI'),report.nickname,...(nicknameOnly?[]:[report.assessment.type??t('未定型'),'LV '+(report.usageLevel.value??'?'),...(includeBrief?report.brief.map(line=>t(line)):[])]),QUIZ_HOME].join('\n');
 }

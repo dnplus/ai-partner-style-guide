@@ -50,13 +50,17 @@ assessment 有 type、pattern、status。四軸都有方向才 type 等於標準
 
 完整代碼僅 INTJ INTP ENTJ ENTP INFJ INFP ENFJ ENFP ISTJ ISFJ ESTJ ESFJ ISTP ISFP ESTP ESFP。不得從舊分型、等級或稱號轉換；舊紀錄須依新規則重新分析。角色主題與畫風完全不參與評估。
 
+## 獨立使用等級
+
+另評估使用等級 usage-level-v1，與 MBTI、token、客戶端和模型獨立。usageEvidence 只放 version 與最多64筆 observations；每筆僅 task、signal、必要時 artifact A01–A12、workflow W01–W08。不得傳真實名称／內容／路徑。只記授權記錄或已獲授權成果檢視的可見事實，沒有查核記錄不等於 unchecked_adoption，也不可另讀未授權成果。LV0 需直接看見需要查核卻直接採用；LV1 看見辨識錯誤後重試；LV2 至少2個獨立任務 useful_result_verified；LV3 同任務 context_scoped、acceptance_defined、targeted_correction_verified。LV4 同一 artifact_inspected、artifact_tested 與不同任務 artifact_reused，檢視<=測試<=重用日期。LV5 另需至少2條不重疊獨立 workflow，每條至少3個 workflow_operated 任務、跨至少14天，均有 roles_defined、acceptance_defined、exceptions_handled、maintenance_verified、feedback_integrated，維護發生在首次運作後。這是已確認下限，不是能力上限；缺少則留空，網站重算，勿硬填 LV5。S/N 是理解新問題的起點；測試、查核、精確或 debugging 本身都不自動代表 S。
+
 ## 輸出與傳送
 
 讀取 /collector-template.json 與 /collector-schema.json，只保留允許欄位。日期需填實際觀察範圍，kind:observed 只用於已授權真實紀錄；範例一律 fixture。nickname 必須與會話一致。不傳 Email、原始對話、程式碼、路徑、任務名稱、秘密、連結或自由文字筆記。傳送上限 24 KiB。
 
 權杖只放 Authorization: Bearer 標頭，不放網址、命令列參數、持久檔案或日誌。僅向專屬會話 /api/collect/{id} POST application/json，使用隨機 Idempotency-Key（16–80 個英數、-、_）。禁止自動跟隨重新導向。201 已收；200 僅原 key 與相同 JSON 的冪等重試；409 已有不同結果；410 到期或需要重新觀察；422 無效摘要。斷線或 503 最多以原 JSON 與原 key 重試兩次，依序等 1 秒及 2 秒；其餘錯誤先回報。409/410 停止，不換 key 強行覆寫。
 
-會話 30 分鐘到期，讀寫能力分離。Email 僅由網站表單接收，填寫並同意結果用途才開放完整報告，不填只有卡片；本機尚無寄信服務。私人 Sites 外部 callback 尚未驗證，僅在同機 loopback 測試。不可索取或分享整站 bypass key，不可偷偷公開網站。遇存取閘門停止並回報。
+會話30分鐘到期，讀寫能力分離。網站透過ChatGPT登入取得本人Email，完整報告與行銷選填同意互相獨立；沒有寄信服務。網站首頁公開；僅本人的登入可以讀取結果。此短效寫入權杖只允許對本次會話回報狀態及提交一次摘要，不能讀取或列出結果。沒有整站通行權杖；一般 401/403 不得繞過或更改權限。
 
 ## 進度與等待
 

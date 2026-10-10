@@ -1,0 +1,546 @@
+{
+  "config": {
+    "argv": [
+      "/Users/dnplus/.hermes/node/bin/node",
+      "/Users/dnplus/Documents/Codex/2026-10-10/task-2/ai-usage-card/node_modules/.bin/playwright",
+      "test",
+      "tests/browser/locales.spec.ts",
+      "tests/browser/defaults.spec.ts",
+      "tests/browser/art-gallery.spec.ts",
+      "--reporter=json"
+    ],
+    "configFile": "/Users/dnplus/Documents/Codex/2026-10-10/task-2/ai-usage-card/playwright.config.ts",
+    "rootDir": "/Users/dnplus/Documents/Codex/2026-10-10/task-2/ai-usage-card/tests/browser",
+    "failOnFlakyTests": false,
+    "forbidOnly": false,
+    "fullyParallel": false,
+    "globalSetup": null,
+    "globalTeardown": null,
+    "globalTimeout": 0,
+    "grep": {},
+    "grepInvert": null,
+    "maxFailures": 0,
+    "metadata": {
+      "actualWorkers": 1
+    },
+    "preserveOutput": "always",
+    "projects": [
+      {
+        "outputDir": "/Users/dnplus/Documents/Codex/2026-10-10/task-2/ai-usage-card/.test-results",
+        "repeatEach": 1,
+        "retries": 0,
+        "metadata": {
+          "actualWorkers": 1
+        },
+        "id": "",
+        "name": "",
+        "testDir": "/Users/dnplus/Documents/Codex/2026-10-10/task-2/ai-usage-card/tests/browser",
+        "testIgnore": [],
+        "testMatch": [
+          "**/*.@(spec|test).?(c|m)[jt]s?(x)"
+        ],
+        "timeout": 30000
+      }
+    ],
+    "filteredProjects": [
+      {
+        "grep": {},
+        "grepInvert": null,
+        "outputDir": "/Users/dnplus/Documents/Codex/2026-10-10/task-2/ai-usage-card/.test-results",
+        "repeatEach": 1,
+        "retries": 0,
+        "metadata": {
+          "actualWorkers": 1
+        },
+        "name": "",
+        "testDir": "/Users/dnplus/Documents/Codex/2026-10-10/task-2/ai-usage-card/tests/browser",
+        "snapshotDir": "/Users/dnplus/Documents/Codex/2026-10-10/task-2/ai-usage-card/tests/browser",
+        "testIgnore": [],
+        "testMatch": "**/*.@(spec|test).?(c|m)[jt]s?(x)",
+        "timeout": 30000,
+        "use": {
+          "extraHTTPHeaders": {
+            "oai-authenticated-user-id": "browser-fixture-owner",
+            "oai-authenticated-user-email": "browser-fixture@example.test"
+          },
+          "locale": "zh-TW",
+          "baseURL": "http://127.0.0.1:5188",
+          "browserName": "chromium",
+          "headless": true,
+          "launchOptions": {
+            "executablePath": "/Applications/Google Chrome.app/Contents/MacOS/Google Chrome"
+          },
+          "viewport": {
+            "width": 1536,
+            "height": 1024
+          },
+          "screenshot": "off",
+          "trace": "off"
+        },
+        "dependencies": [],
+        "ignoreSnapshots": false,
+        "__projectId": ""
+      }
+    ],
+    "quiet": false,
+    "reporter": [
+      [
+        "json"
+      ]
+    ],
+    "reportSlowTests": {
+      "max": 5,
+      "threshold": 300000
+    },
+    "shard": null,
+    "tags": [],
+    "updateSnapshots": "default",
+    "updateSourceMethod": "patch",
+    "version": "1.64.0",
+    "workers": 1,
+    "webServer": null
+  },
+  "suites": [
+    {
+      "title": "art-gallery.spec.ts",
+      "file": "art-gallery.spec.ts",
+      "column": 0,
+      "line": 0,
+      "specs": [
+        {
+          "title": "192-slot gallery loads exact art or honest pending states, inspector and mobile framing",
+          "ok": true,
+          "tags": [],
+          "tests": [
+            {
+              "timeout": 120000,
+              "annotations": [],
+              "expectedStatus": "passed",
+              "projectId": "",
+              "projectName": "",
+              "results": [
+                {
+                  "workerIndex": 0,
+                  "parallelIndex": 0,
+                  "status": "passed",
+                  "duration": 34602,
+                  "errors": [],
+                  "stdout": [],
+                  "stderr": [],
+                  "retry": 0,
+                  "startTime": "2026-10-10T08:53:30.993Z",
+                  "annotations": [],
+                  "attachments": []
+                }
+              ],
+              "status": "expected"
+            }
+          ],
+          "id": "873ceed314d34ff98e23-9001c4672854a13e1c60",
+          "file": "art-gallery.spec.ts",
+          "line": 7,
+          "column": 1
+        },
+        {
+          "title": "every type reaches its own art through real callback; theme and style never change assessment",
+          "ok": true,
+          "tags": [],
+          "tests": [
+            {
+              "timeout": 180000,
+              "annotations": [],
+              "expectedStatus": "passed",
+              "projectId": "",
+              "projectName": "",
+              "results": [
+                {
+                  "workerIndex": 0,
+                  "parallelIndex": 0,
+                  "status": "passed",
+                  "duration": 98755,
+                  "errors": [],
+                  "stdout": [],
+                  "stderr": [],
+                  "retry": 0,
+                  "startTime": "2026-10-10T08:54:06.634Z",
+                  "annotations": [],
+                  "attachments": []
+                }
+              ],
+              "status": "expected"
+            }
+          ],
+          "id": "873ceed314d34ff98e23-41eca503a224013a84de",
+          "file": "art-gallery.spec.ts",
+          "line": 49,
+          "column": 1
+        }
+      ]
+    },
+    {
+      "title": "defaults.spec.ts",
+      "file": "defaults.spec.ts",
+      "column": 0,
+      "line": 0,
+      "specs": [
+        {
+          "title": "zh-TW: filled scope reaches one concise collector approval",
+          "ok": true,
+          "tags": [],
+          "tests": [
+            {
+              "timeout": 30000,
+              "annotations": [],
+              "expectedStatus": "passed",
+              "projectId": "",
+              "projectName": "",
+              "results": [
+                {
+                  "workerIndex": 0,
+                  "parallelIndex": 0,
+                  "status": "passed",
+                  "duration": 2554,
+                  "errors": [],
+                  "stdout": [],
+                  "stderr": [],
+                  "retry": 0,
+                  "startTime": "2026-10-10T08:55:45.590Z",
+                  "annotations": [],
+                  "attachments": []
+                }
+              ],
+              "status": "expected"
+            }
+          ],
+          "id": "5d416974ed1788211ec3-77d84ad3c34304d6cd94",
+          "file": "defaults.spec.ts",
+          "line": 6,
+          "column": 29
+        },
+        {
+          "title": "zh-CN: filled scope reaches one concise collector approval",
+          "ok": true,
+          "tags": [],
+          "tests": [
+            {
+              "timeout": 30000,
+              "annotations": [],
+              "expectedStatus": "passed",
+              "projectId": "",
+              "projectName": "",
+              "results": [
+                {
+                  "workerIndex": 0,
+                  "parallelIndex": 0,
+                  "status": "passed",
+                  "duration": 2180,
+                  "errors": [],
+                  "stdout": [],
+                  "stderr": [],
+                  "retry": 0,
+                  "startTime": "2026-10-10T08:55:48.275Z",
+                  "annotations": [],
+                  "attachments": []
+                }
+              ],
+              "status": "expected"
+            }
+          ],
+          "id": "5d416974ed1788211ec3-beea2b809c28069c7a9a",
+          "file": "defaults.spec.ts",
+          "line": 6,
+          "column": 29
+        },
+        {
+          "title": "ja: filled scope reaches one concise collector approval",
+          "ok": true,
+          "tags": [],
+          "tests": [
+            {
+              "timeout": 30000,
+              "annotations": [],
+              "expectedStatus": "passed",
+              "projectId": "",
+              "projectName": "",
+              "results": [
+                {
+                  "workerIndex": 0,
+                  "parallelIndex": 0,
+                  "status": "passed",
+                  "duration": 2245,
+                  "errors": [],
+                  "stdout": [],
+                  "stderr": [],
+                  "retry": 0,
+                  "startTime": "2026-10-10T08:55:50.488Z",
+                  "annotations": [],
+                  "attachments": []
+                }
+              ],
+              "status": "expected"
+            }
+          ],
+          "id": "5d416974ed1788211ec3-d9bcd508b4a05ee6341a",
+          "file": "defaults.spec.ts",
+          "line": 6,
+          "column": 29
+        },
+        {
+          "title": "ko: filled scope reaches one concise collector approval",
+          "ok": true,
+          "tags": [],
+          "tests": [
+            {
+              "timeout": 30000,
+              "annotations": [],
+              "expectedStatus": "passed",
+              "projectId": "",
+              "projectName": "",
+              "results": [
+                {
+                  "workerIndex": 0,
+                  "parallelIndex": 0,
+                  "status": "passed",
+                  "duration": 2945,
+                  "errors": [],
+                  "stdout": [],
+                  "stderr": [],
+                  "retry": 0,
+                  "startTime": "2026-10-10T08:55:52.755Z",
+                  "annotations": [],
+                  "attachments": []
+                }
+              ],
+              "status": "expected"
+            }
+          ],
+          "id": "5d416974ed1788211ec3-c667a2fd2b7cf3016ada",
+          "file": "defaults.spec.ts",
+          "line": 6,
+          "column": 29
+        },
+        {
+          "title": "en: filled scope reaches one concise collector approval",
+          "ok": true,
+          "tags": [],
+          "tests": [
+            {
+              "timeout": 30000,
+              "annotations": [],
+              "expectedStatus": "passed",
+              "projectId": "",
+              "projectName": "",
+              "results": [
+                {
+                  "workerIndex": 0,
+                  "parallelIndex": 0,
+                  "status": "passed",
+                  "duration": 3699,
+                  "errors": [],
+                  "stdout": [],
+                  "stderr": [],
+                  "retry": 0,
+                  "startTime": "2026-10-10T08:55:55.772Z",
+                  "annotations": [],
+                  "attachments": []
+                }
+              ],
+              "status": "expected"
+            }
+          ],
+          "id": "5d416974ed1788211ec3-cec1bdd6b569d1dc9d0e",
+          "file": "defaults.spec.ts",
+          "line": 6,
+          "column": 29
+        }
+      ]
+    },
+    {
+      "title": "locales.spec.ts",
+      "file": "locales.spec.ts",
+      "column": 0,
+      "line": 0,
+      "specs": [
+        {
+          "title": "zh-TW: exactly three steps, full composition and decoded QR for every format",
+          "ok": true,
+          "tags": [],
+          "tests": [
+            {
+              "timeout": 180000,
+              "annotations": [],
+              "expectedStatus": "passed",
+              "projectId": "",
+              "projectName": "",
+              "results": [
+                {
+                  "workerIndex": 0,
+                  "parallelIndex": 0,
+                  "status": "passed",
+                  "duration": 13484,
+                  "errors": [],
+                  "stdout": [],
+                  "stderr": [],
+                  "retry": 0,
+                  "startTime": "2026-10-10T08:55:59.601Z",
+                  "annotations": [],
+                  "attachments": []
+                }
+              ],
+              "status": "expected"
+            }
+          ],
+          "id": "836f77d970dd2655c1cc-5e027faa94cfac6a0473",
+          "file": "locales.spec.ts",
+          "line": 12,
+          "column": 29
+        },
+        {
+          "title": "zh-CN: exactly three steps, full composition and decoded QR for every format",
+          "ok": true,
+          "tags": [],
+          "tests": [
+            {
+              "timeout": 180000,
+              "annotations": [],
+              "expectedStatus": "passed",
+              "projectId": "",
+              "projectName": "",
+              "results": [
+                {
+                  "workerIndex": 0,
+                  "parallelIndex": 0,
+                  "status": "passed",
+                  "duration": 15709,
+                  "errors": [],
+                  "stdout": [],
+                  "stderr": [],
+                  "retry": 0,
+                  "startTime": "2026-10-10T08:56:13.100Z",
+                  "annotations": [],
+                  "attachments": []
+                }
+              ],
+              "status": "expected"
+            }
+          ],
+          "id": "836f77d970dd2655c1cc-1545d580949ccf4d9424",
+          "file": "locales.spec.ts",
+          "line": 12,
+          "column": 29
+        },
+        {
+          "title": "ja: exactly three steps, full composition and decoded QR for every format",
+          "ok": true,
+          "tags": [],
+          "tests": [
+            {
+              "timeout": 180000,
+              "annotations": [],
+              "expectedStatus": "passed",
+              "projectId": "",
+              "projectName": "",
+              "results": [
+                {
+                  "workerIndex": 0,
+                  "parallelIndex": 0,
+                  "status": "passed",
+                  "duration": 13915,
+                  "errors": [],
+                  "stdout": [],
+                  "stderr": [],
+                  "retry": 0,
+                  "startTime": "2026-10-10T08:56:28.820Z",
+                  "annotations": [],
+                  "attachments": []
+                }
+              ],
+              "status": "expected"
+            }
+          ],
+          "id": "836f77d970dd2655c1cc-8e3d8844ae9b2c3307c3",
+          "file": "locales.spec.ts",
+          "line": 12,
+          "column": 29
+        },
+        {
+          "title": "ko: exactly three steps, full composition and decoded QR for every format",
+          "ok": true,
+          "tags": [],
+          "tests": [
+            {
+              "timeout": 180000,
+              "annotations": [],
+              "expectedStatus": "passed",
+              "projectId": "",
+              "projectName": "",
+              "results": [
+                {
+                  "workerIndex": 0,
+                  "parallelIndex": 0,
+                  "status": "passed",
+                  "duration": 17548,
+                  "errors": [],
+                  "stdout": [],
+                  "stderr": [],
+                  "retry": 0,
+                  "startTime": "2026-10-10T08:56:42.759Z",
+                  "annotations": [],
+                  "attachments": []
+                }
+              ],
+              "status": "expected"
+            }
+          ],
+          "id": "836f77d970dd2655c1cc-6b20b204b27456e3835f",
+          "file": "locales.spec.ts",
+          "line": 12,
+          "column": 29
+        },
+        {
+          "title": "en: exactly three steps, full composition and decoded QR for every format",
+          "ok": true,
+          "tags": [],
+          "tests": [
+            {
+              "timeout": 180000,
+              "annotations": [],
+              "expectedStatus": "passed",
+              "projectId": "",
+              "projectName": "",
+              "results": [
+                {
+                  "workerIndex": 0,
+                  "parallelIndex": 0,
+                  "status": "passed",
+                  "duration": 19023,
+                  "errors": [],
+                  "stdout": [],
+                  "stderr": [],
+                  "retry": 0,
+                  "startTime": "2026-10-10T08:57:00.333Z",
+                  "annotations": [],
+                  "attachments": []
+                }
+              ],
+              "status": "expected"
+            }
+          ],
+          "id": "836f77d970dd2655c1cc-06e070fd08e07fc12cee",
+          "file": "locales.spec.ts",
+          "line": 12,
+          "column": 29
+        }
+      ]
+    }
+  ],
+  "errors": [],
+  "stats": {
+    "startTime": "2026-10-10T08:53:30.344Z",
+    "duration": 229527.762,
+    "expected": 12,
+    "skipped": 0,
+    "unexpected": 0,
+    "flaky": 0
+  }
+}

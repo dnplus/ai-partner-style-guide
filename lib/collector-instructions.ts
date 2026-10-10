@@ -15,6 +15,6 @@ export function collectorInstructions(session:LocalSession,origin:string,resume=
   const scope=collectorScopeSchema.parse(inputScope??createCollectorScope(session.expiresAt-SESSION_TTL_MS));
   const dates=scopeDateBounds(scope);
   const params:Record<string,string>={origin,id:session.id,nickname:JSON.stringify(session.nickname),expires:new Date(session.expiresAt).toISOString(),protocol:origin+localizedProtocol(locale),token:session.writeToken??"[WRITE_TOKEN_UNAVAILABLE]",confirmation:collectorConfirmation(scope,locale),sourceMode:scope.options.sourceMode,sources:scope.options.sources.join(","),days:String(scope.options.lookbackDays),from:scope.from,to:scope.to,timeZone:scope.timeZone,since:dates.from,until:dates.to,includeTokscale:String(scope.options.includeTokscale),installTokscaleIfMissing:String(scope.options.installTokscaleIfMissing)};
-  const order=[text.intro,text.destination,text.read,text.scope,resume?text.renew:text.grant,text.fields,text.analyze,text.tokscaleRules,text.evidence,text.axes,text.progress,text.submit,text.retry,text.complete,text.local];
+  const order=[text.intro,text.destination,text.read,text.scope,resume?text.renew:text.grant,text.fields,text.analyze,text.tokscaleRules,text.evidence,text.axes,text.usage,text.progress,text.submit,text.retry,text.complete,origin.startsWith("http://127.0.0.1")||origin.startsWith("http://localhost")?text.local:text.remote];
   return order.map(paragraph=>paragraph.replace(/\{([a-zA-Z]+)\}/g,(match,key:string)=>params[key]??match)).join("\n\n");
 }

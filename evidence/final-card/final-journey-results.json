@@ -1,0 +1,324 @@
+{
+  "config": {
+    "argv": [
+      "/Users/dnplus/.hermes/node/bin/node",
+      "/Users/dnplus/Documents/Codex/2026-10-10/task-2/ai-usage-card/node_modules/.bin/playwright",
+      "test",
+      "tests/browser/journey.spec.ts",
+      "--reporter=json"
+    ],
+    "configFile": "/Users/dnplus/Documents/Codex/2026-10-10/task-2/ai-usage-card/playwright.config.ts",
+    "rootDir": "/Users/dnplus/Documents/Codex/2026-10-10/task-2/ai-usage-card/tests/browser",
+    "failOnFlakyTests": false,
+    "forbidOnly": false,
+    "fullyParallel": false,
+    "globalSetup": null,
+    "globalTeardown": null,
+    "globalTimeout": 0,
+    "grep": {},
+    "grepInvert": null,
+    "maxFailures": 0,
+    "metadata": {
+      "actualWorkers": 1
+    },
+    "preserveOutput": "always",
+    "projects": [
+      {
+        "outputDir": "/Users/dnplus/Documents/Codex/2026-10-10/task-2/ai-usage-card/.test-results",
+        "repeatEach": 1,
+        "retries": 0,
+        "metadata": {
+          "actualWorkers": 1
+        },
+        "id": "",
+        "name": "",
+        "testDir": "/Users/dnplus/Documents/Codex/2026-10-10/task-2/ai-usage-card/tests/browser",
+        "testIgnore": [],
+        "testMatch": [
+          "**/*.@(spec|test).?(c|m)[jt]s?(x)"
+        ],
+        "timeout": 30000
+      }
+    ],
+    "filteredProjects": [
+      {
+        "grep": {},
+        "grepInvert": null,
+        "outputDir": "/Users/dnplus/Documents/Codex/2026-10-10/task-2/ai-usage-card/.test-results",
+        "repeatEach": 1,
+        "retries": 0,
+        "metadata": {
+          "actualWorkers": 1
+        },
+        "name": "",
+        "testDir": "/Users/dnplus/Documents/Codex/2026-10-10/task-2/ai-usage-card/tests/browser",
+        "snapshotDir": "/Users/dnplus/Documents/Codex/2026-10-10/task-2/ai-usage-card/tests/browser",
+        "testIgnore": [],
+        "testMatch": "**/*.@(spec|test).?(c|m)[jt]s?(x)",
+        "timeout": 30000,
+        "use": {
+          "extraHTTPHeaders": {
+            "oai-authenticated-user-id": "browser-fixture-owner",
+            "oai-authenticated-user-email": "browser-fixture@example.test"
+          },
+          "locale": "zh-TW",
+          "baseURL": "http://127.0.0.1:5188",
+          "browserName": "chromium",
+          "headless": true,
+          "launchOptions": {
+            "executablePath": "/Applications/Google Chrome.app/Contents/MacOS/Google Chrome"
+          },
+          "viewport": {
+            "width": 1536,
+            "height": 1024
+          },
+          "screenshot": "off",
+          "trace": "off"
+        },
+        "dependencies": [],
+        "ignoreSnapshots": false,
+        "__projectId": ""
+      }
+    ],
+    "quiet": false,
+    "reporter": [
+      [
+        "json"
+      ]
+    ],
+    "reportSlowTests": {
+      "max": 5,
+      "threshold": 300000
+    },
+    "shard": null,
+    "tags": [],
+    "updateSnapshots": "default",
+    "updateSourceMethod": "patch",
+    "version": "1.64.0",
+    "workers": 1,
+    "webServer": null
+  },
+  "suites": [
+    {
+      "title": "journey.spec.ts",
+      "file": "journey.spec.ts",
+      "column": 0,
+      "line": 0,
+      "specs": [
+        {
+          "title": "public entrance requires native sign-in; anonymous private APIs fail closed",
+          "ok": true,
+          "tags": [],
+          "tests": [
+            {
+              "timeout": 30000,
+              "annotations": [],
+              "expectedStatus": "passed",
+              "projectId": "",
+              "projectName": "",
+              "results": [
+                {
+                  "workerIndex": 0,
+                  "parallelIndex": 0,
+                  "status": "passed",
+                  "duration": 4162,
+                  "errors": [],
+                  "stdout": [],
+                  "stderr": [],
+                  "retry": 0,
+                  "startTime": "2026-10-10T09:10:59.359Z",
+                  "annotations": [],
+                  "attachments": []
+                }
+              ],
+              "status": "expected"
+            }
+          ],
+          "id": "bf222bad70f76648f722-08e43be16870f07913eb",
+          "file": "journey.spec.ts",
+          "line": 5,
+          "column": 1
+        },
+        {
+          "title": "identity email replaces manual form; marketing optional, explicit and withdrawable",
+          "ok": true,
+          "tags": [],
+          "tests": [
+            {
+              "timeout": 30000,
+              "annotations": [],
+              "expectedStatus": "passed",
+              "projectId": "",
+              "projectName": "",
+              "results": [
+                {
+                  "workerIndex": 0,
+                  "parallelIndex": 0,
+                  "status": "passed",
+                  "duration": 12162,
+                  "errors": [],
+                  "stdout": [],
+                  "stderr": [],
+                  "retry": 0,
+                  "startTime": "2026-10-10T09:11:04.402Z",
+                  "annotations": [],
+                  "attachments": []
+                }
+              ],
+              "status": "expected"
+            }
+          ],
+          "id": "bf222bad70f76648f722-58b2f9ce6ec0e0b71cf8",
+          "file": "journey.spec.ts",
+          "line": 8,
+          "column": 1
+        },
+        {
+          "title": "same device returns to last result without retest; another owner cannot use cookie or readcap",
+          "ok": true,
+          "tags": [],
+          "tests": [
+            {
+              "timeout": 30000,
+              "annotations": [],
+              "expectedStatus": "passed",
+              "projectId": "",
+              "projectName": "",
+              "results": [
+                {
+                  "workerIndex": 0,
+                  "parallelIndex": 0,
+                  "status": "passed",
+                  "duration": 6072,
+                  "errors": [],
+                  "stdout": [],
+                  "stderr": [],
+                  "retry": 0,
+                  "startTime": "2026-10-10T09:11:16.634Z",
+                  "annotations": [],
+                  "attachments": []
+                }
+              ],
+              "status": "expected"
+            }
+          ],
+          "id": "bf222bad70f76648f722-1adbd38e374fece2f1f9",
+          "file": "journey.spec.ts",
+          "line": 12,
+          "column": 1
+        },
+        {
+          "title": "mobile pointer drag, keyboard rotation and reduced-motion retain complete card",
+          "ok": true,
+          "tags": [],
+          "tests": [
+            {
+              "timeout": 30000,
+              "annotations": [],
+              "expectedStatus": "passed",
+              "projectId": "",
+              "projectName": "",
+              "results": [
+                {
+                  "workerIndex": 0,
+                  "parallelIndex": 0,
+                  "status": "passed",
+                  "duration": 15786,
+                  "errors": [],
+                  "stdout": [],
+                  "stderr": [],
+                  "retry": 0,
+                  "startTime": "2026-10-10T09:11:22.745Z",
+                  "annotations": [],
+                  "attachments": []
+                }
+              ],
+              "status": "expected"
+            }
+          ],
+          "id": "bf222bad70f76648f722-9c41798e5b38c5b0fa39",
+          "file": "journey.spec.ts",
+          "line": 16,
+          "column": 1
+        },
+        {
+          "title": "waiting shows one genuine state; native approval, stale, expiry and explicit renewal remain actionable",
+          "ok": true,
+          "tags": [],
+          "tests": [
+            {
+              "timeout": 30000,
+              "annotations": [],
+              "expectedStatus": "passed",
+              "projectId": "",
+              "projectName": "",
+              "results": [
+                {
+                  "workerIndex": 0,
+                  "parallelIndex": 0,
+                  "status": "passed",
+                  "duration": 7380,
+                  "errors": [],
+                  "stdout": [],
+                  "stderr": [],
+                  "retry": 0,
+                  "startTime": "2026-10-10T09:11:38.557Z",
+                  "annotations": [],
+                  "attachments": []
+                }
+              ],
+              "status": "expected"
+            }
+          ],
+          "id": "bf222bad70f76648f722-663dc678dda445d3645c",
+          "file": "journey.spec.ts",
+          "line": 19,
+          "column": 1
+        },
+        {
+          "title": "share prepares full PNG, blocks repeated launch and falls back without posting",
+          "ok": true,
+          "tags": [],
+          "tests": [
+            {
+              "timeout": 30000,
+              "annotations": [],
+              "expectedStatus": "passed",
+              "projectId": "",
+              "projectName": "",
+              "results": [
+                {
+                  "workerIndex": 0,
+                  "parallelIndex": 0,
+                  "status": "passed",
+                  "duration": 5583,
+                  "errors": [],
+                  "stdout": [],
+                  "stderr": [],
+                  "retry": 0,
+                  "startTime": "2026-10-10T09:11:45.959Z",
+                  "annotations": [],
+                  "attachments": []
+                }
+              ],
+              "status": "expected"
+            }
+          ],
+          "id": "bf222bad70f76648f722-a5683bbd3267eb7819e2",
+          "file": "journey.spec.ts",
+          "line": 22,
+          "column": 1
+        }
+      ]
+    }
+  ],
+  "errors": [],
+  "stats": {
+    "startTime": "2026-10-10T09:10:58.998Z",
+    "duration": 53423.490000000005,
+    "expected": 6,
+    "skipped": 0,
+    "unexpected": 0,
+    "flaky": 0
+  }
+}

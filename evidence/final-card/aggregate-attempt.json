@@ -1,0 +1,839 @@
+{
+  "config": {
+    "argv": [
+      "/Users/dnplus/.hermes/node/bin/node",
+      "/Users/dnplus/Documents/Codex/2026-10-10/task-2/ai-usage-card/node_modules/.bin/playwright",
+      "test"
+    ],
+    "configFile": "/Users/dnplus/Documents/Codex/2026-10-10/task-2/ai-usage-card/playwright.config.ts",
+    "rootDir": "/Users/dnplus/Documents/Codex/2026-10-10/task-2/ai-usage-card/tests/browser",
+    "failOnFlakyTests": false,
+    "forbidOnly": false,
+    "fullyParallel": false,
+    "globalSetup": null,
+    "globalTeardown": null,
+    "globalTimeout": 0,
+    "grep": {},
+    "grepInvert": null,
+    "maxFailures": 0,
+    "metadata": {
+      "actualWorkers": 1
+    },
+    "preserveOutput": "always",
+    "projects": [
+      {
+        "outputDir": "/Users/dnplus/Documents/Codex/2026-10-10/task-2/ai-usage-card/.test-results",
+        "repeatEach": 1,
+        "retries": 0,
+        "metadata": {
+          "actualWorkers": 1
+        },
+        "id": "",
+        "name": "",
+        "testDir": "/Users/dnplus/Documents/Codex/2026-10-10/task-2/ai-usage-card/tests/browser",
+        "testIgnore": [],
+        "testMatch": [
+          "**/*.@(spec|test).?(c|m)[jt]s?(x)"
+        ],
+        "timeout": 30000
+      }
+    ],
+    "filteredProjects": [
+      {
+        "grep": {},
+        "grepInvert": null,
+        "outputDir": "/Users/dnplus/Documents/Codex/2026-10-10/task-2/ai-usage-card/.test-results",
+        "repeatEach": 1,
+        "retries": 0,
+        "metadata": {
+          "actualWorkers": 1
+        },
+        "name": "",
+        "testDir": "/Users/dnplus/Documents/Codex/2026-10-10/task-2/ai-usage-card/tests/browser",
+        "snapshotDir": "/Users/dnplus/Documents/Codex/2026-10-10/task-2/ai-usage-card/tests/browser",
+        "testIgnore": [],
+        "testMatch": "**/*.@(spec|test).?(c|m)[jt]s?(x)",
+        "timeout": 30000,
+        "use": {
+          "extraHTTPHeaders": {
+            "oai-authenticated-user-id": "browser-fixture-owner",
+            "oai-authenticated-user-email": "browser-fixture@example.test"
+          },
+          "locale": "zh-TW",
+          "baseURL": "http://127.0.0.1:5188",
+          "browserName": "chromium",
+          "headless": true,
+          "launchOptions": {
+            "executablePath": "/Applications/Google Chrome.app/Contents/MacOS/Google Chrome"
+          },
+          "viewport": {
+            "width": 1536,
+            "height": 1024
+          },
+          "screenshot": "off",
+          "trace": "off"
+        },
+        "dependencies": [],
+        "ignoreSnapshots": false,
+        "__projectId": ""
+      }
+    ],
+    "quiet": false,
+    "reporter": [
+      [
+        "list",
+        null
+      ],
+      [
+        "json",
+        {
+          "outputFile": "evidence/final-card/browser-results.json"
+        }
+      ]
+    ],
+    "reportSlowTests": {
+      "max": 5,
+      "threshold": 300000
+    },
+    "shard": null,
+    "tags": [],
+    "updateSnapshots": "default",
+    "updateSourceMethod": "patch",
+    "version": "1.64.0",
+    "workers": 1,
+    "webServer": null
+  },
+  "suites": [
+    {
+      "title": "art-gallery.spec.ts",
+      "file": "art-gallery.spec.ts",
+      "column": 0,
+      "line": 0,
+      "specs": [
+        {
+          "title": "192-slot gallery loads exact art or honest pending states, inspector and mobile framing",
+          "ok": true,
+          "tags": [],
+          "tests": [
+            {
+              "timeout": 120000,
+              "annotations": [],
+              "expectedStatus": "passed",
+              "projectId": "",
+              "projectName": "",
+              "results": [
+                {
+                  "workerIndex": 0,
+                  "parallelIndex": 0,
+                  "status": "passed",
+                  "duration": 38854,
+                  "errors": [],
+                  "stdout": [],
+                  "stderr": [],
+                  "retry": 0,
+                  "startTime": "2026-10-10T09:00:44.082Z",
+                  "annotations": [],
+                  "attachments": []
+                }
+              ],
+              "status": "expected"
+            }
+          ],
+          "id": "873ceed314d34ff98e23-9001c4672854a13e1c60",
+          "file": "art-gallery.spec.ts",
+          "line": 7,
+          "column": 1
+        },
+        {
+          "title": "every type reaches its own art through real callback; theme and style never change assessment",
+          "ok": true,
+          "tags": [],
+          "tests": [
+            {
+              "timeout": 180000,
+              "annotations": [],
+              "expectedStatus": "passed",
+              "projectId": "",
+              "projectName": "",
+              "results": [
+                {
+                  "workerIndex": 0,
+                  "parallelIndex": 0,
+                  "status": "passed",
+                  "duration": 96735,
+                  "errors": [],
+                  "stdout": [],
+                  "stderr": [],
+                  "retry": 0,
+                  "startTime": "2026-10-10T09:01:24.754Z",
+                  "annotations": [],
+                  "attachments": []
+                }
+              ],
+              "status": "expected"
+            }
+          ],
+          "id": "873ceed314d34ff98e23-41eca503a224013a84de",
+          "file": "art-gallery.spec.ts",
+          "line": 49,
+          "column": 1
+        }
+      ]
+    },
+    {
+      "title": "defaults.spec.ts",
+      "file": "defaults.spec.ts",
+      "column": 0,
+      "line": 0,
+      "specs": [
+        {
+          "title": "zh-TW: filled scope reaches one concise collector approval",
+          "ok": true,
+          "tags": [],
+          "tests": [
+            {
+              "timeout": 30000,
+              "annotations": [],
+              "expectedStatus": "passed",
+              "projectId": "",
+              "projectName": "",
+              "results": [
+                {
+                  "workerIndex": 0,
+                  "parallelIndex": 0,
+                  "status": "passed",
+                  "duration": 4269,
+                  "errors": [],
+                  "stdout": [],
+                  "stderr": [],
+                  "retry": 0,
+                  "startTime": "2026-10-10T09:03:01.872Z",
+                  "annotations": [],
+                  "attachments": []
+                }
+              ],
+              "status": "expected"
+            }
+          ],
+          "id": "5d416974ed1788211ec3-77d84ad3c34304d6cd94",
+          "file": "defaults.spec.ts",
+          "line": 6,
+          "column": 29
+        },
+        {
+          "title": "zh-CN: filled scope reaches one concise collector approval",
+          "ok": true,
+          "tags": [],
+          "tests": [
+            {
+              "timeout": 30000,
+              "annotations": [],
+              "expectedStatus": "passed",
+              "projectId": "",
+              "projectName": "",
+              "results": [
+                {
+                  "workerIndex": 0,
+                  "parallelIndex": 0,
+                  "status": "passed",
+                  "duration": 1796,
+                  "errors": [],
+                  "stdout": [],
+                  "stderr": [],
+                  "retry": 0,
+                  "startTime": "2026-10-10T09:03:06.158Z",
+                  "annotations": [],
+                  "attachments": []
+                }
+              ],
+              "status": "expected"
+            }
+          ],
+          "id": "5d416974ed1788211ec3-beea2b809c28069c7a9a",
+          "file": "defaults.spec.ts",
+          "line": 6,
+          "column": 29
+        },
+        {
+          "title": "ja: filled scope reaches one concise collector approval",
+          "ok": true,
+          "tags": [],
+          "tests": [
+            {
+              "timeout": 30000,
+              "annotations": [],
+              "expectedStatus": "passed",
+              "projectId": "",
+              "projectName": "",
+              "results": [
+                {
+                  "workerIndex": 0,
+                  "parallelIndex": 0,
+                  "status": "passed",
+                  "duration": 2497,
+                  "errors": [],
+                  "stdout": [],
+                  "stderr": [],
+                  "retry": 0,
+                  "startTime": "2026-10-10T09:03:07.973Z",
+                  "annotations": [],
+                  "attachments": []
+                }
+              ],
+              "status": "expected"
+            }
+          ],
+          "id": "5d416974ed1788211ec3-d9bcd508b4a05ee6341a",
+          "file": "defaults.spec.ts",
+          "line": 6,
+          "column": 29
+        },
+        {
+          "title": "ko: filled scope reaches one concise collector approval",
+          "ok": true,
+          "tags": [],
+          "tests": [
+            {
+              "timeout": 30000,
+              "annotations": [],
+              "expectedStatus": "passed",
+              "projectId": "",
+              "projectName": "",
+              "results": [
+                {
+                  "workerIndex": 0,
+                  "parallelIndex": 0,
+                  "status": "passed",
+                  "duration": 2537,
+                  "errors": [],
+                  "stdout": [],
+                  "stderr": [],
+                  "retry": 0,
+                  "startTime": "2026-10-10T09:03:10.491Z",
+                  "annotations": [],
+                  "attachments": []
+                }
+              ],
+              "status": "expected"
+            }
+          ],
+          "id": "5d416974ed1788211ec3-c667a2fd2b7cf3016ada",
+          "file": "defaults.spec.ts",
+          "line": 6,
+          "column": 29
+        },
+        {
+          "title": "en: filled scope reaches one concise collector approval",
+          "ok": true,
+          "tags": [],
+          "tests": [
+            {
+              "timeout": 30000,
+              "annotations": [],
+              "expectedStatus": "passed",
+              "projectId": "",
+              "projectName": "",
+              "results": [
+                {
+                  "workerIndex": 0,
+                  "parallelIndex": 0,
+                  "status": "passed",
+                  "duration": 2335,
+                  "errors": [],
+                  "stdout": [],
+                  "stderr": [],
+                  "retry": 0,
+                  "startTime": "2026-10-10T09:03:13.042Z",
+                  "annotations": [],
+                  "attachments": []
+                }
+              ],
+              "status": "expected"
+            }
+          ],
+          "id": "5d416974ed1788211ec3-cec1bdd6b569d1dc9d0e",
+          "file": "defaults.spec.ts",
+          "line": 6,
+          "column": 29
+        }
+      ]
+    },
+    {
+      "title": "journey.spec.ts",
+      "file": "journey.spec.ts",
+      "column": 0,
+      "line": 0,
+      "specs": [
+        {
+          "title": "public entrance requires native sign-in; anonymous private APIs fail closed",
+          "ok": false,
+          "tags": [],
+          "tests": [
+            {
+              "timeout": 30000,
+              "annotations": [],
+              "expectedStatus": "passed",
+              "projectId": "",
+              "projectName": "",
+              "results": [
+                {
+                  "workerIndex": 0,
+                  "parallelIndex": 0,
+                  "status": "timedOut",
+                  "duration": 30007,
+                  "error": {
+                    "message": "\u001b[31mTest timeout of 30000ms exceeded.\u001b[39m",
+                    "stack": "\u001b[31mTest timeout of 30000ms exceeded.\u001b[39m"
+                  },
+                  "errors": [
+                    {
+                      "message": "\u001b[31mTest timeout of 30000ms exceeded.\u001b[39m"
+                    },
+                    {
+                      "location": {
+                        "file": "/Users/dnplus/Documents/Codex/2026-10-10/task-2/ai-usage-card/tests/browser/journey.spec.ts",
+                        "column": 615,
+                        "line": 6
+                      },
+                      "message": "Error: apiRequestContext.get: Test ended.\nCall log:\n\u001b[2m  - → GET http://127.0.0.1:5188/api/remembered\u001b[22m\n\u001b[2m    - user-agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) HeadlessChrome/154.0.0.0 Safari/537.36\u001b[22m\n\u001b[2m    - accept: */*\u001b[22m\n\u001b[2m    - accept-encoding: gzip,deflate,br\u001b[22m\n\n\n  4 |\n  5 | test('public entrance requires native sign-in; anonymous private APIs fail closed',async({browser})=>{\n> 6 |  const context=await browser.newContext({baseURL:base,locale:'zh-TW',extraHTTPHeaders:{}}),page=await context.newPage();await ready(page);const anchor=page.getByRole('link',{name:'使用 ChatGPT 登入開始',exact:true});await expect(anchor).toHaveAttribute('href','/signin-with-chatgpt?return_to=%2F%3Fstart%3D1');await expect(anchor).toHaveAttribute('target','_top');await expect(page.getByRole('button',{name:'開始觀察',exact:true})).toHaveCount(0);expect((await context.request.post('/api/sessions',{headers:{Origin:base},data:{protocolVersion:'2.0',nickname:'Anonymous'}})).status()).toBe(401);expect((await context.request.get('/api/remembered')).status()).toBe(401);expect((await context.request.put('/api/account',{headers:{Origin:base},data:{marketingOptIn:true}})).status()).toBe(401);await page.screenshot({path:'evidence/final-card/public-signin.png'});await context.close();\n    |                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                       ^\n  7 | });\n  8 | test('identity email replaces manual form; marketing optional, explicit and withdrawable',async({page,request})=>{\n  9 |  await ready(page);const s=await create(page,'Account Fixture');const stored=await(await request.get('/api/account')).json();expect(stored.marketingOptIn).toBe(false);await submit(page,request,s);await expect(page.locator('.report-details')).toBeVisible();await remove(page);\n    at /Users/dnplus/Documents/Codex/2026-10-10/task-2/ai-usage-card/tests/browser/journey.spec.ts:6:615"
+                    }
+                  ],
+                  "stdout": [],
+                  "stderr": [],
+                  "retry": 0,
+                  "startTime": "2026-10-10T09:03:15.438Z",
+                  "annotations": [],
+                  "attachments": [
+                    {
+                      "name": "error-context",
+                      "contentType": "text/markdown",
+                      "path": "/Users/dnplus/Documents/Codex/2026-10-10/task-2/ai-usage-card/.test-results/journey-public-entrance-re-2526b-us-private-APIs-fail-closed/error-context.md"
+                    }
+                  ]
+                }
+              ],
+              "status": "unexpected"
+            }
+          ],
+          "id": "bf222bad70f76648f722-08e43be16870f07913eb",
+          "file": "journey.spec.ts",
+          "line": 5,
+          "column": 1
+        },
+        {
+          "title": "identity email replaces manual form; marketing optional, explicit and withdrawable",
+          "ok": true,
+          "tags": [],
+          "tests": [
+            {
+              "timeout": 30000,
+              "annotations": [],
+              "expectedStatus": "passed",
+              "projectId": "",
+              "projectName": "",
+              "results": [
+                {
+                  "workerIndex": 1,
+                  "parallelIndex": 0,
+                  "status": "passed",
+                  "duration": 11096,
+                  "errors": [],
+                  "stdout": [],
+                  "stderr": [],
+                  "retry": 0,
+                  "startTime": "2026-10-10T09:03:47.700Z",
+                  "annotations": [],
+                  "attachments": []
+                }
+              ],
+              "status": "expected"
+            }
+          ],
+          "id": "bf222bad70f76648f722-58b2f9ce6ec0e0b71cf8",
+          "file": "journey.spec.ts",
+          "line": 8,
+          "column": 1
+        },
+        {
+          "title": "same device returns to last result without retest; another owner cannot use cookie or readcap",
+          "ok": true,
+          "tags": [],
+          "tests": [
+            {
+              "timeout": 30000,
+              "annotations": [],
+              "expectedStatus": "passed",
+              "projectId": "",
+              "projectName": "",
+              "results": [
+                {
+                  "workerIndex": 1,
+                  "parallelIndex": 0,
+                  "status": "passed",
+                  "duration": 5525,
+                  "errors": [],
+                  "stdout": [],
+                  "stderr": [],
+                  "retry": 0,
+                  "startTime": "2026-10-10T09:04:00.096Z",
+                  "annotations": [],
+                  "attachments": []
+                }
+              ],
+              "status": "expected"
+            }
+          ],
+          "id": "bf222bad70f76648f722-1adbd38e374fece2f1f9",
+          "file": "journey.spec.ts",
+          "line": 12,
+          "column": 1
+        },
+        {
+          "title": "mobile pointer drag, keyboard rotation and reduced-motion retain complete card",
+          "ok": true,
+          "tags": [],
+          "tests": [
+            {
+              "timeout": 30000,
+              "annotations": [],
+              "expectedStatus": "passed",
+              "projectId": "",
+              "projectName": "",
+              "results": [
+                {
+                  "workerIndex": 1,
+                  "parallelIndex": 0,
+                  "status": "passed",
+                  "duration": 10399,
+                  "errors": [],
+                  "stdout": [],
+                  "stderr": [],
+                  "retry": 0,
+                  "startTime": "2026-10-10T09:04:05.638Z",
+                  "annotations": [],
+                  "attachments": []
+                }
+              ],
+              "status": "expected"
+            }
+          ],
+          "id": "bf222bad70f76648f722-9c41798e5b38c5b0fa39",
+          "file": "journey.spec.ts",
+          "line": 16,
+          "column": 1
+        },
+        {
+          "title": "waiting shows one genuine state; native approval, stale, expiry and explicit renewal remain actionable",
+          "ok": true,
+          "tags": [],
+          "tests": [
+            {
+              "timeout": 30000,
+              "annotations": [],
+              "expectedStatus": "passed",
+              "projectId": "",
+              "projectName": "",
+              "results": [
+                {
+                  "workerIndex": 1,
+                  "parallelIndex": 0,
+                  "status": "passed",
+                  "duration": 8786,
+                  "errors": [],
+                  "stdout": [],
+                  "stderr": [],
+                  "retry": 0,
+                  "startTime": "2026-10-10T09:04:16.059Z",
+                  "annotations": [],
+                  "attachments": []
+                }
+              ],
+              "status": "expected"
+            }
+          ],
+          "id": "bf222bad70f76648f722-663dc678dda445d3645c",
+          "file": "journey.spec.ts",
+          "line": 19,
+          "column": 1
+        },
+        {
+          "title": "share prepares full PNG, blocks repeated launch and falls back without posting",
+          "ok": true,
+          "tags": [],
+          "tests": [
+            {
+              "timeout": 30000,
+              "annotations": [],
+              "expectedStatus": "passed",
+              "projectId": "",
+              "projectName": "",
+              "results": [
+                {
+                  "workerIndex": 1,
+                  "parallelIndex": 0,
+                  "status": "passed",
+                  "duration": 5131,
+                  "errors": [],
+                  "stdout": [],
+                  "stderr": [],
+                  "retry": 0,
+                  "startTime": "2026-10-10T09:04:24.884Z",
+                  "annotations": [],
+                  "attachments": []
+                }
+              ],
+              "status": "expected"
+            }
+          ],
+          "id": "bf222bad70f76648f722-a5683bbd3267eb7819e2",
+          "file": "journey.spec.ts",
+          "line": 22,
+          "column": 1
+        }
+      ]
+    },
+    {
+      "title": "locales.spec.ts",
+      "file": "locales.spec.ts",
+      "column": 0,
+      "line": 0,
+      "specs": [
+        {
+          "title": "zh-TW: exactly three steps, full composition and decoded QR for every format",
+          "ok": false,
+          "tags": [],
+          "tests": [
+            {
+              "timeout": 180000,
+              "annotations": [],
+              "expectedStatus": "passed",
+              "projectId": "",
+              "projectName": "",
+              "results": [
+                {
+                  "workerIndex": 1,
+                  "parallelIndex": 0,
+                  "status": "timedOut",
+                  "duration": 180030,
+                  "error": {
+                    "message": "\u001b[31mTest timeout of 180000ms exceeded.\u001b[39m",
+                    "stack": "\u001b[31mTest timeout of 180000ms exceeded.\u001b[39m"
+                  },
+                  "errors": [
+                    {
+                      "message": "\u001b[31mTest timeout of 180000ms exceeded.\u001b[39m"
+                    },
+                    {
+                      "location": {
+                        "file": "/Users/dnplus/Documents/Codex/2026-10-10/task-2/ai-usage-card/tests/browser/locales.spec.ts",
+                        "column": 115,
+                        "line": 18
+                      },
+                      "message": "Error: page.waitForEvent: Test ended.\n=========================== logs ===========================\nwaiting for event \"download\"\n============================================================\n\n  16 |  await submit(page,context.request,s);await expect(page.locator('.journey-progress')).toHaveAttribute('aria-label',t('第 {step} 個階段，共 3 個階段',{step:3}));await expect(page.getByRole('button',{name:t('收藏我的卡片'),exact:true})).toHaveCount(0);await expect(page.getByRole('button',{name:t('看看我的觀察'),exact:true})).toHaveCount(0);await expect(page.locator('.card-code')).toHaveText('INTJ');await expect(page.locator('.card-level')).toHaveText('LV 4');await expect(page.locator('.card-title')).toHaveText(t('路線策畫家'));await expect(page.locator('.card-front svg')).toContainText(t('你的 Agent MBTI'));await expect(page.locator('.brief-reading p')).toHaveCount(2);await expect(page.locator('.report-details')).not.toHaveAttribute('open','');await expect(page.locator('.card-front')).not.toContainText(t('合作風格觀察 · 非官方 MBTI 評量 · 造型與分型無關'));\n  17 |  await page.evaluate(()=>document.fonts.ready);await page.screenshot({animations:\"disabled\",path:'evidence/final-card/'+locale+'-desktop.png',fullPage:true});await page.setViewportSize({width:390,height:844});await page.screenshot({animations:\"disabled\",path:'evidence/final-card/'+locale+'-mobile.png',fullPage:true});expect(await page.evaluate(()=>document.documentElement.scrollWidth)).toBeLessThanOrEqual(390);\n> 18 |  async function save(filename:string,size:{width:number;height:number},action:()=>Promise<void>){const event=page.waitForEvent('download');await action();const dl=await event;const path='evidence/final-card/'+locale+'-'+filename+'.png';await dl.saveAs(path);const bytes=await readFile(path);expect([bytes.readUInt32BE(16),bytes.readUInt32BE(20)]).toEqual([size.width,size.height]);const png=PNG.sync.read(bytes);expect(jsQR(new Uint8ClampedArray(png.data),png.width,png.height)?.data).toBe(QUIZ_HOME);return {filename:dl.suggestedFilename(),width:png.width,height:png.height,qr:QUIZ_HOME};}\n     |                                                                                                                   ^\n  19 |  const files=[];for(const style of ['chibi','regular'] as const){await page.getByRole('button',{name:t(style==='chibi'?'Q 版':'一般'),exact:true}).click();files.push(await save('card-'+style,exportFormats.card,()=>page.getByRole('button',{name:t('下載我的角色卡'),exact:true}).click()));await expect(page.locator('.app-root')).toHaveAttribute('data-stage','reveal');}\n  20 |  await page.getByRole('button',{name:t('分享卡片'),exact:true}).click();const dialog=page.getByRole('dialog',{name:t('挑個尺寸，分享這一面。')});await expect(dialog).toBeVisible();const share=await dialog.locator('.share-text').inputValue();expect(share).toContain(QUIZ_HOME);expect(share).toContain('INTJ');expect(share).toContain('LV 4');expect(share).not.toMatch(/browser-fixture@example|readToken|writeToken|T001|humanSessions/);expect(share).not.toContain(s.id);\n  21 |  for(const key of ['feed','story','square','landscape'] as const){await dialog.locator('.format-options button').filter({hasText:t(exportFormats[key].label)}).click();await expect(dialog.getByRole('button',{name:t('下載這個尺寸'),exact:true})).toBeEnabled();files.push(await save(key,exportFormats[key],()=>dialog.getByRole('button',{name:t('下載這個尺寸'),exact:true}).click()));}\n    at save (/Users/dnplus/Documents/Codex/2026-10-10/task-2/ai-usage-card/tests/browser/locales.spec.ts:18:115)\n    at /Users/dnplus/Documents/Codex/2026-10-10/task-2/ai-usage-card/tests/browser/locales.spec.ts:21:270"
+                    }
+                  ],
+                  "stdout": [],
+                  "stderr": [],
+                  "retry": 0,
+                  "startTime": "2026-10-10T09:04:30.146Z",
+                  "annotations": [],
+                  "attachments": [
+                    {
+                      "name": "error-context",
+                      "contentType": "text/markdown",
+                      "path": "/Users/dnplus/Documents/Codex/2026-10-10/task-2/ai-usage-card/.test-results/locales-zh-TW-exactly-thre-ddde5-decoded-QR-for-every-format/error-context.md"
+                    }
+                  ]
+                }
+              ],
+              "status": "unexpected"
+            }
+          ],
+          "id": "836f77d970dd2655c1cc-5e027faa94cfac6a0473",
+          "file": "locales.spec.ts",
+          "line": 12,
+          "column": 29
+        },
+        {
+          "title": "zh-CN: exactly three steps, full composition and decoded QR for every format",
+          "ok": false,
+          "tags": [],
+          "tests": [
+            {
+              "timeout": 180000,
+              "annotations": [],
+              "expectedStatus": "passed",
+              "projectId": "",
+              "projectName": "",
+              "results": [
+                {
+                  "workerIndex": 2,
+                  "parallelIndex": 0,
+                  "status": "failed",
+                  "duration": 28760,
+                  "error": {
+                    "message": "Error: \u001b[2mexpect(\u001b[22m\u001b[31mlocator\u001b[39m\u001b[2m).\u001b[22mtoBeEnabled\u001b[2m(\u001b[22m\u001b[2m)\u001b[22m failed\n\nLocator:  getByRole('dialog', { name: '选个尺寸，分享这一面。' }).getByRole('button', { name: '下载这个尺寸', exact: true })\nExpected: enabled\nReceived: disabled\nTimeout:  5000ms\n\nCall log:\n\u001b[2m  - Expect \"toBeEnabled\" getByRole('dialog', { name: '选个尺寸，分享这一面。' }).getByRole('button', { name: '下载这个尺寸', exact: true }) with timeout 5000ms\u001b[22m\n\u001b[2m  - waiting for getByRole('dialog', { name: '选个尺寸，分享这一面。' }).getByRole('button', { name: '下载这个尺寸', exact: true })\u001b[22m\n\u001b[2m    13 × locator resolved to <button disabled class=\"quiet-button\">…</button>\u001b[22m\n\u001b[2m       - unexpected value \"disabled\"\u001b[22m\n",
+                    "stack": "Error: \u001b[2mexpect(\u001b[22m\u001b[31mlocator\u001b[39m\u001b[2m).\u001b[22mtoBeEnabled\u001b[2m(\u001b[22m\u001b[2m)\u001b[22m failed\n\nLocator:  getByRole('dialog', { name: '选个尺寸，分享这一面。' }).getByRole('button', { name: '下载这个尺寸', exact: true })\nExpected: enabled\nReceived: disabled\nTimeout:  5000ms\n\nCall log:\n\u001b[2m  - Expect \"toBeEnabled\" getByRole('dialog', { name: '选个尺寸，分享这一面。' }).getByRole('button', { name: '下载这个尺寸', exact: true }) with timeout 5000ms\u001b[22m\n\u001b[2m  - waiting for getByRole('dialog', { name: '选个尺寸，分享这一面。' }).getByRole('button', { name: '下载这个尺寸', exact: true })\u001b[22m\n\u001b[2m    13 × locator resolved to <button disabled class=\"quiet-button\">…</button>\u001b[22m\n\u001b[2m       - unexpected value \"disabled\"\u001b[22m\n\n    at /Users/dnplus/Documents/Codex/2026-10-10/task-2/ai-usage-card/tests/browser/locales.spec.ts:21:239",
+                    "location": {
+                      "file": "/Users/dnplus/Documents/Codex/2026-10-10/task-2/ai-usage-card/tests/browser/locales.spec.ts",
+                      "column": 239,
+                      "line": 21
+                    },
+                    "snippet": "  19 |  const files=[];for(const style of ['chibi','regular'] as const){await page.getByRole('button',{name:t(style==='chibi'?'Q 版':'一般'),exact:true}).click();files.push(await save('card-'+style,exportFormats.card,()=>page.getByRole('button',{name:t('下載我的角色卡'),exact:true}).click()));await expect(page.locator('.app-root')).toHaveAttribute('data-stage','reveal');}\n  20 |  await page.getByRole('button',{name:t('分享卡片'),exact:true}).click();const dialog=page.getByRole('dialog',{name:t('挑個尺寸，分享這一面。')});await expect(dialog).toBeVisible();const share=await dialog.locator('.share-text').inputValue();expect(share).toContain(QUIZ_HOME);expect(share).toContain('INTJ');expect(share).toContain('LV 4');expect(share).not.toMatch(/browser-fixture@example|readToken|writeToken|T001|humanSessions/);expect(share).not.toContain(s.id);\n> 21 |  for(const key of ['feed','story','square','landscape'] as const){await dialog.locator('.format-options button').filter({hasText:t(exportFormats[key].label)}).click();await expect(dialog.getByRole('button',{name:t('下載這個尺寸'),exact:true})).toBeEnabled();files.push(await save(key,exportFormats[key],()=>dialog.getByRole('button',{name:t('下載這個尺寸'),exact:true}).click()));}\n     |                                                                                                                                                                                                                                               ^\n  22 |  await dialog.getByRole('button',{name:t('關閉分享'),exact:true}).click();await expect(page.locator('.app-root')).toHaveAttribute('data-stage','reveal');await page.locator('.report-details>summary').click();await expect(page.locator('.report-content')).toContainText(t('使用等級'));await expect(page.locator('.metrics-list')).toContainText(t('最常用模型家族'));await page.locator('.report-details>summary').click();await page.locator('.card-options>summary').click();await page.getByRole('checkbox',{name:t('只顯示暱稱，隱藏分型'),exact:true}).check();await expect(page.locator('.card-code')).toHaveCount(0);await expect(page.locator('.card-level')).toHaveCount(0);files.push(await save('nickname',exportFormats.card,()=>page.getByRole('button',{name:t('下載我的角色卡'),exact:true}).click()));await remove(page,locale);\n  23 |  const unknown=await create(page,names[locale],locale);await submit(page,context.request,unknown,makePartialFixture(unknown.nickname));await expect(page.locator('.card-code')).toHaveText(t('未定型'));await expect(page.locator('.card-level')).toHaveText('LV ?');await page.locator('.report-details>summary').click();await expect(page.locator('.report-content')).toContainText(t('證據還不夠'));await page.screenshot({animations:\"disabled\",path:'evidence/final-card/'+locale+'-unknown.png',fullPage:true});await remove(page,locale);await writeFile('evidence/final-card/'+locale+'-exports.json',JSON.stringify(files,null,2));expect(errors).toEqual([]);await context.close();\n  24 | });"
+                  },
+                  "errors": [
+                    {
+                      "location": {
+                        "file": "/Users/dnplus/Documents/Codex/2026-10-10/task-2/ai-usage-card/tests/browser/locales.spec.ts",
+                        "column": 239,
+                        "line": 21
+                      },
+                      "message": "Error: \u001b[2mexpect(\u001b[22m\u001b[31mlocator\u001b[39m\u001b[2m).\u001b[22mtoBeEnabled\u001b[2m(\u001b[22m\u001b[2m)\u001b[22m failed\n\nLocator:  getByRole('dialog', { name: '选个尺寸，分享这一面。' }).getByRole('button', { name: '下载这个尺寸', exact: true })\nExpected: enabled\nReceived: disabled\nTimeout:  5000ms\n\nCall log:\n\u001b[2m  - Expect \"toBeEnabled\" getByRole('dialog', { name: '选个尺寸，分享这一面。' }).getByRole('button', { name: '下载这个尺寸', exact: true }) with timeout 5000ms\u001b[22m\n\u001b[2m  - waiting for getByRole('dialog', { name: '选个尺寸，分享这一面。' }).getByRole('button', { name: '下载这个尺寸', exact: true })\u001b[22m\n\u001b[2m    13 × locator resolved to <button disabled class=\"quiet-button\">…</button>\u001b[22m\n\u001b[2m       - unexpected value \"disabled\"\u001b[22m\n\n\n  19 |  const files=[];for(const style of ['chibi','regular'] as const){await page.getByRole('button',{name:t(style==='chibi'?'Q 版':'一般'),exact:true}).click();files.push(await save('card-'+style,exportFormats.card,()=>page.getByRole('button',{name:t('下載我的角色卡'),exact:true}).click()));await expect(page.locator('.app-root')).toHaveAttribute('data-stage','reveal');}\n  20 |  await page.getByRole('button',{name:t('分享卡片'),exact:true}).click();const dialog=page.getByRole('dialog',{name:t('挑個尺寸，分享這一面。')});await expect(dialog).toBeVisible();const share=await dialog.locator('.share-text').inputValue();expect(share).toContain(QUIZ_HOME);expect(share).toContain('INTJ');expect(share).toContain('LV 4');expect(share).not.toMatch(/browser-fixture@example|readToken|writeToken|T001|humanSessions/);expect(share).not.toContain(s.id);\n> 21 |  for(const key of ['feed','story','square','landscape'] as const){await dialog.locator('.format-options button').filter({hasText:t(exportFormats[key].label)}).click();await expect(dialog.getByRole('button',{name:t('下載這個尺寸'),exact:true})).toBeEnabled();files.push(await save(key,exportFormats[key],()=>dialog.getByRole('button',{name:t('下載這個尺寸'),exact:true}).click()));}\n     |                                                                                                                                                                                                                                               ^\n  22 |  await dialog.getByRole('button',{name:t('關閉分享'),exact:true}).click();await expect(page.locator('.app-root')).toHaveAttribute('data-stage','reveal');await page.locator('.report-details>summary').click();await expect(page.locator('.report-content')).toContainText(t('使用等級'));await expect(page.locator('.metrics-list')).toContainText(t('最常用模型家族'));await page.locator('.report-details>summary').click();await page.locator('.card-options>summary').click();await page.getByRole('checkbox',{name:t('只顯示暱稱，隱藏分型'),exact:true}).check();await expect(page.locator('.card-code')).toHaveCount(0);await expect(page.locator('.card-level')).toHaveCount(0);files.push(await save('nickname',exportFormats.card,()=>page.getByRole('button',{name:t('下載我的角色卡'),exact:true}).click()));await remove(page,locale);\n  23 |  const unknown=await create(page,names[locale],locale);await submit(page,context.request,unknown,makePartialFixture(unknown.nickname));await expect(page.locator('.card-code')).toHaveText(t('未定型'));await expect(page.locator('.card-level')).toHaveText('LV ?');await page.locator('.report-details>summary').click();await expect(page.locator('.report-content')).toContainText(t('證據還不夠'));await page.screenshot({animations:\"disabled\",path:'evidence/final-card/'+locale+'-unknown.png',fullPage:true});await remove(page,locale);await writeFile('evidence/final-card/'+locale+'-exports.json',JSON.stringify(files,null,2));expect(errors).toEqual([]);await context.close();\n  24 | });\n    at /Users/dnplus/Documents/Codex/2026-10-10/task-2/ai-usage-card/tests/browser/locales.spec.ts:21:239"
+                    }
+                  ],
+                  "stdout": [],
+                  "stderr": [],
+                  "retry": 0,
+                  "startTime": "2026-10-10T09:07:31.434Z",
+                  "annotations": [],
+                  "attachments": [
+                    {
+                      "name": "error-context",
+                      "contentType": "text/markdown",
+                      "path": "/Users/dnplus/Documents/Codex/2026-10-10/task-2/ai-usage-card/.test-results/locales-zh-CN-exactly-thre-2ca2d-decoded-QR-for-every-format/error-context.md"
+                    }
+                  ],
+                  "errorLocation": {
+                    "file": "/Users/dnplus/Documents/Codex/2026-10-10/task-2/ai-usage-card/tests/browser/locales.spec.ts",
+                    "column": 239,
+                    "line": 21
+                  }
+                }
+              ],
+              "status": "unexpected"
+            }
+          ],
+          "id": "836f77d970dd2655c1cc-1545d580949ccf4d9424",
+          "file": "locales.spec.ts",
+          "line": 12,
+          "column": 29
+        },
+        {
+          "title": "ja: exactly three steps, full composition and decoded QR for every format",
+          "ok": true,
+          "tags": [],
+          "tests": [
+            {
+              "timeout": 180000,
+              "annotations": [],
+              "expectedStatus": "passed",
+              "projectId": "",
+              "projectName": "",
+              "results": [
+                {
+                  "workerIndex": 3,
+                  "parallelIndex": 0,
+                  "status": "interrupted",
+                  "duration": 6966,
+                  "error": {
+                    "message": "Error: page.waitForEvent: Test ended.\n=========================== logs ===========================\nwaiting for event \"download\"\n============================================================",
+                    "stack": "Error: page.waitForEvent: Test ended.\n=========================== logs ===========================\nwaiting for event \"download\"\n============================================================\n    at save (/Users/dnplus/Documents/Codex/2026-10-10/task-2/ai-usage-card/tests/browser/locales.spec.ts:18:115)\n    at /Users/dnplus/Documents/Codex/2026-10-10/task-2/ai-usage-card/tests/browser/locales.spec.ts:19:170",
+                    "location": {
+                      "file": "/Users/dnplus/Documents/Codex/2026-10-10/task-2/ai-usage-card/tests/browser/locales.spec.ts",
+                      "column": 115,
+                      "line": 18
+                    },
+                    "snippet": "  16 |  await submit(page,context.request,s);await expect(page.locator('.journey-progress')).toHaveAttribute('aria-label',t('第 {step} 個階段，共 3 個階段',{step:3}));await expect(page.getByRole('button',{name:t('收藏我的卡片'),exact:true})).toHaveCount(0);await expect(page.getByRole('button',{name:t('看看我的觀察'),exact:true})).toHaveCount(0);await expect(page.locator('.card-code')).toHaveText('INTJ');await expect(page.locator('.card-level')).toHaveText('LV 4');await expect(page.locator('.card-title')).toHaveText(t('路線策畫家'));await expect(page.locator('.card-front svg')).toContainText(t('你的 Agent MBTI'));await expect(page.locator('.brief-reading p')).toHaveCount(2);await expect(page.locator('.report-details')).not.toHaveAttribute('open','');await expect(page.locator('.card-front')).not.toContainText(t('合作風格觀察 · 非官方 MBTI 評量 · 造型與分型無關'));\n  17 |  await page.evaluate(()=>document.fonts.ready);await page.screenshot({animations:\"disabled\",path:'evidence/final-card/'+locale+'-desktop.png',fullPage:true});await page.setViewportSize({width:390,height:844});await page.screenshot({animations:\"disabled\",path:'evidence/final-card/'+locale+'-mobile.png',fullPage:true});expect(await page.evaluate(()=>document.documentElement.scrollWidth)).toBeLessThanOrEqual(390);\n> 18 |  async function save(filename:string,size:{width:number;height:number},action:()=>Promise<void>){const event=page.waitForEvent('download');await action();const dl=await event;const path='evidence/final-card/'+locale+'-'+filename+'.png';await dl.saveAs(path);const bytes=await readFile(path);expect([bytes.readUInt32BE(16),bytes.readUInt32BE(20)]).toEqual([size.width,size.height]);const png=PNG.sync.read(bytes);expect(jsQR(new Uint8ClampedArray(png.data),png.width,png.height)?.data).toBe(QUIZ_HOME);return {filename:dl.suggestedFilename(),width:png.width,height:png.height,qr:QUIZ_HOME};}\n     |                                                                                                                   ^\n  19 |  const files=[];for(const style of ['chibi','regular'] as const){await page.getByRole('button',{name:t(style==='chibi'?'Q 版':'一般'),exact:true}).click();files.push(await save('card-'+style,exportFormats.card,()=>page.getByRole('button',{name:t('下載我的角色卡'),exact:true}).click()));await expect(page.locator('.app-root')).toHaveAttribute('data-stage','reveal');}\n  20 |  await page.getByRole('button',{name:t('分享卡片'),exact:true}).click();const dialog=page.getByRole('dialog',{name:t('挑個尺寸，分享這一面。')});await expect(dialog).toBeVisible();const share=await dialog.locator('.share-text').inputValue();expect(share).toContain(QUIZ_HOME);expect(share).toContain('INTJ');expect(share).toContain('LV 4');expect(share).not.toMatch(/browser-fixture@example|readToken|writeToken|T001|humanSessions/);expect(share).not.toContain(s.id);\n  21 |  for(const key of ['feed','story','square','landscape'] as const){await dialog.locator('.format-options button').filter({hasText:t(exportFormats[key].label)}).click();await expect(dialog.getByRole('button',{name:t('下載這個尺寸'),exact:true})).toBeEnabled();files.push(await save(key,exportFormats[key],()=>dialog.getByRole('button',{name:t('下載這個尺寸'),exact:true}).click()));}"
+                  },
+                  "errors": [
+                    {
+                      "location": {
+                        "file": "/Users/dnplus/Documents/Codex/2026-10-10/task-2/ai-usage-card/tests/browser/locales.spec.ts",
+                        "column": 115,
+                        "line": 18
+                      },
+                      "message": "Error: page.waitForEvent: Test ended.\n=========================== logs ===========================\nwaiting for event \"download\"\n============================================================\n\n  16 |  await submit(page,context.request,s);await expect(page.locator('.journey-progress')).toHaveAttribute('aria-label',t('第 {step} 個階段，共 3 個階段',{step:3}));await expect(page.getByRole('button',{name:t('收藏我的卡片'),exact:true})).toHaveCount(0);await expect(page.getByRole('button',{name:t('看看我的觀察'),exact:true})).toHaveCount(0);await expect(page.locator('.card-code')).toHaveText('INTJ');await expect(page.locator('.card-level')).toHaveText('LV 4');await expect(page.locator('.card-title')).toHaveText(t('路線策畫家'));await expect(page.locator('.card-front svg')).toContainText(t('你的 Agent MBTI'));await expect(page.locator('.brief-reading p')).toHaveCount(2);await expect(page.locator('.report-details')).not.toHaveAttribute('open','');await expect(page.locator('.card-front')).not.toContainText(t('合作風格觀察 · 非官方 MBTI 評量 · 造型與分型無關'));\n  17 |  await page.evaluate(()=>document.fonts.ready);await page.screenshot({animations:\"disabled\",path:'evidence/final-card/'+locale+'-desktop.png',fullPage:true});await page.setViewportSize({width:390,height:844});await page.screenshot({animations:\"disabled\",path:'evidence/final-card/'+locale+'-mobile.png',fullPage:true});expect(await page.evaluate(()=>document.documentElement.scrollWidth)).toBeLessThanOrEqual(390);\n> 18 |  async function save(filename:string,size:{width:number;height:number},action:()=>Promise<void>){const event=page.waitForEvent('download');await action();const dl=await event;const path='evidence/final-card/'+locale+'-'+filename+'.png';await dl.saveAs(path);const bytes=await readFile(path);expect([bytes.readUInt32BE(16),bytes.readUInt32BE(20)]).toEqual([size.width,size.height]);const png=PNG.sync.read(bytes);expect(jsQR(new Uint8ClampedArray(png.data),png.width,png.height)?.data).toBe(QUIZ_HOME);return {filename:dl.suggestedFilename(),width:png.width,height:png.height,qr:QUIZ_HOME};}\n     |                                                                                                                   ^\n  19 |  const files=[];for(const style of ['chibi','regular'] as const){await page.getByRole('button',{name:t(style==='chibi'?'Q 版':'一般'),exact:true}).click();files.push(await save('card-'+style,exportFormats.card,()=>page.getByRole('button',{name:t('下載我的角色卡'),exact:true}).click()));await expect(page.locator('.app-root')).toHaveAttribute('data-stage','reveal');}\n  20 |  await page.getByRole('button',{name:t('分享卡片'),exact:true}).click();const dialog=page.getByRole('dialog',{name:t('挑個尺寸，分享這一面。')});await expect(dialog).toBeVisible();const share=await dialog.locator('.share-text').inputValue();expect(share).toContain(QUIZ_HOME);expect(share).toContain('INTJ');expect(share).toContain('LV 4');expect(share).not.toMatch(/browser-fixture@example|readToken|writeToken|T001|humanSessions/);expect(share).not.toContain(s.id);\n  21 |  for(const key of ['feed','story','square','landscape'] as const){await dialog.locator('.format-options button').filter({hasText:t(exportFormats[key].label)}).click();await expect(dialog.getByRole('button',{name:t('下載這個尺寸'),exact:true})).toBeEnabled();files.push(await save(key,exportFormats[key],()=>dialog.getByRole('button',{name:t('下載這個尺寸'),exact:true}).click()));}\n    at save (/Users/dnplus/Documents/Codex/2026-10-10/task-2/ai-usage-card/tests/browser/locales.spec.ts:18:115)\n    at /Users/dnplus/Documents/Codex/2026-10-10/task-2/ai-usage-card/tests/browser/locales.spec.ts:19:170"
+                    },
+                    {
+                      "location": {
+                        "file": "/Users/dnplus/Documents/Codex/2026-10-10/task-2/ai-usage-card/tests/browser/locales.spec.ts",
+                        "column": 268,
+                        "line": 19
+                      },
+                      "message": "Error: locator.click: Test ended.\nCall log:\n\u001b[2m  - waiting for getByRole('button', { name: 'キャラクターカードを保存', exact: true })\u001b[22m\n\u001b[2m    - locator resolved to <button class=\"primary\">…</button>\u001b[22m\n\u001b[2m  - attempting click action\u001b[22m\n\u001b[2m    2 × waiting for element to be visible, enabled and stable\u001b[22m\n\u001b[2m      - element is not stable\u001b[22m\n\u001b[2m    - retrying click action\u001b[22m\n\u001b[2m    - waiting 20ms\u001b[22m\n\u001b[2m    - waiting for element to be visible, enabled and stable\u001b[22m\n\n\n  17 |  await page.evaluate(()=>document.fonts.ready);await page.screenshot({animations:\"disabled\",path:'evidence/final-card/'+locale+'-desktop.png',fullPage:true});await page.setViewportSize({width:390,height:844});await page.screenshot({animations:\"disabled\",path:'evidence/final-card/'+locale+'-mobile.png',fullPage:true});expect(await page.evaluate(()=>document.documentElement.scrollWidth)).toBeLessThanOrEqual(390);\n  18 |  async function save(filename:string,size:{width:number;height:number},action:()=>Promise<void>){const event=page.waitForEvent('download');await action();const dl=await event;const path='evidence/final-card/'+locale+'-'+filename+'.png';await dl.saveAs(path);const bytes=await readFile(path);expect([bytes.readUInt32BE(16),bytes.readUInt32BE(20)]).toEqual([size.width,size.height]);const png=PNG.sync.read(bytes);expect(jsQR(new Uint8ClampedArray(png.data),png.width,png.height)?.data).toBe(QUIZ_HOME);return {filename:dl.suggestedFilename(),width:png.width,height:png.height,qr:QUIZ_HOME};}\n> 19 |  const files=[];for(const style of ['chibi','regular'] as const){await page.getByRole('button',{name:t(style==='chibi'?'Q 版':'一般'),exact:true}).click();files.push(await save('card-'+style,exportFormats.card,()=>page.getByRole('button',{name:t('下載我的角色卡'),exact:true}).click()));await expect(page.locator('.app-root')).toHaveAttribute('data-stage','reveal');}\n     |                                                                                                                                                                                                                                                                            ^\n  20 |  await page.getByRole('button',{name:t('分享卡片'),exact:true}).click();const dialog=page.getByRole('dialog',{name:t('挑個尺寸，分享這一面。')});await expect(dialog).toBeVisible();const share=await dialog.locator('.share-text').inputValue();expect(share).toContain(QUIZ_HOME);expect(share).toContain('INTJ');expect(share).toContain('LV 4');expect(share).not.toMatch(/browser-fixture@example|readToken|writeToken|T001|humanSessions/);expect(share).not.toContain(s.id);\n  21 |  for(const key of ['feed','story','square','landscape'] as const){await dialog.locator('.format-options button').filter({hasText:t(exportFormats[key].label)}).click();await expect(dialog.getByRole('button',{name:t('下載這個尺寸'),exact:true})).toBeEnabled();files.push(await save(key,exportFormats[key],()=>dialog.getByRole('button',{name:t('下載這個尺寸'),exact:true}).click()));}\n  22 |  await dialog.getByRole('button',{name:t('關閉分享'),exact:true}).click();await expect(page.locator('.app-root')).toHaveAttribute('data-stage','reveal');await page.locator('.report-details>summary').click();await expect(page.locator('.report-content')).toContainText(t('使用等級'));await expect(page.locator('.metrics-list')).toContainText(t('最常用模型家族'));await page.locator('.report-details>summary').click();await page.locator('.card-options>summary').click();await page.getByRole('checkbox',{name:t('只顯示暱稱，隱藏分型'),exact:true}).check();await expect(page.locator('.card-code')).toHaveCount(0);await expect(page.locator('.card-level')).toHaveCount(0);files.push(await save('nickname',exportFormats.card,()=>page.getByRole('button',{name:t('下載我的角色卡'),exact:true}).click()));await remove(page,locale);\n    at action (/Users/dnplus/Documents/Codex/2026-10-10/task-2/ai-usage-card/tests/browser/locales.spec.ts:19:268)\n    at save (/Users/dnplus/Documents/Codex/2026-10-10/task-2/ai-usage-card/tests/browser/locales.spec.ts:18:146)\n    at /Users/dnplus/Documents/Codex/2026-10-10/task-2/ai-usage-card/tests/browser/locales.spec.ts:19:170"
+                    }
+                  ],
+                  "stdout": [],
+                  "stderr": [],
+                  "retry": 0,
+                  "startTime": "2026-10-10T09:08:06.395Z",
+                  "annotations": [],
+                  "attachments": [],
+                  "errorLocation": {
+                    "file": "/Users/dnplus/Documents/Codex/2026-10-10/task-2/ai-usage-card/tests/browser/locales.spec.ts",
+                    "column": 115,
+                    "line": 18
+                  }
+                }
+              ],
+              "status": "skipped"
+            }
+          ],
+          "id": "836f77d970dd2655c1cc-8e3d8844ae9b2c3307c3",
+          "file": "locales.spec.ts",
+          "line": 12,
+          "column": 29
+        },
+        {
+          "title": "ko: exactly three steps, full composition and decoded QR for every format",
+          "ok": true,
+          "tags": [],
+          "tests": [
+            {
+              "timeout": 30000,
+              "annotations": [],
+              "expectedStatus": "passed",
+              "projectId": "",
+              "projectName": "",
+              "results": [],
+              "status": "skipped"
+            }
+          ],
+          "id": "836f77d970dd2655c1cc-6b20b204b27456e3835f",
+          "file": "locales.spec.ts",
+          "line": 12,
+          "column": 29
+        },
+        {
+          "title": "en: exactly three steps, full composition and decoded QR for every format",
+          "ok": true,
+          "tags": [],
+          "tests": [
+            {
+              "timeout": 30000,
+              "annotations": [],
+              "expectedStatus": "passed",
+              "projectId": "",
+              "projectName": "",
+              "results": [],
+              "status": "skipped"
+            }
+          ],
+          "id": "836f77d970dd2655c1cc-06e070fd08e07fc12cee",
+          "file": "locales.spec.ts",
+          "line": 12,
+          "column": 29
+        }
+      ]
+    }
+  ],
+  "errors": [],
+  "stats": {
+    "startTime": "2026-10-10T09:00:42.863Z",
+    "duration": 452842.094,
+    "expected": 12,
+    "skipped": 3,
+    "unexpected": 3,
+    "flaky": 0
+  }
+}

@@ -1,3 +1,5 @@
+import type {TrustedIdentity} from "./identity.ts";
+import {saveMarketingPreference} from "./account-service.ts";
 import { createSchema, progressSchema, PROTOCOL_VERSION } from "./contract.ts";
 import { toReport, toCardObservation, validateSubmission, type Report } from "./assessment.ts";
 
@@ -39,27 +41,25 @@ function sameOrigin(request: Request, required = false) {
   const origin = request.headers.get("origin");
   if ((required && !origin) || (origin && origin !== new URL(request.url).origin)) failure(403, "請從此網站操作。");
 }
-async function owner(request: Request) {
-  const id = request.headers.get("oai-authenticated-user-id");
-  return id ? digest(id) : null;
-}
-async function authorize(db: D1Database, request: Request, id: string, access: "read" | "write", now: number) {
+async function owner(identity:TrustedIdentity|null) { return identity ? digest(identity.userId) : null; }
+async function authorize(db: D1Database, request: Request, id: string, access: "read" | "write", now: number, identity:TrustedIdentity|null) {
   if (!/^[0-9a-f-]{36}$/.test(id)) failure(404, "會話不存在或已失效。");
   const row = await db.prepare("SELECT * FROM sessions WHERE id = ?1").bind(id).first<Row>();
   const token = request.headers.get("authorization")?.match(/^Bearer ([0-9a-f]{64})$/)?.[1];
   if (!row || !token || !equal(await digest(token), access === "read" ? row.read_hash : row.write_hash)) return failure(404, "會話不存在或已失效。");
-  if (access === "read" && row.owner_hash && !equal((await owner(request)) ?? "", row.owner_hash)) failure(404, "會話不存在或已失效。");
+  if (access === "read" && (!row.owner_hash || !equal((await owner(identity)) ?? "", row.owner_hash))) failure(404, "會話不存在或已失效。");
   if (row.expires_at <= now) { await db.prepare("DELETE FROM sessions WHERE id = ?1").bind(id).run(); failure(410, "會話已到期，請重新開始。"); }
   return row;
 }
-export async function handleSession(db: D1Database, request: Request, id?: string, mode: "session" | "collect" | "progress" = "session", now = Date.now()): Promise<Response> {
+export async function handleSession(db: D1Database, request: Request, id?: string, mode: "session" | "collect" | "progress" = "session", now = Date.now(), identity:TrustedIdentity|null=null): Promise<Response> {
   let phase = "access";
   try {
     sameOrigin(request, !id || request.method === "DELETE");
+    if(mode==="session"&&!identity)return json({error:"請先使用 ChatGPT 登入。"},401);
     if (!id) {
       if (request.method !== "POST") failure(405, "此操作不支援。");
       const parsed = createSchema.safeParse(await body(request));
-      if (!parsed.success) return failure(400, "請檢查暱稱、Email 與結果用途同意。");
+      if (!parsed.success) return failure(400, "請檢查暱稱與選填偏好。");
       phase = "create_session";
       await db.prepare("DELETE FROM sessions WHERE expires_at <= ?1").bind(now).run();
       const total = await db.prepare("SELECT COUNT(*) AS count FROM sessions").first<{ count: number }>();
@@ -69,12 +69,17 @@ export async function handleSession(db: D1Database, request: Request, id?: strin
       const newId = crypto.randomUUID();
       const expiresAt = now + TTL_MS;
       await db.prepare("INSERT INTO sessions (id, read_hash, write_hash, owner_hash, nickname, email, created_at, expires_at, protocol_version) VALUES (?1, ?2, ?3, ?4, ?5, ?6, ?7, ?8, ?9)")
-        .bind(newId, await digest(readToken), await digest(writeToken), await owner(request), parsed.data.nickname, parsed.data.email ?? null, now, expiresAt, PROTOCOL_VERSION).run();
+        .bind(newId, await digest(readToken), await digest(writeToken), await owner(identity), parsed.data.nickname, identity!.email, now, expiresAt, PROTOCOL_VERSION).run();
+      await saveMarketingPreference(db,identity!,parsed.data.marketingOptIn,now);
       return json({ id: newId, readToken, writeToken, expiresAt, nickname: parsed.data.nickname }, 201);
     }
-    const row = await authorize(db, request, id, mode === "session" ? "read" : "write", now);
+    const row = await authorize(db, request, id, mode === "session" ? "read" : "write", now,identity);
     phase = "session_storage";
-    if (mode === "session" && request.method === "DELETE") { await db.prepare("DELETE FROM sessions WHERE id = ?1").bind(id).run(); return json({ deleted: true }); }
+    if (mode === "session" && request.method === "DELETE") {
+      const statements=[db.prepare("DELETE FROM sessions WHERE id = ?1").bind(id)];
+      if(new URL(request.url).searchParams.get("retainResult")!=="1")statements.push(db.prepare("DELETE FROM remembered_results WHERE id=?1 AND owner_hash=?2").bind(id,row.owner_hash));
+      await db.batch(statements);return json({ deleted: true });
+    }
     if (row.protocol_version !== PROTOCOL_VERSION) return json({ error: "觀察規則已更新。舊結果需要重新分析，請建立新連結。", code: "reassessment_required" }, 410);
     await db.prepare("DELETE FROM sessions WHERE expires_at <= ?1 AND id != ?2").bind(now, id).run();
     if (mode === "progress") {
@@ -119,3 +124,14 @@ export async function handleSession(db: D1Database, request: Request, id?: strin
     return error instanceof HttpError ? json({ error: error.message }, error.status) : json({ error: "暫時無法處理，請稍後再試。" }, 503);
   }
 }
+
+export const hashSecret=digest;
+export const constantEqual=equal;
+export const sameOriginRequest=sameOrigin;
+export async function readSessionReport(db:D1Database,request:Request,id:string,readToken:string,now:number,identity:TrustedIdentity|null){
+ const headers=new Headers(request.headers);headers.set('Authorization','Bearer '+readToken);
+ const scoped=new Request(new URL('/api/sessions/'+id,request.url),{headers});
+ return authorize(db,scoped,id,'read',now,identity);
+}
+
+export const readJsonBody=body;

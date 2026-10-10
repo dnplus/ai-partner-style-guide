@@ -22,6 +22,20 @@
       "when": 1791611868224,
       "tag": "0002_worthless_bloodstrike",
       "breakpoints": true
+    },
+    {
+      "idx": 3,
+      "version": "6",
+      "when": 1791620880482,
+      "tag": "0003_keen_magik",
+      "breakpoints": true
+    },
+    {
+      "idx": 4,
+      "version": "6",
+      "when": 1791621543988,
+      "tag": "0004_damp_slapstick",
+      "breakpoints": true
     }
   ]
 }

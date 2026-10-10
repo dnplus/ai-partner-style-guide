@@ -2374,5 +2374,467 @@
     "今回の範囲を見る",
     "이번 범위 보기",
     "View this scope"
+  ],
+  "使用等級": [
+    "使用等级",
+    "活用レベル",
+    "활용 레벨",
+    "Usage level"
+  ],
+  "待觀察": [
+    "待观察",
+    "観察待ち",
+    "관찰 중",
+    "Unconfirmed"
+  ],
+  "直接採用": [
+    "直接采用",
+    "直接採用",
+    "바로 채택",
+    "Direct adoption"
+  ],
+  "試探修正": [
+    "尝试修正",
+    "試行と修正",
+    "시도와 수정",
+    "Trial and repair"
+  ],
+  "穩定交付": [
+    "稳定交付",
+    "安定した成果",
+    "안정적 결과",
+    "Useful delivery"
+  ],
+  "精準協作": [
+    "精准协作",
+    "的確な協働",
+    "정밀한 협업",
+    "Scoped collaboration"
+  ],
+  "重用實作": [
+    "复用成果",
+    "検証と再利用",
+    "검증과 재사용",
+    "Tested reuse"
+  ],
+  "維運系統": [
+    "维护系统",
+    "継続的な運用",
+    "지속적 운영",
+    "Maintained systems"
+  ],
+  "曾在需要查核時直接採用答案。": [
+    "曾在需要核查时直接采用答案。",
+    "確認が必要な場面で回答をそのまま採用した記録があります。",
+    "확인이 필요한 상황에서 답을 그대로 채택한 기록이 있습니다.",
+    "The evidence includes adopting an answer when checking was needed."
+  ],
+  "已看到辨認錯誤後重新嘗試。": [
+    "已看到识别错误后重新尝试。",
+    "誤りを認識し、再試行した記録があります。",
+    "오류를 알아차린 뒤 다시 시도한 기록이 있습니다.",
+    "The evidence includes recognizing an error and trying again."
+  ],
+  "已在多個任務確認成果可用。": [
+    "已在多个任务确认成果可用。",
+    "複数の独立したタスクで成果の有用性を確認しています。",
+    "여러 독립 작업에서 결과가 유용함을 확인했습니다.",
+    "Useful outcomes were checked across independent tasks."
+  ],
+  "已看到清楚界定任務並完成具體修正。": [
+    "已看到明确任务范围并完成具体修正。",
+    "タスクを明確に定義し、具体的な修正を完了しています。",
+    "작업 범위를 명확히 하고 구체적인 수정을 완료했습니다.",
+    "The task was scoped clearly and a specific correction was verified."
+  ],
+  "已看到成果經測試，並在不同任務重用。": [
+    "已看到成果经过测试，并在不同任务中复用。",
+    "成果をテストし、別のタスクで再利用した記録があります。",
+    "결과를 테스트하고 다른 작업에서 재사용한 기록이 있습니다.",
+    "An artifact was tested and reused in another task."
+  ],
+  "已看到多條獨立工作流程持續運作與維護。": [
+    "已看到多条独立工作流持续运行与维护。",
+    "複数の独立したワークフローを継続運用・保守しています。",
+    "여러 독립 워크플로를 지속적으로 운영하고 유지했습니다.",
+    "Multiple independent workflows show sustained operation and maintenance."
+  ],
+  "使用等級尚待更多成果線索。": [
+    "使用等级仍需更多成果线索。",
+    "活用レベルには、成果に関する追加の記録が必要です。",
+    "활용 레벨을 확인하려면 결과에 관한 기록이 더 필요합니다.",
+    "More evidence of outcomes is needed to establish a usage level."
+  ],
+  "資訊足夠時，仍常透過來回共創推進成果。": [
+    "信息充分时，仍常通过来回共创推进成果。",
+    "情報が十分でも、対話を重ねて一緒に成果を進める傾向があります。",
+    "정보가 충분해도 대화를 주고받으며 함께 결과를 만드는 편입니다.",
+    "With enough information, it often still develops the work through back-and-forth collaboration."
+  ],
+  "資訊足夠時，傾向整理完成再交付整合結果。": [
+    "信息充分时，倾向于整理完成后交付整合结果。",
+    "情報が十分なときは、整理を終えてからまとめて届ける傾向があります。",
+    "정보가 충분하면 먼저 정리한 뒤 통합된 결과를 전달하는 편입니다.",
+    "With enough information, it tends to organize the work before delivering a consolidated result."
+  ],
+  "理解新問題時，常從具體實例與現況起步。": [
+    "理解新问题时，常从具体实例与现状开始。",
+    "新しい問題は、具体例や現状から理解し始める傾向があります。",
+    "새 문제는 구체적인 사례와 현재 상황에서 이해하기 시작하는 편입니다.",
+    "It often approaches a new problem through concrete examples and the current situation."
+  ],
+  "理解新問題時，常從模式與不同可能起步。": [
+    "理解新问题时，常从模式与不同可能性开始。",
+    "新しい問題は、パターンや別の可能性から考え始める傾向があります。",
+    "새 문제는 패턴과 여러 가능성에서 생각하기 시작하는 편입니다.",
+    "It often approaches a new problem through patterns and alternative possibilities."
+  ],
+  "方案取捨時，偏向讓一致準則決定方向。": [
+    "方案取舍时，倾向于让一致标准决定方向。",
+    "選択肢を比較するときは、一貫した基準で方向を決める傾向があります。",
+    "대안을 고를 때 일관된 기준으로 방향을 결정하는 편입니다.",
+    "When choosing between options, it tends to rely on consistent criteria."
+  ],
+  "方案取捨時，偏向先考量受影響者的處境。": [
+    "方案取舍时，倾向于先考虑受影响者的处境。",
+    "選択肢を比較するときは、影響を受ける人の状況を優先する傾向があります。",
+    "대안을 고를 때 영향을 받는 사람들의 상황을 먼저 고려하는 편입니다.",
+    "When choosing between options, it tends to prioritize the people affected."
+  ],
+  "路線可選時，偏向先約定方向與里程碑。": [
+    "路径可选时，倾向于先约定方向与里程碑。",
+    "進め方を選べるときは、先に方向や節目を決める傾向があります。",
+    "진행 방식을 선택할 수 있으면 방향과 이정표를 먼저 정하는 편입니다.",
+    "When the path is open, it tends to agree on a direction and milestones first."
+  ],
+  "路線可選時，偏向用可逆實驗逐步收斂。": [
+    "路径可选时，倾向于用可逆实验逐步收敛。",
+    "進め方を選べるときは、やり直せる実験で徐々に絞り込む傾向があります。",
+    "진행 방식을 선택할 수 있으면 되돌릴 수 있는 실험으로 좁혀 가는 편입니다.",
+    "When the path is open, it tends to narrow options through reversible experiments."
+  ],
+  "其餘合作偏好仍需要更多獨立任務的線索。": [
+    "其余合作偏好仍需更多独立任务的线索。",
+    "他の協働傾向には、さらに独立したタスクの記録が必要です。",
+    "다른 협업 성향은 독립적인 작업의 기록이 더 필요합니다.",
+    "Other collaboration preferences need evidence from more independent tasks."
+  ],
+  "目前還沒有足夠線索辨認合作偏好。": [
+    "目前还没有足够线索识别合作偏好。",
+    "現時点では、協働の傾向を判断する記録が足りません。",
+    "현재 기록만으로는 협업 성향을 구분하기 어렵습니다.",
+    "There is not yet enough evidence to identify a collaboration preference."
+  ],
+  "收藏卡": [
+    "收藏卡",
+    "コレクションカード",
+    "소장 카드",
+    "Collectible card"
+  ],
+  "直式貼文": [
+    "竖版帖子",
+    "縦長ポスト",
+    "세로 게시물",
+    "Portrait feed"
+  ],
+  "限時尺寸": [
+    "限时尺寸",
+    "ストーリー",
+    "스토리",
+    "Story"
+  ],
+  "正方形": [
+    "正方形",
+    "スクエア",
+    "정사각형",
+    "Square"
+  ],
+  "橫式貼文": [
+    "横版帖子",
+    "横長ポスト",
+    "가로 게시물",
+    "Landscape"
+  ],
+  "你的 Agent，會是哪一型？": [
+    "你的 Agent，会是哪一型？",
+    "あなたの Agent は何タイプ？",
+    "내 Agent는 어떤 유형일까요?",
+    "What type is your Agent?"
+  ],
+  "分享卡片": [
+    "分享卡片",
+    "カードをシェア",
+    "카드 공유",
+    "Share card"
+  ],
+  "關閉分享": [
+    "关闭分享",
+    "共有を閉じる",
+    "공유 닫기",
+    "Close sharing"
+  ],
+  "挑個尺寸，分享這一面。": [
+    "选个尺寸，分享这一面。",
+    "サイズを選んで、この一面をシェア。",
+    "크기를 골라 이 모습을 공유하세요.",
+    "Pick a size. Share this side."
+  ],
+  "分享尺寸": [
+    "分享尺寸",
+    "共有サイズ",
+    "공유 크기",
+    "Share format"
+  ],
+  "附上簡短解讀": [
+    "附上简短解读",
+    "短い解説を添える",
+    "간단한 해석 포함",
+    "Include a short reading"
+  ],
+  "分享文字": [
+    "分享文字",
+    "共有テキスト",
+    "공유 문구",
+    "Share text"
+  ],
+  "分享這個尺寸": [
+    "分享这个尺寸",
+    "このサイズで共有",
+    "이 크기로 공유",
+    "Share this size"
+  ],
+  "下載這個尺寸": [
+    "下载这个尺寸",
+    "このサイズを保存",
+    "이 크기 다운로드",
+    "Download this size"
+  ],
+  "複製文字與連結": [
+    "复制文字与链接",
+    "文章とリンクをコピー",
+    "문구와 링크 복사",
+    "Copy text and link"
+  ],
+  "分享文字與首頁連結已複製。": [
+    "分享文字与首页链接已复制。",
+    "共有テキストとトップページのリンクをコピーしました。",
+    "공유 문구와 홈페이지 링크를 복사했습니다.",
+    "Share text and homepage link copied."
+  ],
+  "無法自動複製，請選取下方文字。": [
+    "无法自动复制，请选择下方文字。",
+    "自動コピーできません。下の文章を選択してください。",
+    "자동 복사가 안 됩니다. 아래 문구를 선택하세요.",
+    "Automatic copy is unavailable. Select the text below."
+  ],
+  "已交給系統分享選單。": [
+    "已交给系统分享菜单。",
+    "システムの共有メニューに渡しました。",
+    "시스템 공유 메뉴로 전달했습니다.",
+    "Handed to the system share menu."
+  ],
+  "圖片已下載，分享文字與首頁連結已複製。": [
+    "图片已下载，分享文字与首页链接已复制。",
+    "画像を保存し、文章とトップページのリンクをコピーしました。",
+    "이미지를 다운로드하고 문구와 홈페이지 링크를 복사했습니다.",
+    "Image downloaded; share text and homepage link copied."
+  ],
+  "圖片已下載，請複製下方文字與首頁連結。": [
+    "图片已下载，请复制下方文字与首页链接。",
+    "画像を保存しました。下の文章とトップページのリンクをコピーしてください。",
+    "이미지를 다운로드했습니다. 아래 문구와 홈페이지 링크를 복사하세요.",
+    "Image downloaded. Copy the text and homepage link below."
+  ],
+  "已取消分享。": [
+    "已取消分享。",
+    "共有をキャンセルしました。",
+    "공유를 취소했습니다.",
+    "Sharing cancelled."
+  ],
+  "系統分享未完成，已改為下載圖片。": [
+    "系统分享未完成，已改为下载图片。",
+    "共有できなかったため、画像を保存しました。",
+    "시스템 공유가 완료되지 않아 이미지를 다운로드했습니다.",
+    "System sharing did not complete. The image was downloaded instead."
+  ],
+  "首頁目前僅擁有者可開啟；圖片可以自行分享。": [
+    "首页目前仅所有者可打开；图片可以自行分享。",
+    "トップページは現在所有者限定です。画像は自分で共有できます。",
+    "현재 홈페이지는 소유자만 열 수 있습니다. 이미지는 직접 공유할 수 있습니다.",
+    "The homepage is currently owner-only. You can share the image yourself."
+  ],
+  "打開上次的卡片": [
+    "打开上次的卡片",
+    "前回のカードを開く",
+    "지난 카드 열기",
+    "Open your last card"
+  ],
+  "開始新的觀察": [
+    "开始新的观察",
+    "新しい観察を始める",
+    "새 관찰 시작",
+    "Start a new observation"
+  ],
+  "清除上次結果": [
+    "清除上次结果",
+    "前回の結果を消去",
+    "지난 결과 지우기",
+    "Clear your last result"
+  ],
+  "清除這次結果": [
+    "清除本次结果",
+    "今回の結果を消去",
+    "이번 결과 지우기",
+    "Clear this result"
+  ],
+  "此裝置暫時無法記住結果，請先下載卡片。": [
+    "此设备暂时无法记住结果，请先下载卡片。",
+    "この端末に結果を保存できません。カードをダウンロードしてください。",
+    "이 기기에 결과를 저장할 수 없습니다. 카드를 먼저 다운로드하세요.",
+    "This device could not remember the result. Download your card first."
+  ],
+  "查看進度與協助": [
+    "查看进度与帮助",
+    "進捗とヘルプ",
+    "진행 상황 및 도움말",
+    "Progress and help"
+  ],
+  "此選項也會隱藏等級與短句。": [
+    "此选项也会隐藏等级与短句。",
+    "レベルと短いフレーズも非表示になります。",
+    "레벨과 짧은 문구도 숨깁니다.",
+    "This also hides the level and tagline."
+  ],
+  "報告與寄送狀態": [
+    "报告与发送状态",
+    "レポートと送信状況",
+    "보고서 및 전송 상태",
+    "Report and delivery status"
+  ],
+  "使用等級如何判斷": [
+    "使用等级如何判断",
+    "活用レベルの判定方法",
+    "활용 레벨 판단 방식",
+    "How usage levels work"
+  ],
+  "等級只看授權範圍內已觀察到的成果，與 MBTI、用量和模型無關。LV4 需實際測試並跨任務重用；LV5 需多條獨立流程持續運作、處理例外及維護。缺少證據就保持未知，已確認等級不代表能力上限。": [
+    "等级仅看授权范围内观察到的成果，与 MBTI、用量和模型无关。LV4 需要实际测试并跨任务复用；LV5 需要多条独立流程持续运行、处理异常及维护。缺少证据则保持未知，确认等级不代表能力上限。",
+    "レベルは許可範囲内で確認できた成果だけで判定し、MBTI・使用量・モデルとは独立しています。LV4 はテストと別タスクでの再利用、LV5 は複数の独立したフローの継続運用・例外対応・保守が必要です。不明な部分は不明のままとし、確認済みレベルは能力の上限ではありません。",
+    "레벨은 허용 범위 안에서 확인된 결과만으로 판단하며 MBTI, 사용량, 모델과 무관합니다. LV4는 테스트와 다른 작업에서의 재사용, LV5는 여러 독립 흐름의 지속 운영, 예외 처리, 유지 보수가 필요합니다. 근거가 없으면 미확인으로 남기며 확인된 레벨은 능력의 한계가 아닙니다.",
+    "Levels use observed outcomes within the approved scope, independently of MBTI, volume or model. LV4 requires testing and reuse across tasks; LV5 requires sustained independent workflows, exception handling and maintenance. Missing evidence stays unknown. A confirmed level is not a ceiling on ability."
+  ],
+  "提交連結 30 分鐘後失效。此裝置可用安全 Cookie 開啟最近結果，最長保留 7 天；可隨時清除。Email、原始紀錄與提交權杖不存入瀏覽器儲存空間，結果沒有公開網址。": [
+    "提交链接 30 分钟后失效。本设备可用安全 Cookie 打开最近结果，最多保留 7 天，可随时清除。Email、原始记录与提交令牌不存入浏览器存储，结果没有公开网址。",
+    "送信リンクは30分で失効します。この端末では安全な Cookie で最新の結果を最大7日間開けます。いつでも消去できます。メール、元の記録、送信トークンはブラウザーのストレージに保存せず、結果の公開URLもありません。",
+    "제출 링크는 30분 후 만료됩니다. 이 기기에서는 안전한 Cookie로 최근 결과를 최대 7일간 열 수 있으며 언제든 지울 수 있습니다. 이메일, 원본 기록, 제출 토큰은 브라우저 저장소에 보관하지 않으며 공개 결과 URL도 없습니다.",
+    "Submission links expire after 30 minutes. A secure cookie lets this device reopen its latest result for up to 7 days; clear it at any time. Email, raw records and upload tokens are not stored in browser storage. Results have no public URL."
+  ],
+  "網站維持私人存取。外部 Agent 若被登入閘門阻擋，需回報，不能繞過或分享整站通行權杖。": [
+    "网站保持私人访问。外部 Agent 若被登录网关阻挡，需报告，不能绕过或分享整站通行令牌。",
+    "サイトは非公開のままです。外部 Agent がログインゲートで止まった場合は報告し、回避やサイト全体のトークン共有をしてはいけません。",
+    "사이트는 비공개로 유지됩니다. 외부 Agent가 로그인 게이트에 막히면 보고해야 하며, 우회하거나 사이트 전체 토큰을 공유해서는 안 됩니다.",
+    "The site stays private. If an external Agent is blocked by the sign-in gate, report it; do not bypass the gate or share a site-wide token."
+  ],
+  "請先使用 ChatGPT 登入。": [
+    "请先使用 ChatGPT 登录。",
+    "先に ChatGPT でログインしてください。",
+    "먼저 ChatGPT로 로그인하세요.",
+    "Sign in with ChatGPT first."
+  ],
+  "請檢查暱稱與選填偏好。": [
+    "请检查昵称与可选偏好。",
+    "ニックネームと任意設定を確認してください。",
+    "닉네임과 선택 설정을 확인하세요.",
+    "Check your nickname and optional preferences."
+  ],
+  "使用 ChatGPT 登入開始": [
+    "使用 ChatGPT 登录开始",
+    "ChatGPT でログインして始める",
+    "ChatGPT로 로그인하고 시작",
+    "Sign in with ChatGPT to start"
+  ],
+  "使用 ChatGPT 帳戶的 Email 提供這次完整報告，寄送功能尚未開放。": [
+    "使用 ChatGPT 账户的 Email 提供本次完整报告，发送功能尚未开放。",
+    "ChatGPT アカウントのメールで今回の詳細レポートを利用できます。メール送信はまだ未対応です。",
+    "ChatGPT 계정 이메일로 이번 전체 보고서를 제공합니다. 이메일 발송은 아직 제공되지 않습니다.",
+    "Your ChatGPT account email enables this full report. Email delivery is not available yet."
+  ],
+  "我願意收到新功能與活動消息（選填，可隨時取消）。": [
+    "我愿意接收新功能与活动消息（选填，可随时取消）。",
+    "新機能やイベントのお知らせを受け取る（任意・いつでも解除可）。",
+    "새 기능 및 이벤트 소식을 받겠습니다(선택, 언제든 철회 가능).",
+    "Send me news about features and events (optional; withdraw anytime)."
+  ],
+  "Email 由 ChatGPT 登入提供，不出現在卡片。完整報告不以行銷同意為條件。目前只保存偏好，沒有寄信或加入外部行銷服務。": [
+    "Email 由 ChatGPT 登录提供，不显示在卡片上。完整报告不以营销同意为条件。目前仅保存偏好，不发送邮件或加入外部营销服务。",
+    "メールは ChatGPT ログインで提供され、カードには表示しません。詳細レポートに宣伝への同意は不要です。設定を保存するだけで、メール送信や外部サービスへの登録は行いません。",
+    "이메일은 ChatGPT 로그인에서 제공되며 카드에 표시되지 않습니다. 전체 보고서는 마케팅 동의와 무관합니다. 현재 설정만 저장하며 이메일 발송이나 외부 마케팅 서비스 등록은 하지 않습니다.",
+    "Email comes from ChatGPT sign-in and never appears on cards. The full report does not depend on marketing consent. We only store the preference; no email is sent and no external marketing service is connected."
+  ],
+  "首頁可公開開啟；開始觀察、讀取結果及帳戶偏好均需本人登入。Agent 只能透過短效專屬連結提交一次摘要，不能讀取私人結果。": [
+    "首页公开可访问；开始观察、读取结果和账户偏好均需本人登录。Agent 只能通过短时专属链接提交一次摘要，不能读取私人结果。",
+    "トップページは公開です。観察の開始、結果の閲覧、設定の変更には本人のログインが必要です。Agent は期限付き専用リンクで一度だけ要約を送信でき、非公開の結果は読めません。",
+    "홈페이지는 공개되지만 관찰 시작, 결과 조회, 계정 설정에는 본인 로그인이 필요합니다. Agent는 짧은 유효기간의 전용 링크로 요약을 한 번 제출할 수 있으며 개인 결과는 읽을 수 없습니다.",
+    "The homepage is public. Starting an observation, reading results and changing preferences require your sign-in. An Agent can submit one summary through its short-lived scoped link; it cannot read private results."
+  ],
+  "帳戶與行銷偏好": [
+    "账户与营销偏好",
+    "アカウントとお知らせ設定",
+    "계정 및 마케팅 설정",
+    "Account and marketing preferences"
+  ],
+  "已同意接收新功能與活動消息。": [
+    "已同意接收新功能与活动消息。",
+    "新機能やイベントのお知らせを受け取る設定です。",
+    "새 기능과 이벤트 소식 수신에 동의했습니다.",
+    "You opted in to feature and event news."
+  ],
+  "沒有訂閱行銷消息。": [
+    "没有订阅营销消息。",
+    "宣伝のお知らせは受け取りません。",
+    "마케팅 소식을 구독하지 않았습니다.",
+    "You have not opted in to marketing news."
+  ],
+  "取消行銷同意": [
+    "取消营销同意",
+    "お知らせの同意を取り消す",
+    "마케팅 동의 철회",
+    "Withdraw marketing consent"
+  ],
+  "登出 ChatGPT": [
+    "退出 ChatGPT",
+    "ChatGPT からログアウト",
+    "ChatGPT 로그아웃",
+    "Sign out of ChatGPT"
+  ],
+  "偏好暫時無法更新，請重試。": [
+    "偏好暂时无法更新，请重试。",
+    "設定を更新できません。再試行してください。",
+    "설정을 업데이트할 수 없습니다. 다시 시도하세요.",
+    "Preferences could not be updated. Try again."
+  ],
+  " · 上善無形": [
+    " · 上善無形",
+    " · 上善無形",
+    " · 上善無形",
+    " · 上善無形"
+  ],
+  " · 可在已授權的 Agent 使用": [
+    " · 可在已授权的 Agent 使用",
+    " · 許可した Agent で利用可能",
+    " · 허용된 Agent에서 사용 가능",
+    " · Use with your authorized Agent"
+  ],
+  "· 可在已授權的 Agent 使用": [
+    "· 可在已授权的 Agent 使用",
+    "· 許可した Agent で利用可能",
+    "· 허용된 Agent에서 사용 가능",
+    "· Use with your authorized Agent"
+  ],
+  "· 上善無形": [
+    "· 上善無形",
+    "· 上善無形",
+    "· 上善無形",
+    "· 上善無形"
   ]
 }

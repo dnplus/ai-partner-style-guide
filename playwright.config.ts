@@ -4,7 +4,7 @@ export default defineConfig({
   timeout: 30000,
   fullyParallel: false,
   workers: 1,
-  reporter: [['list'],['json',{outputFile:'evidence/locales/browser-results.json'}]],
+  reporter: [['list'],['json',{outputFile:'evidence/final-card/browser-results.json'}]],
   outputDir: '.test-results',
-  use: { locale:'zh-TW', baseURL: 'http://127.0.0.1:5188', browserName:'chromium', headless:true, launchOptions:{executablePath:'/Applications/Google Chrome.app/Contents/MacOS/Google Chrome'}, viewport:{width:1536,height:1024}, screenshot:'off',trace:'off' },
+  use: { extraHTTPHeaders:{'oai-authenticated-user-id':'browser-fixture-owner','oai-authenticated-user-email':'browser-fixture@example.test'}, locale:'zh-TW', baseURL: 'http://127.0.0.1:5188', browserName:'chromium', headless:true, launchOptions:{executablePath:'/Applications/Google Chrome.app/Contents/MacOS/Google Chrome'}, viewport:{width:1536,height:1024}, screenshot:'off',trace:'off' },
 });

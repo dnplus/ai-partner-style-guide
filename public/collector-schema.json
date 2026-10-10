@@ -442,6 +442,65 @@
             "status"
           ],
           "additionalProperties": false
+        },
+        "usageEvidence": {
+          "type": "object",
+          "properties": {
+            "version": {
+              "type": "string",
+              "const": "usage-level-v1"
+            },
+            "observations": {
+              "type": "array",
+              "items": {
+                "type": "object",
+                "properties": {
+                  "task": {
+                    "type": "string",
+                    "pattern": "^T(00[1-9]|01[0-9]|02[0-4])$"
+                  },
+                  "signal": {
+                    "type": "string",
+                    "enum": [
+                      "unchecked_adoption",
+                      "retry_after_error",
+                      "useful_result_verified",
+                      "context_scoped",
+                      "acceptance_defined",
+                      "targeted_correction_verified",
+                      "artifact_inspected",
+                      "artifact_tested",
+                      "artifact_reused",
+                      "workflow_operated",
+                      "roles_defined",
+                      "exceptions_handled",
+                      "maintenance_verified",
+                      "feedback_integrated"
+                    ]
+                  },
+                  "artifact": {
+                    "type": "string",
+                    "pattern": "^A(0[1-9]|1[0-2])$"
+                  },
+                  "workflow": {
+                    "type": "string",
+                    "pattern": "^W0[1-8]$"
+                  }
+                },
+                "required": [
+                  "task",
+                  "signal"
+                ],
+                "additionalProperties": false
+              },
+              "maxItems": 64
+            }
+          },
+          "required": [
+            "version",
+            "observations"
+          ],
+          "additionalProperties": false
         }
       },
       "required": [

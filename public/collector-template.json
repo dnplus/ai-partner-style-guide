@@ -38,5 +38,9 @@
     "type": null,
     "pattern": "????",
     "status": "incomplete"
+  },
+  "usageEvidence": {
+    "version": "usage-level-v1",
+    "observations": []
   }
 }

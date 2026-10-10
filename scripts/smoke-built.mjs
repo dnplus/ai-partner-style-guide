@@ -1,37 +1,38 @@
 import assert from 'node:assert/strict';
-import {writeFile} from 'node:fs/promises';
-import {makeFixture} from '../lib/fixture.ts';
-const origin=process.argv[2]??'http://127.0.0.1:5189';
+import {writeFile,readFile} from 'node:fs/promises';
+import {createHash} from 'node:crypto';
+import {makeLevelFixture} from '../lib/fixture.ts';
+const origin=process.argv[2]??'http://127.0.0.1:5188';
 const target=new URL(origin);
 assert.equal(target.protocol,'http:');assert.ok(['127.0.0.1','localhost'].includes(target.hostname));assert.equal(target.origin,origin);
-const checks=[];
-const call=async(path,init)=>fetch(`${origin}${path}`,{redirect:'error',...init});
-const home=await call('/');assert.equal(home.status,200);assert.match(await home.text(),/你的 Agent MBTI/);checks.push({step:'built SSR homepage',status:200});
-const created=await call('/api/sessions',{method:'POST',headers:{Origin:origin,'Content-Type':'application/json'},body:JSON.stringify({protocolVersion:'2.0',nickname:'產物測試旅人'})});assert.equal(created.status,201);const session=await created.json();checks.push({step:'create durable session',status:201});
-const readHeaders={Authorization:`Bearer ${session.readToken}`};
-const submitHeaders={Authorization:`Bearer ${session.writeToken}`,'Content-Type':'application/json','Idempotency-Key':crypto.randomUUID()};
+const checks=[],identity={'oai-authenticated-user-id':'http-smoke-fixture-owner','oai-authenticated-user-email':'http-smoke@example.test'};
+const call=(path,init={})=>fetch(origin+path,{redirect:'error',...init});
+const check=(name,expected,status)=>{assert.equal(status,expected);checks.push({step:name,status});};
+check('public SSR homepage',200,(await call('/')).status);
+check('anonymous cannot create',401,(await call('/api/sessions',{method:'POST',headers:{Origin:origin,'Content-Type':'application/json'},body:JSON.stringify({protocolVersion:'2.0',nickname:'Anonymous'})})).status);
+check('anonymous cannot recall',401,(await call('/api/remembered')).status);
+check('client email is not trusted input',400,(await call('/api/sessions',{method:'POST',headers:{...identity,Origin:origin,'Content-Type':'application/json'},body:JSON.stringify({protocolVersion:'2.0',nickname:'Rejected Fixture',email:'untrusted@example.test'})})).status);
+const created=await call('/api/sessions',{method:'POST',headers:{...identity,Origin:origin,'Content-Type':'application/json'},body:JSON.stringify({protocolVersion:'2.0',nickname:'HTTP Fixture',marketingOptIn:false})});check('local dispatch identity fixture creates durable session',201,created.status);const s=await created.json();
+const readHeaders={...identity,Authorization:'Bearer '+s.readToken},writeHeaders={Authorization:'Bearer '+s.writeToken,'Content-Type':'application/json','Idempotency-Key':crypto.randomUUID()},payload=JSON.stringify(makeLevelFixture(s.nickname));let cookie;
 try{
-  const pending=await call(`/api/sessions/${session.id}`,{headers:readHeaders});assert.equal((await pending.json()).status,'pending');checks.push({step:'read pending',status:200});
-  const denied=await call(`/api/collect/${session.id}`,{method:'POST',headers:{...submitHeaders,...readHeaders},body:JSON.stringify(makeFixture(session.nickname))});assert.equal(denied.status,404);checks.push({step:'read authority cannot submit',status:404});
-  const invalid=await call(`/api/collect/${session.id}`,{method:'POST',headers:submitHeaders,body:JSON.stringify({...makeFixture(session.nickname),raw:'forbidden fixture field'})});assert.equal(invalid.status,422);checks.push({step:'reject extra raw field',status:422});
-  const progress=await call('/api/collect/'+session.id+'/status',{method:'POST',headers:submitHeaders,body:JSON.stringify({sequence:1,phase:'awaiting_host_approval',approvalKind:'network'})});assert.equal(progress.status,200);checks.push({step:'write-authorized observed host approval signal',status:200});
-  const progressRead=await(await call('/api/sessions/'+session.id,{headers:readHeaders})).json();assert.equal(progressRead.progress.phase,'awaiting_host_approval');assert.equal(progressRead.progress.approvalKind,'network');assert.equal(progressRead.expiresAt,session.expiresAt);checks.push({step:'read actual stage without extending expiry',status:200});
-  const stale=await call('/api/collect/'+session.id+'/status',{method:'POST',headers:submitHeaders,body:JSON.stringify({sequence:1,phase:'analyzing',approvalKind:null})});assert.equal(stale.status,409);checks.push({step:'conflicting progress cannot overwrite stage',status:409});
-  const payload=JSON.stringify(makeFixture(session.nickname));
-  const first=await call(`/api/collect/${session.id}`,{method:'POST',headers:submitHeaders,body:payload});assert.equal(first.status,201);checks.push({step:'external local callback without browser Origin',status:201});
-  const retry=await call(`/api/collect/${session.id}`,{method:'POST',headers:submitHeaders,body:payload});assert.equal(retry.status,200);assert.equal((await retry.json()).duplicate,true);checks.push({step:'exact retry',status:200});
-  const result=await call(`/api/sessions/${session.id}`,{headers:readHeaders});const report=await result.json();assert.equal(report.status,'complete');assert.equal(report.progress.phase,'complete');assert.equal(report.progress.approvalKind,null);assert.deepEqual(report.card.assessment,{type:'INTJ',pattern:'INTJ',status:'complete'});assert.equal(report.report,null);assert.equal(report.reportAccess,'card_only');assert.doesNotMatch(JSON.stringify(report),/metrics|tasks|observations|observedPeriod/);assert.ok(!JSON.stringify(report).includes(session.writeToken));checks.push({step:'nickname-only access receives card without full report',status:200});
-  for(const path of ['/collector-protocol.md','/collector-schema.json','/art/mbti/claude/intj-chibi.png']){const asset=await call(path);assert.equal(asset.status,200);await asset.arrayBuffer();checks.push({step:`built static ${path}`,status:200});}
+ check('read capability alone needs native owner',401,(await call('/api/sessions/'+s.id,{headers:{Authorization:'Bearer '+s.readToken}})).status);
+ check('different owner cannot read',404,(await call('/api/sessions/'+s.id,{headers:{...readHeaders,'oai-authenticated-user-id':'different-fixture-owner'}})).status);
+ const pending=await(await call('/api/sessions/'+s.id,{headers:readHeaders})).json();assert.equal(pending.status,'pending');checks.push({step:'pending result without fabricated progress',status:200});
+ check('read authority cannot submit',404,(await call('/api/collect/'+s.id,{method:'POST',headers:{...writeHeaders,Authorization:'Bearer '+s.readToken},body:payload})).status);
+ check('unknown raw field rejected',422,(await call('/api/collect/'+s.id,{method:'POST',headers:writeHeaders,body:JSON.stringify({...JSON.parse(payload),raw:'forbidden fixture'})})).status);
+ check('bounded observed progress',200,(await call('/api/collect/'+s.id+'/status',{method:'POST',headers:writeHeaders,body:JSON.stringify({sequence:1,phase:'analyzing',approvalKind:null})})).status);
+ check('external local callback needs only scoped write authority',201,(await call('/api/collect/'+s.id,{method:'POST',headers:writeHeaders,body:payload})).status);
+ const retry=await call('/api/collect/'+s.id,{method:'POST',headers:writeHeaders,body:payload});check('exact idempotent retry',200,retry.status);assert.equal((await retry.json()).duplicate,true);
+ check('different retry key rejected',409,(await call('/api/collect/'+s.id,{method:'POST',headers:{...writeHeaders,'Idempotency-Key':crypto.randomUUID()},body:payload})).status);
+ const result=await(await call('/api/sessions/'+s.id,{headers:readHeaders})).json();assert.equal(result.report.assessment.type,'INTJ');assert.equal(result.card.usageLevel.value,4);assert.equal(result.card.brief.length,2);assert.equal(result.reportAccess,'email');assert.equal(result.delivery,'not_configured');assert.doesNotMatch(JSON.stringify(result),/http-smoke@example|readToken|writeToken/);checks.push({step:'full native-identity report independent of marketing; no email returned',status:200});
+ const remembered=await call('/api/remembered',{method:'POST',headers:{...identity,Origin:origin,'Content-Type':'application/json'},body:JSON.stringify({sessionId:s.id,readToken:s.readToken})});check('remember completed result',201,remembered.status);const set=remembered.headers.get('set-cookie');assert.match(set,/HttpOnly/);assert.match(set,/Path=\/api\/remembered/);cookie=set.split(';')[0];
+ const recall=await(await call('/api/remembered',{headers:{...identity,Cookie:cookie}})).json();assert.equal(recall.found,true);assert.equal(recall.card.usageLevel.value,4);checks.push({step:'same owner device recall',status:200});
+ const wrong=await(await call('/api/remembered',{headers:{...identity,'oai-authenticated-user-id':'another-fixture-owner',Cookie:cookie}})).json();assert.equal(wrong.found,false);checks.push({step:'copied cookie does not authorize another identity',status:200});
+ for(const path of ['/collector-protocol.md','/collector-schema.json','/collector-scope-schema.json','/art/mbti/codex/istj-chibi.png']){const asset=await call(path);check('built static '+path,200,asset.status);const bytes=Buffer.from(await asset.arrayBuffer());if(path.endsWith('.png')){const file=await readFile(new URL('../public'+path,import.meta.url));assert.equal(createHash('sha256').update(bytes).digest('hex'),createHash('sha256').update(file).digest('hex'));checks.push({step:'served ISTJ chibi SHA256 matches selected manifest bytes',sha256:createHash('sha256').update(bytes).digest('hex')});}}
 }finally{
-  const removed=await call(`/api/sessions/${session.id}`,{method:'DELETE',headers:{...readHeaders,Origin:origin}});assert.equal(removed.status,200);checks.push({step:'revoke dedicated fixture session',status:200});
+ check('delete fixture session and its saved copy',200,(await call('/api/sessions/'+s.id,{method:'DELETE',headers:{...readHeaders,Origin:origin}})).status);
+ if(cookie)check('clear remembered fixture cookie',200,(await call('/api/remembered',{method:'DELETE',headers:{...identity,Origin:origin,Cookie:cookie}})).status);
 }
-assert.equal((await call(`/api/sessions/${session.id}`,{headers:readHeaders})).status,404);checks.push({step:'revoked capability is invalid',status:404});
-const emailCreated=await call('/api/sessions',{method:'POST',headers:{Origin:origin,'Content-Type':'application/json'},body:JSON.stringify({protocolVersion:'2.0',nickname:'報告產物旅人',email:'fixture@example.test',emailResultOnlyConsent:true})});assert.equal(emailCreated.status,201);const emailSession=await emailCreated.json();checks.push({step:'create with result-only email consent',status:201});
-const emailRead={Authorization:`Bearer ${emailSession.readToken}`};
-try{
-  const submitted=await call(`/api/collect/${emailSession.id}`,{method:'POST',headers:{Authorization:`Bearer ${emailSession.writeToken}`,'Content-Type':'application/json','Idempotency-Key':crypto.randomUUID()},body:JSON.stringify(makeFixture(emailSession.nickname))});assert.equal(submitted.status,201);checks.push({step:'email session callback',status:201});
-  const full=await call(`/api/sessions/${emailSession.id}`,{headers:emailRead});const data=await full.json();assert.equal(data.reportAccess,'email');assert.equal(data.report.assessment.type,'INTJ');assert.equal(data.delivery,'not_configured');assert.doesNotMatch(JSON.stringify(data),/fixture@example/);checks.push({step:'full report available, mail explicitly not configured',status:200});
-}finally{const deleted=await call(`/api/sessions/${emailSession.id}`,{method:'DELETE',headers:{...emailRead,Origin:origin}});assert.equal(deleted.status,200);checks.push({step:'delete email fixture',status:200});}
-const result={runtime:'built Worker / local Wrangler + D1',origin,kind:'fixture',remoteWebhookVerified:false,checks};
-await writeFile(new URL('../evidence/locales/built-worker-smoke.json',import.meta.url),JSON.stringify(result,null,2)+'\n');
-console.log(`Built Worker smoke passed: ${checks.length} checks; no credentials logged; fixture session deleted.`);
+check('deleted read capability invalid',404,(await call('/api/sessions/'+s.id,{headers:readHeaders})).status);
+await writeFile(new URL('../evidence/final-card/built-worker-smoke.json',import.meta.url),JSON.stringify({runtime:'built Worker / local Wrangler + D1',kind:'fixture',identity:'explicit local dispatch-header simulation; not real ChatGPT sign-in',remoteWebhookVerified:false,checks},null,2)+'\n');
+console.log('Built Worker smoke passed: '+checks.length+' checks; no capabilities logged; dedicated fixtures cleared.');

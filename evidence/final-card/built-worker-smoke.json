@@ -1,0 +1,112 @@
+{
+  "runtime": "built Worker / local Wrangler + D1",
+  "kind": "fixture",
+  "identity": "explicit local dispatch-header simulation; not real ChatGPT sign-in",
+  "remoteWebhookVerified": false,
+  "checks": [
+    {
+      "step": "public SSR homepage",
+      "status": 200
+    },
+    {
+      "step": "anonymous cannot create",
+      "status": 401
+    },
+    {
+      "step": "anonymous cannot recall",
+      "status": 401
+    },
+    {
+      "step": "client email is not trusted input",
+      "status": 400
+    },
+    {
+      "step": "local dispatch identity fixture creates durable session",
+      "status": 201
+    },
+    {
+      "step": "read capability alone needs native owner",
+      "status": 401
+    },
+    {
+      "step": "different owner cannot read",
+      "status": 404
+    },
+    {
+      "step": "pending result without fabricated progress",
+      "status": 200
+    },
+    {
+      "step": "read authority cannot submit",
+      "status": 404
+    },
+    {
+      "step": "unknown raw field rejected",
+      "status": 422
+    },
+    {
+      "step": "bounded observed progress",
+      "status": 200
+    },
+    {
+      "step": "external local callback needs only scoped write authority",
+      "status": 201
+    },
+    {
+      "step": "exact idempotent retry",
+      "status": 200
+    },
+    {
+      "step": "different retry key rejected",
+      "status": 409
+    },
+    {
+      "step": "full native-identity report independent of marketing; no email returned",
+      "status": 200
+    },
+    {
+      "step": "remember completed result",
+      "status": 201
+    },
+    {
+      "step": "same owner device recall",
+      "status": 200
+    },
+    {
+      "step": "copied cookie does not authorize another identity",
+      "status": 200
+    },
+    {
+      "step": "built static /collector-protocol.md",
+      "status": 200
+    },
+    {
+      "step": "built static /collector-schema.json",
+      "status": 200
+    },
+    {
+      "step": "built static /collector-scope-schema.json",
+      "status": 200
+    },
+    {
+      "step": "built static /art/mbti/codex/istj-chibi.png",
+      "status": 200
+    },
+    {
+      "step": "served ISTJ chibi SHA256 matches selected manifest bytes",
+      "sha256": "99ded2f46ab6f9dbf87f69796310f9aac40f8fab823cfdcc0a7d9a212825f01d"
+    },
+    {
+      "step": "delete fixture session and its saved copy",
+      "status": 200
+    },
+    {
+      "step": "clear remembered fixture cookie",
+      "status": 200
+    },
+    {
+      "step": "deleted read capability invalid",
+      "status": 404
+    }
+  ]
+}

@@ -15,6 +15,7 @@ export function makeFixture(nickname = "示範搭檔"): Submission {
     coverage: { scope: "partial", sources: ["codex"], gaps: ["web_history_unavailable", "other_sources_missing", "no_tokscale"], sampledSessions: 9 },
     metrics: { humanSessions: 9, automatedSessions: 2, subagentSessions: 3, userMessages: 42, inputTokens: null, outputTokens: null, tokenSource: "unavailable", modelUsage: [{ family: "openai", count: 7 }, { family: "anthropic", count: 2 }], modelUsageUnit: "sessions", mostUsedModelFamily: "openai", mostUsedClient: "codex" },
     tasks,
+
     observations: tasks.flatMap((task, i) => behaviors.map((behavior, j) => ({ id: "O" + String(i * 4 + j + 1).padStart(3, "0"), task: task.id, behavior, ownerRequest: i === 1 ? "not_specified" : behavior, opportunity: "both_available" }))),
     assessment: { type: null, pattern: "????", status: "incomplete" },
   };
@@ -23,9 +24,11 @@ export function makeFixture(nickname = "示範搭檔"): Submission {
 }
 export function makePartialFixture(nickname = "顯影中的搭檔"): Submission {
   const data = makeFixture(nickname);
+  delete data.usageEvidence;
   data.observations = data.observations.filter((o) => o.behavior !== "consistent_criteria");
   data.coverage.gaps.push("insufficient_records");
   data.assessment = deriveAssessment(data);
   return data;
 }
-export const demoReport = toReport(makeFixture());
+export function makeLevelFixture(nickname="示範搭檔"):Submission { const data=makeFixture(nickname);data.usageEvidence={version:"usage-level-v1",observations:[{task:"T001",signal:"artifact_inspected",artifact:"A01"},{task:"T001",signal:"artifact_tested",artifact:"A01"},{task:"T002",signal:"artifact_reused",artifact:"A01"}]};return data;}
+export const demoReport = toReport(makeLevelFixture());

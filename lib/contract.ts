@@ -1,4 +1,5 @@
 import { z } from "zod";
+import {usageEvidenceSchema} from "./usage-level.ts";
 
 export const PROTOCOL_VERSION = "2.0" as const;
 export const progressSchema = z.object({
@@ -12,8 +13,8 @@ export const behaviorAxis = { collaborative_iteration: "EI", consolidated_delive
 export const nicknameSchema = z.string().trim().min(1).max(24).regex(/^[\p{L}\p{N}\p{M} _·-]+$/u);
 export const createSchema = z.object({
   protocolVersion: z.literal(PROTOCOL_VERSION), nickname: nicknameSchema,
-  email: z.string().trim().email().max(254).optional(), emailResultOnlyConsent: z.boolean().optional(),
-}).strict().refine((p) => !p.email || p.emailResultOnlyConsent === true, "Email requires result-only consent");
+  marketingOptIn: z.boolean().default(false),
+}).strict();
 export const assessmentSchema = z.object({ type: z.enum(typeCodes).nullable(), pattern: z.string().regex(/^[EI?][SN?][TF?][JP?]$/), status: z.enum(["complete", "incomplete"]) }).strict();
 const count = z.number().int().min(0).max(Number.MAX_SAFE_INTEGER).nullable();
 export const client = z.enum(["codex", "claude-code", "antigravity", "cursor", "chatgpt", "other", "unknown"]);
@@ -39,6 +40,7 @@ export const submissionSchema = z.object({
     opportunity: z.enum(["both_available", "constrained", "unclear"]),
   }).strict()).max(48),
   assessment: assessmentSchema,
+  usageEvidence: usageEvidenceSchema.optional(),
 }).strict().superRefine((data, ctx) => {
   const issue = (message: string) => ctx.addIssue({ code: z.ZodIssueCode.custom, message });
   if (data.observedPeriod.from > data.observedPeriod.to) issue("Period is reversed");
@@ -48,6 +50,11 @@ export const submissionSchema = z.object({
   for (const o of data.observations) {
     if (!ids.has(o.task)) issue("Invalid task reference");
     if (o.ownerRequest !== "not_specified" && o.ownerRequest !== "unknown" && behaviorAxis[o.ownerRequest] !== behaviorAxis[o.behavior]) issue("Owner request must describe the same axis as the observed behavior");
+  }
+  for (const o of data.usageEvidence?.observations ?? []) {
+    if (!ids.has(o.task)) issue("Invalid usage task reference");
+    if (o.signal.startsWith("artifact_") && !o.artifact) issue("Artifact evidence requires an abstract artifact ID");
+    if (["workflow_operated", "roles_defined", "exceptions_handled", "maintenance_verified", "feedback_integrated"].includes(o.signal) && !o.workflow) issue("Workflow evidence requires an abstract workflow ID");
   }
   if (data.tasks.some((t) => !data.coverage.sources.includes(t.source))) issue("Task source is outside observed coverage");
   if (data.tasks.some((t) => t.date < data.observedPeriod.from || t.date > data.observedPeriod.to)) issue("Task date is outside observed period");

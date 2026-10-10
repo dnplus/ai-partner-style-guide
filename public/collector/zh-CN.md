@@ -19,6 +19,8 @@ Tokscale：优先复用来源可信的现有版本。只有 includeTokscale=true
 
 5. E/I：互动共创／整理后交付；S/N：具体事实／模式可能性起步；T/F：一致准则／受影响者情境取舍；J/P：先定路线／可逆实验。按完整协议保守计算，不从礼貌、用量、客户端或失败推断分型。未知 tokens 保留 null，模型依据实际记录，不从客户端反推。nickname 必须符合本会话，真实记录 kind:observed，测试数据 fixture。
 
+另评估使用等级 usage-level-v1，与 MBTI、token、客户端和模型独立。usageEvidence 仅有 version 与最多64条 observations，每条仅 task、signal，以及必要的 artifact A01–A12、workflow W01–W08。禁止真实名称、内容、路径。仅记录已授权记录或成果检查中可见的事实；没有核查记录不代表 unchecked_adoption，不另读未授权成果。LV0 需要看到该核查却直接采用；LV1 看到识别错误后重试；LV2 至少2个独立任务 useful_result_verified；LV3 同任务 context_scoped、acceptance_defined、targeted_correction_verified。LV4 同一个 artifact_inspected、artifact_tested 与不同任务 artifact_reused，检查<=测试<=复用日期。LV5 另需至少2条不重叠的独立 workflow，每条至少3个 workflow_operated 任务、跨至少14天，均具备 roles_defined、acceptance_defined、exceptions_handled、maintenance_verified、feedback_integrated，维护发生在首次运行之后。确认的是下限，不是能力上限；缺失留空，由网站重算，不硬填 LV5。S/N 指理解新问题的起点；测试、核查、精确或 debugging 本身不自动代表 S。
+
 tasks 最多24个独立目标（T001–T024），observations 最多48条（O001–O048），标识唯一且正确引用 task。每个任务只有 id、date、source、context。日期须真实、位于 observedPeriod 且不是未来；来源须属于 coverage.sources。情境为 research/build/writing/planning/support/other。不推断隐藏思考。
 
 ownerRequest 使用同轴行为枚举，未指定方向为 not_specified，无法确认要求为 unknown。opportunity 为 both_available、constrained 或 unclear。只有 both_available、任务来源已知且实际行为不违背已知用户要求的观察计分。必要授权、平台流程、工具故障和阻塞性澄清属于受限。重复同任务同方向行为不增加权重。
@@ -38,9 +40,9 @@ humanSessions、automatedSessions、subagentSessions 分开。不可得的 input
 2. 这是更换接收链接。先复用当前内存或已知本地检查点中已授权的最小摘要和原范围，不重新扫描。只用一段话取得新目的地的明确同意，不能沿用旧提交授权。例如：“我会把刚才已授权的最小摘要发送到这个网站的新接收链接，不重新扫描。是否同意？”隐藏端点、ID 和令牌。若摘要不存在，直接使用上方已填范围及以下一次确认，不再问来源／日期／Tokscale 选项：
 {confirmation}
 
-9. 终端只简短报告实际进度；成功后说「摘要已送达，请回网站查看卡片／报告」。不要先输出分型、完整 JSON 或完整报告。除非我明确要求，详细内容留给网站揭晓。填 Email 并同意用途才能获取完整报告，不填只有卡片；本地尚未发邮件，不能声称已发送。
+9. 终端仅报告实际进度；成功后说「摘要已送达，请回网站查看卡片／报告」。不预先输出分型、完整 JSON 或报告。网站通过 ChatGPT 登录取得结果用途 Email，Agent 不接收或上传 Email。完整报告不以营销同意为条件；尚无邮件服务，不得宣称已发送。
 
-目前只有同一台电脑可连接 127.0.0.1。远程私人 Sites 网关尚未验证；不可索取整站 bypass key、偷偷公开或更改权限。确实遇到主机／网络批准就停在原生批准流程，批准后在同一授权范围内继续。通用访问失败只说明无法连接，不猜原因。
+网站首页公开；仅本人登录后可读取结果。此短效写入令牌仅能向本次会话报告状态并提交一次摘要，不能读取或列出结果。没有整站令牌，不绕过401/403或更改权限。
 
 HTTP 回应：201 已收；200 仅同一 key 与相同 JSON 的幂等重试；409 冲突；410 到期或规则已更新；422 摘要无效。读写能力分离。填写 Email 并同意结果用途才有完整报告，只有卡片的回应不含完整报告。没有公开分享网址，导出卡不含 Email。本地不会发邮件。
 

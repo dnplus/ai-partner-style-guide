@@ -1,0 +1,21 @@
+
+> ai-persona-card@0.1.0 test:browser
+> playwright test
+
+
+Running 10 tests using 1 worker
+
+(node:73763) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+  ✓   1 tests/browser/art-gallery.spec.ts:7:1 › 192-slot gallery loads exact art or honest pending states, inspector and mobile framing (12.0s)
+  ✓   2 tests/browser/art-gallery.spec.ts:49:1 › every type reaches its own art through real callback; theme and style never change assessment (1.3m)
+  ✓   3 tests/browser/journey.spec.ts:18:1 › single-focus desktop: email report, back preservation, real callback, collection and private PNG (7.4s)
+  ✓   4 tests/browser/journey.spec.ts:49:1 › no email is card-only across server, reveal, collection and restored tab (4.2s)
+  ✓   5 tests/browser/journey.spec.ts:57:1 › mobile 390×844: one screen, touch drag, style controls, no overflow (3.9s)
+  ✓   6 tests/browser/journey.spec.ts:65:1 › connection retry, pending restore without write authority, cancellation and expiry recovery (3.4s)
+  ✓   7 tests/browser/journey.spec.ts:73:1 › reduced motion remains keyboard operable; unknown evidence stays unknown (3.8s)
+  ✓   8 tests/browser/journey.spec.ts:79:1 › six themes and two styles retain one assessment and select this type-specific artwork (7.0s)
+  ✓   9 tests/browser/journey.spec.ts:85:1 › old browser result is ignored and every catalog entry uses a standard code (415ms)
+  ✓  10 tests/browser/journey.spec.ts:93:1 › observable progress, actual host approval, stale uncertainty and automatic website reveal (2.9s)
+
+  10 passed (2.1m)

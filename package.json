@@ -15,7 +15,8 @@
     "test": "node --test tests/*.test.ts",
     "typecheck": "tsc --noEmit",
     "test:browser": "playwright test",
-    "schema": "node scripts/export-schema.mjs"
+    "schema": "node scripts/export-schema.mjs",
+    "verify:art": "node scripts/verify-art.mjs"
   },
   "dependencies": {
     "@base-ui/react": "^1.7.0",

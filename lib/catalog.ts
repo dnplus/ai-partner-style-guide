@@ -31,7 +31,7 @@ export type Family = typeof families[number]["id"];
 export type ArtStyle = "regular" | "chibi";
 export const modelLabels: Record<string, string> = { openai: "OpenAI / GPT", anthropic: "Anthropic / Claude", google: "Google / Gemini", xai: "xAI / Grok", deepseek: "DeepSeek", zai: "Z.ai / GLM", other: "其他模型", unknown: "尚未確認" };
 export const clientLabels: Record<string, string> = { codex: "Codex", "claude-code": "Claude Code", antigravity: "Antigravity", cursor: "Cursor", chatgpt: "ChatGPT", other: "其他工具", unknown: "尚未確認" };
-export function artFor(family: Family, style: ArtStyle) { return `/art/${family}-portrait-${style}.png`; }
+export {artFor,artSlot,artCounts} from "./art-catalog.ts";
 export function artTitle(family: Family) {
   return family === "codex" ? "GPT 娘的 Codex 主題同人改編" : `${families.find(f => f.id === family)!.label} 角色同人改編`;
 }

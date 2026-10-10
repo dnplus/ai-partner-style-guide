@@ -1,0 +1,5 @@
+
+> ai-persona-card@0.1.0 verify:art
+> node scripts/verify-art.mjs
+
+{"expected":192,"verified":157,"uniqueHashes":157,"uniquePixels":157,"complete":false,"pending":35,"errors":[{"error":"Incomplete artwork matrix","pending":35}]}

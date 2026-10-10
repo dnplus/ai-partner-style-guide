@@ -40,7 +40,7 @@
     "tests/**",
     "THIRD_PARTY_NOTICES.md"
   ],
-  "current_checkpoint": "COMPLETE",
+  "current_checkpoint": "C6",
   "checkpoints": [
     {
       "id": "C1",
@@ -578,11 +578,55 @@
           "tests/session.test.ts"
         ]
       }
+    },
+    {
+      "id": "C5",
+      "title": "Distinct artwork for every family, MBTI type and style",
+      "status": "verified",
+      "evidence": [
+        {
+          "type": "api",
+          "path": "evidence/art-192/verification.json",
+          "result": "192/192 complete;192 unique SHA256 and192 unique decoded pixel hashes"
+        },
+        {
+          "type": "browser",
+          "path": "evidence/art-192/browser-results.json",
+          "result": "10/10 final built Worker browser journeys;192 actual result art paths"
+        },
+        {
+          "type": "api",
+          "path": "evidence/art-192/unit-results.txt",
+          "result": "51/51"
+        },
+        {
+          "type": "api",
+          "path": "evidence/art-192/built-worker-smoke.json",
+          "result": "20/20 loopback HTTP checks"
+        },
+        {
+          "type": "build",
+          "path": "evidence/art-192/build-results.txt",
+          "result": "Official Sites build succeeded"
+        },
+        {
+          "type": "delivery",
+          "path": "docs/DELIVERY-ART-192.md",
+          "result": "All12 gallery views inspected; representative PNGs, sources, failure repairs and local-only boundaries documented"
+        }
+      ]
+    },
+    {
+      "id": "C6",
+      "title": "Complete five-locale guided flow, collector and exported cards",
+      "status": "active",
+      "evidence": [],
+      "next_action": "Implement five-locale strings, collector prompts, status/error recovery and localized PNG; verify browser defaults, manual persistence and mobile fonts."
     }
   ],
-  "last_observation": "C4 sealed at 598d96f after final built-runtime verification. Next authorized task is the definitive 192 unique artwork matrix; 157 local verified assets are ready and 35 are still incoming.",
-  "current_blocker": "External email delivery, private Sites callback and real-user evidence remain unverified. Library upload is unavailable to this local workflow; local deliverables are preserved.",
+  "last_observation": "C5 complete: all192 exact artwork slots with distinct SHA and decoded pixels,51 unit tests,10 built-browser journeys and20 built HTTP checks passed. All12 gallery views visually inspected; representative full PNGs inspected. C6 five-locale flow is next.",
+  "current_blocker": "Five-locale C6 is pending. No remote private Sites callback, email delivery or real personal-data validation; no deployment authorized.",
   "correlation_groups": [],
-  "state_revision": 12,
-  "state_digest": "3fbb55a96bb1183fa53821c0f6c315fd4bc558a76a546b371ac903333b584ea7"
+  "state_revision": 15,
+  "state_digest": "c3717a0b5bed00a676971e22ba63347bc875ff20ff2fd9fd5eee36243144e282"
 }

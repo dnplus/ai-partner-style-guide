@@ -1,0 +1,352 @@
+[
+  {
+    "slot": "gpt:ENFJ:regular",
+    "library_file_id": "libfile_3df668e521188191ba98d4efc8088a0f",
+    "family": "gpt",
+    "type": "ENFJ",
+    "style": "regular",
+    "path": "/Users/dnplus/Documents/Codex/2026-10-10/task-2/art-incoming/new-assets/gpt/agent-mbti-gpt-enfj-regular.png",
+    "sha256": "b4baad85632190eefbe6691ad792ce7b5ec4a5306c3443d4b0dd416033af237d",
+    "ok": true
+  },
+  {
+    "slot": "gpt:ENFJ:chibi",
+    "library_file_id": "libfile_3aae5e052e048191823ee60a02bf4429",
+    "family": "gpt",
+    "type": "ENFJ",
+    "style": "chibi",
+    "path": "/Users/dnplus/Documents/Codex/2026-10-10/task-2/art-incoming/new-assets/gpt/agent-mbti-gpt-enfj-chibi.png",
+    "sha256": "929b9b0230905e1b24b35dae2311dea900abb0c9fe11d8ce52651e0f1d6892b0",
+    "ok": true
+  },
+  {
+    "slot": "gpt:ESFP:regular",
+    "library_file_id": "libfile_d4101ecfc18c81918df6d8f86c756ff3",
+    "family": "gpt",
+    "type": "ESFP",
+    "style": "regular",
+    "path": "/Users/dnplus/Documents/Codex/2026-10-10/task-2/art-incoming/new-assets/gpt/agent-mbti-gpt-esfp-regular-v2.png",
+    "sha256": "8c57208745e3df5f2a3dd44dd80565430f0acd5cbd8b541afbd37186b76c61d4",
+    "ok": true
+  },
+  {
+    "slot": "gpt:ESFP:chibi",
+    "library_file_id": "libfile_39ad40f6979481918c2fd403c5d192b8",
+    "family": "gpt",
+    "type": "ESFP",
+    "style": "chibi",
+    "path": "/Users/dnplus/Documents/Codex/2026-10-10/task-2/art-incoming/new-assets/gpt/agent-mbti-gpt-esfp-chibi.png",
+    "sha256": "b11e2c11f3b691467725582d231d73c8376983fee58ad8953ac4e641f595920b",
+    "ok": true
+  },
+  {
+    "slot": "claude:ENFJ:regular",
+    "library_file_id": "libfile_076eef254b788191bffe64370fe565ce",
+    "family": "claude",
+    "type": "ENFJ",
+    "style": "regular",
+    "path": "/Users/dnplus/Documents/Codex/2026-10-10/task-2/art-incoming/new-assets/claude/agent-mbti-claude-enfj-regular.png",
+    "sha256": "babc95e61e962c171f1af69b8020cc66cba421d97a7b9b38065d06d1999b7126",
+    "ok": true
+  },
+  {
+    "slot": "claude:ENFJ:chibi",
+    "library_file_id": "libfile_5b8337e6b338819193d92f324a975b77",
+    "family": "claude",
+    "type": "ENFJ",
+    "style": "chibi",
+    "path": "/Users/dnplus/Documents/Codex/2026-10-10/task-2/art-incoming/new-assets/claude/agent-mbti-claude-enfj-chibi.png",
+    "sha256": "3505c70f5216f64f6cb033ebaab14053db20d230de01e11b63fcd824c29d2419",
+    "ok": true
+  },
+  {
+    "slot": "claude:ESFP:regular",
+    "library_file_id": "libfile_383c7331fda48191af371eb7f9d3a2b5",
+    "family": "claude",
+    "type": "ESFP",
+    "style": "regular",
+    "path": "/Users/dnplus/Documents/Codex/2026-10-10/task-2/art-incoming/new-assets/claude/agent-mbti-claude-esfp-regular.png",
+    "sha256": "2f34bda9efa4c7070e90942899347c138e968e02fe8403ed1b3523563fca5262",
+    "ok": true
+  },
+  {
+    "slot": "claude:ESFP:chibi",
+    "library_file_id": "libfile_025527dd162c819181858dee2f829b76",
+    "family": "claude",
+    "type": "ESFP",
+    "style": "chibi",
+    "path": "/Users/dnplus/Documents/Codex/2026-10-10/task-2/art-incoming/new-assets/claude/agent-mbti-claude-esfp-chibi.png",
+    "sha256": "0658138b59c38785c36c6cfca180fba984d480fdf8055902a213373f660f16c2",
+    "ok": true
+  },
+  {
+    "slot": "gemini:INFP:regular",
+    "library_file_id": "libfile_13d9063f40088191a7d59d876675e47f",
+    "family": "gemini",
+    "type": "INFP",
+    "style": "regular",
+    "path": "/Users/dnplus/Documents/Codex/2026-10-10/task-2/art-incoming/new-assets/gemini/agent-mbti-gemini-infp-regular.png",
+    "sha256": "23417a14e7a3a804d9f6ed9456a4e3228afe27439f3cd43f670bd0e234041db9",
+    "ok": true
+  },
+  {
+    "slot": "gemini:INFP:chibi",
+    "library_file_id": "libfile_1ef80e56b61881919b2e4fe98d6bee90",
+    "family": "gemini",
+    "type": "INFP",
+    "style": "chibi",
+    "path": "/Users/dnplus/Documents/Codex/2026-10-10/task-2/art-incoming/new-assets/gemini/agent-mbti-gemini-infp-chibi.png",
+    "sha256": "5fc43e3f02b6e0aee0d2415479591e9b56658437901076d4d318e0f35cfb6107",
+    "ok": true
+  },
+  {
+    "slot": "gemini:ENFJ:regular",
+    "library_file_id": "libfile_c06d5485835881918673a46a9fd8d657",
+    "family": "gemini",
+    "type": "ENFJ",
+    "style": "regular",
+    "path": "/Users/dnplus/Documents/Codex/2026-10-10/task-2/art-incoming/new-assets/gemini/agent-mbti-gemini-enfj-regular.png",
+    "sha256": "bec360af643616631a8d7ae306b0c43274c235427031269d4584118253ba74dc",
+    "ok": true
+  },
+  {
+    "slot": "gemini:ENFJ:chibi",
+    "library_file_id": "libfile_96682a0a5bd0819185553c2bc1b357bb",
+    "family": "gemini",
+    "type": "ENFJ",
+    "style": "chibi",
+    "path": "/Users/dnplus/Documents/Codex/2026-10-10/task-2/art-incoming/new-assets/gemini/agent-mbti-gemini-enfj-chibi.png",
+    "sha256": "1f321a59d8f555559ee38e369a40b4e517e32f82ca2e3fba961b2c37a7264132",
+    "ok": true
+  },
+  {
+    "slot": "gemini:ESFP:regular",
+    "library_file_id": "libfile_f5b98493faf081919de903253b4acde3",
+    "family": "gemini",
+    "type": "ESFP",
+    "style": "regular",
+    "path": "/Users/dnplus/Documents/Codex/2026-10-10/task-2/art-incoming/new-assets/gemini/agent-mbti-gemini-esfp-regular.png",
+    "sha256": "c358f1e31ee8b3939da66963d65c758390e2d7db7bec26963f17e9c918337503",
+    "ok": true
+  },
+  {
+    "slot": "gemini:ESFP:chibi",
+    "library_file_id": "libfile_8e8599418690819194d601f54fa3261c",
+    "family": "gemini",
+    "type": "ESFP",
+    "style": "chibi",
+    "path": "/Users/dnplus/Documents/Codex/2026-10-10/task-2/art-incoming/new-assets/gemini/agent-mbti-gemini-esfp-chibi.png",
+    "sha256": "9075ae5dcc66a20234db2abde389fa6e1b8ca7d631818489b34ce087ffaf97f7",
+    "ok": true
+  },
+  {
+    "slot": "deepseek:INFP:regular",
+    "library_file_id": "libfile_9eaa76ec7ba08191b2f33e4478f42a0d",
+    "family": "deepseek",
+    "type": "INFP",
+    "style": "regular",
+    "path": "/Users/dnplus/Documents/Codex/2026-10-10/task-2/art-incoming/new-assets/deepseek/agent-mbti-deepseek-infp-regular.png",
+    "sha256": "98bf49878f2b4cac111c282a95bfc741c3c6579be1d09a1fbce56bf95709dda6",
+    "ok": true
+  },
+  {
+    "slot": "deepseek:INFP:chibi",
+    "library_file_id": "libfile_fa7189729acc81918fccb3db29864b9d",
+    "family": "deepseek",
+    "type": "INFP",
+    "style": "chibi",
+    "path": "/Users/dnplus/Documents/Codex/2026-10-10/task-2/art-incoming/new-assets/deepseek/agent-mbti-deepseek-infp-chibi.png",
+    "sha256": "0f4970ba9a3b4be30ee53f6d8efccbed084b492b78a00875552109ca77d0d59d",
+    "ok": true
+  },
+  {
+    "slot": "deepseek:ENFJ:regular",
+    "library_file_id": "libfile_a9ea7b1f7f3081919232f2b2a7772062",
+    "family": "deepseek",
+    "type": "ENFJ",
+    "style": "regular",
+    "path": "/Users/dnplus/Documents/Codex/2026-10-10/task-2/art-incoming/new-assets/deepseek/agent-mbti-deepseek-enfj-regular.png",
+    "sha256": "b79230d13a70ec4b2ad209be862a3ffad883a66d53da8772d85d66de78143ef7",
+    "ok": true
+  },
+  {
+    "slot": "deepseek:ENFJ:chibi",
+    "library_file_id": "libfile_e4e4bcef4c3081918e14f6f09d0e619d",
+    "family": "deepseek",
+    "type": "ENFJ",
+    "style": "chibi",
+    "path": "/Users/dnplus/Documents/Codex/2026-10-10/task-2/art-incoming/new-assets/deepseek/agent-mbti-deepseek-enfj-chibi.png",
+    "sha256": "cbcfd766500447cbab2faab658b4ed2e53847c85f6809161d42551dcd5e7beae",
+    "ok": true
+  },
+  {
+    "slot": "deepseek:ESFP:regular",
+    "library_file_id": "libfile_211139149a788191b1d416b9c7d60a07",
+    "family": "deepseek",
+    "type": "ESFP",
+    "style": "regular",
+    "path": "/Users/dnplus/Documents/Codex/2026-10-10/task-2/art-incoming/new-assets/deepseek/agent-mbti-deepseek-esfp-regular.png",
+    "sha256": "2ae02c0aabeb0b28620a5b4fef48d2128792653a2d12e03129f8132c4293e3af",
+    "ok": true
+  },
+  {
+    "slot": "deepseek:ESFP:chibi",
+    "library_file_id": "libfile_fba1191b1f8c8191b9a2ecae192d6a54",
+    "family": "deepseek",
+    "type": "ESFP",
+    "style": "chibi",
+    "path": "/Users/dnplus/Documents/Codex/2026-10-10/task-2/art-incoming/new-assets/deepseek/agent-mbti-deepseek-esfp-chibi.png",
+    "sha256": "f062106a87d2c9ba06469a2566fc1a4303103f8b827f758e172cf9cc670cfa3d",
+    "ok": true
+  },
+  {
+    "slot": "glm:INFP:regular",
+    "library_file_id": "libfile_5f9116b3a2388191adbfd155bff9e3ab",
+    "family": "glm",
+    "type": "INFP",
+    "style": "regular",
+    "path": "/Users/dnplus/Documents/Codex/2026-10-10/task-2/art-incoming/new-assets/glm/agent-mbti-glm-infp-regular.png",
+    "sha256": "fa599f4c1c40db9053be9a639d7ec8892322734d7b0d75803a50af17060f80dc",
+    "ok": true
+  },
+  {
+    "slot": "glm:INFP:chibi",
+    "library_file_id": "libfile_2119f5d86e6c8191bf1bc43bc4507f17",
+    "family": "glm",
+    "type": "INFP",
+    "style": "chibi",
+    "path": "/Users/dnplus/Documents/Codex/2026-10-10/task-2/art-incoming/new-assets/glm/agent-mbti-glm-infp-chibi.png",
+    "sha256": "e812c46a690721e12ef2bda0074876cd853a4f78d0a537b299a96639ac0babb6",
+    "ok": true
+  },
+  {
+    "slot": "glm:ENFJ:regular",
+    "library_file_id": "libfile_de5a8f6d0e10819193ad92d17e880bdf",
+    "family": "glm",
+    "type": "ENFJ",
+    "style": "regular",
+    "path": "/Users/dnplus/Documents/Codex/2026-10-10/task-2/art-incoming/new-assets/glm/agent-mbti-glm-enfj-regular.png",
+    "sha256": "03d8177267ca6a5732dccf200ddf7d019c867408604728b8ed128dff6b9696d9",
+    "ok": true
+  },
+  {
+    "slot": "glm:ENFJ:chibi",
+    "library_file_id": "libfile_31cd292cd7088191b338940193c16d71",
+    "family": "glm",
+    "type": "ENFJ",
+    "style": "chibi",
+    "path": "/Users/dnplus/Documents/Codex/2026-10-10/task-2/art-incoming/new-assets/glm/agent-mbti-glm-enfj-chibi.png",
+    "sha256": "b156d7178126324cb06e7d9627bf74c1f4371ef491274ccbcd771c50731abaa4",
+    "ok": true
+  },
+  {
+    "slot": "glm:ENTJ:chibi",
+    "library_file_id": "libfile_6c21477a7ab08191a158fce38ad47cce",
+    "family": "glm",
+    "type": "ENTJ",
+    "style": "chibi",
+    "path": "/Users/dnplus/Documents/Codex/2026-10-10/task-2/art-incoming/new-assets/glm/agent-mbti-glm-entj-chibi-v3.png",
+    "sha256": "0006d63894dd86bf3b1ac6eee875d61da2f9843c58ece7073935c3fcb47c5c36",
+    "ok": true
+  },
+  {
+    "slot": "glm:ESFP:regular",
+    "library_file_id": "libfile_855a0e634b4c819190f2f0d3d0281c8a",
+    "family": "glm",
+    "type": "ESFP",
+    "style": "regular",
+    "path": "/Users/dnplus/Documents/Codex/2026-10-10/task-2/art-incoming/new-assets/glm/agent-mbti-glm-esfp-regular-v2.png",
+    "sha256": "7c6575f816d7b87f466ead8feafe8d84cfce2cf61fa0cdf39406f8d43e0ecb9c",
+    "ok": true
+  },
+  {
+    "slot": "glm:ESFP:chibi",
+    "library_file_id": "libfile_79f306cf04008191823b6a8b775d1920",
+    "family": "glm",
+    "type": "ESFP",
+    "style": "chibi",
+    "path": "/Users/dnplus/Documents/Codex/2026-10-10/task-2/art-incoming/new-assets/glm/agent-mbti-glm-esfp-chibi.png",
+    "sha256": "c72edeb3296606c22e3097d968923ee699cb5e956cc851774f492f48a8f78497",
+    "ok": true
+  },
+  {
+    "slot": "grok:INFP:regular",
+    "library_file_id": "libfile_0944623f0a888191b226a27346c0682b",
+    "family": "grok",
+    "type": "INFP",
+    "style": "regular",
+    "path": "/Users/dnplus/Documents/Codex/2026-10-10/task-2/art-incoming/new-assets/grok/agent-mbti-grok-infp-regular.png",
+    "sha256": "fbbebc5665f09fc309a6901e6d379e561dc5d10a4f91bc3b74f657c862d3a1e0",
+    "ok": true
+  },
+  {
+    "slot": "grok:INFP:chibi",
+    "library_file_id": "libfile_d5245c9fef3c8191b8400d48fe5ca886",
+    "family": "grok",
+    "type": "INFP",
+    "style": "chibi",
+    "path": "/Users/dnplus/Documents/Codex/2026-10-10/task-2/art-incoming/new-assets/grok/agent-mbti-grok-infp-chibi.png",
+    "sha256": "648c3a9cfb084e91c60a756c647ed28e1db81b1a72b815d716efe34bd35d647d",
+    "ok": true
+  },
+  {
+    "slot": "grok:ENFJ:regular",
+    "library_file_id": "libfile_f860691872a88191bc1becb0f3c779ca",
+    "family": "grok",
+    "type": "ENFJ",
+    "style": "regular",
+    "path": "/Users/dnplus/Documents/Codex/2026-10-10/task-2/art-incoming/new-assets/grok/agent-mbti-grok-enfj-regular.png",
+    "sha256": "9722c7240895ff4e2b9f5ed0f56e319ad321645dd28bebe8c4de5e3e3a03e5a7",
+    "ok": true
+  },
+  {
+    "slot": "grok:ENFJ:chibi",
+    "library_file_id": "libfile_ef5a6d2905d8819194e2d19fc8ff5188",
+    "family": "grok",
+    "type": "ENFJ",
+    "style": "chibi",
+    "path": "/Users/dnplus/Documents/Codex/2026-10-10/task-2/art-incoming/new-assets/grok/agent-mbti-grok-enfj-chibi.png",
+    "sha256": "c2ea909a1299dc89412112cc8b7028e421649ff4bfafadbcc4430e258a94d13c",
+    "ok": true
+  },
+  {
+    "slot": "grok:ENTJ:regular",
+    "library_file_id": "libfile_13791722d17881919cdcf98ada831f23",
+    "family": "grok",
+    "type": "ENTJ",
+    "style": "regular",
+    "path": "/Users/dnplus/Documents/Codex/2026-10-10/task-2/art-incoming/new-assets/grok/agent-mbti-grok-entj-regular.png",
+    "sha256": "e391a92410ddfc9780f2ff169411165aba15501d5841866cd742bb0dfe70e048",
+    "ok": true
+  },
+  {
+    "slot": "grok:ENTJ:chibi",
+    "library_file_id": "libfile_63047c2a7aa08191a9eda7b5f61b6a90",
+    "family": "grok",
+    "type": "ENTJ",
+    "style": "chibi",
+    "path": "/Users/dnplus/Documents/Codex/2026-10-10/task-2/art-incoming/new-assets/grok/agent-mbti-grok-entj-chibi.png",
+    "sha256": "1030ebef7c9a3534dc5833fa7bf47af1fa33a696d2953ae5a21fa00edae317e0",
+    "ok": true
+  },
+  {
+    "slot": "grok:ESFP:regular",
+    "library_file_id": "libfile_01ca0e98f4d48191b2ed2f1866cf7b9d",
+    "family": "grok",
+    "type": "ESFP",
+    "style": "regular",
+    "path": "/Users/dnplus/Documents/Codex/2026-10-10/task-2/art-incoming/new-assets/grok/agent-mbti-grok-esfp-regular.png",
+    "sha256": "0d73af61e9d0dd4d9932da48d32bc831bf16eb97535cb03edc79bb33a79f29c5",
+    "ok": true
+  },
+  {
+    "slot": "grok:ESFP:chibi",
+    "library_file_id": "libfile_97a0418437888191a35caddee367a42b",
+    "family": "grok",
+    "type": "ESFP",
+    "style": "chibi",
+    "path": "/Users/dnplus/Documents/Codex/2026-10-10/task-2/art-incoming/new-assets/grok/agent-mbti-grok-esfp-chibi.png",
+    "sha256": "7e7147c257f9ad4da7e7d2e5fc47cce047adb391925e4d5dd4f53a296be9ab60",
+    "ok": true
+  }
+]

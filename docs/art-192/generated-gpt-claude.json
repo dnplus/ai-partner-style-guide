@@ -1,0 +1,549 @@
+[
+  {
+    "slot_id": "gpt:ENFJ:regular",
+    "family": "gpt",
+    "mbti_type": "ENFJ",
+    "style": "regular",
+    "target_filename": "agent-mbti-gpt-enfj-regular.png",
+    "output_directory": "/workspace/shared/agent-mbti-new-art",
+    "referenced_image_paths": [
+      "/workspace/shared/fanart-references/ChatGPT-Girl.png"
+    ],
+    "transparent_background": true,
+    "prompt": "Use case: identity-preserving stylized-concept fanart. Create ONE finished premium anime character foreground illustration for a noncommercial collectible-card project, not a full card. 1024x1536 portrait PNG with genuinely transparent RGBA background. Use the supplied reference only for character identity, costume and rendering quality, not for pose. The SAME GPT dragon girl: very long silver-white hair, lavender eyes, two ivory dragon horns, pointed ears, silver knot hair ornament, white high-collar flowing dress with silver geometric trims, lavender dragon wings and long pearly scaled dragon tail. Keep both horns, both wings and one tail. Normal adult anime proportions and detailed fine linework; mature face as reference, full-body costume and anatomy. NEW distinct composition: seated SIDEWAYS on a very small isolated ornamental stool, both legs and both feet visible, torso turning toward the viewer. One open palm invites the viewer to add a contribution, while the other hand gently braids TWO thin ribbons arriving from opposite directions into ONE airy arch, with three little hanging lanterns. Her expression is attentive and quietly encouraging, eyebrows gently lifted, never a commander pose. The ribbon arch is the ONE main prop, sweeping from lower left to upper right above her knees. Leave generous open space around the face. This scene is cooperative weaving, not a machine, blueprint, book, card handoff, lens examination or orbiting system panels. Family-specific props: two silver-lilac starlight ribbons braided into a short arch carrying three small crystal lanterns. Preserve original family palette and every identifying ear/horn/wing/tail feature. Exactly two arms, two hands, two human legs; hands have plausible contact with props. Full character, shoes, hair, ears, horns, wings, tail, stool/cushion if requested and every prop all fit inside 6-8% transparent margin on all four sides. Solid opaque core body, clean fine alpha edge and small prop-attached light only. No scene background, floor, broad haze, matte, checkerboard, card frame, badge, title, letters, words, numbers, watermark or logo. Do not render MBTI or other type names. Expression, hand gesture, body posture, main prop and overall silhouette must clearly differ from the other cards; not just recoloring an existing standing pose. Nonofficial fanart, retain source character design and derivative credit obligations.",
+    "family_pairing_instruction": "Inspect matching style identity reference before generating. When its regular/chibi counterpart is already complete, use it as an additional pose/prop consistency reference without copying proportions. Do not modify or rename archive sources.",
+    "license": "CC BY-NC-SA 4.0 in licensable derivative scope; nonofficial/noncommercial; full upstream rights unverified",
+    "credit_note": "/workspace/shared/agent-mbti-art-curation/credits/new-display-credits.md",
+    "path": "/workspace/shared/agent-mbti-final-art-generated/gpt-claude/agent-mbti-gpt-enfj-regular.png",
+    "library_file_id": "libfile_3df668e521188191ba98d4efc8088a0f",
+    "upload": {
+      "operation": "create_library_file",
+      "status": "succeeded",
+      "path": "/agent-mbti-gpt-enfj-regular.png",
+      "file_id": "file_00000000a65082069317c6396c24add6",
+      "library_file_id": "libfile_3df668e521188191ba98d4efc8088a0f",
+      "file_name": "agent-mbti-gpt-enfj-regular.png",
+      "current_version_number": 0,
+      "restored_from_version_number": null,
+      "xattrs": [
+        {
+          "name": "user.library-file-version",
+          "value": "0"
+        }
+      ],
+      "directory_id": "libdir_e4764d9da05c81919607ff5393c14e30",
+      "mime_type": "image/png",
+      "library_artifact_type": "image_gen",
+      "file_size_bytes": 2416317
+    },
+    "generation_mode": "built-in image_gen",
+    "source_generation_hint": "Generated images are saved to /workspace/scratch/e392aff64f89/generated_images as /workspace/scratch/e392aff64f89/generated_images/exec-6377fd4f-6113-4463-b57f-0d94cbfdb9ce.png by default.\nIf you need to use a generated image at another path, copy it and leave the original in place unless the user explicitly asks you to delete it.\nThe generated image is already displayed to the user. There is no need to render it in the final response as a Markdown image or file link.",
+    "sha256": "b4baad85632190eefbe6691ad792ce7b5ec4a5306c3443d4b0dd416033af237d",
+    "qa": {
+      "dimensions": [
+        1024,
+        1536
+      ],
+      "mode": "RGBA",
+      "alpha_extrema": [
+        0,
+        254
+      ],
+      "transparent_pixel_fraction": 0.3065071105957031,
+      "near_opaque_pixel_fraction": 0.6021010080973307,
+      "alpha_bbox": [
+        0,
+        33,
+        1024,
+        1536
+      ],
+      "visual_alpha": "PASS: composited on dark navy and warm ivory, no broad matte or haze",
+      "identity": "PASS: hair, eyes, costume, and family features preserved",
+      "distinct_image": "PASS: separately generated regular/chibi, distinct ENFJ ribbon weaving and ESFP tactile curios",
+      "text": "PASS: no title, MBTI text, frame or watermark",
+      "caveats": [
+        "Requested 6–8% transparent margin not achieved at all edges; several hair/wing silhouettes approach canvas edge."
+      ]
+    }
+  },
+  {
+    "slot_id": "gpt:ENFJ:chibi",
+    "family": "gpt",
+    "mbti_type": "ENFJ",
+    "style": "chibi",
+    "target_filename": "agent-mbti-gpt-enfj-chibi.png",
+    "output_directory": "/workspace/shared/agent-mbti-new-art",
+    "referenced_image_paths": [
+      "/workspace/shared/fanart-references/ChatGPT-Chibi.png"
+    ],
+    "transparent_background": true,
+    "prompt": "Use case: identity-preserving stylized-concept fanart. Create ONE finished premium anime character foreground illustration for a noncommercial collectible-card project, not a full card. 1024x1536 portrait PNG with genuinely transparent RGBA background. Use the supplied reference only for character identity, costume and rendering quality, not for pose. The SAME GPT dragon girl: very long silver-white hair, lavender eyes, two ivory dragon horns, pointed ears, silver knot hair ornament, white high-collar flowing dress with silver geometric trims, lavender dragon wings and long pearly scaled dragon tail. Keep both horns, both wings and one tail. Established CHIBI proportions of the reference adult character: large head, small complete body, simplified expressive adult-character face. A separately composed chibi illustration, not a scaled-down regular image. Main props enlarged enough to read. NEW distinct composition: seated SIDEWAYS on a very small isolated ornamental stool, both legs and both feet visible, torso turning toward the viewer. One open palm invites the viewer to add a contribution, while the other hand gently braids TWO thin ribbons arriving from opposite directions into ONE airy arch, with three little hanging lanterns. Her expression is attentive and quietly encouraging, eyebrows gently lifted, never a commander pose. The ribbon arch is the ONE main prop, sweeping from lower left to upper right above her knees. Leave generous open space around the face. This scene is cooperative weaving, not a machine, blueprint, book, card handoff, lens examination or orbiting system panels. Family-specific props: two silver-lilac starlight ribbons braided into a short arch carrying three small crystal lanterns. Preserve original family palette and every identifying ear/horn/wing/tail feature. Exactly two arms, two hands, two human legs; hands have plausible contact with props. Full character, shoes, hair, ears, horns, wings, tail, stool/cushion if requested and every prop all fit inside 6-8% transparent margin on all four sides. Solid opaque core body, clean fine alpha edge and small prop-attached light only. No scene background, floor, broad haze, matte, checkerboard, card frame, badge, title, letters, words, numbers, watermark or logo. Do not render MBTI or other type names. Expression, hand gesture, body posture, main prop and overall silhouette must clearly differ from the other cards; not just recoloring an existing standing pose. Nonofficial fanart, retain source character design and derivative credit obligations.",
+    "family_pairing_instruction": "Inspect matching style identity reference before generating. When its regular/chibi counterpart is already complete, use it as an additional pose/prop consistency reference without copying proportions. Do not modify or rename archive sources.",
+    "license": "CC BY-NC-SA 4.0 in licensable derivative scope; nonofficial/noncommercial; full upstream rights unverified",
+    "credit_note": "/workspace/shared/agent-mbti-art-curation/credits/new-display-credits.md",
+    "path": "/workspace/shared/agent-mbti-final-art-generated/gpt-claude/agent-mbti-gpt-enfj-chibi.png",
+    "library_file_id": "libfile_3aae5e052e048191823ee60a02bf4429",
+    "upload": {
+      "operation": "create_library_file",
+      "status": "succeeded",
+      "path": "/agent-mbti-gpt-enfj-chibi.png",
+      "file_id": "file_00000000e188820688a09fd1a9297e9a",
+      "library_file_id": "libfile_3aae5e052e048191823ee60a02bf4429",
+      "file_name": "agent-mbti-gpt-enfj-chibi.png",
+      "current_version_number": 0,
+      "restored_from_version_number": null,
+      "xattrs": [
+        {
+          "name": "user.library-file-version",
+          "value": "0"
+        }
+      ],
+      "directory_id": "libdir_e4764d9da05c81919607ff5393c14e30",
+      "mime_type": "image/png",
+      "library_artifact_type": "image_gen",
+      "file_size_bytes": 2543818
+    },
+    "generation_mode": "built-in image_gen",
+    "source_generation_hint": "Generated images are saved to /workspace/scratch/e392aff64f89/generated_images as /workspace/scratch/e392aff64f89/generated_images/exec-24be7806-3cf4-491a-b973-9d9847e25305.png by default.\nIf you need to use a generated image at another path, copy it and leave the original in place unless the user explicitly asks you to delete it.\nThe generated image is already displayed to the user. There is no need to render it in the final response as a Markdown image or file link.",
+    "sha256": "929b9b0230905e1b24b35dae2311dea900abb0c9fe11d8ce52651e0f1d6892b0",
+    "qa": {
+      "dimensions": [
+        1024,
+        1536
+      ],
+      "mode": "RGBA",
+      "alpha_extrema": [
+        0,
+        254
+      ],
+      "transparent_pixel_fraction": 0.29235267639160156,
+      "near_opaque_pixel_fraction": 0.5931619008382162,
+      "alpha_bbox": [
+        0,
+        9,
+        1024,
+        1536
+      ],
+      "visual_alpha": "PASS: composited on dark navy and warm ivory, no broad matte or haze",
+      "identity": "PASS: hair, eyes, costume, and family features preserved",
+      "distinct_image": "PASS: separately generated regular/chibi, distinct ENFJ ribbon weaving and ESFP tactile curios",
+      "text": "PASS: no title, MBTI text, frame or watermark",
+      "caveats": [
+        "Requested 6–8% transparent margin not achieved at all edges; several hair/wing silhouettes approach canvas edge."
+      ]
+    }
+  },
+  {
+    "slot_id": "gpt:ESFP:regular",
+    "family": "gpt",
+    "mbti_type": "ESFP",
+    "style": "regular",
+    "target_filename": "agent-mbti-gpt-esfp-regular-v2.png",
+    "output_directory": "/workspace/shared/agent-mbti-new-art",
+    "referenced_image_paths": [
+      "/workspace/shared/fanart-references/ChatGPT-Girl.png"
+    ],
+    "transparent_background": true,
+    "prompt": "Use case: identity-preserving stylized-concept fanart. Create ONE finished premium anime character foreground illustration for a noncommercial collectible-card project, not a full card. 1024x1536 portrait PNG with genuinely transparent RGBA background. Use the supplied reference only for character identity, costume and rendering quality, not for pose. The SAME GPT dragon girl: very long silver-white hair, lavender eyes, two ivory dragon horns, pointed ears, silver knot hair ornament, white high-collar flowing dress with silver geometric trims, lavender dragon wings and long pearly scaled dragon tail. Keep both horns, both wings and one tail. Normal adult anime proportions and detailed fine linework; mature face as reference, full-body costume and anatomy. NEW distinct composition: relaxed LOW CROSS-LEGGED SITTING pose on one small cushion, full body and shoes entirely visible, modest natural skirt draping, shoulders at unequal heights, head gently tilted toward the viewer. One palm extended as if sharing a delightful object with the viewer; the other hand lightly holds one small curio. Exactly THREE small tangible curios float or rest very close to her hands in a LOW OPEN CRESCENT. Expression is a spontaneous bright smile with attentive eyes, natural rather than manic. This is a playful sensory sharing moment, with NO notebook, book, diagram, cards, lenses, measuring tool, powered apparatus, dialogue bubble or broad orbit. Do not turn it into a standing jumping experiment or a gift-delivery assistant scene. Family-specific props: three tactile silver/lilac crystal baubles shaped as a star, tiny sphere and smooth dragon-scale tile. Preserve original family palette and every identifying ear/horn/wing/tail feature. Exactly two arms, two hands, two human legs; hands have plausible contact with props. Full character, shoes, hair, ears, horns, wings, tail, stool/cushion if requested and every prop all fit inside 6-8% transparent margin on all four sides. Solid opaque core body, clean fine alpha edge and small prop-attached light only. No scene background, floor, broad haze, matte, checkerboard, card frame, badge, title, letters, words, numbers, watermark or logo. Do not render MBTI or other type names. Expression, hand gesture, body posture, main prop and overall silhouette must clearly differ from the other cards; not just recoloring an existing standing pose. Nonofficial fanart, retain source character design and derivative credit obligations.",
+    "family_pairing_instruction": "Inspect matching style identity reference before generating. When its regular/chibi counterpart is already complete, use it as an additional pose/prop consistency reference without copying proportions. Do not modify or rename archive sources.",
+    "license": "CC BY-NC-SA 4.0 in licensable derivative scope; nonofficial/noncommercial; full upstream rights unverified",
+    "credit_note": "/workspace/shared/agent-mbti-art-curation/credits/new-display-credits.md",
+    "path": "/workspace/shared/agent-mbti-final-art-generated/gpt-claude/agent-mbti-gpt-esfp-regular-v2.png",
+    "library_file_id": "libfile_d4101ecfc18c81918df6d8f86c756ff3",
+    "upload": {
+      "operation": "create_library_file",
+      "status": "succeeded",
+      "path": "/agent-mbti-gpt-esfp-regular-v2.png",
+      "file_id": "file_000000002d708209876ff4eef5ae9b63",
+      "library_file_id": "libfile_d4101ecfc18c81918df6d8f86c756ff3",
+      "file_name": "agent-mbti-gpt-esfp-regular-v2.png",
+      "current_version_number": 0,
+      "restored_from_version_number": null,
+      "xattrs": [
+        {
+          "name": "user.library-file-version",
+          "value": "0"
+        }
+      ],
+      "directory_id": "libdir_e4764d9da05c81919607ff5393c14e30",
+      "mime_type": "image/png",
+      "library_artifact_type": "image_gen",
+      "file_size_bytes": 2264494,
+      "external_connectors_accessed": false
+    },
+    "generation_mode": "built-in image_gen",
+    "source_generation_hint": "Corrected using imagegen; source exec-494a72ea-64a2-4c2a-aaf5-bccb29abe089.png",
+    "sha256": "8c57208745e3df5f2a3dd44dd80565430f0acd5cbd8b541afbd37186b76c61d4",
+    "qa": {
+      "dimensions": [
+        1024,
+        1536
+      ],
+      "mode": "RGBA",
+      "alpha_extrema": [
+        0,
+        254
+      ],
+      "transparent_pixel_fraction": 0.4072265625,
+      "near_opaque_pixel_fraction": 0.533148447672526,
+      "alpha_bbox": [
+        0,
+        65,
+        1009,
+        1458
+      ],
+      "visual_alpha": "PASS: composited on dark navy and warm ivory, no broad matte or haze",
+      "identity": "PASS: hair, eyes, costume, and family features preserved",
+      "distinct_image": "PASS: separately generated regular/chibi, distinct ENFJ ribbon weaving and ESFP tactile curios",
+      "text": "PASS: no title, MBTI text, frame or watermark",
+      "caveats": [
+        "Requested 6–8% transparent margin not achieved at all edges; several hair/wing silhouettes approach canvas edge.",
+        "Crossed-legged cushion pose interpreted as knees crossed rather than lotus-style low sitting."
+      ],
+      "solid_alpha_bbox": [
+        20,
+        68,
+        1001,
+        1453
+      ],
+      "framing": "PASS: complete wings and silhouette contained; edge alpha maxima left/right/top/bottom = 1/0/0/0",
+      "correction": "Imagegen edit restored clipped left wing and reduced foreground size."
+    }
+  },
+  {
+    "slot_id": "gpt:ESFP:chibi",
+    "family": "gpt",
+    "mbti_type": "ESFP",
+    "style": "chibi",
+    "target_filename": "agent-mbti-gpt-esfp-chibi.png",
+    "output_directory": "/workspace/shared/agent-mbti-new-art",
+    "referenced_image_paths": [
+      "/workspace/shared/fanart-references/ChatGPT-Chibi.png"
+    ],
+    "transparent_background": true,
+    "prompt": "Use case: identity-preserving stylized-concept fanart. Create ONE finished premium anime character foreground illustration for a noncommercial collectible-card project, not a full card. 1024x1536 portrait PNG with genuinely transparent RGBA background. Use the supplied reference only for character identity, costume and rendering quality, not for pose. The SAME GPT dragon girl: very long silver-white hair, lavender eyes, two ivory dragon horns, pointed ears, silver knot hair ornament, white high-collar flowing dress with silver geometric trims, lavender dragon wings and long pearly scaled dragon tail. Keep both horns, both wings and one tail. Established CHIBI proportions of the reference adult character: large head, small complete body, simplified expressive adult-character face. A separately composed chibi illustration, not a scaled-down regular image. Main props enlarged enough to read. NEW distinct composition: relaxed LOW CROSS-LEGGED SITTING pose on one small cushion, full body and shoes entirely visible, modest natural skirt draping, shoulders at unequal heights, head gently tilted toward the viewer. One palm extended as if sharing a delightful object with the viewer; the other hand lightly holds one small curio. Exactly THREE small tangible curios float or rest very close to her hands in a LOW OPEN CRESCENT. Expression is a spontaneous bright smile with attentive eyes, natural rather than manic. This is a playful sensory sharing moment, with NO notebook, book, diagram, cards, lenses, measuring tool, powered apparatus, dialogue bubble or broad orbit. Do not turn it into a standing jumping experiment or a gift-delivery assistant scene. Family-specific props: three tactile silver/lilac crystal baubles shaped as a star, tiny sphere and smooth dragon-scale tile. Preserve original family palette and every identifying ear/horn/wing/tail feature. Exactly two arms, two hands, two human legs; hands have plausible contact with props. Full character, shoes, hair, ears, horns, wings, tail, stool/cushion if requested and every prop all fit inside 6-8% transparent margin on all four sides. Solid opaque core body, clean fine alpha edge and small prop-attached light only. No scene background, floor, broad haze, matte, checkerboard, card frame, badge, title, letters, words, numbers, watermark or logo. Do not render MBTI or other type names. Expression, hand gesture, body posture, main prop and overall silhouette must clearly differ from the other cards; not just recoloring an existing standing pose. Nonofficial fanart, retain source character design and derivative credit obligations.",
+    "family_pairing_instruction": "Inspect matching style identity reference before generating. When its regular/chibi counterpart is already complete, use it as an additional pose/prop consistency reference without copying proportions. Do not modify or rename archive sources.",
+    "license": "CC BY-NC-SA 4.0 in licensable derivative scope; nonofficial/noncommercial; full upstream rights unverified",
+    "credit_note": "/workspace/shared/agent-mbti-art-curation/credits/new-display-credits.md",
+    "path": "/workspace/shared/agent-mbti-final-art-generated/gpt-claude/agent-mbti-gpt-esfp-chibi.png",
+    "library_file_id": "libfile_39ad40f6979481918c2fd403c5d192b8",
+    "upload": {
+      "operation": "create_library_file",
+      "status": "succeeded",
+      "path": "/agent-mbti-gpt-esfp-chibi.png",
+      "file_id": "file_0000000071548230b10b6cfe65f7f52b",
+      "library_file_id": "libfile_39ad40f6979481918c2fd403c5d192b8",
+      "file_name": "agent-mbti-gpt-esfp-chibi.png",
+      "current_version_number": 0,
+      "restored_from_version_number": null,
+      "xattrs": [
+        {
+          "name": "user.library-file-version",
+          "value": "0"
+        }
+      ],
+      "directory_id": "libdir_e4764d9da05c81919607ff5393c14e30",
+      "mime_type": "image/png",
+      "library_artifact_type": "image_gen",
+      "file_size_bytes": 2401785
+    },
+    "generation_mode": "built-in image_gen",
+    "source_generation_hint": "Generated images are saved to /workspace/scratch/e392aff64f89/generated_images as /workspace/scratch/e392aff64f89/generated_images/exec-d40acb62-fa99-437f-b746-54bbb6aabc23.png by default.\nIf you need to use a generated image at another path, copy it and leave the original in place unless the user explicitly asks you to delete it.\nThe generated image is already displayed to the user. There is no need to render it in the final response as a Markdown image or file link.",
+    "sha256": "b11e2c11f3b691467725582d231d73c8376983fee58ad8953ac4e641f595920b",
+    "qa": {
+      "dimensions": [
+        1024,
+        1536
+      ],
+      "mode": "RGBA",
+      "alpha_extrema": [
+        0,
+        254
+      ],
+      "transparent_pixel_fraction": 0.3165594736735026,
+      "near_opaque_pixel_fraction": 0.6221771240234375,
+      "alpha_bbox": [
+        0,
+        17,
+        1024,
+        1536
+      ],
+      "visual_alpha": "PASS: composited on dark navy and warm ivory, no broad matte or haze",
+      "identity": "PASS: hair, eyes, costume, and family features preserved",
+      "distinct_image": "PASS: separately generated regular/chibi, distinct ENFJ ribbon weaving and ESFP tactile curios",
+      "text": "PASS: no title, MBTI text, frame or watermark",
+      "caveats": [
+        "Requested 6–8% transparent margin not achieved at all edges; several hair/wing silhouettes approach canvas edge.",
+        "Only one shoe clearly visible; other foot is hidden by crossed legs and skirt."
+      ]
+    }
+  },
+  {
+    "slot_id": "claude:ENFJ:regular",
+    "family": "claude",
+    "mbti_type": "ENFJ",
+    "style": "regular",
+    "target_filename": "agent-mbti-claude-enfj-regular.png",
+    "output_directory": "/workspace/shared/agent-mbti-new-art",
+    "referenced_image_paths": [
+      "/workspace/shared/fanart-references/Claude-Girl.png"
+    ],
+    "transparent_background": true,
+    "prompt": "Use case: identity-preserving stylized-concept fanart. Create ONE finished premium anime character foreground illustration for a noncommercial collectible-card project, not a full card. 1024x1536 portrait PNG with genuinely transparent RGBA background. Use the supplied reference only for character identity, costume and rendering quality, not for pose. The SAME Claude scholar girl: long orange-red hair, warm amber eyes, flower hair ornament, cream white/black/orange layered scholar dress with flower motifs and refined lace. Keep original face and costume. Normal adult anime proportions and detailed fine linework; mature face as reference, full-body costume and anatomy. NEW distinct composition: seated SIDEWAYS on a very small isolated ornamental stool, both legs and both feet visible, torso turning toward the viewer. One open palm invites the viewer to add a contribution, while the other hand gently braids TWO thin ribbons arriving from opposite directions into ONE airy arch, with three little hanging lanterns. Her expression is attentive and quietly encouraging, eyebrows gently lifted, never a commander pose. The ribbon arch is the ONE main prop, sweeping from lower left to upper right above her knees. Leave generous open space around the face. This scene is cooperative weaving, not a machine, blueprint, book, card handoff, lens examination or orbiting system panels. Family-specific props: two narrow orange/cream paper ribbons woven into a short arch carrying three miniature flower-paper lanterns. Preserve original family palette and every identifying ear/horn/wing/tail feature. Exactly two arms, two hands, two human legs; hands have plausible contact with props. Full character, shoes, hair, ears, horns, wings, tail, stool/cushion if requested and every prop all fit inside 6-8% transparent margin on all four sides. Solid opaque core body, clean fine alpha edge and small prop-attached light only. No scene background, floor, broad haze, matte, checkerboard, card frame, badge, title, letters, words, numbers, watermark or logo. Do not render MBTI or other type names. Expression, hand gesture, body posture, main prop and overall silhouette must clearly differ from the other cards; not just recoloring an existing standing pose. Nonofficial fanart, retain source character design and derivative credit obligations.",
+    "family_pairing_instruction": "Inspect matching style identity reference before generating. When its regular/chibi counterpart is already complete, use it as an additional pose/prop consistency reference without copying proportions. Do not modify or rename archive sources.",
+    "license": "CC BY-NC-SA 4.0 in licensable derivative scope; nonofficial/noncommercial; full upstream rights unverified",
+    "credit_note": "/workspace/shared/agent-mbti-art-curation/credits/new-display-credits.md",
+    "path": "/workspace/shared/agent-mbti-final-art-generated/gpt-claude/agent-mbti-claude-enfj-regular.png",
+    "library_file_id": "libfile_076eef254b788191bffe64370fe565ce",
+    "upload": {
+      "operation": "create_library_file",
+      "status": "succeeded",
+      "path": "/agent-mbti-claude-enfj-regular.png",
+      "file_id": "file_000000003f3c82098deeb3da9b0841c4",
+      "library_file_id": "libfile_076eef254b788191bffe64370fe565ce",
+      "file_name": "agent-mbti-claude-enfj-regular.png",
+      "current_version_number": 0,
+      "restored_from_version_number": null,
+      "xattrs": [
+        {
+          "name": "user.library-file-version",
+          "value": "0"
+        }
+      ],
+      "directory_id": "libdir_e4764d9da05c81919607ff5393c14e30",
+      "mime_type": "image/png",
+      "library_artifact_type": "image_gen",
+      "file_size_bytes": 2793038
+    },
+    "generation_mode": "built-in image_gen",
+    "source_generation_hint": "Generated images are saved to /workspace/scratch/e392aff64f89/generated_images as /workspace/scratch/e392aff64f89/generated_images/exec-1b04997b-edac-410b-968c-94bcb262dbe6.png by default.\nIf you need to use a generated image at another path, copy it and leave the original in place unless the user explicitly asks you to delete it.\nThe generated image is already displayed to the user. There is no need to render it in the final response as a Markdown image or file link.",
+    "sha256": "babc95e61e962c171f1af69b8020cc66cba421d97a7b9b38065d06d1999b7126",
+    "qa": {
+      "dimensions": [
+        1024,
+        1536
+      ],
+      "mode": "RGBA",
+      "alpha_extrema": [
+        0,
+        254
+      ],
+      "transparent_pixel_fraction": 0.3375358581542969,
+      "near_opaque_pixel_fraction": 0.5256398518880209,
+      "alpha_bbox": [
+        0,
+        47,
+        1024,
+        1496
+      ],
+      "visual_alpha": "PASS: composited on dark navy and warm ivory, no broad matte or haze",
+      "identity": "PASS: hair, eyes, costume, and family features preserved",
+      "distinct_image": "PASS: separately generated regular/chibi, distinct ENFJ ribbon weaving and ESFP tactile curios",
+      "text": "PASS: no title, MBTI text, frame or watermark",
+      "caveats": [
+        "Requested 6–8% transparent margin not achieved at all edges; several hair/wing silhouettes approach canvas edge."
+      ]
+    }
+  },
+  {
+    "slot_id": "claude:ENFJ:chibi",
+    "family": "claude",
+    "mbti_type": "ENFJ",
+    "style": "chibi",
+    "target_filename": "agent-mbti-claude-enfj-chibi.png",
+    "output_directory": "/workspace/shared/agent-mbti-new-art",
+    "referenced_image_paths": [
+      "/workspace/shared/fanart-references/Claude-Chibi.png"
+    ],
+    "transparent_background": true,
+    "prompt": "Use case: identity-preserving stylized-concept fanart. Create ONE finished premium anime character foreground illustration for a noncommercial collectible-card project, not a full card. 1024x1536 portrait PNG with genuinely transparent RGBA background. Use the supplied reference only for character identity, costume and rendering quality, not for pose. The SAME Claude scholar girl: long orange-red hair, warm amber eyes, flower hair ornament, cream white/black/orange layered scholar dress with flower motifs and refined lace. Keep original face and costume. Established CHIBI proportions of the reference adult character: large head, small complete body, simplified expressive adult-character face. A separately composed chibi illustration, not a scaled-down regular image. Main props enlarged enough to read. NEW distinct composition: seated SIDEWAYS on a very small isolated ornamental stool, both legs and both feet visible, torso turning toward the viewer. One open palm invites the viewer to add a contribution, while the other hand gently braids TWO thin ribbons arriving from opposite directions into ONE airy arch, with three little hanging lanterns. Her expression is attentive and quietly encouraging, eyebrows gently lifted, never a commander pose. The ribbon arch is the ONE main prop, sweeping from lower left to upper right above her knees. Leave generous open space around the face. This scene is cooperative weaving, not a machine, blueprint, book, card handoff, lens examination or orbiting system panels. Family-specific props: two narrow orange/cream paper ribbons woven into a short arch carrying three miniature flower-paper lanterns. Preserve original family palette and every identifying ear/horn/wing/tail feature. Exactly two arms, two hands, two human legs; hands have plausible contact with props. Full character, shoes, hair, ears, horns, wings, tail, stool/cushion if requested and every prop all fit inside 6-8% transparent margin on all four sides. Solid opaque core body, clean fine alpha edge and small prop-attached light only. No scene background, floor, broad haze, matte, checkerboard, card frame, badge, title, letters, words, numbers, watermark or logo. Do not render MBTI or other type names. Expression, hand gesture, body posture, main prop and overall silhouette must clearly differ from the other cards; not just recoloring an existing standing pose. Nonofficial fanart, retain source character design and derivative credit obligations.",
+    "family_pairing_instruction": "Inspect matching style identity reference before generating. When its regular/chibi counterpart is already complete, use it as an additional pose/prop consistency reference without copying proportions. Do not modify or rename archive sources.",
+    "license": "CC BY-NC-SA 4.0 in licensable derivative scope; nonofficial/noncommercial; full upstream rights unverified",
+    "credit_note": "/workspace/shared/agent-mbti-art-curation/credits/new-display-credits.md",
+    "path": "/workspace/shared/agent-mbti-final-art-generated/gpt-claude/agent-mbti-claude-enfj-chibi.png",
+    "library_file_id": "libfile_5b8337e6b338819193d92f324a975b77",
+    "upload": {
+      "operation": "create_library_file",
+      "status": "succeeded",
+      "path": "/agent-mbti-claude-enfj-chibi.png",
+      "file_id": "file_00000000de748209897e4df7989e1f8b",
+      "library_file_id": "libfile_5b8337e6b338819193d92f324a975b77",
+      "file_name": "agent-mbti-claude-enfj-chibi.png",
+      "current_version_number": 0,
+      "restored_from_version_number": null,
+      "xattrs": [
+        {
+          "name": "user.library-file-version",
+          "value": "0"
+        }
+      ],
+      "directory_id": "libdir_e4764d9da05c81919607ff5393c14e30",
+      "mime_type": "image/png",
+      "library_artifact_type": "image_gen",
+      "file_size_bytes": 2685980
+    },
+    "generation_mode": "built-in image_gen",
+    "source_generation_hint": "Generated images are saved to /workspace/scratch/e392aff64f89/generated_images as /workspace/scratch/e392aff64f89/generated_images/exec-a2e6c448-2f0b-451d-834a-65afefcd6923.png by default.\nIf you need to use a generated image at another path, copy it and leave the original in place unless the user explicitly asks you to delete it.\nThe generated image is already displayed to the user. There is no need to render it in the final response as a Markdown image or file link.",
+    "sha256": "3505c70f5216f64f6cb033ebaab14053db20d230de01e11b63fcd824c29d2419",
+    "qa": {
+      "dimensions": [
+        1024,
+        1536
+      ],
+      "mode": "RGBA",
+      "alpha_extrema": [
+        0,
+        254
+      ],
+      "transparent_pixel_fraction": 0.3369026184082031,
+      "near_opaque_pixel_fraction": 0.5968240102132162,
+      "alpha_bbox": [
+        0,
+        0,
+        1024,
+        1520
+      ],
+      "visual_alpha": "PASS: composited on dark navy and warm ivory, no broad matte or haze",
+      "identity": "PASS: hair, eyes, costume, and family features preserved",
+      "distinct_image": "PASS: separately generated regular/chibi, distinct ENFJ ribbon weaving and ESFP tactile curios",
+      "text": "PASS: no title, MBTI text, frame or watermark",
+      "caveats": [
+        "Requested 6–8% transparent margin not achieved at all edges; several hair/wing silhouettes approach canvas edge."
+      ]
+    }
+  },
+  {
+    "slot_id": "claude:ESFP:regular",
+    "family": "claude",
+    "mbti_type": "ESFP",
+    "style": "regular",
+    "target_filename": "agent-mbti-claude-esfp-regular.png",
+    "output_directory": "/workspace/shared/agent-mbti-new-art",
+    "referenced_image_paths": [
+      "/workspace/shared/fanart-references/Claude-Girl.png"
+    ],
+    "transparent_background": true,
+    "prompt": "Use case: identity-preserving stylized-concept fanart. Create ONE finished premium anime character foreground illustration for a noncommercial collectible-card project, not a full card. 1024x1536 portrait PNG with genuinely transparent RGBA background. Use the supplied reference only for character identity, costume and rendering quality, not for pose. The SAME Claude scholar girl: long orange-red hair, warm amber eyes, flower hair ornament, cream white/black/orange layered scholar dress with flower motifs and refined lace. Keep original face and costume. Normal adult anime proportions and detailed fine linework; mature face as reference, full-body costume and anatomy. NEW distinct composition: relaxed LOW CROSS-LEGGED SITTING pose on one small cushion, full body and shoes entirely visible, modest natural skirt draping, shoulders at unequal heights, head gently tilted toward the viewer. One palm extended as if sharing a delightful object with the viewer; the other hand lightly holds one small curio. Exactly THREE small tangible curios float or rest very close to her hands in a LOW OPEN CRESCENT. Expression is a spontaneous bright smile with attentive eyes, natural rather than manic. This is a playful sensory sharing moment, with NO notebook, book, diagram, cards, lenses, measuring tool, powered apparatus, dialogue bubble or broad orbit. Do not turn it into a standing jumping experiment or a gift-delivery assistant scene. Family-specific props: three tactile folded-paper curios shaped as a flower, bird and smooth curled ribbon. Preserve original family palette and every identifying ear/horn/wing/tail feature. Exactly two arms, two hands, two human legs; hands have plausible contact with props. Full character, shoes, hair, ears, horns, wings, tail, stool/cushion if requested and every prop all fit inside 6-8% transparent margin on all four sides. Solid opaque core body, clean fine alpha edge and small prop-attached light only. No scene background, floor, broad haze, matte, checkerboard, card frame, badge, title, letters, words, numbers, watermark or logo. Do not render MBTI or other type names. Expression, hand gesture, body posture, main prop and overall silhouette must clearly differ from the other cards; not just recoloring an existing standing pose. Nonofficial fanart, retain source character design and derivative credit obligations.",
+    "family_pairing_instruction": "Inspect matching style identity reference before generating. When its regular/chibi counterpart is already complete, use it as an additional pose/prop consistency reference without copying proportions. Do not modify or rename archive sources.",
+    "license": "CC BY-NC-SA 4.0 in licensable derivative scope; nonofficial/noncommercial; full upstream rights unverified",
+    "credit_note": "/workspace/shared/agent-mbti-art-curation/credits/new-display-credits.md",
+    "path": "/workspace/shared/agent-mbti-final-art-generated/gpt-claude/agent-mbti-claude-esfp-regular.png",
+    "library_file_id": "libfile_383c7331fda48191af371eb7f9d3a2b5",
+    "upload": {
+      "operation": "create_library_file",
+      "status": "succeeded",
+      "path": "/agent-mbti-claude-esfp-regular.png",
+      "file_id": "file_00000000c5c08206aa78ca146a1d177d",
+      "library_file_id": "libfile_383c7331fda48191af371eb7f9d3a2b5",
+      "file_name": "agent-mbti-claude-esfp-regular.png",
+      "current_version_number": 0,
+      "restored_from_version_number": null,
+      "xattrs": [
+        {
+          "name": "user.library-file-version",
+          "value": "0"
+        }
+      ],
+      "directory_id": "libdir_e4764d9da05c81919607ff5393c14e30",
+      "mime_type": "image/png",
+      "library_artifact_type": "image_gen",
+      "file_size_bytes": 2759701
+    },
+    "generation_mode": "built-in image_gen",
+    "source_generation_hint": "Generated images are saved to /workspace/scratch/e392aff64f89/generated_images as /workspace/scratch/e392aff64f89/generated_images/exec-690d014e-3c51-4e74-9abc-bc73f1e8be1c.png by default.\nIf you need to use a generated image at another path, copy it and leave the original in place unless the user explicitly asks you to delete it.\nThe generated image is already displayed to the user. There is no need to render it in the final response as a Markdown image or file link.",
+    "sha256": "2f34bda9efa4c7070e90942899347c138e968e02fe8403ed1b3523563fca5262",
+    "qa": {
+      "dimensions": [
+        1024,
+        1536
+      ],
+      "mode": "RGBA",
+      "alpha_extrema": [
+        0,
+        254
+      ],
+      "transparent_pixel_fraction": 0.3749383290608724,
+      "near_opaque_pixel_fraction": 0.5458011627197266,
+      "alpha_bbox": [
+        0,
+        23,
+        1024,
+        1536
+      ],
+      "visual_alpha": "PASS: composited on dark navy and warm ivory, no broad matte or haze",
+      "identity": "PASS: hair, eyes, costume, and family features preserved",
+      "distinct_image": "PASS: separately generated regular/chibi, distinct ENFJ ribbon weaving and ESFP tactile curios",
+      "text": "PASS: no title, MBTI text, frame or watermark",
+      "caveats": [
+        "Requested 6–8% transparent margin not achieved at all edges; several hair/wing silhouettes approach canvas edge."
+      ]
+    }
+  },
+  {
+    "slot_id": "claude:ESFP:chibi",
+    "family": "claude",
+    "mbti_type": "ESFP",
+    "style": "chibi",
+    "target_filename": "agent-mbti-claude-esfp-chibi.png",
+    "output_directory": "/workspace/shared/agent-mbti-new-art",
+    "referenced_image_paths": [
+      "/workspace/shared/fanart-references/Claude-Chibi.png"
+    ],
+    "transparent_background": true,
+    "prompt": "Use case: identity-preserving stylized-concept fanart. Create ONE finished premium anime character foreground illustration for a noncommercial collectible-card project, not a full card. 1024x1536 portrait PNG with genuinely transparent RGBA background. Use the supplied reference only for character identity, costume and rendering quality, not for pose. The SAME Claude scholar girl: long orange-red hair, warm amber eyes, flower hair ornament, cream white/black/orange layered scholar dress with flower motifs and refined lace. Keep original face and costume. Established CHIBI proportions of the reference adult character: large head, small complete body, simplified expressive adult-character face. A separately composed chibi illustration, not a scaled-down regular image. Main props enlarged enough to read. NEW distinct composition: relaxed LOW CROSS-LEGGED SITTING pose on one small cushion, full body and shoes entirely visible, modest natural skirt draping, shoulders at unequal heights, head gently tilted toward the viewer. One palm extended as if sharing a delightful object with the viewer; the other hand lightly holds one small curio. Exactly THREE small tangible curios float or rest very close to her hands in a LOW OPEN CRESCENT. Expression is a spontaneous bright smile with attentive eyes, natural rather than manic. This is a playful sensory sharing moment, with NO notebook, book, diagram, cards, lenses, measuring tool, powered apparatus, dialogue bubble or broad orbit. Do not turn it into a standing jumping experiment or a gift-delivery assistant scene. Family-specific props: three tactile folded-paper curios shaped as a flower, bird and smooth curled ribbon. Preserve original family palette and every identifying ear/horn/wing/tail feature. Exactly two arms, two hands, two human legs; hands have plausible contact with props. Full character, shoes, hair, ears, horns, wings, tail, stool/cushion if requested and every prop all fit inside 6-8% transparent margin on all four sides. Solid opaque core body, clean fine alpha edge and small prop-attached light only. No scene background, floor, broad haze, matte, checkerboard, card frame, badge, title, letters, words, numbers, watermark or logo. Do not render MBTI or other type names. Expression, hand gesture, body posture, main prop and overall silhouette must clearly differ from the other cards; not just recoloring an existing standing pose. Nonofficial fanart, retain source character design and derivative credit obligations.",
+    "family_pairing_instruction": "Inspect matching style identity reference before generating. When its regular/chibi counterpart is already complete, use it as an additional pose/prop consistency reference without copying proportions. Do not modify or rename archive sources.",
+    "license": "CC BY-NC-SA 4.0 in licensable derivative scope; nonofficial/noncommercial; full upstream rights unverified",
+    "credit_note": "/workspace/shared/agent-mbti-art-curation/credits/new-display-credits.md",
+    "path": "/workspace/shared/agent-mbti-final-art-generated/gpt-claude/agent-mbti-claude-esfp-chibi.png",
+    "library_file_id": "libfile_025527dd162c819181858dee2f829b76",
+    "upload": {
+      "operation": "create_library_file",
+      "status": "succeeded",
+      "path": "/agent-mbti-claude-esfp-chibi.png",
+      "file_id": "file_0000000082408206adfb7c1e68cc7fab",
+      "library_file_id": "libfile_025527dd162c819181858dee2f829b76",
+      "file_name": "agent-mbti-claude-esfp-chibi.png",
+      "current_version_number": 0,
+      "restored_from_version_number": null,
+      "xattrs": [
+        {
+          "name": "user.library-file-version",
+          "value": "0"
+        }
+      ],
+      "directory_id": "libdir_e4764d9da05c81919607ff5393c14e30",
+      "mime_type": "image/png",
+      "library_artifact_type": "image_gen",
+      "file_size_bytes": 2606148
+    },
+    "generation_mode": "built-in image_gen",
+    "source_generation_hint": "Generated images are saved to /workspace/scratch/e392aff64f89/generated_images as /workspace/scratch/e392aff64f89/generated_images/exec-14dfda51-8a5a-4bdb-aa36-515f107cf3a0.png by default.\nIf you need to use a generated image at another path, copy it and leave the original in place unless the user explicitly asks you to delete it.\nThe generated image is already displayed to the user. There is no need to render it in the final response as a Markdown image or file link.",
+    "sha256": "0658138b59c38785c36c6cfca180fba984d480fdf8055902a213373f660f16c2",
+    "qa": {
+      "dimensions": [
+        1024,
+        1536
+      ],
+      "mode": "RGBA",
+      "alpha_extrema": [
+        0,
+        254
+      ],
+      "transparent_pixel_fraction": 0.34753990173339844,
+      "near_opaque_pixel_fraction": 0.6057008107503256,
+      "alpha_bbox": [
+        0,
+        81,
+        1024,
+        1536
+      ],
+      "visual_alpha": "PASS: composited on dark navy and warm ivory, no broad matte or haze",
+      "identity": "PASS: hair, eyes, costume, and family features preserved",
+      "distinct_image": "PASS: separately generated regular/chibi, distinct ENFJ ribbon weaving and ESFP tactile curios",
+      "text": "PASS: no title, MBTI text, frame or watermark",
+      "caveats": [
+        "Requested 6–8% transparent margin not achieved at all edges; several hair/wing silhouettes approach canvas edge."
+      ]
+    }
+  }
+]

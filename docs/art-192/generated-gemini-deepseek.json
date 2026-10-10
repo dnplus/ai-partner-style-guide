@@ -1,0 +1,614 @@
+[
+  {
+    "slot_id": "gemini:INFP:regular",
+    "family": "gemini",
+    "mbti_type": "INFP",
+    "style": "regular",
+    "target_filename": "agent-mbti-gemini-infp-regular.png",
+    "output_directory": "/workspace/shared/agent-mbti-new-art",
+    "referenced_image_paths": [
+      "/workspace/shared/fanart-references/Gemini-Girl.png"
+    ],
+    "transparent_background": true,
+    "prompt": "Use case: identity-preserving stylized-concept fanart. Create ONE finished premium anime character foreground illustration for a noncommercial collectible-card project, not a full card. 1024x1536 portrait PNG with genuinely transparent RGBA background. Use the supplied reference only for character identity, costume and rendering quality, not for pose. The SAME Gemini catgirl: blue-to-purple long hair, two furry cat ears, exactly one fluffy tail, pink/gold heterochromatic eyes, star ornament and navy/purple star-decorated outfit with white ruffled trim. Preserve original adult character identity. Normal adult anime proportions and detailed fine linework; mature face as reference, full-body costume and anatomy. NEW distinct composition matching the established notebook series: a gentle half-turn with both feet visible, torso cradling ONE SMALL OPEN NOTEBOOK near the waist. One hand supports the notebook and the other holds a pen with its tip just touching the page. Three or four small different luminous idea shapes spiral DOWN into the notebook; gaze thoughtful and softly absorbed, with a slight private smile. It is a compact writing gesture below the chest, NOT an arm raised overhead. No magnifying lens, no branching research tree, no powered machinery, no large floating system panels. Keep the notebook/pen easily legible even in a small card thumbnail. Family-specific props: small star-cover notebook with two bookmarks, slim pen, several differently shaped star idea tiles. Preserve original family palette and every identifying ear/horn/wing/tail feature. Exactly two arms, two hands, two human legs; hands have plausible contact with props. Full character, shoes, hair, ears, horns, wings, tail, stool/cushion if requested and every prop all fit inside 6-8% transparent margin on all four sides. Solid opaque core body, clean fine alpha edge and small prop-attached light only. No scene background, floor, broad haze, matte, checkerboard, card frame, badge, title, letters, words, numbers, watermark or logo. Do not render MBTI or other type names. Expression, hand gesture, body posture, main prop and overall silhouette must clearly differ from the other cards; not just recoloring an existing standing pose. Nonofficial fanart, retain source character design and derivative credit obligations.",
+    "family_pairing_instruction": "Inspect matching style identity reference before generating. When its regular/chibi counterpart is already complete, use it as an additional pose/prop consistency reference without copying proportions. Do not modify or rename archive sources.",
+    "license": "CC BY-NC-SA 4.0 in licensable derivative scope; nonofficial/noncommercial; full upstream rights unverified",
+    "credit_note": "/workspace/shared/agent-mbti-art-curation/credits/new-display-credits.md",
+    "path": "/workspace/shared/agent-mbti-final-art-generated/gemini-deepseek/agent-mbti-gemini-infp-regular.png",
+    "library_file_id": "libfile_13d9063f40088191a7d59d876675e47f",
+    "library_upload_status": "succeeded",
+    "local_metadata_applied_to_upload_copy": true,
+    "sha256": "23417a14e7a3a804d9f6ed9456a4e3228afe27439f3cd43f670bd0e234041db9",
+    "qa": {
+      "reviewed": true,
+      "identity_preserved": true,
+      "distinct_composition": true,
+      "separate_regular_chibi": true,
+      "visual_anatomy_pass": true,
+      "no_text_or_card_frame": true,
+      "mode": "RGBA",
+      "size": [
+        1024,
+        1536
+      ],
+      "alpha_extrema": [
+        0,
+        254
+      ],
+      "transparent_fraction": 0.51251,
+      "near_opaque_fraction": 0.39537,
+      "alpha_gt20_bbox": [
+        70,
+        16,
+        982,
+        1512
+      ],
+      "warnings": [
+        "Generated alpha core tops at 254 rather than 255; visually near-opaque.",
+        "Transparent border exists but does not consistently meet prompt 6-8% margin on all sides."
+      ],
+      "notes": "Viewed all outputs individually; regenerated DeepSeek INFP regular to fix duplicated apron; corrected Gemini and DeepSeek ESFP regular cross-legged poses. Preview tool shows hidden RGB haze in alpha-zero areas; actual PNG alpha preserves cutout."
+    }
+  },
+  {
+    "slot_id": "gemini:INFP:chibi",
+    "family": "gemini",
+    "mbti_type": "INFP",
+    "style": "chibi",
+    "target_filename": "agent-mbti-gemini-infp-chibi.png",
+    "output_directory": "/workspace/shared/agent-mbti-new-art",
+    "referenced_image_paths": [
+      "/workspace/shared/fanart-references/Gemini-Chibi.png"
+    ],
+    "transparent_background": true,
+    "prompt": "Use case: identity-preserving stylized-concept fanart. Create ONE finished premium anime character foreground illustration for a noncommercial collectible-card project, not a full card. 1024x1536 portrait PNG with genuinely transparent RGBA background. Use the supplied reference only for character identity, costume and rendering quality, not for pose. The SAME Gemini catgirl: blue-to-purple long hair, two furry cat ears, exactly one fluffy tail, pink/gold heterochromatic eyes, star ornament and navy/purple star-decorated outfit with white ruffled trim. Preserve original adult character identity. Established CHIBI proportions of the reference adult character: large head, small complete body, simplified expressive adult-character face. A separately composed chibi illustration, not a scaled-down regular image. Main props enlarged enough to read. NEW distinct composition matching the established notebook series: a gentle half-turn with both feet visible, torso cradling ONE SMALL OPEN NOTEBOOK near the waist. One hand supports the notebook and the other holds a pen with its tip just touching the page. Three or four small different luminous idea shapes spiral DOWN into the notebook; gaze thoughtful and softly absorbed, with a slight private smile. It is a compact writing gesture below the chest, NOT an arm raised overhead. No magnifying lens, no branching research tree, no powered machinery, no large floating system panels. Keep the notebook/pen easily legible even in a small card thumbnail. Family-specific props: small star-cover notebook with two bookmarks, slim pen, several differently shaped star idea tiles. Preserve original family palette and every identifying ear/horn/wing/tail feature. Exactly two arms, two hands, two human legs; hands have plausible contact with props. Full character, shoes, hair, ears, horns, wings, tail, stool/cushion if requested and every prop all fit inside 6-8% transparent margin on all four sides. Solid opaque core body, clean fine alpha edge and small prop-attached light only. No scene background, floor, broad haze, matte, checkerboard, card frame, badge, title, letters, words, numbers, watermark or logo. Do not render MBTI or other type names. Expression, hand gesture, body posture, main prop and overall silhouette must clearly differ from the other cards; not just recoloring an existing standing pose. Nonofficial fanart, retain source character design and derivative credit obligations.",
+    "family_pairing_instruction": "Inspect matching style identity reference before generating. When its regular/chibi counterpart is already complete, use it as an additional pose/prop consistency reference without copying proportions. Do not modify or rename archive sources.",
+    "license": "CC BY-NC-SA 4.0 in licensable derivative scope; nonofficial/noncommercial; full upstream rights unverified",
+    "credit_note": "/workspace/shared/agent-mbti-art-curation/credits/new-display-credits.md",
+    "path": "/workspace/shared/agent-mbti-final-art-generated/gemini-deepseek/agent-mbti-gemini-infp-chibi.png",
+    "library_file_id": "libfile_1ef80e56b61881919b2e4fe98d6bee90",
+    "library_upload_status": "succeeded",
+    "local_metadata_applied_to_upload_copy": true,
+    "sha256": "5fc43e3f02b6e0aee0d2415479591e9b56658437901076d4d318e0f35cfb6107",
+    "qa": {
+      "reviewed": true,
+      "identity_preserved": true,
+      "distinct_composition": true,
+      "separate_regular_chibi": true,
+      "visual_anatomy_pass": true,
+      "no_text_or_card_frame": true,
+      "mode": "RGBA",
+      "size": [
+        1024,
+        1536
+      ],
+      "alpha_extrema": [
+        0,
+        254
+      ],
+      "transparent_fraction": 0.44235,
+      "near_opaque_fraction": 0.49925,
+      "alpha_gt20_bbox": [
+        63,
+        70,
+        981,
+        1491
+      ],
+      "warnings": [
+        "Generated alpha core tops at 254 rather than 255; visually near-opaque.",
+        "Transparent border exists but does not consistently meet prompt 6-8% margin on all sides."
+      ],
+      "notes": "Viewed all outputs individually; regenerated DeepSeek INFP regular to fix duplicated apron; corrected Gemini and DeepSeek ESFP regular cross-legged poses. Preview tool shows hidden RGB haze in alpha-zero areas; actual PNG alpha preserves cutout."
+    }
+  },
+  {
+    "slot_id": "gemini:ENFJ:regular",
+    "family": "gemini",
+    "mbti_type": "ENFJ",
+    "style": "regular",
+    "target_filename": "agent-mbti-gemini-enfj-regular.png",
+    "output_directory": "/workspace/shared/agent-mbti-new-art",
+    "referenced_image_paths": [
+      "/workspace/shared/fanart-references/Gemini-Girl.png"
+    ],
+    "transparent_background": true,
+    "prompt": "Use case: identity-preserving stylized-concept fanart. Create ONE finished premium anime character foreground illustration for a noncommercial collectible-card project, not a full card. 1024x1536 portrait PNG with genuinely transparent RGBA background. Use the supplied reference only for character identity, costume and rendering quality, not for pose. The SAME Gemini catgirl: blue-to-purple long hair, two furry cat ears, exactly one fluffy tail, pink/gold heterochromatic eyes, star ornament and navy/purple star-decorated outfit with white ruffled trim. Preserve original adult character identity. Normal adult anime proportions and detailed fine linework; mature face as reference, full-body costume and anatomy. NEW distinct composition: seated SIDEWAYS on a very small isolated ornamental stool, both legs and both feet visible, torso turning toward the viewer. One open palm invites the viewer to add a contribution, while the other hand gently braids TWO thin ribbons arriving from opposite directions into ONE airy arch, with three little hanging lanterns. Her expression is attentive and quietly encouraging, eyebrows gently lifted, never a commander pose. The ribbon arch is the ONE main prop, sweeping from lower left to upper right above her knees. Leave generous open space around the face. This scene is cooperative weaving, not a machine, blueprint, book, card handoff, lens examination or orbiting system panels. Family-specific props: two blue/pink starlight ribbons woven into a short arch with three tiny star-crystal lanterns. Preserve original family palette and every identifying ear/horn/wing/tail feature. Exactly two arms, two hands, two human legs; hands have plausible contact with props. Full character, shoes, hair, ears, horns, wings, tail, stool/cushion if requested and every prop all fit inside 6-8% transparent margin on all four sides. Solid opaque core body, clean fine alpha edge and small prop-attached light only. No scene background, floor, broad haze, matte, checkerboard, card frame, badge, title, letters, words, numbers, watermark or logo. Do not render MBTI or other type names. Expression, hand gesture, body posture, main prop and overall silhouette must clearly differ from the other cards; not just recoloring an existing standing pose. Nonofficial fanart, retain source character design and derivative credit obligations.",
+    "family_pairing_instruction": "Inspect matching style identity reference before generating. When its regular/chibi counterpart is already complete, use it as an additional pose/prop consistency reference without copying proportions. Do not modify or rename archive sources.",
+    "license": "CC BY-NC-SA 4.0 in licensable derivative scope; nonofficial/noncommercial; full upstream rights unverified",
+    "credit_note": "/workspace/shared/agent-mbti-art-curation/credits/new-display-credits.md",
+    "path": "/workspace/shared/agent-mbti-final-art-generated/gemini-deepseek/agent-mbti-gemini-enfj-regular.png",
+    "library_file_id": "libfile_c06d5485835881918673a46a9fd8d657",
+    "library_upload_status": "succeeded",
+    "local_metadata_applied_to_upload_copy": true,
+    "sha256": "bec360af643616631a8d7ae306b0c43274c235427031269d4584118253ba74dc",
+    "qa": {
+      "reviewed": true,
+      "identity_preserved": true,
+      "distinct_composition": true,
+      "separate_regular_chibi": true,
+      "visual_anatomy_pass": true,
+      "no_text_or_card_frame": true,
+      "mode": "RGBA",
+      "size": [
+        1024,
+        1536
+      ],
+      "alpha_extrema": [
+        0,
+        254
+      ],
+      "transparent_fraction": 0.41727,
+      "near_opaque_fraction": 0.46414,
+      "alpha_gt20_bbox": [
+        22,
+        36,
+        1005,
+        1490
+      ],
+      "warnings": [
+        "Generated alpha core tops at 254 rather than 255; visually near-opaque.",
+        "Transparent border exists but does not consistently meet prompt 6-8% margin on all sides."
+      ],
+      "notes": "Viewed all outputs individually; regenerated DeepSeek INFP regular to fix duplicated apron; corrected Gemini and DeepSeek ESFP regular cross-legged poses. Preview tool shows hidden RGB haze in alpha-zero areas; actual PNG alpha preserves cutout."
+    }
+  },
+  {
+    "slot_id": "gemini:ENFJ:chibi",
+    "family": "gemini",
+    "mbti_type": "ENFJ",
+    "style": "chibi",
+    "target_filename": "agent-mbti-gemini-enfj-chibi.png",
+    "output_directory": "/workspace/shared/agent-mbti-new-art",
+    "referenced_image_paths": [
+      "/workspace/shared/fanart-references/Gemini-Chibi.png"
+    ],
+    "transparent_background": true,
+    "prompt": "Use case: identity-preserving stylized-concept fanart. Create ONE finished premium anime character foreground illustration for a noncommercial collectible-card project, not a full card. 1024x1536 portrait PNG with genuinely transparent RGBA background. Use the supplied reference only for character identity, costume and rendering quality, not for pose. The SAME Gemini catgirl: blue-to-purple long hair, two furry cat ears, exactly one fluffy tail, pink/gold heterochromatic eyes, star ornament and navy/purple star-decorated outfit with white ruffled trim. Preserve original adult character identity. Established CHIBI proportions of the reference adult character: large head, small complete body, simplified expressive adult-character face. A separately composed chibi illustration, not a scaled-down regular image. Main props enlarged enough to read. NEW distinct composition: seated SIDEWAYS on a very small isolated ornamental stool, both legs and both feet visible, torso turning toward the viewer. One open palm invites the viewer to add a contribution, while the other hand gently braids TWO thin ribbons arriving from opposite directions into ONE airy arch, with three little hanging lanterns. Her expression is attentive and quietly encouraging, eyebrows gently lifted, never a commander pose. The ribbon arch is the ONE main prop, sweeping from lower left to upper right above her knees. Leave generous open space around the face. This scene is cooperative weaving, not a machine, blueprint, book, card handoff, lens examination or orbiting system panels. Family-specific props: two blue/pink starlight ribbons woven into a short arch with three tiny star-crystal lanterns. Preserve original family palette and every identifying ear/horn/wing/tail feature. Exactly two arms, two hands, two human legs; hands have plausible contact with props. Full character, shoes, hair, ears, horns, wings, tail, stool/cushion if requested and every prop all fit inside 6-8% transparent margin on all four sides. Solid opaque core body, clean fine alpha edge and small prop-attached light only. No scene background, floor, broad haze, matte, checkerboard, card frame, badge, title, letters, words, numbers, watermark or logo. Do not render MBTI or other type names. Expression, hand gesture, body posture, main prop and overall silhouette must clearly differ from the other cards; not just recoloring an existing standing pose. Nonofficial fanart, retain source character design and derivative credit obligations.",
+    "family_pairing_instruction": "Inspect matching style identity reference before generating. When its regular/chibi counterpart is already complete, use it as an additional pose/prop consistency reference without copying proportions. Do not modify or rename archive sources.",
+    "license": "CC BY-NC-SA 4.0 in licensable derivative scope; nonofficial/noncommercial; full upstream rights unverified",
+    "credit_note": "/workspace/shared/agent-mbti-art-curation/credits/new-display-credits.md",
+    "path": "/workspace/shared/agent-mbti-final-art-generated/gemini-deepseek/agent-mbti-gemini-enfj-chibi.png",
+    "library_file_id": "libfile_96682a0a5bd0819185553c2bc1b357bb",
+    "library_upload_status": "succeeded",
+    "local_metadata_applied_to_upload_copy": true,
+    "sha256": "1f321a59d8f555559ee38e369a40b4e517e32f82ca2e3fba961b2c37a7264132",
+    "qa": {
+      "reviewed": true,
+      "identity_preserved": true,
+      "distinct_composition": true,
+      "separate_regular_chibi": true,
+      "visual_anatomy_pass": true,
+      "no_text_or_card_frame": true,
+      "mode": "RGBA",
+      "size": [
+        1024,
+        1536
+      ],
+      "alpha_extrema": [
+        0,
+        254
+      ],
+      "transparent_fraction": 0.41069,
+      "near_opaque_fraction": 0.52824,
+      "alpha_gt20_bbox": [
+        15,
+        62,
+        1010,
+        1432
+      ],
+      "warnings": [
+        "Generated alpha core tops at 254 rather than 255; visually near-opaque.",
+        "Transparent border exists but does not consistently meet prompt 6-8% margin on all sides."
+      ],
+      "notes": "Viewed all outputs individually; regenerated DeepSeek INFP regular to fix duplicated apron; corrected Gemini and DeepSeek ESFP regular cross-legged poses. Preview tool shows hidden RGB haze in alpha-zero areas; actual PNG alpha preserves cutout."
+    }
+  },
+  {
+    "slot_id": "gemini:ESFP:regular",
+    "family": "gemini",
+    "mbti_type": "ESFP",
+    "style": "regular",
+    "target_filename": "agent-mbti-gemini-esfp-regular.png",
+    "output_directory": "/workspace/shared/agent-mbti-new-art",
+    "referenced_image_paths": [
+      "/workspace/shared/fanart-references/Gemini-Girl.png"
+    ],
+    "transparent_background": true,
+    "prompt": "Use case: identity-preserving stylized-concept fanart. Create ONE finished premium anime character foreground illustration for a noncommercial collectible-card project, not a full card. 1024x1536 portrait PNG with genuinely transparent RGBA background. Use the supplied reference only for character identity, costume and rendering quality, not for pose. The SAME Gemini catgirl: blue-to-purple long hair, two furry cat ears, exactly one fluffy tail, pink/gold heterochromatic eyes, star ornament and navy/purple star-decorated outfit with white ruffled trim. Preserve original adult character identity. Normal adult anime proportions and detailed fine linework; mature face as reference, full-body costume and anatomy. NEW distinct composition: relaxed LOW CROSS-LEGGED SITTING pose on one small cushion, full body and shoes entirely visible, modest natural skirt draping, shoulders at unequal heights, head gently tilted toward the viewer. One palm extended as if sharing a delightful object with the viewer; the other hand lightly holds one small curio. Exactly THREE small tangible curios float or rest very close to her hands in a LOW OPEN CRESCENT. Expression is a spontaneous bright smile with attentive eyes, natural rather than manic. This is a playful sensory sharing moment, with NO notebook, book, diagram, cards, lenses, measuring tool, powered apparatus, dialogue bubble or broad orbit. Do not turn it into a standing jumping experiment or a gift-delivery assistant scene. Family-specific props: three tactile star curios: a faceted star prism, a smooth little orb and a soft star-shaped ribbon knot. Preserve original family palette and every identifying ear/horn/wing/tail feature. Exactly two arms, two hands, two human legs; hands have plausible contact with props. Full character, shoes, hair, ears, horns, wings, tail, stool/cushion if requested and every prop all fit inside 6-8% transparent margin on all four sides. Solid opaque core body, clean fine alpha edge and small prop-attached light only. No scene background, floor, broad haze, matte, checkerboard, card frame, badge, title, letters, words, numbers, watermark or logo. Do not render MBTI or other type names. Expression, hand gesture, body posture, main prop and overall silhouette must clearly differ from the other cards; not just recoloring an existing standing pose. Nonofficial fanart, retain source character design and derivative credit obligations.",
+    "family_pairing_instruction": "Inspect matching style identity reference before generating. When its regular/chibi counterpart is already complete, use it as an additional pose/prop consistency reference without copying proportions. Do not modify or rename archive sources.",
+    "license": "CC BY-NC-SA 4.0 in licensable derivative scope; nonofficial/noncommercial; full upstream rights unverified",
+    "credit_note": "/workspace/shared/agent-mbti-art-curation/credits/new-display-credits.md",
+    "path": "/workspace/shared/agent-mbti-final-art-generated/gemini-deepseek/agent-mbti-gemini-esfp-regular.png",
+    "library_file_id": "libfile_f5b98493faf081919de903253b4acde3",
+    "library_upload_status": "succeeded",
+    "local_metadata_applied_to_upload_copy": true,
+    "sha256": "c358f1e31ee8b3939da66963d65c758390e2d7db7bec26963f17e9c918337503",
+    "qa": {
+      "reviewed": true,
+      "identity_preserved": true,
+      "distinct_composition": true,
+      "separate_regular_chibi": true,
+      "visual_anatomy_pass": true,
+      "no_text_or_card_frame": true,
+      "mode": "RGBA",
+      "size": [
+        1024,
+        1536
+      ],
+      "alpha_extrema": [
+        0,
+        254
+      ],
+      "transparent_fraction": 0.43503,
+      "near_opaque_fraction": 0.51165,
+      "alpha_gt20_bbox": [
+        16,
+        78,
+        1014,
+        1360
+      ],
+      "warnings": [
+        "Generated alpha core tops at 254 rather than 255; visually near-opaque.",
+        "Transparent border exists but does not consistently meet prompt 6-8% margin on all sides."
+      ],
+      "notes": "Viewed all outputs individually; regenerated DeepSeek INFP regular to fix duplicated apron; corrected Gemini and DeepSeek ESFP regular cross-legged poses. Preview tool shows hidden RGB haze in alpha-zero areas; actual PNG alpha preserves cutout."
+    }
+  },
+  {
+    "slot_id": "gemini:ESFP:chibi",
+    "family": "gemini",
+    "mbti_type": "ESFP",
+    "style": "chibi",
+    "target_filename": "agent-mbti-gemini-esfp-chibi.png",
+    "output_directory": "/workspace/shared/agent-mbti-new-art",
+    "referenced_image_paths": [
+      "/workspace/shared/fanart-references/Gemini-Chibi.png"
+    ],
+    "transparent_background": true,
+    "prompt": "Use case: identity-preserving stylized-concept fanart. Create ONE finished premium anime character foreground illustration for a noncommercial collectible-card project, not a full card. 1024x1536 portrait PNG with genuinely transparent RGBA background. Use the supplied reference only for character identity, costume and rendering quality, not for pose. The SAME Gemini catgirl: blue-to-purple long hair, two furry cat ears, exactly one fluffy tail, pink/gold heterochromatic eyes, star ornament and navy/purple star-decorated outfit with white ruffled trim. Preserve original adult character identity. Established CHIBI proportions of the reference adult character: large head, small complete body, simplified expressive adult-character face. A separately composed chibi illustration, not a scaled-down regular image. Main props enlarged enough to read. NEW distinct composition: relaxed LOW CROSS-LEGGED SITTING pose on one small cushion, full body and shoes entirely visible, modest natural skirt draping, shoulders at unequal heights, head gently tilted toward the viewer. One palm extended as if sharing a delightful object with the viewer; the other hand lightly holds one small curio. Exactly THREE small tangible curios float or rest very close to her hands in a LOW OPEN CRESCENT. Expression is a spontaneous bright smile with attentive eyes, natural rather than manic. This is a playful sensory sharing moment, with NO notebook, book, diagram, cards, lenses, measuring tool, powered apparatus, dialogue bubble or broad orbit. Do not turn it into a standing jumping experiment or a gift-delivery assistant scene. Family-specific props: three tactile star curios: a faceted star prism, a smooth little orb and a soft star-shaped ribbon knot. Preserve original family palette and every identifying ear/horn/wing/tail feature. Exactly two arms, two hands, two human legs; hands have plausible contact with props. Full character, shoes, hair, ears, horns, wings, tail, stool/cushion if requested and every prop all fit inside 6-8% transparent margin on all four sides. Solid opaque core body, clean fine alpha edge and small prop-attached light only. No scene background, floor, broad haze, matte, checkerboard, card frame, badge, title, letters, words, numbers, watermark or logo. Do not render MBTI or other type names. Expression, hand gesture, body posture, main prop and overall silhouette must clearly differ from the other cards; not just recoloring an existing standing pose. Nonofficial fanart, retain source character design and derivative credit obligations.",
+    "family_pairing_instruction": "Inspect matching style identity reference before generating. When its regular/chibi counterpart is already complete, use it as an additional pose/prop consistency reference without copying proportions. Do not modify or rename archive sources.",
+    "license": "CC BY-NC-SA 4.0 in licensable derivative scope; nonofficial/noncommercial; full upstream rights unverified",
+    "credit_note": "/workspace/shared/agent-mbti-art-curation/credits/new-display-credits.md",
+    "path": "/workspace/shared/agent-mbti-final-art-generated/gemini-deepseek/agent-mbti-gemini-esfp-chibi.png",
+    "library_file_id": "libfile_8e8599418690819194d601f54fa3261c",
+    "library_upload_status": "succeeded",
+    "local_metadata_applied_to_upload_copy": true,
+    "sha256": "9075ae5dcc66a20234db2abde389fa6e1b8ca7d631818489b34ce087ffaf97f7",
+    "qa": {
+      "reviewed": true,
+      "identity_preserved": true,
+      "distinct_composition": true,
+      "separate_regular_chibi": true,
+      "visual_anatomy_pass": true,
+      "no_text_or_card_frame": true,
+      "mode": "RGBA",
+      "size": [
+        1024,
+        1536
+      ],
+      "alpha_extrema": [
+        0,
+        254
+      ],
+      "transparent_fraction": 0.40259,
+      "near_opaque_fraction": 0.55301,
+      "alpha_gt20_bbox": [
+        22,
+        93,
+        1005,
+        1422
+      ],
+      "warnings": [
+        "Generated alpha core tops at 254 rather than 255; visually near-opaque.",
+        "Transparent border exists but does not consistently meet prompt 6-8% margin on all sides."
+      ],
+      "notes": "Viewed all outputs individually; regenerated DeepSeek INFP regular to fix duplicated apron; corrected Gemini and DeepSeek ESFP regular cross-legged poses. Preview tool shows hidden RGB haze in alpha-zero areas; actual PNG alpha preserves cutout."
+    }
+  },
+  {
+    "slot_id": "deepseek:INFP:regular",
+    "family": "deepseek",
+    "mbti_type": "INFP",
+    "style": "regular",
+    "target_filename": "agent-mbti-deepseek-infp-regular.png",
+    "output_directory": "/workspace/shared/agent-mbti-new-art",
+    "referenced_image_paths": [
+      "/workspace/shared/fanart-references/DeepSeek-Girl.png"
+    ],
+    "transparent_background": true,
+    "prompt": "Use case: identity-preserving stylized-concept fanart. Create ONE finished premium anime character foreground illustration for a noncommercial collectible-card project, not a full card. 1024x1536 portrait PNG with genuinely transparent RGBA background. Use the supplied reference only for character identity, costume and rendering quality, not for pose. The SAME DeepSeek whale-maid girl: long dark-blue hair with pale-blue ends, blue eyes, whale side fins, one whale tail, maid headdress, navy-and-white apron dress. Exactly two human legs and two feet; never mermaid anatomy. Normal adult anime proportions and detailed fine linework; mature face as reference, full-body costume and anatomy. NEW distinct composition matching the established notebook series: a gentle half-turn with both feet visible, torso cradling ONE SMALL OPEN NOTEBOOK near the waist. One hand supports the notebook and the other holds a pen with its tip just touching the page. Three or four small different luminous idea shapes spiral DOWN into the notebook; gaze thoughtful and softly absorbed, with a slight private smile. It is a compact writing gesture below the chest, NOT an arm raised overhead. No magnifying lens, no branching research tree, no powered machinery, no large floating system panels. Keep the notebook/pen easily legible even in a small card thumbnail. Family-specific props: small shell-cover notebook, slim pearl pen, several little bubble-and-shell idea shapes. Preserve original family palette and every identifying ear/horn/wing/tail feature. Exactly two arms, two hands, two human legs; hands have plausible contact with props. Full character, shoes, hair, ears, horns, wings, tail, stool/cushion if requested and every prop all fit inside 6-8% transparent margin on all four sides. Solid opaque core body, clean fine alpha edge and small prop-attached light only. No scene background, floor, broad haze, matte, checkerboard, card frame, badge, title, letters, words, numbers, watermark or logo. Do not render MBTI or other type names. Expression, hand gesture, body posture, main prop and overall silhouette must clearly differ from the other cards; not just recoloring an existing standing pose. Nonofficial fanart, retain source character design and derivative credit obligations.",
+    "family_pairing_instruction": "Inspect matching style identity reference before generating. When its regular/chibi counterpart is already complete, use it as an additional pose/prop consistency reference without copying proportions. Do not modify or rename archive sources.",
+    "license": "CC BY-NC-SA 4.0 in licensable derivative scope; nonofficial/noncommercial; full upstream rights unverified",
+    "credit_note": "/workspace/shared/agent-mbti-art-curation/credits/new-display-credits.md",
+    "path": "/workspace/shared/agent-mbti-final-art-generated/gemini-deepseek/agent-mbti-deepseek-infp-regular.png",
+    "library_file_id": "libfile_9eaa76ec7ba08191b2f33e4478f42a0d",
+    "library_upload_status": "succeeded",
+    "local_metadata_applied_to_upload_copy": true,
+    "sha256": "98bf49878f2b4cac111c282a95bfc741c3c6579be1d09a1fbce56bf95709dda6",
+    "qa": {
+      "reviewed": true,
+      "identity_preserved": true,
+      "distinct_composition": true,
+      "separate_regular_chibi": true,
+      "visual_anatomy_pass": true,
+      "no_text_or_card_frame": true,
+      "mode": "RGBA",
+      "size": [
+        1024,
+        1536
+      ],
+      "alpha_extrema": [
+        0,
+        254
+      ],
+      "transparent_fraction": 0.48805,
+      "near_opaque_fraction": 0.42483,
+      "alpha_gt20_bbox": [
+        52,
+        39,
+        990,
+        1506
+      ],
+      "warnings": [
+        "Generated alpha core tops at 254 rather than 255; visually near-opaque.",
+        "Transparent border exists but does not consistently meet prompt 6-8% margin on all sides."
+      ],
+      "notes": "Viewed all outputs individually; regenerated DeepSeek INFP regular to fix duplicated apron; corrected Gemini and DeepSeek ESFP regular cross-legged poses. Preview tool shows hidden RGB haze in alpha-zero areas; actual PNG alpha preserves cutout."
+    }
+  },
+  {
+    "slot_id": "deepseek:INFP:chibi",
+    "family": "deepseek",
+    "mbti_type": "INFP",
+    "style": "chibi",
+    "target_filename": "agent-mbti-deepseek-infp-chibi.png",
+    "output_directory": "/workspace/shared/agent-mbti-new-art",
+    "referenced_image_paths": [
+      "/workspace/shared/fanart-references/DeepSeek-Chibi.png"
+    ],
+    "transparent_background": true,
+    "prompt": "Use case: identity-preserving stylized-concept fanart. Create ONE finished premium anime character foreground illustration for a noncommercial collectible-card project, not a full card. 1024x1536 portrait PNG with genuinely transparent RGBA background. Use the supplied reference only for character identity, costume and rendering quality, not for pose. The SAME DeepSeek whale-maid girl: long dark-blue hair with pale-blue ends, blue eyes, whale side fins, one whale tail, maid headdress, navy-and-white apron dress. Exactly two human legs and two feet; never mermaid anatomy. Established CHIBI proportions of the reference adult character: large head, small complete body, simplified expressive adult-character face. A separately composed chibi illustration, not a scaled-down regular image. Main props enlarged enough to read. NEW distinct composition matching the established notebook series: a gentle half-turn with both feet visible, torso cradling ONE SMALL OPEN NOTEBOOK near the waist. One hand supports the notebook and the other holds a pen with its tip just touching the page. Three or four small different luminous idea shapes spiral DOWN into the notebook; gaze thoughtful and softly absorbed, with a slight private smile. It is a compact writing gesture below the chest, NOT an arm raised overhead. No magnifying lens, no branching research tree, no powered machinery, no large floating system panels. Keep the notebook/pen easily legible even in a small card thumbnail. Family-specific props: small shell-cover notebook, slim pearl pen, several little bubble-and-shell idea shapes. Preserve original family palette and every identifying ear/horn/wing/tail feature. Exactly two arms, two hands, two human legs; hands have plausible contact with props. Full character, shoes, hair, ears, horns, wings, tail, stool/cushion if requested and every prop all fit inside 6-8% transparent margin on all four sides. Solid opaque core body, clean fine alpha edge and small prop-attached light only. No scene background, floor, broad haze, matte, checkerboard, card frame, badge, title, letters, words, numbers, watermark or logo. Do not render MBTI or other type names. Expression, hand gesture, body posture, main prop and overall silhouette must clearly differ from the other cards; not just recoloring an existing standing pose. Nonofficial fanart, retain source character design and derivative credit obligations.",
+    "family_pairing_instruction": "Inspect matching style identity reference before generating. When its regular/chibi counterpart is already complete, use it as an additional pose/prop consistency reference without copying proportions. Do not modify or rename archive sources.",
+    "license": "CC BY-NC-SA 4.0 in licensable derivative scope; nonofficial/noncommercial; full upstream rights unverified",
+    "credit_note": "/workspace/shared/agent-mbti-art-curation/credits/new-display-credits.md",
+    "path": "/workspace/shared/agent-mbti-final-art-generated/gemini-deepseek/agent-mbti-deepseek-infp-chibi.png",
+    "library_file_id": "libfile_fa7189729acc81918fccb3db29864b9d",
+    "library_upload_status": "succeeded",
+    "local_metadata_applied_to_upload_copy": true,
+    "sha256": "0f4970ba9a3b4be30ee53f6d8efccbed084b492b78a00875552109ca77d0d59d",
+    "qa": {
+      "reviewed": true,
+      "identity_preserved": true,
+      "distinct_composition": true,
+      "separate_regular_chibi": true,
+      "visual_anatomy_pass": true,
+      "no_text_or_card_frame": true,
+      "mode": "RGBA",
+      "size": [
+        1024,
+        1536
+      ],
+      "alpha_extrema": [
+        0,
+        254
+      ],
+      "transparent_fraction": 0.40332,
+      "near_opaque_fraction": 0.52366,
+      "alpha_gt20_bbox": [
+        15,
+        60,
+        1006,
+        1494
+      ],
+      "warnings": [
+        "Generated alpha core tops at 254 rather than 255; visually near-opaque.",
+        "Transparent border exists but does not consistently meet prompt 6-8% margin on all sides."
+      ],
+      "notes": "Viewed all outputs individually; regenerated DeepSeek INFP regular to fix duplicated apron; corrected Gemini and DeepSeek ESFP regular cross-legged poses. Preview tool shows hidden RGB haze in alpha-zero areas; actual PNG alpha preserves cutout."
+    }
+  },
+  {
+    "slot_id": "deepseek:ENFJ:regular",
+    "family": "deepseek",
+    "mbti_type": "ENFJ",
+    "style": "regular",
+    "target_filename": "agent-mbti-deepseek-enfj-regular.png",
+    "output_directory": "/workspace/shared/agent-mbti-new-art",
+    "referenced_image_paths": [
+      "/workspace/shared/fanart-references/DeepSeek-Girl.png"
+    ],
+    "transparent_background": true,
+    "prompt": "Use case: identity-preserving stylized-concept fanart. Create ONE finished premium anime character foreground illustration for a noncommercial collectible-card project, not a full card. 1024x1536 portrait PNG with genuinely transparent RGBA background. Use the supplied reference only for character identity, costume and rendering quality, not for pose. The SAME DeepSeek whale-maid girl: long dark-blue hair with pale-blue ends, blue eyes, whale side fins, one whale tail, maid headdress, navy-and-white apron dress. Exactly two human legs and two feet; never mermaid anatomy. Normal adult anime proportions and detailed fine linework; mature face as reference, full-body costume and anatomy. NEW distinct composition: seated SIDEWAYS on a very small isolated ornamental stool, both legs and both feet visible, torso turning toward the viewer. One open palm invites the viewer to add a contribution, while the other hand gently braids TWO thin ribbons arriving from opposite directions into ONE airy arch, with three little hanging lanterns. Her expression is attentive and quietly encouraging, eyebrows gently lifted, never a commander pose. The ribbon arch is the ONE main prop, sweeping from lower left to upper right above her knees. Leave generous open space around the face. This scene is cooperative weaving, not a machine, blueprint, book, card handoff, lens examination or orbiting system panels. Family-specific props: two thin translucent water-ribbons woven into a short arch carrying three tiny seashell lanterns. Preserve original family palette and every identifying ear/horn/wing/tail feature. Exactly two arms, two hands, two human legs; hands have plausible contact with props. Full character, shoes, hair, ears, horns, wings, tail, stool/cushion if requested and every prop all fit inside 6-8% transparent margin on all four sides. Solid opaque core body, clean fine alpha edge and small prop-attached light only. No scene background, floor, broad haze, matte, checkerboard, card frame, badge, title, letters, words, numbers, watermark or logo. Do not render MBTI or other type names. Expression, hand gesture, body posture, main prop and overall silhouette must clearly differ from the other cards; not just recoloring an existing standing pose. Nonofficial fanart, retain source character design and derivative credit obligations.",
+    "family_pairing_instruction": "Inspect matching style identity reference before generating. When its regular/chibi counterpart is already complete, use it as an additional pose/prop consistency reference without copying proportions. Do not modify or rename archive sources.",
+    "license": "CC BY-NC-SA 4.0 in licensable derivative scope; nonofficial/noncommercial; full upstream rights unverified",
+    "credit_note": "/workspace/shared/agent-mbti-art-curation/credits/new-display-credits.md",
+    "path": "/workspace/shared/agent-mbti-final-art-generated/gemini-deepseek/agent-mbti-deepseek-enfj-regular.png",
+    "library_file_id": "libfile_a9ea7b1f7f3081919232f2b2a7772062",
+    "library_upload_status": "succeeded",
+    "local_metadata_applied_to_upload_copy": true,
+    "sha256": "b79230d13a70ec4b2ad209be862a3ffad883a66d53da8772d85d66de78143ef7",
+    "qa": {
+      "reviewed": true,
+      "identity_preserved": true,
+      "distinct_composition": true,
+      "separate_regular_chibi": true,
+      "visual_anatomy_pass": true,
+      "no_text_or_card_frame": true,
+      "mode": "RGBA",
+      "size": [
+        1024,
+        1536
+      ],
+      "alpha_extrema": [
+        0,
+        254
+      ],
+      "transparent_fraction": 0.3799,
+      "near_opaque_fraction": 0.4766,
+      "alpha_gt20_bbox": [
+        23,
+        74,
+        1010,
+        1481
+      ],
+      "warnings": [
+        "Generated alpha core tops at 254 rather than 255; visually near-opaque.",
+        "Transparent border exists but does not consistently meet prompt 6-8% margin on all sides."
+      ],
+      "notes": "Viewed all outputs individually; regenerated DeepSeek INFP regular to fix duplicated apron; corrected Gemini and DeepSeek ESFP regular cross-legged poses. Preview tool shows hidden RGB haze in alpha-zero areas; actual PNG alpha preserves cutout."
+    }
+  },
+  {
+    "slot_id": "deepseek:ENFJ:chibi",
+    "family": "deepseek",
+    "mbti_type": "ENFJ",
+    "style": "chibi",
+    "target_filename": "agent-mbti-deepseek-enfj-chibi.png",
+    "output_directory": "/workspace/shared/agent-mbti-new-art",
+    "referenced_image_paths": [
+      "/workspace/shared/fanart-references/DeepSeek-Chibi.png"
+    ],
+    "transparent_background": true,
+    "prompt": "Use case: identity-preserving stylized-concept fanart. Create ONE finished premium anime character foreground illustration for a noncommercial collectible-card project, not a full card. 1024x1536 portrait PNG with genuinely transparent RGBA background. Use the supplied reference only for character identity, costume and rendering quality, not for pose. The SAME DeepSeek whale-maid girl: long dark-blue hair with pale-blue ends, blue eyes, whale side fins, one whale tail, maid headdress, navy-and-white apron dress. Exactly two human legs and two feet; never mermaid anatomy. Established CHIBI proportions of the reference adult character: large head, small complete body, simplified expressive adult-character face. A separately composed chibi illustration, not a scaled-down regular image. Main props enlarged enough to read. NEW distinct composition: seated SIDEWAYS on a very small isolated ornamental stool, both legs and both feet visible, torso turning toward the viewer. One open palm invites the viewer to add a contribution, while the other hand gently braids TWO thin ribbons arriving from opposite directions into ONE airy arch, with three little hanging lanterns. Her expression is attentive and quietly encouraging, eyebrows gently lifted, never a commander pose. The ribbon arch is the ONE main prop, sweeping from lower left to upper right above her knees. Leave generous open space around the face. This scene is cooperative weaving, not a machine, blueprint, book, card handoff, lens examination or orbiting system panels. Family-specific props: two thin translucent water-ribbons woven into a short arch carrying three tiny seashell lanterns. Preserve original family palette and every identifying ear/horn/wing/tail feature. Exactly two arms, two hands, two human legs; hands have plausible contact with props. Full character, shoes, hair, ears, horns, wings, tail, stool/cushion if requested and every prop all fit inside 6-8% transparent margin on all four sides. Solid opaque core body, clean fine alpha edge and small prop-attached light only. No scene background, floor, broad haze, matte, checkerboard, card frame, badge, title, letters, words, numbers, watermark or logo. Do not render MBTI or other type names. Expression, hand gesture, body posture, main prop and overall silhouette must clearly differ from the other cards; not just recoloring an existing standing pose. Nonofficial fanart, retain source character design and derivative credit obligations.",
+    "family_pairing_instruction": "Inspect matching style identity reference before generating. When its regular/chibi counterpart is already complete, use it as an additional pose/prop consistency reference without copying proportions. Do not modify or rename archive sources.",
+    "license": "CC BY-NC-SA 4.0 in licensable derivative scope; nonofficial/noncommercial; full upstream rights unverified",
+    "credit_note": "/workspace/shared/agent-mbti-art-curation/credits/new-display-credits.md",
+    "path": "/workspace/shared/agent-mbti-final-art-generated/gemini-deepseek/agent-mbti-deepseek-enfj-chibi.png",
+    "library_file_id": "libfile_e4e4bcef4c3081918e14f6f09d0e619d",
+    "library_upload_status": "succeeded",
+    "local_metadata_applied_to_upload_copy": true,
+    "sha256": "cbcfd766500447cbab2faab658b4ed2e53847c85f6809161d42551dcd5e7beae",
+    "qa": {
+      "reviewed": true,
+      "identity_preserved": true,
+      "distinct_composition": true,
+      "separate_regular_chibi": true,
+      "visual_anatomy_pass": true,
+      "no_text_or_card_frame": true,
+      "mode": "RGBA",
+      "size": [
+        1024,
+        1536
+      ],
+      "alpha_extrema": [
+        0,
+        254
+      ],
+      "transparent_fraction": 0.43865,
+      "near_opaque_fraction": 0.4987,
+      "alpha_gt20_bbox": [
+        39,
+        83,
+        1006,
+        1484
+      ],
+      "warnings": [
+        "Generated alpha core tops at 254 rather than 255; visually near-opaque.",
+        "Transparent border exists but does not consistently meet prompt 6-8% margin on all sides."
+      ],
+      "notes": "Viewed all outputs individually; regenerated DeepSeek INFP regular to fix duplicated apron; corrected Gemini and DeepSeek ESFP regular cross-legged poses. Preview tool shows hidden RGB haze in alpha-zero areas; actual PNG alpha preserves cutout."
+    }
+  },
+  {
+    "slot_id": "deepseek:ESFP:regular",
+    "family": "deepseek",
+    "mbti_type": "ESFP",
+    "style": "regular",
+    "target_filename": "agent-mbti-deepseek-esfp-regular.png",
+    "output_directory": "/workspace/shared/agent-mbti-new-art",
+    "referenced_image_paths": [
+      "/workspace/shared/fanart-references/DeepSeek-Girl.png"
+    ],
+    "transparent_background": true,
+    "prompt": "Use case: identity-preserving stylized-concept fanart. Create ONE finished premium anime character foreground illustration for a noncommercial collectible-card project, not a full card. 1024x1536 portrait PNG with genuinely transparent RGBA background. Use the supplied reference only for character identity, costume and rendering quality, not for pose. The SAME DeepSeek whale-maid girl: long dark-blue hair with pale-blue ends, blue eyes, whale side fins, one whale tail, maid headdress, navy-and-white apron dress. Exactly two human legs and two feet; never mermaid anatomy. Normal adult anime proportions and detailed fine linework; mature face as reference, full-body costume and anatomy. NEW distinct composition: relaxed LOW CROSS-LEGGED SITTING pose on one small cushion, full body and shoes entirely visible, modest natural skirt draping, shoulders at unequal heights, head gently tilted toward the viewer. One palm extended as if sharing a delightful object with the viewer; the other hand lightly holds one small curio. Exactly THREE small tangible curios float or rest very close to her hands in a LOW OPEN CRESCENT. Expression is a spontaneous bright smile with attentive eyes, natural rather than manic. This is a playful sensory sharing moment, with NO notebook, book, diagram, cards, lenses, measuring tool, powered apparatus, dialogue bubble or broad orbit. Do not turn it into a standing jumping experiment or a gift-delivery assistant scene. Family-specific props: three tactile sea curios: smooth pearl, little scallop shell and a tiny whale-shaped charm. Preserve original family palette and every identifying ear/horn/wing/tail feature. Exactly two arms, two hands, two human legs; hands have plausible contact with props. Full character, shoes, hair, ears, horns, wings, tail, stool/cushion if requested and every prop all fit inside 6-8% transparent margin on all four sides. Solid opaque core body, clean fine alpha edge and small prop-attached light only. No scene background, floor, broad haze, matte, checkerboard, card frame, badge, title, letters, words, numbers, watermark or logo. Do not render MBTI or other type names. Expression, hand gesture, body posture, main prop and overall silhouette must clearly differ from the other cards; not just recoloring an existing standing pose. Nonofficial fanart, retain source character design and derivative credit obligations.",
+    "family_pairing_instruction": "Inspect matching style identity reference before generating. When its regular/chibi counterpart is already complete, use it as an additional pose/prop consistency reference without copying proportions. Do not modify or rename archive sources.",
+    "license": "CC BY-NC-SA 4.0 in licensable derivative scope; nonofficial/noncommercial; full upstream rights unverified",
+    "credit_note": "/workspace/shared/agent-mbti-art-curation/credits/new-display-credits.md",
+    "path": "/workspace/shared/agent-mbti-final-art-generated/gemini-deepseek/agent-mbti-deepseek-esfp-regular.png",
+    "library_file_id": "libfile_211139149a788191b1d416b9c7d60a07",
+    "library_upload_status": "succeeded",
+    "local_metadata_applied_to_upload_copy": true,
+    "sha256": "2ae02c0aabeb0b28620a5b4fef48d2128792653a2d12e03129f8132c4293e3af",
+    "qa": {
+      "reviewed": true,
+      "identity_preserved": true,
+      "distinct_composition": true,
+      "separate_regular_chibi": true,
+      "visual_anatomy_pass": true,
+      "no_text_or_card_frame": true,
+      "mode": "RGBA",
+      "size": [
+        1024,
+        1536
+      ],
+      "alpha_extrema": [
+        0,
+        254
+      ],
+      "transparent_fraction": 0.41268,
+      "near_opaque_fraction": 0.53815,
+      "alpha_gt20_bbox": [
+        15,
+        94,
+        1009,
+        1395
+      ],
+      "warnings": [
+        "Generated alpha core tops at 254 rather than 255; visually near-opaque.",
+        "Transparent border exists but does not consistently meet prompt 6-8% margin on all sides."
+      ],
+      "notes": "Viewed all outputs individually; regenerated DeepSeek INFP regular to fix duplicated apron; corrected Gemini and DeepSeek ESFP regular cross-legged poses. Preview tool shows hidden RGB haze in alpha-zero areas; actual PNG alpha preserves cutout."
+    }
+  },
+  {
+    "slot_id": "deepseek:ESFP:chibi",
+    "family": "deepseek",
+    "mbti_type": "ESFP",
+    "style": "chibi",
+    "target_filename": "agent-mbti-deepseek-esfp-chibi.png",
+    "output_directory": "/workspace/shared/agent-mbti-new-art",
+    "referenced_image_paths": [
+      "/workspace/shared/fanart-references/DeepSeek-Chibi.png"
+    ],
+    "transparent_background": true,
+    "prompt": "Use case: identity-preserving stylized-concept fanart. Create ONE finished premium anime character foreground illustration for a noncommercial collectible-card project, not a full card. 1024x1536 portrait PNG with genuinely transparent RGBA background. Use the supplied reference only for character identity, costume and rendering quality, not for pose. The SAME DeepSeek whale-maid girl: long dark-blue hair with pale-blue ends, blue eyes, whale side fins, one whale tail, maid headdress, navy-and-white apron dress. Exactly two human legs and two feet; never mermaid anatomy. Established CHIBI proportions of the reference adult character: large head, small complete body, simplified expressive adult-character face. A separately composed chibi illustration, not a scaled-down regular image. Main props enlarged enough to read. NEW distinct composition: relaxed LOW CROSS-LEGGED SITTING pose on one small cushion, full body and shoes entirely visible, modest natural skirt draping, shoulders at unequal heights, head gently tilted toward the viewer. One palm extended as if sharing a delightful object with the viewer; the other hand lightly holds one small curio. Exactly THREE small tangible curios float or rest very close to her hands in a LOW OPEN CRESCENT. Expression is a spontaneous bright smile with attentive eyes, natural rather than manic. This is a playful sensory sharing moment, with NO notebook, book, diagram, cards, lenses, measuring tool, powered apparatus, dialogue bubble or broad orbit. Do not turn it into a standing jumping experiment or a gift-delivery assistant scene. Family-specific props: three tactile sea curios: smooth pearl, little scallop shell and a tiny whale-shaped charm. Preserve original family palette and every identifying ear/horn/wing/tail feature. Exactly two arms, two hands, two human legs; hands have plausible contact with props. Full character, shoes, hair, ears, horns, wings, tail, stool/cushion if requested and every prop all fit inside 6-8% transparent margin on all four sides. Solid opaque core body, clean fine alpha edge and small prop-attached light only. No scene background, floor, broad haze, matte, checkerboard, card frame, badge, title, letters, words, numbers, watermark or logo. Do not render MBTI or other type names. Expression, hand gesture, body posture, main prop and overall silhouette must clearly differ from the other cards; not just recoloring an existing standing pose. Nonofficial fanart, retain source character design and derivative credit obligations.",
+    "family_pairing_instruction": "Inspect matching style identity reference before generating. When its regular/chibi counterpart is already complete, use it as an additional pose/prop consistency reference without copying proportions. Do not modify or rename archive sources.",
+    "license": "CC BY-NC-SA 4.0 in licensable derivative scope; nonofficial/noncommercial; full upstream rights unverified",
+    "credit_note": "/workspace/shared/agent-mbti-art-curation/credits/new-display-credits.md",
+    "path": "/workspace/shared/agent-mbti-final-art-generated/gemini-deepseek/agent-mbti-deepseek-esfp-chibi.png",
+    "library_file_id": "libfile_fba1191b1f8c8191b9a2ecae192d6a54",
+    "library_upload_status": "succeeded",
+    "local_metadata_applied_to_upload_copy": true,
+    "sha256": "f062106a87d2c9ba06469a2566fc1a4303103f8b827f758e172cf9cc670cfa3d",
+    "qa": {
+      "reviewed": true,
+      "identity_preserved": true,
+      "distinct_composition": true,
+      "separate_regular_chibi": true,
+      "visual_anatomy_pass": true,
+      "no_text_or_card_frame": true,
+      "mode": "RGBA",
+      "size": [
+        1024,
+        1536
+      ],
+      "alpha_extrema": [
+        0,
+        254
+      ],
+      "transparent_fraction": 0.42496,
+      "near_opaque_fraction": 0.5371,
+      "alpha_gt20_bbox": [
+        19,
+        118,
+        1012,
+        1417
+      ],
+      "warnings": [
+        "Generated alpha core tops at 254 rather than 255; visually near-opaque.",
+        "Transparent border exists but does not consistently meet prompt 6-8% margin on all sides."
+      ],
+      "notes": "Viewed all outputs individually; regenerated DeepSeek INFP regular to fix duplicated apron; corrected Gemini and DeepSeek ESFP regular cross-legged poses. Preview tool shows hidden RGB haze in alpha-zero areas; actual PNG alpha preserves cutout."
+    }
+  }
+]

@@ -19,12 +19,15 @@ export async function downloadCard(report: CardObservation, style: ArtStyle, fam
   c.save(); c.beginPath(); c.roundRect(96, 86, 888, 1366, 24); c.clip();
   const glow = c.createRadialGradient(540, 660, 50, 540, 660, 670); glow.addColorStop(0,"#573a73");glow.addColorStop(1,"#17121e");c.fillStyle=glow;c.fillRect(96,86,888,1366);
   c.strokeStyle="#c1a5ef35";c.lineWidth=2;c.beginPath();c.ellipse(540,650,330,470,-.3,0,Math.PI*2);c.stroke();
-  const art = artFor(family, style);
+  const art = artFor(family, report.assessment.type, style);
+  if(report.assessment.type && !art)throw new Error("這張專屬插畫仍在製作，完成後才能下載。");
   if (art) {
     const img = new Image(); img.src = art;
     await img.decode();
-    c.drawImage(img, 150, 165, 780, 1170);
-  } else { c.fillStyle="#d5c1f4";c.font='68px sans-serif';c.textAlign="center";c.fillText("角色正在顯影",540,650);c.font='28px sans-serif';c.fillText("此組插圖尚未製作",540,705);c.textAlign="left"; }
+    const scale=Math.min(820/img.naturalWidth,950/img.naturalHeight);
+    const w=img.naturalWidth*scale,h=img.naturalHeight*scale;
+    c.drawImage(img,540-w/2,185+(950-h)/2,w,h);
+  } else { c.fillStyle="#d5c1f4";c.font='68px sans-serif';c.textAlign="center";c.fillText("✧",540,610);c.font='48px sans-serif';c.fillText("輪廓還在形成",540,730);c.font='28px sans-serif';c.fillText("保留未知，等待更多線索",540,790);c.textAlign="left"; }
   const shade = c.createLinearGradient(0, 1050, 0, 1450);shade.addColorStop(0,"#15111c00");shade.addColorStop(.55,"#15111ce8");shade.addColorStop(1,"#15111c");c.fillStyle=shade;c.fillRect(96,1000,888,452);
   c.restore();
   c.fillStyle="#ece0ff";c.font='34px Georgia, serif';c.fillText(`✧  ${theme.label.toUpperCase()}`,125,153);
@@ -36,8 +39,8 @@ export async function downloadCard(report: CardObservation, style: ArtStyle, fam
   c.fillStyle="#f5ecff";c.font=`${nicknameOnly ? "bold 62px" : "32px"} sans-serif`;c.fillText(report.nickname,126,1380,640);
   c.fillStyle="#c0b6ce";c.font='20px sans-serif';c.fillText("合作風格觀察 · 非官方 MBTI 評量 · 造型與分型無關",126,1425);
   c.fillStyle="#50455f";c.textAlign="center";c.font='20px sans-serif';
-  c.fillText(artTitle(family),540,1532);
-  c.font='18px sans-serif';c.fillText(artCredit(family),540,1562,960);
+  c.fillText(art ? artTitle(family) : "你的 Agent MBTI · 中性觀察卡",540,1532);
+  c.font='18px sans-serif';c.fillText(art ? artCredit(family) : "證據不足的方向不補猜，不使用其他分型的插畫",540,1562,960);
   c.fillText(art ? "CC BY-NC-SA 4.0 · 非官方／非商業 · 來源：Apprentice-Geo/AI-Fanworks" : "使用風格觀察 · 非官方／非商業 · 非心理測驗",540,1590);
   const blob = await new Promise<Blob>((resolve, reject) => canvas.toBlob((b) => b ? resolve(b) : reject(new Error("圖片匯出失敗")), "image/png"));
   const url = URL.createObjectURL(blob);

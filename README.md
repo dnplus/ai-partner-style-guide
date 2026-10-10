@@ -43,7 +43,7 @@ schema 2.0 移除舊等級和舊型別。既有資料保留但不轉型，已授
 - 後端 Email 報告 gate；不填只有最小卡片資料，無使用統計／日期／任務證據。若平台提供身份則綁定讀取。沒有公開分享網址。
 - 單一焦點逐步 UI、返回、等待、暫時斷線重試、重整復原、取消刪除、到期恢復。讀取權杖留 sessionStorage；寫入權杖只留記憶體。
 - CSS 3D 厚度、柔影、角度虹彩、選擇性 foil 與角色深度；桌面拖曳、手機觸控、方向鍵、reduced-motion 靜態卡。
-- 六家族 × 一般／Q 版，共 12 張通用造型；選主題不改分型，並非 192 張不同型別插圖。所有素材 bytes 保持不變，見 [中性命名與 SHA-256](docs/ASSET-VERIFICATION-MBTI.json)。
+- 六家族 × 16 個 MBTI × 一般／Q 版，共 192 張不同插畫。依家族／分型／畫風選取，切換不改評估；未知使用中性卡面，不跨型替代。[圖庫](http://127.0.0.1:5188/art-gallery) 可逐格放大檢查。[來源清單](docs/art-192/selection-source.json) 與三份新增素材 manifest 保留原始署名、檔名及 Library 身分。
 - 1080 × 1620 PNG；可只顯示暱稱，預設開啟。未知結果寫「未定型」，不輸出虛假的完整型別。
 - 一次來源／日期／欄位／目的地授權後自動驗證及提交，主機必要核准仍保留。範圍驗證、原內容重試與明確換目的地 grant 見 lib/collector-runner.ts。
 - 真實階段訊號，90 秒沒有新訊號顯示未知；主機核准只顯示 Agent 明確回報。到期保留本機最小摘要，換新連結需明確授權，不延長效期。
@@ -53,9 +53,9 @@ schema 2.0 移除舊等級和舊型別。既有資料保留但不轉型，已授
 
 ## 驗證與限制
 
-執行 npm run typecheck、npm test、npm run test:browser、node scripts/smoke-built.mjs http://127.0.0.1:5188 。瀏覽器測試只使用此 Air 的隔離 Chrome 與專用範例；API smoke 僅接受 loopback。
+執行 npm run typecheck、npm test、npm run verify:art、npm run test:browser、node scripts/smoke-built.mjs http://127.0.0.1:5188 。瀏覽器測試只使用此 Air 的隔離 Chrome 與專用範例；API smoke 僅接受 loopback。
 
-最新 C4 的 [流程交付記錄](docs/DELIVERY-FLOW.md) 與 evidence/agent-mbti-flow/ 是本版證據。C3 的 [MBTI 交付記錄](docs/DELIVERY-MBTI.md)、[視覺 QA](docs/FIDELITY-MBTI.md) 留存規則重設的驗證。docs/DELIVERY.md、docs/DELIVERY-GUIDED.md 及較舊 evidence 是歷史版本，保留供稽核，不代表目前產品。
+最新 C5 的插畫接入證據在 evidence/art-192/，npm run verify:art 嚴格要求192個不同檔案及解碼像素。[C4 流程交付記錄](docs/DELIVERY-FLOW.md) 與 evidence/agent-mbti-flow/ 保留單次授權修正的證據。C3 的 [MBTI 交付記錄](docs/DELIVERY-MBTI.md)、[視覺 QA](docs/FIDELITY-MBTI.md) 留存規則重設的驗證。docs/DELIVERY.md、docs/DELIVERY-GUIDED.md 及較舊 evidence 是歷史版本，保留供稽核，不代表目前產品。
 
 未部署、push、merge、公開網站、登入、申請憑證、寄信或讀真人紀錄。私人 Sites 閘門下的外部 callback 尚未驗證；本機 HTTP 成功不代表遠端可用。下一步需在獲授權的目的地驗證精確 callback 路徑，不能分享整站 bypass key 或更改公開權限。
 

@@ -7,7 +7,7 @@ import { usePersonaSession } from "./use-persona-session.ts";
 import { collectorInstructions } from "../lib/collector-instructions.ts";
 import { makeFixture, demoReport } from "../lib/fixture.ts";
 import { toCardObservation, type Report } from "../lib/assessment.ts";
-import { families, personas, personaFor, modelLabels, clientLabels, artCredit, type ArtStyle, type Family } from "../lib/catalog.ts";
+import { families, personas, personaFor, modelLabels, clientLabels, artCredit, artFor, artCounts, type ArtStyle, type Family } from "../lib/catalog.ts";
 import { axisDefinitions, letterLabels, letterTips, behaviorLetters, contextLabels } from "../lib/workstyle.ts";
 import { downloadCard } from "../lib/export-card.ts";
 import { describeProgress } from "../lib/collector-progress.ts";
@@ -168,7 +168,7 @@ export function PersonaApp(){
       </section>}
       {stage!=="cover" && expired ? <section className="screen recovery-screen"><div className="sealed-card" aria-hidden="true"><span>✧</span></div><h1 tabIndex={-1}>這道光，<br/>暫時收起了。</h1><p className="lead">連結已到期或失效。請讓 Agent 保留已整理的最小摘要，<br/>換新連結後，只需明確核准新的收件目的地。</p><button className="primary" disabled={flow.busy} onClick={renew}>沿用分析，換新連結<ArrowRight size={20}/></button></section> : <>
       {stage==="identity" && <section className="identity-screen screen">
-        <img className="identity-art" src="/art/codex-portrait-chibi.png" alt=""/>
+        <img className="identity-art" src={artFor("codex","INTJ","chibi")!} alt=""/>
         <h1 tabIndex={-1}>{active ? <>你的連結，<br/>還在等你。</> : <>這位搭檔，<br/>該怎麼稱呼？</>}</h1>{resumeMode && !active && <p className="small-note renewal-note">將建立新的收件連結。舊連結不延長；新指令會要求你明確核准新目的地，已保存的最小摘要可繼續使用。</p>}
         <form onSubmit={create} className="identity-form">
           <label className="sr-only" htmlFor="nickname">Agent 的名字</label><input id="nickname" className="nickname-input" autoComplete="off" placeholder="Agent 的名字" value={active?.nickname ?? nickname} onChange={e=>setNickname(e.target.value)} required maxLength={24} readOnly={!!active}/>
@@ -214,9 +214,10 @@ export function PersonaApp(){
       {stage==="collection" && result && <section className="collection-screen screen"><h1 tabIndex={-1}>把這道光，<br/>留給自己。</h1><div className="collection-art"><HoloCard report={card} style={style} family={family} nicknameOnly={nicknameOnly}/></div>
         <div className="style-switch" aria-label="卡片畫風"><button aria-pressed={style==="regular"} onClick={()=>setStyle("regular")}>一般</button><button aria-pressed={style==="chibi"} onClick={()=>setStyle("chibi")}>Q 版</button></div>
         <p className="drag-hint"><span className="motion-hint">拖曳卡片，看看另一道光</span><span className="reduced-hint">已依偏好使用靜態卡面</span></p>
-        <details className="card-options"><summary>卡片選項</summary><div><label htmlFor="card-family">卡面主題</label><select id="card-family" value={family} onChange={e=>setFamily(e.target.value as Family)}>{families.map(f=><option key={f.id} value={f.id}>{f.label}</option>)}</select><label className="check-field"><input type="checkbox" checked={nicknameOnly} onChange={e=>setNicknameOnly(e.target.checked)}/>只顯示暱稱，隱藏分型</label><p>造型不決定分型。<br/>六個家族各有一般／Q 版，可自由搭配。</p></div></details>
-        <button className="primary" onClick={exportPng} disabled={exporting}>{exporting ? "製作圖片中…" : "下載我的角色卡"}<Download size={20}/></button><p className="small-note">圖片不含 Email、使用紀錄或會話連結。</p>
-        <p className="collection-credit">{artCredit(family)}<br/>CC BY-NC-SA 4.0 · 非官方／非商業</p>
+        <details className="card-options"><summary>卡片選項</summary><div><label htmlFor="card-family">卡面主題</label><select id="card-family" value={family} onChange={e=>setFamily(e.target.value as Family)}>{families.map(f=><option key={f.id} value={f.id}>{f.label}</option>)}</select><label className="check-field"><input type="checkbox" checked={nicknameOnly} onChange={e=>setNicknameOnly(e.target.checked)}/>只顯示暱稱，隱藏分型</label><p>造型不決定分型。<br/>每個家族的 16 型皆有一般／Q 版專屬插畫；造型依本次分型對應，切換主題不改評估。</p></div></details>
+        {card.assessment.type && !artFor(family,card.assessment.type,style) && <p className="small-note art-pending">此型插畫製作中，完成後才能下載。分型已保留。</p>}
+        <button className="primary" onClick={exportPng} disabled={exporting || (!!card.assessment.type && !artFor(family,card.assessment.type,style))}>{exporting ? "製作圖片中…" : "下載我的角色卡"}<Download size={20}/></button><p className="small-note">圖片不含 Email、使用紀錄或會話連結。</p>
+        <p className="collection-credit">{artFor(family,card.assessment.type,style) ? <>{artCredit(family)}<br/>CC BY-NC-SA 4.0 · 非官方／非商業</> : <>中性佔位卡面 · 未使用其他分型的插畫</>}</p>
       </section>}
       </>}
       {(flow.error || notice) && <p className="inline-notice" role="status">{flow.error || notice}</p>}
@@ -224,7 +225,7 @@ export function PersonaApp(){
     <footer className="journey-footer"><button onClick={()=>about.current?.showModal()}>關於這份觀察</button></footer>
     <dialog ref={about} className="about-dialog" aria-labelledby="about-title"><button className="icon-button dialog-close" onClick={()=>about.current?.close()} aria-label="關閉說明"><X size={22}/></button><h2 id="about-title">你怎麼帶它，<br/>它就怎麼做事。</h2><p>這是一段以授權使用紀錄為依據的合作觀察。借用四組字母，以自訂規則描述合作風格，非官方 MBTI 評量。網站只接收你事前明確授權範圍內的最小摘要，授權後自動驗證與傳送。</p>
       <details><summary>觀察依據與 16 種風格</summary><p>借用 E/I 互動節奏、S/N 理解起點、T/F 取捨依據、J/P 推進方式，以原創規則觀察主人帶領 Agent 的實際合作。這不是人的人格診斷，也不是模型的固定性格。</p><p>每軸至少三個獨立任務；同一任務只算一次。受限情境不計入，接近或不足就保留未知。舊結果需要重新分析。<a href="/collector-protocol.md" target="_blank" rel="noreferrer">完整觀察方式 ↗</a></p><div className="about-types">{Object.entries(personas).map(([code,p])=><div key={code}><b>{code}</b><span>{p.name}</span></div>)}</div></details>
-      <details><summary>角色來源與非商業授權</summary><p>六個家族各有一般版與 Q 版，共 12 張通用造型。造型與分型無關，沒有宣稱每型都有專屬插圖。Codex 使用 GPT 娘的同人改編，並非官方 Codex 角色。圖片改編參考 <a href="https://github.com/Apprentice-Geo/AI-Fanworks/tree/main/ApprenTice/images" target="_blank" rel="noreferrer">ApprenTice</a>；角色原作參考 ZipZipPipe，DeepSeek 另含上善無形。</p><p>AI 輔助再創作，<a href="https://creativecommons.org/licenses/by-nc-sa/4.0/" target="_blank" rel="noreferrer">CC BY-NC-SA 4.0</a>，限非商業、署名及相同方式分享。上游權利鏈尚未全面核實，沒有模型業者背書。</p><a href="/art-provenance.md" target="_blank" rel="noreferrer">完整素材來源 ↗</a></details>
+      <details><summary>角色來源與非商業授權</summary><p>六個家族 × 16 型 × 一般／Q 版，共 192 格專屬插畫。目前 {artCounts.ready} 張完成{artCounts.complete ? "。" : "，其餘製作中，缺圖不以其他型替代。"} 插畫依構圖選配，與分型計算獨立。Codex 使用 GPT 娘的同人改編，並非官方 Codex 角色。圖片改編參考 <a href="https://github.com/Apprentice-Geo/AI-Fanworks/tree/main/ApprenTice/images" target="_blank" rel="noreferrer">ApprenTice</a>；角色原作參考 ZipZipPipe，DeepSeek 另含上善無形。</p><p>AI 輔助再創作，<a href="https://creativecommons.org/licenses/by-nc-sa/4.0/" target="_blank" rel="noreferrer">CC BY-NC-SA 4.0</a>，限非商業、署名及相同方式分享。上游權利鏈尚未全面核實，沒有模型業者背書。</p><a href="/art-provenance.md" target="_blank" rel="noreferrer">完整素材來源 ↗</a><br/><a href="/art-gallery">瀏覽全部插畫圖庫 ↗</a></details>
       <details><summary>資料與 Email 如何使用</summary><p>暱稱與核准摘要只供這次結果。Email 選填：不填只提供卡片，填寫並同意結果用途才可取得完整報告；不行銷，不出現在卡片上。本機預覽尚未連接寄信服務，沒有寄出 Email。</p><p>連結 30 分鐘後禁止讀寫；到期資料於後續請求清理，也可提前結束並刪除。讀取與提交權限分開，沒有公開結果網址。重整不保存提交權杖。</p><p>私人 Sites 外部 callback 尚未驗證。目前只在本機運作，不繞過存取閘門，也不分享整站通行權杖。</p></details>
       {!active && <button className="quiet-button demo-entry" onClick={()=>{setDemo(true);setNickname("示範搭檔");about.current?.close();go("identity");}}>使用虛構資料體驗<ArrowRight size={16}/></button>}
       {active && <button className="quiet-button danger-action" disabled={flow.busy} onClick={()=>erase()}>結束觀察並刪除資料</button>}

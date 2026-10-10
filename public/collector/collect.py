@@ -10,6 +10,8 @@ import sqlite3
 import stat
 import subprocess
 import sys
+import tempfile
+import threading
 import time
 import urllib.error
 import urllib.parse
@@ -53,6 +55,7 @@ PREFIX_TS_RE = re.compile(rb'"timestamp"\s*:\s*"([^"\\]{16,48})"')
 PAYLOAD_TYPE_RE = re.compile(rb'"payload"\s*:\s*\{[^{}]{0,400}?"type"\s*:\s*"([^"]+)"')
 PAYLOAD_ROLE_RE = re.compile(rb'"payload"\s*:\s*\{[^{}]{0,400}?"role"\s*:\s*"([^"]+)"')
 MESSAGE_TYPES = {"message", "agent_message"}
+TOKSCALE_TIMEOUT = 300
 
 
 class Session:
@@ -913,92 +916,123 @@ def tokscale_clients(sources):
     return names
 
 
-def run_tokscale(mode, home, zone, sources, start, stop):
+def tokscale_empty(seconds):
+    return {"input": None, "output": None, "source": "unavailable", "usage": [], "unit": "unknown", "family": "unknown", "gaps": {"no_tokscale"}, "seconds": seconds}
+
+
+def launch_tokscale(mode, home, zone, sources, start, stop):
     started = time.perf_counter()
-    empty = {"input": None, "output": None, "source": "unavailable", "usage": [], "unit": "unknown", "family": "unknown", "gaps": {"no_tokscale"}, "seconds": 0.0}
+    job = {"started": started, "proc": None, "stdout": None, "thread": None, "early": None, "timed_out": False, "ended": started}
+
+    def early():
+        job["early"] = tokscale_empty(time.perf_counter() - started)
+        return job
+
     if mode == "off":
-        empty["seconds"] = time.perf_counter() - started
-        return empty
+        return early()
     clients = tokscale_clients(sources)
     if not clients:
-        empty["seconds"] = time.perf_counter() - started
-        return empty
+        return early()
     binary = shutil.which("tokscale")
     if binary:
         command = [binary]
     elif mode == "install":
         command = ["npm", "exec", "--yes", "@tokscale/cli@4.18.0", "--"]
     else:
-        empty["seconds"] = time.perf_counter() - started
-        return empty
-    since = local_day(start, zone)
-    until = local_day(stop, zone)
+        return early()
     command += [
         "models", "--json", "--no-spinner", "--home", home, "--client", ",".join(clients),
-        "--since", since, "--until", until, "--group-by", "client,session,model",
+        "--since", local_day(start, zone), "--until", local_day(stop, zone), "--group-by", "client,session,model",
     ]
     env = os.environ.copy()
     env["TZ"] = getattr(zone, "key", None) or "UTC"
+    stdout = tempfile.TemporaryFile()
     try:
-        completed = subprocess.run(command, capture_output=True, env=env, stdin=subprocess.DEVNULL, timeout=300, check=False)
-    except (OSError, subprocess.TimeoutExpired):
-        empty["seconds"] = time.perf_counter() - started
-        return empty
-    if completed.returncode != 0:
-        empty["seconds"] = time.perf_counter() - started
-        return empty
+        proc = subprocess.Popen(command, stdout=stdout, stderr=subprocess.DEVNULL, stdin=subprocess.DEVNULL, env=env)
+    except OSError:
+        stdout.close()
+        return early()
+    job["proc"] = proc
+    job["stdout"] = stdout
+
+    def wait_proc():
+        try:
+            proc.wait(timeout=TOKSCALE_TIMEOUT)
+        except subprocess.TimeoutExpired:
+            job["timed_out"] = True
+            proc.kill()
+            proc.wait()
+        job["ended"] = time.perf_counter()
+
+    thread = threading.Thread(target=wait_proc, daemon=True)
+    thread.start()
+    job["thread"] = thread
+    return job
+
+
+def finish_tokscale(job, zone, start, stop):
+    if job["early"] is not None:
+        return job["early"]
+    job["thread"].join()
+    seconds = job["ended"] - job["started"]
+    stdout = job["stdout"]
+    proc = job["proc"]
     try:
-        payload = json.loads(completed.stdout.decode("utf-8"))
-    except (UnicodeDecodeError, json.JSONDecodeError):
-        empty["seconds"] = time.perf_counter() - started
-        return empty
-    entries = payload.get("entries") if isinstance(payload, dict) else None
-    if not isinstance(entries, list):
-        empty["seconds"] = time.perf_counter() - started
-        return empty
-    totals = defaultdict(int)
-    gaps = set()
-    input_tokens = 0
-    output_tokens = 0
-    kept = False
-    for entry in entries:
-        if not isinstance(entry, dict):
-            continue
-        moment = session_start(entry.get("sessionId"), zone)
-        if moment is None or not (start <= moment < stop):
-            if moment is None:
-                gaps.add("partial_window")
-            continue
-        kept = True
-        incoming = entry.get("input") if isinstance(entry.get("input"), int) else 0
-        outgoing = entry.get("output") if isinstance(entry.get("output"), int) else 0
-        input_tokens += incoming
-        output_tokens += outgoing
-        name = family(entry.get("model"))
-        if name != "unknown":
-            totals[name] += incoming + outgoing
-    usage = [{"family": name, "count": count} for name, count in sorted(totals.items(), key=lambda item: (-item[1], item[0])) if count > 0][:8]
-    if usage and (len(usage) == 1 or usage[0]["count"] > usage[1]["count"]):
-        top = usage[0]["family"]
-        unit = "reported_tokens"
-    else:
-        top = "unknown"
-        unit = "unknown" if not usage else "reported_tokens"
-        if not usage:
-            usage = []
-    if not kept and not entries:
+        if job["timed_out"] or proc.returncode != 0:
+            return tokscale_empty(seconds)
+        stdout.seek(0)
+        try:
+            payload = json.loads(stdout.read())
+        except (UnicodeDecodeError, json.JSONDecodeError):
+            return tokscale_empty(seconds)
+        entries = payload.get("entries") if isinstance(payload, dict) else None
+        if not isinstance(entries, list):
+            return tokscale_empty(seconds)
+        totals = defaultdict(int)
+        gaps = set()
         input_tokens = 0
         output_tokens = 0
-    return {
-        "input": input_tokens,
-        "output": output_tokens,
-        "source": "tokscale",
-        "usage": usage,
-        "unit": unit if usage else "unknown",
-        "family": top if usage else "unknown",
-        "gaps": gaps,
-        "seconds": time.perf_counter() - started,
-    }
+        kept = False
+        for entry in entries:
+            if not isinstance(entry, dict):
+                continue
+            moment = session_start(entry.get("sessionId"), zone)
+            if moment is None or not (start <= moment < stop):
+                if moment is None:
+                    gaps.add("partial_window")
+                continue
+            kept = True
+            incoming = entry.get("input") if isinstance(entry.get("input"), int) else 0
+            outgoing = entry.get("output") if isinstance(entry.get("output"), int) else 0
+            input_tokens += incoming
+            output_tokens += outgoing
+            name = family(entry.get("model"))
+            if name != "unknown":
+                totals[name] += incoming + outgoing
+        usage = [{"family": name, "count": count} for name, count in sorted(totals.items(), key=lambda item: (-item[1], item[0])) if count > 0][:8]
+        if usage and (len(usage) == 1 or usage[0]["count"] > usage[1]["count"]):
+            top = usage[0]["family"]
+            unit = "reported_tokens"
+        else:
+            top = "unknown"
+            unit = "unknown" if not usage else "reported_tokens"
+            if not usage:
+                usage = []
+        if not kept and not entries:
+            input_tokens = 0
+            output_tokens = 0
+        return {
+            "input": input_tokens,
+            "output": output_tokens,
+            "source": "tokscale",
+            "usage": usage,
+            "unit": unit if usage else "unknown",
+            "family": top if usage else "unknown",
+            "gaps": gaps,
+            "seconds": seconds,
+        }
+    finally:
+        stdout.close()
 
 
 def most_client(sessions, sources):
@@ -1016,17 +1050,20 @@ def most_client(sessions, sources):
 
 def build_digest(home, sources, start, stop, zone, mode, window_from, window_to, zone_name):
     scan = {"sessions": [], "days": set(), "gaps": {"web_history_unavailable", "no_artifact_inspection"}}
-    if "claude-code" in sources:
-        scan_claude(home, start, stop, zone, scan)
-    if "codex" in sources:
-        scan_codex(home, start, stop, zone, scan)
-    if "cursor" in sources:
-        scan_cursor(home, start, stop, zone, scan)
-    if "other" in sources:
-        scan_other(home, start, stop, zone, scan)
-    if "antigravity" in sources or "chatgpt" in sources:
-        scan["gaps"].add("other_sources_missing")
-    tokens = run_tokscale(mode, home, zone, sources, start, stop)
+    job = launch_tokscale(mode, home, zone, sources, start, stop)
+    try:
+        if "claude-code" in sources:
+            scan_claude(home, start, stop, zone, scan)
+        if "codex" in sources:
+            scan_codex(home, start, stop, zone, scan)
+        if "cursor" in sources:
+            scan_cursor(home, start, stop, zone, scan)
+        if "other" in sources:
+            scan_other(home, start, stop, zone, scan)
+        if "antigravity" in sources or "chatgpt" in sources:
+            scan["gaps"].add("other_sources_missing")
+    finally:
+        tokens = finish_tokscale(job, zone, start, stop)
     scan["gaps"].update(tokens["gaps"])
     human = [session for session in scan["sessions"] if session.bucket == "human"]
     if not human:

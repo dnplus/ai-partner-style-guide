@@ -49,6 +49,10 @@ TOKEN_RE = re.compile(r"^[0-9a-f]{64}$")
 SESSION_RE = re.compile(r"^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$")
 ISO_SID_RE = re.compile(r"(20\d{2}-\d{2}-\d{2})T(\d{2})-(\d{2})-(\d{2})")
 COMPACT_SID_RE = re.compile(r"(20\d{2})(\d{2})(\d{2})_(\d{2})(\d{2})(\d{2})")
+PREFIX_TS_RE = re.compile(rb'"timestamp"\s*:\s*"([^"\\]{16,48})"')
+PAYLOAD_TYPE_RE = re.compile(rb'"payload"\s*:\s*\{[^{}]{0,400}?"type"\s*:\s*"([^"]+)"')
+PAYLOAD_ROLE_RE = re.compile(rb'"payload"\s*:\s*\{[^{}]{0,400}?"role"\s*:\s*"([^"]+)"')
+MESSAGE_TYPES = {"message", "agent_message"}
 
 
 class Session:
@@ -144,6 +148,80 @@ def blocks(content):
     return turns
 
 
+def has_turn(content):
+    if isinstance(content, str):
+        return bool(content.strip())
+    if isinstance(content, list):
+        for part in content:
+            if isinstance(part, str):
+                if part.strip():
+                    return True
+            elif isinstance(part, dict):
+                if part.get("type") in TOOL_TYPES:
+                    label = part.get("name") or part.get("tool") or "tool"
+                    if str(label).strip():
+                        return True
+                elif isinstance(part.get("text"), str) and part["text"].strip():
+                    return True
+    elif isinstance(content, dict) and isinstance(content.get("text"), str):
+        return bool(content["text"].strip())
+    return False
+
+
+class Tally:
+    def __init__(self):
+        self.human = False
+        self.auto = False
+        self.subagent = False
+        self.saw_agent = False
+        self.saw = False
+        self.user_n = 0
+        self.day = None
+
+
+def each_record(path):
+    try:
+        handle = open_file(path)
+    except OSError:
+        return
+    with handle:
+        for raw in handle:
+            if raw.endswith(b"\r\n"):
+                raw = raw[:-2]
+            elif raw.endswith(b"\n") or raw.endswith(b"\r"):
+                raw = raw[:-1]
+            if raw:
+                yield raw
+
+
+def load_json(raw):
+    try:
+        obj = json.loads(raw)
+    except (UnicodeDecodeError, json.JSONDecodeError):
+        return None
+    if isinstance(obj, dict):
+        return obj
+    return None
+
+
+def prefix_moment(raw):
+    matched = PREFIX_TS_RE.search(raw[:120])
+    if not matched:
+        return None
+    return parse_time(matched.group(1).decode("utf-8", "replace"))
+
+
+def remember_day(scan, moment, zone):
+    scan["days"].add(local_day(moment, zone))
+
+
+def note_user(tally, moment, zone):
+    tally.user_n += 1
+    tally.human = True
+    current = local_day(moment, zone)
+    tally.day = current if tally.day is None else min(tally.day, current)
+
+
 def open_file(path):
     fd = os.open(path, os.O_RDONLY | getattr(os, "O_NOFOLLOW", 0))
     return os.fdopen(fd, "rb")
@@ -200,6 +278,35 @@ def claude_user_class(obj):
     return None
 
 
+def apply_claude(obj, start, stop, zone, scan, tally, path_subagent):
+    moment = parse_time(obj.get("timestamp")) if isinstance(obj.get("timestamp"), str) else None
+    kind = obj.get("type")
+    if kind in {"user", "assistant"} and moment is None:
+        scan["gaps"].add("unattributed_runs")
+        return
+    if moment is None or not (start <= moment < stop):
+        return
+    remember_day(scan, moment, zone)
+    tally.saw = True
+    if kind == "user":
+        role = claude_user_class(obj)
+        if role == "human" and not path_subagent:
+            note_user(tally, moment, zone)
+        elif role == "auto":
+            tally.auto = True
+    elif kind == "assistant" and not tally.saw_agent:
+        message = obj.get("message") if isinstance(obj.get("message"), dict) else {}
+        if has_turn(message.get("content")):
+            tally.saw_agent = True
+
+
+def claude_line_settled(raw, start, stop):
+    moment = prefix_moment(raw)
+    if moment is None:
+        return False
+    return not (start <= moment < stop)
+
+
 def scan_claude(home, start, stop, zone, scan):
     root = os.path.join(home, ".claude", "projects")
     if not os.path.isdir(root) or os.path.islink(root):
@@ -208,48 +315,80 @@ def scan_claude(home, start, stop, zone, scan):
     for path, mtime in each_jsonl(root):
         if not fresh(mtime, start.timestamp()):
             continue
-        human = auto = saw_agent = saw = False
-        user_n = 0
-        day = None
-        subagent = "subagents" in path.split(os.sep)
-        for obj in iter_objects(path) or ():
-            if not isinstance(obj, dict):
+        tally = Tally()
+        path_subagent = "subagents" in path.split(os.sep)
+        for raw in each_record(path):
+            if claude_line_settled(raw, start, stop):
                 continue
-            moment = parse_time(obj.get("timestamp")) if isinstance(obj.get("timestamp"), str) else None
-            kind = obj.get("type")
-            if kind in {"user", "assistant"} and moment is None:
-                scan["gaps"].add("unattributed_runs")
+            obj = load_json(raw)
+            if obj is None:
                 continue
-            if moment is None or not (start <= moment < stop):
-                continue
-            scan["days"].add(local_day(moment, zone))
-            saw = True
-            if kind == "user":
-                role = claude_user_class(obj)
-                if role == "human" and not subagent:
-                    user_n += 1
-                    human = True
-                    current = local_day(moment, zone)
-                    day = current if day is None else min(day, current)
-                elif role == "auto":
-                    auto = True
-            elif kind == "assistant":
-                message = obj.get("message") if isinstance(obj.get("message"), dict) else {}
-                if blocks(message.get("content")):
-                    saw_agent = True
-        if not saw:
+            apply_claude(obj, start, stop, zone, scan, tally, path_subagent)
+        if not tally.saw:
             continue
-        if subagent:
-            scan["sessions"].append(Session("claude-code", "subagent", day, 0, False, path, "claude"))
-        elif human:
-            scan["sessions"].append(Session("claude-code", "human", day, user_n, saw_agent, path, "claude"))
-        elif auto:
-            scan["sessions"].append(Session("claude-code", "automated", day, 0, False, path, "claude"))
+        if path_subagent:
+            scan["sessions"].append(Session("claude-code", "subagent", tally.day, 0, False, path, "claude"))
+        elif tally.human:
+            scan["sessions"].append(Session("claude-code", "human", tally.day, tally.user_n, tally.saw_agent, path, "claude"))
+        elif tally.auto:
+            scan["sessions"].append(Session("claude-code", "automated", tally.day, 0, False, path, "claude"))
 
 
 def codex_subagent(payload):
     source = payload.get("source")
     return bool(payload.get("parent_thread_id")) or (isinstance(source, dict) and "subagent" in source)
+
+
+def apply_codex(obj, start, stop, zone, scan, tally):
+    payload = obj.get("payload") if isinstance(obj.get("payload"), dict) else {}
+    if obj.get("type") == "session_meta" and codex_subagent(payload):
+        tally.subagent = True
+    moment = parse_time(obj.get("timestamp")) if isinstance(obj.get("timestamp"), str) else None
+    ptype = payload.get("type")
+    message_like = ptype in MESSAGE_TYPES or ptype in TOOL_TYPES
+    if message_like and moment is None:
+        scan["gaps"].add("unattributed_runs")
+        return
+    if moment is None or not (start <= moment < stop) or not message_like:
+        return
+    remember_day(scan, moment, zone)
+    tally.saw = True
+    role = payload.get("role")
+    if ptype == "message" and role == "user" and not tally.subagent:
+        note_user(tally, moment, zone)
+    elif not tally.saw_agent and has_turn(payload.get("content")) and (ptype == "agent_message" or role == "assistant" or ptype in TOOL_TYPES):
+        tally.saw_agent = True
+
+
+def codex_line_settled(raw, start, stop, zone, scan, tally):
+    if b'"session_meta"' in raw[:240]:
+        return False
+    moment = prefix_moment(raw)
+    if moment is None:
+        return False
+    if not (start <= moment < stop):
+        return True
+    payload = PAYLOAD_TYPE_RE.search(raw[:640])
+    if payload is None:
+        return False
+    ptype = payload.group(1).decode("utf-8", "replace")
+    if ptype not in MESSAGE_TYPES and ptype not in TOOL_TYPES:
+        return True
+    role = None
+    if ptype == "message":
+        role_match = PAYLOAD_ROLE_RE.search(raw[:640])
+        if role_match is None:
+            return False
+        role = role_match.group(1).decode("utf-8", "replace")
+        if role == "assistant" and not tally.saw_agent:
+            return False
+    elif not tally.saw_agent and not (ptype in TOOL_TYPES and b'"content"' not in raw):
+        return False
+    remember_day(scan, moment, zone)
+    tally.saw = True
+    if ptype == "message" and role == "user" and not tally.subagent:
+        note_user(tally, moment, zone)
+    return True
 
 
 def scan_codex(home, start, stop, zone, scan):
@@ -261,41 +400,20 @@ def scan_codex(home, start, stop, zone, scan):
         for path, mtime in each_jsonl(root):
             if not fresh(mtime, start.timestamp()):
                 continue
-            subagent = human = saw_agent = saw = False
-            user_n = 0
-            day = None
-            for obj in iter_objects(path) or ():
-                if not isinstance(obj, dict):
+            tally = Tally()
+            for raw in each_record(path):
+                if codex_line_settled(raw, start, stop, zone, scan, tally):
                     continue
-                payload = obj.get("payload") if isinstance(obj.get("payload"), dict) else {}
-                if obj.get("type") == "session_meta" and codex_subagent(payload):
-                    subagent = True
-                moment = parse_time(obj.get("timestamp")) if isinstance(obj.get("timestamp"), str) else None
-                ptype = payload.get("type")
-                message_like = ptype in {"message", "agent_message"} or ptype in TOOL_TYPES
-                if message_like and moment is None:
-                    scan["gaps"].add("unattributed_runs")
+                obj = load_json(raw)
+                if obj is None:
                     continue
-                if moment is None or not (start <= moment < stop):
-                    continue
-                if not message_like:
-                    continue
-                scan["days"].add(local_day(moment, zone))
-                saw = True
-                role = payload.get("role")
-                if ptype == "message" and role == "user" and not subagent:
-                    user_n += 1
-                    human = True
-                    current = local_day(moment, zone)
-                    day = current if day is None else min(day, current)
-                elif blocks(payload.get("content")) and (ptype == "agent_message" or role == "assistant" or ptype in TOOL_TYPES):
-                    saw_agent = True
-            if not saw:
+                apply_codex(obj, start, stop, zone, scan, tally)
+            if not tally.saw:
                 continue
-            if subagent:
-                scan["sessions"].append(Session("codex", "subagent", day, 0, False, path, "codex"))
-            elif human:
-                scan["sessions"].append(Session("codex", "human", day, user_n, saw_agent, path, "codex"))
+            if tally.subagent:
+                scan["sessions"].append(Session("codex", "subagent", tally.day, 0, False, path, "codex"))
+            elif tally.human:
+                scan["sessions"].append(Session("codex", "human", tally.day, tally.user_n, tally.saw_agent, path, "codex"))
 
 
 def scan_cursor(home, start, stop, zone, scan):

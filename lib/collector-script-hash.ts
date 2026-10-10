@@ -1,1 +1,1 @@
-export const COLLECTOR_SCRIPT_SHA256 = "c1b6258c9b60511bceb51c6ab4a934f4951e6d7e61d41e2494ebfe5d2ddcf2bb";
+export const COLLECTOR_SCRIPT_SHA256 = "4a637bd14dc552c049cf6252b1efea0f97ddb5ba9241526bd3faffceb7bbec5e";

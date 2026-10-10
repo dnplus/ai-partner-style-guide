@@ -1,0 +1,134 @@
+{
+  "origin": "https://agent-mbti-cards.dnplus.chatgpt.site",
+  "checkedAt": "2026-10-10T10:05:45.951Z",
+  "scope": "Actual public Sites dispatch; no browser cookies, bypass key or native identity",
+  "checks": [
+    {
+      "step": "anonymous homepage",
+      "actual": 200,
+      "expected": 200,
+      "passed": true
+    },
+    {
+      "step": "native sign-in anchor",
+      "actual": true,
+      "expected": true,
+      "passed": true
+    },
+    {
+      "step": "anonymous account status",
+      "actual": 200,
+      "expected": 200,
+      "passed": true
+    },
+    {
+      "step": "anonymous account remains anonymous",
+      "actual": false,
+      "expected": false,
+      "passed": true
+    },
+    {
+      "step": "untrusted identity headers account status",
+      "actual": 200,
+      "expected": 200,
+      "passed": true
+    },
+    {
+      "step": "untrusted identity headers account remains anonymous",
+      "actual": false,
+      "expected": false,
+      "passed": true
+    },
+    {
+      "step": "anonymous creation",
+      "actual": 401,
+      "expected": 401,
+      "passed": true
+    },
+    {
+      "step": "anonymous result read",
+      "actual": 401,
+      "expected": 401,
+      "passed": true
+    },
+    {
+      "step": "anonymous result delete",
+      "actual": 401,
+      "expected": 401,
+      "passed": true
+    },
+    {
+      "step": "anonymous recall",
+      "actual": 401,
+      "expected": 401,
+      "passed": true
+    },
+    {
+      "step": "anonymous remember",
+      "actual": 401,
+      "expected": 401,
+      "passed": true
+    },
+    {
+      "step": "anonymous clear",
+      "actual": 401,
+      "expected": 401,
+      "passed": true
+    },
+    {
+      "step": "anonymous account mutation",
+      "actual": 401,
+      "expected": 401,
+      "passed": true
+    },
+    {
+      "step": "spoofed identity cannot create",
+      "actual": 401,
+      "expected": 401,
+      "passed": true
+    },
+    {
+      "step": "callback without capability",
+      "actual": 404,
+      "expected": 404,
+      "passed": true
+    },
+    {
+      "step": "callback with invalid capability",
+      "actual": 404,
+      "expected": 404,
+      "passed": true
+    },
+    {
+      "step": "progress with invalid capability",
+      "actual": 404,
+      "expected": 404,
+      "passed": true
+    },
+    {
+      "step": "public asset /collector-protocol.md",
+      "actual": 200,
+      "expected": 200,
+      "passed": true
+    },
+    {
+      "step": "public asset /collector-schema.json",
+      "actual": 200,
+      "expected": 200,
+      "passed": true
+    },
+    {
+      "step": "public asset /art/mbti/codex/istj-chibi.webp",
+      "actual": 200,
+      "expected": 200,
+      "passed": true
+    },
+    {
+      "step": "published artwork SHA256 matches verified source",
+      "actual": "e181e059456d7bbc139a612f1d260abc317b1bded2b2adcf28ceade01333d705",
+      "expected": "e181e059456d7bbc139a612f1d260abc317b1bded2b2adcf28ceade01333d705",
+      "passed": true
+    }
+  ],
+  "failure": null
+}

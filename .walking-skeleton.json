@@ -1439,14 +1439,34 @@
           "type": "build",
           "path": "evidence/published/build-results.txt",
           "result": "Official Sites build succeeds with only192WebP runtime images"
+        },
+        {
+          "type": "deployment",
+          "path": "evidence/published/deployment.json",
+          "result": "Same Site,version1,succeeded,actual public URL confirmed by native Sites tool"
+        },
+        {
+          "type": "api",
+          "path": "evidence/published/anonymous-boundary.json",
+          "result": "21/21 real public Sites checks,including untrusted identity header rejection and exact published WebP hash"
+        },
+        {
+          "type": "build",
+          "path": "evidence/published/package-validation.json",
+          "result": "122555673-byte archive;below256MiB;source originals excluded;official helper pushed exact source"
+        },
+        {
+          "type": "delivery",
+          "path": "docs/DELIVERY-PUBLIC.md",
+          "result": "Published outcome,scoped local/remote evidence,passkey user-presence blocker and precise continuation documented"
         }
       ],
-      "next_action": "Finish focused WebP/browser checks, sync the corrected runtime to the same Site, save one version and deploy; then verify native login and external fixture callback."
+      "next_action": "After the owner completes native passkey login,create Published Fixture viaUI,run the external write-capability fixture verifier,confirm report/download/recall and clear the fixture."
     }
   ],
-  "last_observation": "C9 media correction committed at2882bc2bf8173566abe9ac7d73448c0d4ff384b3. All204 originals preserved; 192 WebP delivery assets verified; 69/69 tests, official build,26HTTP checks and4 targeted browser scenarios pass. The new art-source preservation directory is explicitly added to the ledger scope after the initial guard flagged it.",
-  "current_blocker": "Same Site awaits corrected source/package publication and native remote verification.",
+  "last_observation": "C9 published version1 successfully at2026-10-10T10:05:05.716467Z from source6b0c804e492f72819832b0c1030e4a3ee7b285a3. Actual public dispatch checks21/21 pass and the native Chrome sign-in flow reached OpenAI passkey verification.",
+  "current_blocker": "The real account owner must complete the OpenAI passkey challenge in the retained Chrome tab. Authenticated remote session and valid external fixture callback remain unverified; no bypass or fabricated identity used.",
   "correlation_groups": [],
-  "state_revision": 25,
-  "state_digest": "7e823ea74647015c34d1246df4257e38085c7c46420d16cb0ef6e53365c18893"
+  "state_revision": 26,
+  "state_digest": "fbc251ba8a2105529fb7a6d0c6c675bf03e999959e89628faebb78db375ee2f1"
 }

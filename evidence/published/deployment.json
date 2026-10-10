@@ -1,0 +1,15 @@
+{
+  "id": "appgdep_6aca0daceea08191ab3d6e269cb6735b",
+  "project_id": "appgprj_6ac9f54d8a7081918c8c15f84e24c9d7",
+  "title": "你的 Agent MBTI",
+  "version_id": "appgprj_6ac9f54d8a7081918c8c15f84e24c9d7~appgver_ccab939bccb88191928c0c6af0c4b6eb",
+  "type": "publish",
+  "status": "succeeded",
+  "url": "https://agent-mbti-cards.dnplus.chatgpt.site",
+  "has_mcp": false,
+  "screenshot_asset_pointer": null,
+  "provider_deployment_id": "site---6ac9f54d8a7081918c8c15f84e24c9d7",
+  "failure_message": null,
+  "env_set_revision": 0,
+  "updated_at": "2026-10-10T10:05:05.716467+00:00"
+}

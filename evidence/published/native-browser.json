@@ -1,0 +1,16 @@
+{
+  "url": "https://agent-mbti-cards.dnplus.chatgpt.site/",
+  "title": "你的 Agent MBTI｜讓合作長出自己的風格",
+  "browser": "Chrome through CUA",
+  "publicCoverRendered": true,
+  "coverCharacterLoaded": true,
+  "nativeSignInAnchorObserved": true,
+  "nativeSignInDestinationObserved": "https://auth.openai.com/auth_challenge/passkey",
+  "nativeOwnerAccountSelected": true,
+  "authenticatedReturnVerified": false,
+  "validExternalCallbackVerified": false,
+  "ownerPresenceRequired": "OpenAI passkey challenge",
+  "appConsoleWarningsOrErrors": [],
+  "browserTabRetainedForHandoff": true,
+  "privacy": "No browser authentication cookies, write/read capabilities or account email saved in this evidence."
+}

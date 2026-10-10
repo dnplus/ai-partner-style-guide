@@ -79,5 +79,5 @@ test("sanitized AGY control-flow fixture contains no old assessment or actual tr
 });
 test("readable renewal prompt requires destination grant, preserves analysis and avoids terminal report dump",()=>{
   const text=collectorInstructions({...target,readToken:"NEVER_INCLUDE_READ_AUTHORITY"},target.origin,true);
-  assert.match(text,/更換收件連結/);assert.match(text,/明確同意新目的地/);assert.match(text,/不再要求第二次/);assert.match(text,/不要先輸出分型/);assert.match(text,/原生核准/);assert.doesNotMatch(text,/NEVER_INCLUDE_READ_AUTHORITY|先展示完整 JSON/);
+  assert.match(text,/這是更換收件連結。沿用已授權的最小摘要，不要重掃，也不要先輸出分型。新目的地需要使用者明確同意後才能送出。/);assert.equal(text.split("\n").length,7);assert.doesNotMatch(text,/NEVER_INCLUDE_READ_AUTHORITY|先展示完整 JSON/);
 });

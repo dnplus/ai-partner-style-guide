@@ -2,6 +2,7 @@ import test from 'node:test';
 import assert from 'node:assert/strict';
 import {createCollectorScope,defaultScopeOptions,withinCollectorScope,scopeDateBounds,DAY_MS} from '../lib/collector-scope.ts';
 import {collectorConfirmation,collectorInstructions} from '../lib/collector-instructions.ts';
+import {COLLECTOR_SCRIPT_SHA256} from '../lib/collector-script-hash.ts';
 import {locales} from '../lib/i18n.ts';
 import {grantPopulatedScope,prepareAuthorizedSummary} from '../lib/collector-runner.ts';
 import {makeFixture} from '../lib/fixture.ts';
@@ -16,7 +17,9 @@ test('DST and timezone boundaries never inflate rolling interval or guess dates'
  assert.throws(()=>createCollectorScope(now,'Not/AZone'));
 });
 test('each actual localized prompt contains populated defaults, one paragraph approval, official install and no secondary questions',()=>{
- for(const locale of locales){const scope=createCollectorScope(now,'Asia/Taipei');const confirmation=collectorConfirmation(scope,locale);const prompt=collectorInstructions({...target,readToken:'DO_NOT_INCLUDE'},target.origin,false,locale,scope);assert.ok(prompt.includes(confirmation));assert.equal(confirmation.split('\n').length,1);for(const word of ['lookbackDays=60','sourceMode=all_supported_local','includeTokscale=true','installTokscaleIfMissing=true','@tokscale/cli@4.18.0','https://registry.npmjs.org','--home','no_tokscale','partial_window',scope.from,scope.to])assert.ok(prompt.includes(word),locale+word);assert.ok(!prompt.includes('DO_NOT_INCLUDE'));assert.ok(!/\{(sources|days|window|confirmation|from|to)\}/.test(prompt));}
+ for(const locale of locales){const scope=createCollectorScope(now,'Asia/Taipei');const confirmation=collectorConfirmation(scope,locale);const prompt=collectorInstructions({...target,readToken:'DO_NOT_INCLUDE'},target.origin,false,locale,scope);assert.equal(prompt.split('\n').at(-1),confirmation);assert.equal(confirmation.split('\n').length,1);assert.ok(prompt.includes(`from=${scope.from} to=${scope.to} tz=Asia/Taipei sources=${scope.options.sources.join(',')} tokscale=install`),locale);assert.ok(prompt.includes(target.origin+'/collector/SKILL.md'),locale);assert.ok(prompt.includes(target.origin+'/collector/collect.py'),locale);assert.ok(prompt.includes(COLLECTOR_SCRIPT_SHA256),locale);assert.equal(prompt.includes('lookbackDays='),false);assert.equal(prompt.includes('DO_NOT_INCLUDE'),false);assert.ok(!/\{(sources|days|window|confirmation|from|to)\}/.test(prompt));}
+ const existing=createCollectorScope(now,'UTC',{...defaultScopeOptions(),installTokscaleIfMissing:false});assert.match(collectorInstructions({...target,readToken:'x'},target.origin,false,'en',existing),/tokscale=existing/);
+ const disabled=createCollectorScope(now,'UTC',{...defaultScopeOptions(),includeTokscale:false});assert.match(collectorInstructions({...target,readToken:'x'},target.origin,false,'en',disabled),/tokscale=off/);
 });
 test('optional source/days/Tokscale changes bind the one grant and cannot expand silently',()=>{
  const options={...defaultScopeOptions(),lookbackDays:15,sourceMode:'selected' as const,sources:['codex'] as const,includeTokscale:false};const scope=createCollectorScope(now,'UTC',{...options,sources:[...options.sources]});assert.equal(scope.options.installTokscaleIfMissing,false);const grant=grantPopulatedScope(scope,target,{scopeApproved:true,sourceOwnershipConfirmed:true});assert.equal(prepareAuthorizedSummary(makeFixture(target.nickname),grant,target,now).nickname,target.nickname);assert.throws(()=>prepareAuthorizedSummary({...makeFixture(target.nickname),metrics:{...makeFixture().metrics,tokenSource:'tokscale'}},grant,target,now));

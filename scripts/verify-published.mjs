@@ -32,7 +32,7 @@ try{
   ['callback with invalid capability','/api/collect/'+absent,{Authorization:'Bearer '+'0'.repeat(64)}],
   ['progress with invalid capability','/api/collect/'+absent+'/status',{Authorization:'Bearer '+'0'.repeat(64)}],
  ])check(step,(await request(path,{method:'POST',headers:{'Content-Type':'application/json',...h},body:'{}'})).status,404);
- for(const path of ['/collector-protocol.md','/collector-schema.json','/art/mbti/codex/istj-chibi.webp']){
+ for(const path of ['/collector/SKILL.md','/collector/collect.py','/collector-schema.json','/art/mbti/codex/istj-chibi.webp']){
   const asset=await request(path);check('public asset '+path,asset.status,200);
   if(path.endsWith('.webp')){
    const actual=createHash('sha256').update(Buffer.from(await asset.arrayBuffer())).digest('hex');

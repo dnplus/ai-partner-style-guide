@@ -33,7 +33,7 @@ localhost 沒有 Sites 登入 dispatcher；因此匿名只能看首頁，原生�
 
 **獨立的使用等級 LV0–5** 只根據最小成果證據衍生。沒有證據是未知，不能當 LV0。LV4 需已檢視、測試並於不同任務重用的同一成果；LV5 另外需至少兩條任務互不重疊、持續 14 天以上的流程，以及角色、驗收、例外處理、維護與回饋。等級基於 ai-level-check v0.4.6 的成果觀念，版本固定於 `d262ca67a6efa59ffb0e0a2a2843978a149e047d`，本專案將其實作為保守的 `usage-level-v1` 證據門檻，保留 MIT 署名；不是上游官方認證。
 
-[觀察設計](docs/DESIGN-MBTI.md)、[collector 協定](public/collector-protocol.md)、[空白模板](public/collector-template.json)、[JSON schema](public/collector-schema.json)、[第三方聲明](THIRD_PARTY_NOTICES.md)。schema 2.0 可選 `usageEvidence`；舊 2.0 摘要缺少此欄位時等級保持未知。更早的舊型別不會被偷偷轉成 MBTI。
+[觀察設計](docs/DESIGN-MBTI.md)、[collector 技能](public/collector/SKILL.md)、[空白模板](public/collector-template.json)、[JSON schema](public/collector-schema.json)、[第三方聲明](THIRD_PARTY_NOTICES.md)。schema 2.0 可選 `usageEvidence`；舊 2.0 摘要缺少此欄位時等級保持未知。更早的舊型別不會被偷偷轉成 MBTI。
 
 ## 已實作
 

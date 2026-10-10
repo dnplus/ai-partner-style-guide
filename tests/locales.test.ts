@@ -4,9 +4,10 @@ import fs from "node:fs";
 import ts from "typescript";
 import messages from "../lib/messages.json" with {type:"json"};
 import copy from "../lib/collector-copy.json" with {type:"json"};
-import {locales,resolveLocale,translate,noticeText,localizedProtocol,bodyFonts} from "../lib/i18n.ts";
+import {locales,resolveLocale,translate,noticeText,bodyFonts} from "../lib/i18n.ts";
 import {collectorInstructions,collectorConfirmation} from "../lib/collector-instructions.ts";
 import {createCollectorScope,SESSION_TTL_MS} from "../lib/collector-scope.ts";
+import {COLLECTOR_SCRIPT_SHA256} from "../lib/collector-script-hash.ts";
 import {describeProgress} from "../lib/collector-progress.ts";
 import {artSlots} from "../lib/art-catalog.ts";
 
@@ -37,19 +38,32 @@ test("parameters retain names and codes literally without recursive translation,
   const name="月 {type} 빛";assert.ok(translate("en","{name}卡片，{style}，使用方向鍵或拖曳旋轉",{name,style:"Chibi"}).includes(name));
   for(const locale of locales){assert.ok(!noticeText(locale,"secret-path /private/actual-user-data").includes("private"));assert.notEqual(noticeText(locale,"請檢查暱稱、Email 與結果用途同意。"),"");}
 });
-test("every localized collector preserves write-only destination, protocol, one-grant flow and explicit renewal",()=>{
+test("every localized collector prompt points at one verified script and one skill",()=>{
   const session={id:"public-test-id",nickname:"Lumi 月 빛",readToken:"NEVER_REVEAL_READ_CAPABILITY",writeToken:"WRITE_ONLY_TEST_TOKEN",expiresAt:Date.parse("2026-10-10T12:30:00Z")};
+  const scope=createCollectorScope(session.expiresAt-SESSION_TTL_MS);
+  const origin="http://127.0.0.1:5188";
+  const skill=fs.readFileSync("public/collector/SKILL.md","utf8");
+  for(const part of ["A user request does not show the behavior.","T001","O001","both_available","24 KiB","Idempotency-Key","awaiting_host_approval","agent-workstyle-v1","Myers & Briggs Foundation","at least 3 eligible tasks","differ by at least 2"])assert.ok(skill.includes(part),part);
   for(const locale of locales){
-    const prompt=collectorInstructions(session,"http://127.0.0.1:5188",false,locale);
-    const renewal=collectorInstructions(session,"http://127.0.0.1:5188",true,locale);
-    for(const part of ["version 2.0","agent-workstyle-v1","ownerRequest","both_available","type:null","24 KiB","Idempotency-Key","awaiting_host_approval","Authorization: Bearer WRITE_ONLY_TEST_TOKEN","0600","503","409","404","410","Email","Tokscale",JSON.stringify(session.nickname),localizedProtocol(locale)])assert.ok(prompt.includes(part),locale+": "+part);
-    assert.ok(prompt.includes(copy[locale].intro));
-    assert.ok(renewal.includes(copy[locale].renew.replace("{confirmation}",collectorConfirmation(createCollectorScope(session.expiresAt-SESSION_TTL_MS),locale))));
-    assert.ok(!prompt.includes("NEVER_REVEAL_READ_CAPABILITY"));
-    assert.ok(!prompt.includes("{origin}")&&!prompt.includes("{nickname}"));
+    const prompt=collectorInstructions(session,origin,false,locale);
+    const renewal=collectorInstructions(session,origin,true,locale);
+    const lines=prompt.split("\n");
+    const read=`Read ${origin}/collector/SKILL.md, download ${origin}/collector/collect.py, verify sha256 ${COLLECTOR_SCRIPT_SHA256}, then follow SKILL.md.`;
+    assert.equal(lines.length,6);
+    assert.equal(lines[0],copy[locale].intro);
+    assert.equal(lines[1],copy[locale].destination.replace("{origin}",origin).replace("{id}",session.id).replace("{nickname}",session.nickname).replace("{expires}","2026-10-10T12:30:00.000Z"));
+    assert.equal(lines[2],copy[locale].token.replace("{token}",session.writeToken));
+    assert.equal(lines[3],`from=${scope.from} to=${scope.to} tz=UTC sources=codex,claude-code,antigravity,cursor,chatgpt,other tokscale=install`);
+    assert.equal(lines[4],read);
+    assert.equal(lines[5],collectorConfirmation(scope,locale));
+    assert.deepEqual(renewal.split("\n"),[...lines.slice(0,5),copy[locale].renew,lines[5]]);
+    assert.equal(prompt.includes(session.nickname),true);
+    assert.equal(prompt.includes(JSON.stringify(session.nickname)),false);
+    assert.equal(prompt.includes("NEVER_REVEAL_READ_CAPABILITY"),false);
+    assert.equal(prompt.includes("{origin}"),false);
+    assert.equal(prompt.includes("{nickname}"),false);
     assert.notEqual(prompt,renewal);
     assert.ok(bodyFonts[locale].includes("sans-serif"));
-    if(locale!=="zh-TW"){const protocol=fs.readFileSync("public"+localizedProtocol(locale),"utf8");for(const p of ["T001","O001","W >= 3","W × 3 >= N × 2","abs(left - right) >= 2","coverage.scope:insufficient","type:null","duplicate:true","Email","Myers & Briggs Foundation"])assert.ok(protocol.includes(p),locale+": "+p);}
   }
 });
 test("real approval and stale progress are localized independently of the observed state",()=>{

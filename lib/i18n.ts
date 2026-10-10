@@ -31,8 +31,6 @@ export const bodyFonts: Record<Locale, string> = {
   ko: '"Apple SD Gothic Neo", "Noto Sans KR", "Malgun Gothic", Arial, sans-serif',
   en: 'Arial, "PingFang TC", "Hiragino Sans", "Apple SD Gothic Neo", sans-serif'
 };
-export const localizedProtocol = (locale: Locale) => locale === "zh-TW" ? "/collector-protocol.md" : "/collector/" + locale + ".md";
-
 export function noticeText(locale:Locale,source:string) {
   if(!source)return "";
   if(Object.hasOwn(dictionary,source))return translate(locale,source);

@@ -8,6 +8,7 @@ import { tmpdir } from "node:os";
 import { join } from "node:path";
 import { createHash } from "node:crypto";
 import { COLLECTOR_SCRIPT_SHA256 } from "../lib/collector-script-hash.ts";
+import { submissionSchema } from "../lib/contract.ts";
 
 const script = "public/collector/collect.py";
 const fixture = "tests/fixtures/collector-logs";
@@ -437,7 +438,59 @@ test("sampling spreads chosen files across more than one week and client", async
   rmSync(home, { recursive: true, force: true });
 });
 
-test("token totals come from a tokscale client and model report", async () => {
+function tokenSummary() {
+  return {
+    version: "2.0",
+    kind: "observed",
+    nickname: "Ada",
+    consent: { localAnalysisApproved: true, aggregateUploadApproved: true },
+    observedPeriod: { from: "2026-10-03", to: "2026-10-04" },
+    coverage: {
+      scope: "partial",
+      sources: ["codex"],
+      gaps: ["web_history_unavailable", "no_artifact_inspection", "no_tokscale"],
+      sampledSessions: 1,
+    },
+    metrics: {
+      humanSessions: 4,
+      automatedSessions: null,
+      subagentSessions: null,
+      userMessages: null,
+      inputTokens: 999,
+      outputTokens: 1,
+      tokenSource: "authorized_records",
+      modelUsage: [{ family: "google", count: 9 }],
+      modelUsageUnit: "sessions",
+      mostUsedModelFamily: "google",
+      mostUsedClient: "chatgpt",
+    },
+    tasks: [],
+    observations: [],
+  };
+}
+
+function pidAlive(pid: number) {
+  try {
+    const stat = execFileSync("ps", ["-p", String(pid), "-o", "stat="], { encoding: "utf8" }).trim();
+    return stat !== "" && !stat.startsWith("Z");
+  } catch {
+    return false;
+  }
+}
+
+function killGroup(pid: number) {
+  try {
+    process.kill(-pid, "SIGKILL");
+  } catch {
+    try {
+      process.kill(pid, "SIGKILL");
+    } catch {
+      return;
+    }
+  }
+}
+
+test("submit merges tokscale totals and ignores token numbers in the summary", async () => {
   const home = scanHome();
   const bin = join(home, "bin");
   mkdirSync(bin);
@@ -452,40 +505,169 @@ EOF
   const out = join(home, "digest.json");
   const args = ["scan", ...scanWindow, "--sources", "codex,claude-code,antigravity,cursor,other", "--tokscale", "existing", "--out", out];
   const env = { PATH: `${bin}:${process.env.PATH ?? ""}` };
-  const result = await run(args, home, "", env);
-  assert.equal(result.status, 0, result.stderr);
-  const digest = JSON.parse(readFileSync(out, "utf8"));
-  assert.equal(digest.metrics.inputTokens, 250);
-  assert.equal(digest.metrics.outputTokens, 100);
-  assert.equal(digest.metrics.tokenSource, "tokscale");
-  assert.deepEqual(digest.metrics.modelUsage, [{ family: "openai", count: 240 }, { family: "anthropic", count: 110 }]);
-  assert.equal(digest.metrics.modelUsageUnit, "reported_tokens");
-  assert.equal(digest.metrics.mostUsedModelFamily, "openai");
-  assert.equal(digest.metrics.mostUsedClient, "codex");
-  assert.equal(digest.metrics.humanSessions, null);
-  assert.equal(digest.coverage.gaps.includes("no_tokscale"), false);
-  assert.equal(digest.coverage.gaps.includes("partial_window"), false);
-  const recorded = readFileSync(join(home, "tokscale-args"), "utf8");
-  assert.match(recorded, /--group-by\nclient,model\n/);
-  assert.equal(recorded.includes("client,session,model"), false);
-  assert.match(recorded, /--since\n2026-10-01\n/);
-  assert.match(recorded, /--until\n2026-10-10\n/);
-  writeFileSync(binary, `#!/bin/sh
+  const endpoint = await listen([201, 201]);
+  try {
+    const scanned = await run(args, home, "", env);
+    assert.equal(scanned.status, 0, scanned.stderr);
+    assert.match(scanned.stdout, /tokscale=started\n/);
+    const digest = JSON.parse(readFileSync(out, "utf8"));
+    assert.equal(digest.metrics.inputTokens, null);
+    assert.equal(digest.metrics.outputTokens, null);
+    assert.equal(digest.metrics.tokenSource, "unavailable");
+    assert.deepEqual(digest.metrics.modelUsage, []);
+    assert.equal(digest.metrics.modelUsageUnit, "unknown");
+    assert.equal(digest.coverage.gaps.includes("no_tokscale"), true);
+    assert.equal(statSync(out + ".tokscale.pending").mode & 0o777, 0o600);
+    assert.equal(statSync(out + ".tokscale.json").mode & 0o777, 0o600);
+    const summary = join(home, "summary.json");
+    writeFileSync(summary, JSON.stringify(tokenSummary()));
+    const submitted = await run([
+      "submit", "--origin", `http://127.0.0.1:${endpoint.port}`, "--session", session,
+      "--summary", summary, "--digest", out,
+    ], home, token + "\n", env);
+    assert.equal(submitted.status, 0, submitted.stderr);
+    assert.match(submitted.stdout, /tokens_filled=true\nhttp 201\n/);
+    const body = JSON.parse(endpoint.requests[0].body);
+    assert.equal(submissionSchema.safeParse(body).success, true);
+    assert.equal(body.metrics.humanSessions, 4);
+    assert.equal(body.metrics.inputTokens, 250);
+    assert.equal(body.metrics.outputTokens, 100);
+    assert.equal(body.metrics.tokenSource, "tokscale");
+    assert.deepEqual(body.metrics.modelUsage, [{ family: "openai", count: 240 }, { family: "anthropic", count: 110 }]);
+    assert.equal(body.metrics.modelUsageUnit, "reported_tokens");
+    assert.equal(body.metrics.mostUsedModelFamily, "openai");
+    assert.equal(body.metrics.mostUsedClient, "codex");
+    assert.deepEqual(body.coverage.sources, ["codex", "claude-code", "cursor"]);
+    assert.deepEqual(body.coverage.gaps, ["web_history_unavailable", "no_artifact_inspection"]);
+    const kept = JSON.parse(readFileSync(out, "utf8"));
+    assert.equal(kept.metrics.inputTokens, null);
+    assert.equal(kept.metrics.tokenSource, "unavailable");
+    const recorded = readFileSync(join(home, "tokscale-args"), "utf8");
+    assert.match(recorded, /--group-by\nclient,model\n/);
+    assert.equal(recorded.includes("client,session,model"), false);
+    assert.match(recorded, /--since\n2026-10-01\n/);
+    assert.match(recorded, /--until\n2026-10-10\n/);
+    writeFileSync(binary, `#!/bin/sh
 cat <<'EOF'
 {"entries":[{"client":"codex","model":"gpt-5.4","input":80,"output":20,"cacheRead":0,"messageCount":1},{"client":"claude","model":"claude-opus-4.7","input":80,"output":20,"cacheRead":0,"messageCount":1}]}
 EOF
 `);
+    chmodSync(binary, 0o755);
+    const tiedScan = await run(args, home, "", env);
+    assert.equal(tiedScan.status, 0, tiedScan.stderr);
+    writeFileSync(summary + ".tie", JSON.stringify(tokenSummary()));
+    const tied = await run([
+      "submit", "--origin", `http://127.0.0.1:${endpoint.port}`, "--session", session,
+      "--summary", summary + ".tie", "--digest", out,
+    ], home, token + "\n", env);
+    assert.equal(tied.status, 0, tied.stderr);
+    const tie = JSON.parse(endpoint.requests[1].body);
+    assert.equal(submissionSchema.safeParse(tie).success, true);
+    assert.deepEqual(tie.metrics.modelUsage, [{ family: "anthropic", count: 100 }, { family: "openai", count: 100 }]);
+    assert.equal(tie.metrics.modelUsageUnit, "reported_tokens");
+    assert.equal(tie.metrics.mostUsedModelFamily, "unknown");
+    assert.equal(tie.metrics.mostUsedClient, "unknown");
+    assert.equal(tie.metrics.inputTokens, 160);
+    assert.equal(tie.metrics.outputTokens, 40);
+    assert.equal(tie.metrics.humanSessions, 4);
+  } finally {
+    endpoint.server.close();
+    rmSync(home, { recursive: true, force: true });
+  }
+});
+
+test("submit kills a tokscale process that is still running at the deadline", async () => {
+  const home = mkdtempSync(join(tmpdir(), "collector-tokscale-slow-"));
+  const bin = join(home, "bin");
+  mkdirSync(bin);
+  const binary = join(bin, "tokscale");
+  writeFileSync(binary, `#!/bin/sh
+echo $$ > "$HOME/tokscale.pid"
+sleep 30
+printf '%s\\n' '{"entries":[{"client":"codex","model":"gpt-5.4","input":5,"output":6}]}'
+`);
   chmodSync(binary, 0o755);
-  const tied = await run(args, home, "", env);
-  assert.equal(tied.status, 0, tied.stderr);
-  const tie = JSON.parse(readFileSync(out, "utf8"));
-  assert.deepEqual(tie.metrics.modelUsage, [{ family: "anthropic", count: 100 }, { family: "openai", count: 100 }]);
-  assert.equal(tie.metrics.modelUsageUnit, "reported_tokens");
-  assert.equal(tie.metrics.mostUsedModelFamily, "unknown");
-  assert.equal(tie.metrics.mostUsedClient, "unknown");
-  assert.equal(tie.metrics.inputTokens, 160);
-  assert.equal(tie.metrics.outputTokens, 40);
-  rmSync(home, { recursive: true, force: true });
+  const out = join(home, "digest.json");
+  const env = { PATH: `${bin}:${process.env.PATH ?? ""}` };
+  const endpoint = await listen([201]);
+  let pid = 0;
+  try {
+    const scanned = await run([
+      "scan", ...scanWindow, "--sources", "codex", "--tokscale", "existing", "--out", out,
+    ], home, "", env);
+    assert.equal(scanned.status, 0, scanned.stderr);
+    pid = JSON.parse(readFileSync(out + ".tokscale.pending", "utf8")).pid;
+    assert.equal(pidAlive(pid), true);
+    const summary = join(home, "summary.json");
+    writeFileSync(summary, JSON.stringify(tokenSummary()));
+    const started = Date.now();
+    const submitted = await run([
+      "submit", "--origin", `http://127.0.0.1:${endpoint.port}`, "--session", session,
+      "--summary", summary, "--digest", out, "--wait-seconds", "1",
+    ], home);
+    const wall = Date.now() - started;
+    assert.equal(submitted.status, 0, submitted.stderr);
+    assert.ok(wall < 4000, String(wall));
+    const waited = Number(submitted.stdout.match(/tokscale_wait_seconds=(\d+\.\d+)/)?.[1]);
+    assert.ok(waited >= 0.9 && waited < 3, submitted.stdout);
+    assert.match(submitted.stdout, /tokens_filled=false\nhttp 201\n/);
+    assert.equal(pidAlive(pid), false);
+    const body = JSON.parse(endpoint.requests[0].body);
+    assert.equal(submissionSchema.safeParse(body).success, true);
+    assert.equal(body.metrics.inputTokens, null);
+    assert.equal(body.metrics.outputTokens, null);
+    assert.equal(body.metrics.tokenSource, "unavailable");
+    assert.deepEqual(body.metrics.modelUsage, []);
+    assert.equal(body.metrics.modelUsageUnit, "unknown");
+    assert.equal(body.metrics.mostUsedModelFamily, "unknown");
+    assert.equal(body.metrics.mostUsedClient, "unknown");
+    assert.equal(body.metrics.humanSessions, 4);
+    assert.equal(body.coverage.gaps.includes("no_tokscale"), true);
+    assert.equal(JSON.stringify(body).includes("999"), false);
+  } finally {
+    if (pid) killGroup(pid);
+    endpoint.server.close();
+    rmSync(home, { recursive: true, force: true });
+  }
+});
+
+test("scan returns before a slow tokscale process finishes", async () => {
+  const home = mkdtempSync(join(tmpdir(), "collector-tokscale-early-"));
+  const bin = join(home, "bin");
+  mkdirSync(bin);
+  const binary = join(bin, "tokscale");
+  writeFileSync(binary, `#!/bin/sh
+echo $$ > "$HOME/tokscale.pid"
+sleep 8
+printf '%s\\n' '{"entries":[{"client":"codex","model":"gpt-5.4","input":5,"output":6}]}'
+`);
+  chmodSync(binary, 0o755);
+  const out = join(home, "digest.json");
+  const env = { PATH: `${bin}:${process.env.PATH ?? ""}` };
+  let pid = 0;
+  try {
+    const started = Date.now();
+    const scanned = await run([
+      "scan", ...scanWindow, "--sources", "codex", "--tokscale", "existing", "--out", out,
+    ], home, "", env);
+    const wall = Date.now() - started;
+    assert.equal(scanned.status, 0, scanned.stderr);
+    const seconds = Number(scanned.stdout.match(/seconds=(\d+\.\d+)/)?.[1]);
+    assert.ok(seconds < 1.5, scanned.stdout);
+    assert.ok(wall < 4000, String(wall));
+    assert.match(scanned.stdout, /tokscale=started\n/);
+    const digest = JSON.parse(readFileSync(out, "utf8"));
+    assert.equal(digest.metrics.inputTokens, null);
+    assert.equal(digest.metrics.outputTokens, null);
+    assert.equal(digest.metrics.tokenSource, "unavailable");
+    assert.deepEqual(digest.metrics.modelUsage, []);
+    pid = JSON.parse(readFileSync(out + ".tokscale.pending", "utf8")).pid;
+    assert.equal(pidAlive(pid), true);
+    assert.equal(statSync(out + ".tokscale.json").mode & 0o777, 0o600);
+  } finally {
+    if (pid) killGroup(pid);
+    rmSync(home, { recursive: true, force: true });
+  }
 });
 
 test("status posts the observed phase and does not store the token", async () => {

@@ -6,12 +6,11 @@ import json
 import os
 import re
 import shutil
+import signal
 import sqlite3
 import stat
 import subprocess
 import sys
-import tempfile
-import threading
 import time
 import urllib.error
 import urllib.parse
@@ -63,7 +62,6 @@ BYTE_CAP = 2 * 1024 * 1024
 ROW_CAP = 4096
 CANDIDATE_CAP = 24
 TURN_CAP = 80
-TOKSCALE_TIMEOUT = 300
 
 
 def fail(message):
@@ -813,58 +811,61 @@ def tokscale_empty(seconds):
     }
 
 
-def launch_tokscale(mode, home, zone, sources, start, stop):
-    started = time.perf_counter()
-    job = {"started": started, "proc": None, "stdout": None, "thread": None, "early": None, "timed_out": False, "ended": started}
+def tokscale_paths(out_path):
+    return out_path + ".tokscale.json", out_path + ".tokscale.pending"
 
-    def early():
-        job["early"] = tokscale_empty(time.perf_counter() - started)
-        return job
 
+def tokscale_command(mode, home, zone, sources, start, stop):
     if mode == "off":
-        return early()
+        return None
     clients = tokscale_clients(sources)
     if not clients:
-        return early()
+        return None
     binary = shutil.which("tokscale")
     if binary:
         command = [binary]
     elif mode == "install":
         command = ["npm", "exec", "--yes", "@tokscale/cli@4.18.0", "--"]
     else:
-        return early()
+        return None
     since = local_day(start, zone)
     until = local_day(stop - timedelta(milliseconds=1), zone)
     command += [
         "models", "--json", "--no-spinner", "--home", home, "--client", ",".join(clients),
         "--since", since, "--until", until, "--group-by", "client,model",
     ]
-    env = os.environ.copy()
-    env["TZ"] = getattr(zone, "key", None) or "UTC"
-    stdout = tempfile.TemporaryFile()
+    return command
+
+
+def launch_tokscale(mode, home, zone, sources, start, stop, out_path):
+    command = tokscale_command(mode, home, zone, sources, start, stop)
+    if command is None:
+        return False
+    output_path, pending_path = tokscale_paths(out_path)
+    flags = os.O_CREAT | os.O_WRONLY | os.O_TRUNC | getattr(os, "O_NOFOLLOW", 0)
     try:
-        proc = subprocess.Popen(command, stdout=stdout, stderr=subprocess.DEVNULL, stdin=subprocess.DEVNULL, env=env)
+        fd = os.open(output_path, flags, 0o600)
     except OSError:
-        stdout.close()
-        return early()
-    job["proc"] = proc
-    job["stdout"] = stdout
-
-    def wait_proc():
-        try:
-            try:
-                proc.wait(timeout=TOKSCALE_TIMEOUT)
-            except subprocess.TimeoutExpired:
-                job["timed_out"] = True
-                proc.kill()
-                proc.wait()
-        finally:
-            job["ended"] = time.perf_counter()
-
-    thread = threading.Thread(target=wait_proc, daemon=True)
-    thread.start()
-    job["thread"] = thread
-    return job
+        return False
+    try:
+        os.chmod(output_path, 0o600)
+        env = os.environ.copy()
+        env["TZ"] = getattr(zone, "key", None) or "UTC"
+        started = time.time()
+        proc = subprocess.Popen(
+            command,
+            stdout=fd,
+            stderr=subprocess.DEVNULL,
+            stdin=subprocess.DEVNULL,
+            env=env,
+            start_new_session=True,
+        )
+    except OSError:
+        return False
+    finally:
+        os.close(fd)
+    write_digest(pending_path, {"pid": proc.pid, "started": started, "sources": list(sources)})
+    return True
 
 
 def ranked_name(totals):
@@ -877,68 +878,233 @@ def ranked_name(totals):
     return usage[:8], "unknown", unit
 
 
-def finish_tokscale(job, sources):
-    if job["early"] is not None:
-        return job["early"]
-    job["thread"].join()
-    seconds = job["ended"] - job["started"]
-    stdout = job["stdout"]
-    proc = job["proc"]
+def tokens_from_entries(entries, sources):
+    model_totals = defaultdict(int)
+    client_totals = defaultdict(int)
+    input_tokens = 0
+    output_tokens = 0
+    for entry in entries:
+        if not isinstance(entry, dict):
+            continue
+        incoming = entry.get("input") if isinstance(entry.get("input"), int) and not isinstance(entry.get("input"), bool) else 0
+        outgoing = entry.get("output") if isinstance(entry.get("output"), int) and not isinstance(entry.get("output"), bool) else 0
+        input_tokens += incoming
+        output_tokens += outgoing
+        name = family(entry.get("model"))
+        if name != "unknown":
+            model_totals[name] += incoming + outgoing
+        client = TOKSCALE_CLIENT.get(entry.get("client"))
+        if client in sources:
+            client_totals[client] += incoming + outgoing
+    usage, top, unit = ranked_name(model_totals)
+    client_usage, top_client, _unit = ranked_name(client_totals)
+    return {
+        "input": input_tokens,
+        "output": output_tokens,
+        "source": "tokscale",
+        "usage": usage,
+        "unit": unit if usage else "unknown",
+        "family": top if usage else "unknown",
+        "client": top_client if client_usage else "unknown",
+        "clients": [item["family"] for item in client_usage],
+        "gaps": set(),
+        "seconds": 0,
+    }
+
+
+def tokens_from_file(path, sources):
     try:
-        if job["timed_out"] or proc.returncode != 0:
-            return tokscale_empty(seconds)
-        stdout.seek(0)
+        with open_file(path) as handle:
+            payload = json.loads(handle.read().decode("utf-8"))
+    except (OSError, UnicodeError, json.JSONDecodeError):
+        return None
+    if not isinstance(payload, dict):
+        return None
+    entries = payload.get("entries")
+    if not isinstance(entries, list):
+        return None
+    return tokens_from_entries(entries, sources)
+
+
+def read_pending(path):
+    if os.path.islink(path) or not os.path.isfile(path):
+        return None
+    try:
+        with open_file(path) as handle:
+            payload = json.loads(handle.read().decode("utf-8"))
+    except (OSError, UnicodeError, json.JSONDecodeError):
+        return None
+    if not isinstance(payload, dict):
+        return None
+    pid = payload.get("pid")
+    started = payload.get("started")
+    sources = payload.get("sources")
+    if isinstance(pid, bool) or not isinstance(pid, int) or pid <= 0:
+        return None
+    if isinstance(started, bool) or not isinstance(started, (int, float)):
+        return None
+    if not isinstance(sources, list) or any(name not in CLIENTS for name in sources):
+        return None
+    payload["abandoned"] = payload.get("abandoned") is True
+    return payload
+
+
+def signal_alive(pid):
+    try:
+        os.kill(pid, 0)
+    except ProcessLookupError:
+        return False
+    except PermissionError:
+        return True
+    return True
+
+
+def pid_alive(pid):
+    try:
+        text = subprocess.check_output(
+            ["ps", "-p", str(pid), "-o", "stat="],
+            text=True,
+            stderr=subprocess.DEVNULL,
+            env={**os.environ, "LC_ALL": "C"},
+        ).strip()
+    except subprocess.CalledProcessError:
+        return False
+    except OSError:
+        return signal_alive(pid)
+    return bool(text) and not text.split()[0].startswith("Z")
+
+
+def tokscale_identity(pid, started):
+    if not pid_alive(pid):
+        return "dead"
+    try:
+        text = subprocess.check_output(
+            ["ps", "-p", str(pid), "-o", "lstart="],
+            text=True,
+            stderr=subprocess.DEVNULL,
+            env={**os.environ, "LC_ALL": "C"},
+        ).strip()
+    except (OSError, subprocess.CalledProcessError):
+        return "unknown"
+    parts = text.split()
+    if len(parts) != 5:
+        return "unknown"
+    try:
+        stamp = datetime.strptime(" ".join(parts), "%a %b %d %H:%M:%S %Y").timestamp()
+    except ValueError:
+        return "unknown"
+    if abs(stamp - float(started)) <= 2:
+        return "ours"
+    return "other"
+
+
+def kill_group(pid):
+    try:
+        os.killpg(pid, signal.SIGKILL)
+    except (ProcessLookupError, PermissionError, OSError):
         try:
-            payload = json.loads(stdout.read())
-        except (UnicodeDecodeError, json.JSONDecodeError):
-            return tokscale_empty(seconds)
-        entries = payload.get("entries") if isinstance(payload, dict) else None
-        if not isinstance(entries, list):
-            return tokscale_empty(seconds)
-        model_totals = defaultdict(int)
-        client_totals = defaultdict(int)
-        input_tokens = 0
-        output_tokens = 0
-        for entry in entries:
-            if not isinstance(entry, dict):
-                continue
-            incoming = entry.get("input") if isinstance(entry.get("input"), int) and not isinstance(entry.get("input"), bool) else 0
-            outgoing = entry.get("output") if isinstance(entry.get("output"), int) and not isinstance(entry.get("output"), bool) else 0
-            input_tokens += incoming
-            output_tokens += outgoing
-            name = family(entry.get("model"))
-            if name != "unknown":
-                model_totals[name] += incoming + outgoing
-            client = TOKSCALE_CLIENT.get(entry.get("client"))
-            if client in sources:
-                client_totals[client] += incoming + outgoing
-        usage, top, unit = ranked_name(model_totals)
-        client_usage, top_client, _unit = ranked_name(client_totals)
-        return {
-            "input": input_tokens,
-            "output": output_tokens,
-            "source": "tokscale",
-            "usage": usage,
-            "unit": unit if usage else "unknown",
-            "family": top if usage else "unknown",
-            "client": top_client if client_usage else "unknown",
-            "clients": [item["family"] for item in client_usage],
-            "gaps": set(),
-            "seconds": seconds,
-        }
-    finally:
-        stdout.close()
+            os.kill(pid, signal.SIGKILL)
+        except (ProcessLookupError, PermissionError, OSError):
+            return
+    for _ in range(50):
+        if not pid_alive(pid):
+            return
+        time.sleep(0.02)
 
 
-def build_digest(home, sources, start, stop, zone, mode, window_from, window_to, zone_name, budget):
+def await_tokscale(out_path, wait_seconds):
+    output_path, pending_path = tokscale_paths(out_path)
+    record = read_pending(pending_path)
+    started_wait = time.perf_counter()
+    if record is None or record["abandoned"]:
+        return tokscale_empty(0), time.perf_counter() - started_wait
+    sources = record["sources"]
+    pid = record["pid"]
+    begun = record["started"]
+    deadline = time.perf_counter() + wait_seconds
+    while True:
+        state = tokscale_identity(pid, begun)
+        if state in {"dead", "other"}:
+            waited = time.perf_counter() - started_wait
+            parsed = tokens_from_file(output_path, sources)
+            return (parsed if parsed is not None else tokscale_empty(waited)), waited
+        remaining = deadline - time.perf_counter()
+        if remaining <= 0:
+            record["abandoned"] = True
+            write_digest(pending_path, record)
+            if state == "ours":
+                kill_group(pid)
+            waited = time.perf_counter() - started_wait
+            return tokscale_empty(waited), waited
+        time.sleep(min(0.05, remaining))
+
+
+def align_token_rules(metrics, sources):
+    if metrics["tokenSource"] == "unavailable":
+        metrics["inputTokens"] = None
+        metrics["outputTokens"] = None
+    if metrics["modelUsageUnit"] == "unknown":
+        metrics["modelUsage"] = []
+    usage = []
+    for item in metrics["modelUsage"]:
+        if not isinstance(item, dict):
+            continue
+        count = item.get("count")
+        family_name = item.get("family")
+        if isinstance(family_name, str) and isinstance(count, int) and not isinstance(count, bool):
+            usage.append({"family": family_name, "count": count})
+    metrics["modelUsage"] = usage
+    ranked = sorted(usage, key=lambda item: -item["count"])
+    if ranked and ranked[0]["count"] > 0 and (len(ranked) == 1 or ranked[0]["count"] > ranked[1]["count"]):
+        metrics["mostUsedModelFamily"] = ranked[0]["family"]
+    else:
+        metrics["mostUsedModelFamily"] = "unknown"
+    if metrics["mostUsedClient"] != "unknown" and metrics["mostUsedClient"] not in sources:
+        metrics["mostUsedClient"] = "unknown"
+
+
+def apply_tokens(summary, tokens):
+    metrics = summary.get("metrics")
+    coverage = summary.get("coverage")
+    if not isinstance(metrics, dict) or not isinstance(coverage, dict):
+        fail("summary_unreadable")
+    seen = set()
+    current = coverage.get("sources")
+    if isinstance(current, list):
+        for name in current:
+            if name in CLIENTS:
+                seen.add(name)
+    for name in tokens["clients"]:
+        if name in CLIENTS:
+            seen.add(name)
+    coverage["sources"] = [name for name in CLIENTS if name in seen]
+    gaps = set()
+    current_gaps = coverage.get("gaps")
+    if isinstance(current_gaps, list):
+        for gap in current_gaps:
+            if gap in GAPS:
+                gaps.add(gap)
+    if tokens["source"] == "tokscale":
+        gaps.discard("no_tokscale")
+    else:
+        gaps.add("no_tokscale")
+    coverage["gaps"] = [gap for gap in GAPS if gap in gaps]
+    metrics["inputTokens"] = tokens["input"]
+    metrics["outputTokens"] = tokens["output"]
+    metrics["tokenSource"] = tokens["source"]
+    metrics["modelUsage"] = tokens["usage"]
+    metrics["modelUsageUnit"] = tokens["unit"]
+    metrics["mostUsedModelFamily"] = tokens["family"]
+    metrics["mostUsedClient"] = tokens["client"]
+    align_token_rules(metrics, coverage["sources"])
+
+
+def build_digest(home, sources, start, stop, zone, window_from, window_to, zone_name, budget):
     gaps = {"web_history_unavailable", "no_artifact_inspection"}
-    job = launch_tokscale(mode, home, zone, sources, start, stop)
-    try:
-        files = list_files(home, sources, start, stop, zone, gaps)
-        samples, files_read, days, sample_gaps, short = sample_files(files, start, stop, zone, budget)
-        gaps.update(sample_gaps)
-    finally:
-        tokens = finish_tokscale(job, sources)
+    files = list_files(home, sources, start, stop, zone, gaps)
+    samples, files_read, days, sample_gaps, short = sample_files(files, start, stop, zone, budget)
+    gaps.update(sample_gaps)
+    tokens = tokscale_empty(0)
     gaps.update(tokens["gaps"])
     if not samples:
         gaps.add("insufficient_records")
@@ -984,7 +1150,7 @@ def build_digest(home, sources, start, stop, zone, mode, window_from, window_to,
     for sample in samples:
         if sample["client"] in counts:
             counts[sample["client"]] += 1
-    return digest, counts, tokens["seconds"]
+    return digest, counts
 
 
 def write_digest(path, digest):
@@ -1019,10 +1185,11 @@ def command_scan(args):
     if not home:
         fail("missing_home")
     started = time.perf_counter()
-    digest, counts, tokscale_seconds = build_digest(
-        home, sources, start, stop, zone, args.tokscale, args.time_from, args.time_to, args.tz, args.budget_seconds,
+    digest, counts = build_digest(
+        home, sources, start, stop, zone, args.time_from, args.time_to, args.tz, args.budget_seconds,
     )
     write_digest(args.out, digest)
+    launched = launch_tokscale(args.tokscale, home, zone, sources, start, stop, args.out)
     elapsed = time.perf_counter() - started
     client_counts = " ".join(f"{client}={counts[client]}" for client in sources)
     print(f"candidates={len(digest['candidates'])}")
@@ -1030,7 +1197,7 @@ def command_scan(args):
     print(f"candidates_by_client {client_counts}")
     print(f"digest_bytes={os.path.getsize(args.out)}")
     print(f"seconds={elapsed:.2f}")
-    print(f"tokscale_seconds={tokscale_seconds:.2f}")
+    print(f"tokscale={'started' if launched else 'skipped'}")
 
 
 class NoRedirect(urllib.request.HTTPRedirectHandler):
@@ -1105,18 +1272,53 @@ def post_json(origin, path, body, token, idempotency=None):
             return
 
 
+def require_regular(path, message):
+    if os.path.islink(path):
+        fail(message)
+    try:
+        info = os.stat(path)
+    except OSError:
+        fail(message)
+    if not stat.S_ISREG(info.st_mode):
+        fail(message)
+
+
+def write_private(path, body):
+    temporary = path + ".tmp"
+    fd = os.open(temporary, os.O_CREAT | os.O_WRONLY | os.O_TRUNC, 0o600)
+    try:
+        os.write(fd, body)
+    finally:
+        os.close(fd)
+    os.chmod(temporary, 0o600)
+    os.replace(temporary, path)
+    os.chmod(path, 0o600)
+
+
 def command_submit(args):
     origin = check_origin(args.origin)
     if not SESSION_RE.fullmatch(args.session):
         fail("invalid_session")
+    if args.wait_seconds < 0 or args.wait_seconds != args.wait_seconds:
+        fail("invalid_wait")
     if os.path.islink(args.summary):
         fail("summary_unreadable")
     try:
         with open_file(args.summary) as handle:
             body = handle.read()
-        json.loads(body.decode("utf-8"))
+        summary = json.loads(body.decode("utf-8"))
     except (OSError, UnicodeError, json.JSONDecodeError):
         fail("summary_unreadable")
+    if args.digest is not None:
+        if not isinstance(summary, dict):
+            fail("summary_unreadable")
+        require_regular(args.digest, "digest_unreadable")
+        tokens, waited = await_tokscale(args.digest, args.wait_seconds)
+        apply_tokens(summary, tokens)
+        body = json.dumps(summary, ensure_ascii=False, separators=(",", ":")).encode("utf-8") + b"\n"
+        write_private(args.summary, body)
+        print(f"tokscale_wait_seconds={waited:.2f}")
+        print(f"tokens_filled={'true' if tokens['source'] == 'tokscale' else 'false'}")
     if len(body) > 24 * 1024:
         fail("summary_too_large")
     token = read_token()
@@ -1159,6 +1361,8 @@ def parser():
     submit.add_argument("--origin", required=True)
     submit.add_argument("--session", required=True)
     submit.add_argument("--summary", required=True)
+    submit.add_argument("--digest", default=None)
+    submit.add_argument("--wait-seconds", dest="wait_seconds", type=float, default=20)
     submit.set_defaults(func=command_submit)
     status = commands.add_parser("status")
     status.add_argument("--origin", required=True)

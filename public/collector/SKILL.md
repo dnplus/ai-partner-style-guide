@@ -35,27 +35,27 @@ Use the scope line from the prompt. `TOKSCALE_MODE` is `off`, `existing`, or `in
 python3 collect.py scan --from FROM --to TO --tz TZ --sources SOURCES --tokscale TOKSCALE_MODE --out digest.json
 ```
 
-The window is whole local days. `from` is local midnight of the first day. `to` is now. A timestamp counts when `from <= timestamp < to`. The script reads only known per-tool log roots, skips symbolic links, and drops records whose time it cannot place. Do not add those records back, and do not use file modification time as a timestamp.
+The window is whole local days. `from` is local midnight of the first day. `to` is now. A timestamp counts when `from <= timestamp < to`. The script lists candidate log files from each adapter root without reading them, keeps regular files whose modification time is inside that window, and skips symbolic links. It then reads a spread of those files until it has 24 candidates or the time budget runs out. The default budget is 20 seconds. Pass `--budget-seconds` to change it. Each text log is read only through the first 2 MB. SQLite logs use a bounded query. Do not add skipped files back, and do not treat modification time as a message timestamp. A Cursor transcript with no timestamps counts only when both its creation time and its modification time are inside the window.
 
-The script writes `digest.json` with mode `0600`. Read that file. Do not paste it into the chat, and do not upload it. The terminal prints counts and timing only.
+The script writes `digest.json` with mode `0600`. Read that file. Do not paste it into the chat, and do not upload it. The terminal prints candidate counts, files read, digest size, and timing only.
 
 Copy `observedPeriod`, `coverage`, and `metrics` into the summary unchanged. `observedPeriod` is the local dates the script actually saw. It can be narrower than the granted window. Task dates have to fall inside it.
 
-`coverage.scope` is `partial` whenever a gap remains, and `insufficient` when no human session was counted. This script always records `web_history_unavailable` and `no_artifact_inspection`, so a non-empty scan stays `partial`. Do not rewrite `partial` to `adequate`.
+`coverage.scope` is `partial` whenever a gap remains or the budget or a read cap stops the sample early, and `insufficient` when no candidate was kept. This script always records `web_history_unavailable` and `no_artifact_inspection`, so a scan that kept a candidate stays `partial`. Do not rewrite `partial` to `adequate`.
 
 Gaps you may see:
 
 - `web_history_unavailable`. Browser history was not read.
 - `no_artifact_inspection`. Project files were not opened.
 - `no_tokscale`. Token totals were not available.
-- `partial_window`. A token row sat on the boundary, or its session start could not be placed in the window.
+- `partial_window`. A chat log had no per-line times, and the session was not fully inside the window.
 - `unattributed_runs`. A record had no usable timestamp. Cursor transcripts often have none.
-- `insufficient_records`. No human session fell inside the window.
-- `other_sources_missing`. The scope asked for `antigravity` or `chatgpt`, and this script has no local adapter for them.
+- `insufficient_records`. No sampled file had two human messages and an agent turn inside the window.
+- `other_sources_missing`. A requested source has no local adapter here, or its log root is missing. `antigravity` and `chatgpt` have no local adapter.
 
-Grok, OpenCode, and Hermes count as `other`. `sampledSessions` counts classified human, automated, and subagent sessions. It is not the candidate count.
+Grok, OpenCode, and Hermes count as `other`. `sampledSessions` is the number of files the script actually read. It is not the candidate count. `humanSessions`, `automatedSessions`, `subagentSessions`, and `userMessages` stay null. Leave them null.
 
-Token totals come only from Tokscale, and only for sessions whose start falls inside the window. Null stays null. Do not copy token totals out of local logs, and do not replace null with zero. When `tokenSource` is `unavailable`, both token counts stay null and `modelUsage` stays empty. When `modelUsageUnit` is `unknown`, `modelUsage` stays empty. A tie, or a zero count, makes `mostUsedModelFamily` or `mostUsedClient` `unknown`.
+Token totals come only from Tokscale, grouped by client and model, for the local dates of the window. Null stays null. Do not copy token totals out of local logs, and do not replace null with zero. When `tokenSource` is `unavailable`, both token counts stay null and `modelUsage` stays empty. When `modelUsageUnit` is `unknown`, `modelUsage` stays empty. A tie, or a zero count, makes `mostUsedModelFamily` or `mostUsedClient` `unknown`.
 
 The script uses a `tokscale` binary that is already on `PATH` for `existing` and for `install`. Only `install`, and only when that binary is missing, runs `npm exec --yes @tokscale/cli@4.18.0` once. On failure the digest already has `tokenSource` `unavailable`, null token counts, and gap `no_tokscale`. Do not install Tokscale yourself. Do not run its TUI, `login`, `usage`, `sync`, `submit`, or `autosubmit`. Do not pass `sudo`.
 

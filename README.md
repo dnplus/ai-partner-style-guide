@@ -53,7 +53,7 @@ localhost 沒有 Sites 登入 dispatcher；因此匿名只能看首頁，原生�
 
 測試與驗證腳本的輸出寫到 `evidence/`，不納入版本控制。發佈與原生登入的實際觀察記在 `docs/DELIVERY-PUBLIC.md`。
 
-本專案交付的是 Agent 指令和最小摘要驗證／提交協定，沒有原始紀錄自動掃描器、語意去重器、context budget 前處理器或掃描 cache。24 個 task、48 個 MBTI observation、64 個成果 observation、24 KiB 是上傳限制，不是模型讀取紀錄的成本上限。沒有在此工作中安裝／執行 Tokscale、掃描真人紀錄或測量真實 collector 效能；[範圍與限制](docs/DELIVERY-DEFAULTS.md) 有詳細說明。
+本專案交付的是 Agent 指令和最小摘要驗證／提交協定。網站本身不掃描紀錄。`collect.py` 在時間預算內抽樣本地日誌，供合作風格分類，並用 Tokscale 的 client／model 總量顯示 token。它不算完整會話數。24 個 task、48 個 MBTI observation、64 個成果 observation、24 KiB 是上傳限制，不是模型讀取紀錄的成本上限。
 
 圖片是 ApprenTice 同人衍生，角色參考 ZipZipPipe；DeepSeek 另含上善無形。CC BY-NC-SA 4.0：非商業、署名及相同方式分享。GPT 龍娘是 Codex 主題改編，並非官方角色；上游權利鏈未全面核實，沒有模型業者背書。[素材來源](public/art-provenance.md)。
 

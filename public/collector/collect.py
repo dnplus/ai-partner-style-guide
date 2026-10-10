@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""Read known local agent logs into a small digest, then submit that summary."""
+"""Read a bounded sample of local agent logs into a small digest, then submit that summary."""
 
 import argparse
 import json
@@ -18,7 +18,7 @@ import urllib.parse
 import urllib.request
 import uuid
 from collections import defaultdict
-from datetime import datetime, timezone
+from datetime import datetime, timedelta, timezone
 from zoneinfo import ZoneInfo
 
 CLIENTS = ("codex", "claude-code", "antigravity", "cursor", "chatgpt", "other")
@@ -39,8 +39,18 @@ TOKSCALE_CLIENTS = {
     "chatgpt": (),
     "other": ("grok", "opencode", "hermes"),
 }
+TOKSCALE_CLIENT = {
+    "codex": "codex",
+    "claude": "claude-code",
+    "antigravity": "antigravity",
+    "cursor": "cursor",
+    "grok": "other",
+    "opencode": "other",
+    "hermes": "other",
+}
 AUTO_WORDS = ("cron", "schedule", "heartbeat", "automation", "system")
 TOOL_TYPES = {"tool_use", "tool_call", "function_call", "custom_tool_call"}
+MESSAGE_TYPES = {"message", "agent_message"}
 EMAIL_RE = re.compile(r"[A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+\.[A-Za-z]{2,}")
 SECRET_RE = re.compile(r"sk-[A-Za-z0-9_\-]{8,}")
 BEARER_RE = re.compile(r"(?i)bearer\s+[A-Za-z0-9._\-]{8,}")
@@ -49,24 +59,11 @@ PATH_RE = re.compile(r"/Users/\S+")
 SPACE_RE = re.compile(r"\s+")
 TOKEN_RE = re.compile(r"^[0-9a-f]{64}$")
 SESSION_RE = re.compile(r"^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$")
-ISO_SID_RE = re.compile(r"(20\d{2}-\d{2}-\d{2})T(\d{2})-(\d{2})-(\d{2})")
-COMPACT_SID_RE = re.compile(r"(20\d{2})(\d{2})(\d{2})_(\d{2})(\d{2})(\d{2})")
-PREFIX_TS_RE = re.compile(rb'"timestamp"\s*:\s*"([^"\\]{16,48})"')
-PAYLOAD_TYPE_RE = re.compile(rb'"payload"\s*:\s*\{[^{}]{0,400}?"type"\s*:\s*"([^"]+)"')
-PAYLOAD_ROLE_RE = re.compile(rb'"payload"\s*:\s*\{[^{}]{0,400}?"role"\s*:\s*"([^"]+)"')
-MESSAGE_TYPES = {"message", "agent_message"}
+BYTE_CAP = 2 * 1024 * 1024
+ROW_CAP = 4096
+CANDIDATE_CAP = 24
+TURN_CAP = 80
 TOKSCALE_TIMEOUT = 300
-
-
-class Session:
-    def __init__(self, client, bucket, day, user_n, saw_agent, key, kind):
-        self.client = client
-        self.bucket = bucket
-        self.day = day
-        self.user_n = user_n
-        self.saw_agent = saw_agent
-        self.key = key
-        self.kind = kind
 
 
 def fail(message):
@@ -151,50 +148,9 @@ def blocks(content):
     return turns
 
 
-def has_turn(content):
-    if isinstance(content, str):
-        return bool(content.strip())
-    if isinstance(content, list):
-        for part in content:
-            if isinstance(part, str):
-                if part.strip():
-                    return True
-            elif isinstance(part, dict):
-                if part.get("type") in TOOL_TYPES:
-                    label = part.get("name") or part.get("tool") or "tool"
-                    if str(label).strip():
-                        return True
-                elif isinstance(part.get("text"), str) and part["text"].strip():
-                    return True
-    elif isinstance(content, dict) and isinstance(content.get("text"), str):
-        return bool(content["text"].strip())
-    return False
-
-
-class Tally:
-    def __init__(self):
-        self.human = False
-        self.auto = False
-        self.subagent = False
-        self.saw_agent = False
-        self.saw = False
-        self.user_n = 0
-        self.day = None
-
-
-def each_record(path):
-    try:
-        handle = open_file(path)
-    except OSError:
-        return
-    with handle:
-        for raw in handle:
-            if raw.endswith(b"\r\n"):
-                raw = raw[:-2]
-            elif raw.endswith(b"\n") or raw.endswith(b"\r"):
-                raw = raw[:-1]
-            if raw:
-                yield raw
+def open_file(path):
+    fd = os.open(path, os.O_RDONLY | getattr(os, "O_NOFOLLOW", 0))
+    return os.fdopen(fd, "rb")
 
 
 def load_json(raw):
@@ -207,62 +163,89 @@ def load_json(raw):
     return None
 
 
-def prefix_moment(raw):
-    matched = PREFIX_TS_RE.search(raw[:120])
-    if not matched:
+def file_birth(info):
+    birth = getattr(info, "st_birthtime", None)
+    if birth is None:
         return None
-    return parse_time(matched.group(1).decode("utf-8", "replace"))
+    return datetime.fromtimestamp(birth, timezone.utc)
 
 
-def remember_day(scan, moment, zone):
-    scan["days"].add(local_day(moment, zone))
+def remember(days, moment, zone):
+    if moment is not None:
+        days.add(local_day(moment, zone))
 
 
-def note_user(tally, moment, zone):
-    tally.user_n += 1
-    tally.human = True
-    current = local_day(moment, zone)
-    tally.day = current if tally.day is None else min(tally.day, current)
+def blank(truncated=False):
+    return {"opened": False, "truncated": truncated, "gaps": set(), "days": set(), "samples": []}
 
 
-def open_file(path):
-    fd = os.open(path, os.O_RDONLY | getattr(os, "O_NOFOLLOW", 0))
-    return os.fdopen(fd, "rb")
-
-
-def each_jsonl(root):
-    if not os.path.isdir(root) or os.path.islink(root):
-        return
-    for directory, names, files in os.walk(root, followlinks=False):
-        names[:] = [name for name in names if not os.path.islink(os.path.join(directory, name))]
-        for name in files:
-            path = os.path.join(directory, name)
-            if not name.endswith(".jsonl") or os.path.islink(path):
-                continue
-            try:
-                info = os.lstat(path)
-            except OSError:
-                continue
-            if not stat.S_ISREG(info.st_mode):
-                continue
-            yield path, info.st_mtime
-
-
-def iter_objects(path):
+def capped_bytes(path, size):
+    truncated = size > BYTE_CAP
     try:
         handle = open_file(path)
     except OSError:
-        return
+        return None, truncated
+    blob = bytearray()
+    remaining = BYTE_CAP
     with handle:
-        for raw in handle:
-            try:
-                yield json.loads(raw.decode("utf-8"))
-            except (UnicodeDecodeError, json.JSONDecodeError):
-                continue
+        while remaining > 0:
+            block = handle.read(min(65536, remaining))
+            if not block:
+                break
+            blob.extend(block)
+            remaining -= len(block)
+    if truncated:
+        newline = blob.rfind(b"\n")
+        blob = blob[:newline] if newline >= 0 else bytearray()
+    return bytes(blob), truncated
 
 
-def fresh(mtime, start):
-    return mtime >= start
+def objects_from(blob):
+    objects = []
+    if not blob:
+        return objects
+    for raw in blob.splitlines():
+        if not raw:
+            continue
+        obj = load_json(raw)
+        if obj is not None:
+            objects.append(obj)
+    return objects
+
+
+def note_user_day(day, moment, zone):
+    current = local_day(moment, zone)
+    return current if day is None else min(day, current)
+
+
+def pack(client, day, turns):
+    human = sum(1 for role, kind, _text in turns if role == "user" and kind == "message")
+    if human < 2 or day is None or not any(role == "agent" for role, _kind, _text in turns):
+        return None
+    chosen = choose_turns(turns)
+    if not chosen:
+        return None
+    return {"client": client, "day": day, "turns": chosen}
+
+
+def choose_turns(turns):
+    limited = turns[:TURN_CAP]
+    for index in range(len(limited)):
+        chunk = limited[index:index + 12]
+        roles = {turn[0] for turn in chunk}
+        if "user" in roles and "agent" in roles:
+            return chunk
+    return []
+
+
+def extend_turns(turns, role, content):
+    if len(turns) >= TURN_CAP:
+        return False
+    for kind, text in blocks(content):
+        turns.append((role, kind, text))
+        if len(turns) >= TURN_CAP:
+            return False
+    return True
 
 
 def claude_user_class(obj):
@@ -281,60 +264,42 @@ def claude_user_class(obj):
     return None
 
 
-def apply_claude(obj, start, stop, zone, scan, tally, path_subagent):
-    moment = parse_time(obj.get("timestamp")) if isinstance(obj.get("timestamp"), str) else None
-    kind = obj.get("type")
-    if kind in {"user", "assistant"} and moment is None:
-        scan["gaps"].add("unattributed_runs")
-        return
-    if moment is None or not (start <= moment < stop):
-        return
-    remember_day(scan, moment, zone)
-    tally.saw = True
-    if kind == "user":
-        role = claude_user_class(obj)
-        if role == "human" and not path_subagent:
-            note_user(tally, moment, zone)
-        elif role == "auto":
-            tally.auto = True
-    elif kind == "assistant" and not tally.saw_agent:
+def message_moment(obj):
+    raw = obj.get("timestamp") if isinstance(obj.get("timestamp"), str) else None
+    return parse_time(raw) if raw else None
+
+
+def read_claude(item, start, stop, zone):
+    blob, truncated = capped_bytes(item["path"], item["size"])
+    result = blank(truncated)
+    if blob is None:
+        return result
+    result["opened"] = True
+    turns = []
+    day = None
+    for obj in objects_from(blob):
+        moment = message_moment(obj)
+        kind = obj.get("type")
+        if kind in {"user", "assistant"} and moment is None:
+            result["gaps"].add("unattributed_runs")
+            continue
+        if moment is None or not (start <= moment < stop):
+            continue
+        remember(result["days"], moment, zone)
         message = obj.get("message") if isinstance(obj.get("message"), dict) else {}
-        if has_turn(message.get("content")):
-            tally.saw_agent = True
-
-
-def claude_line_settled(raw, start, stop):
-    moment = prefix_moment(raw)
-    if moment is None:
-        return False
-    return not (start <= moment < stop)
-
-
-def scan_claude(home, start, stop, zone, scan):
-    root = os.path.join(home, ".claude", "projects")
-    if not os.path.isdir(root) or os.path.islink(root):
-        scan["gaps"].add("other_sources_missing")
-        return
-    for path, mtime in each_jsonl(root):
-        if not fresh(mtime, start.timestamp()):
-            continue
-        tally = Tally()
-        path_subagent = "subagents" in path.split(os.sep)
-        for raw in each_record(path):
-            if claude_line_settled(raw, start, stop):
-                continue
-            obj = load_json(raw)
-            if obj is None:
-                continue
-            apply_claude(obj, start, stop, zone, scan, tally, path_subagent)
-        if not tally.saw:
-            continue
-        if path_subagent:
-            scan["sessions"].append(Session("claude-code", "subagent", tally.day, 0, False, path, "claude"))
-        elif tally.human:
-            scan["sessions"].append(Session("claude-code", "human", tally.day, tally.user_n, tally.saw_agent, path, "claude"))
-        elif tally.auto:
-            scan["sessions"].append(Session("claude-code", "automated", tally.day, 0, False, path, "claude"))
+        if kind == "user" and claude_user_class(obj) == "human":
+            before = len(turns)
+            extend_turns(turns, "user", message.get("content"))
+            if any(role == "user" and turn_kind == "message" for role, turn_kind, _text in turns[before:]):
+                day = note_user_day(day, moment, zone)
+        elif kind == "assistant":
+            extend_turns(turns, "agent", message.get("content"))
+        if len(turns) >= TURN_CAP:
+            break
+    sample = pack("claude-code", day, turns)
+    if sample:
+        result["samples"].append(sample)
+    return result
 
 
 def codex_subagent(payload):
@@ -342,161 +307,100 @@ def codex_subagent(payload):
     return bool(payload.get("parent_thread_id")) or (isinstance(source, dict) and "subagent" in source)
 
 
-def apply_codex(obj, start, stop, zone, scan, tally):
-    payload = obj.get("payload") if isinstance(obj.get("payload"), dict) else {}
-    if obj.get("type") == "session_meta" and codex_subagent(payload):
-        tally.subagent = True
-    moment = parse_time(obj.get("timestamp")) if isinstance(obj.get("timestamp"), str) else None
-    ptype = payload.get("type")
-    message_like = ptype in MESSAGE_TYPES or ptype in TOOL_TYPES
-    if message_like and moment is None:
-        scan["gaps"].add("unattributed_runs")
-        return
-    if moment is None or not (start <= moment < stop) or not message_like:
-        return
-    remember_day(scan, moment, zone)
-    tally.saw = True
-    role = payload.get("role")
-    if ptype == "message" and role == "user" and not tally.subagent:
-        note_user(tally, moment, zone)
-    elif not tally.saw_agent and has_turn(payload.get("content")) and (ptype == "agent_message" or role == "assistant" or ptype in TOOL_TYPES):
-        tally.saw_agent = True
-
-
-def codex_line_settled(raw, start, stop, zone, scan, tally):
-    if b'"session_meta"' in raw[:240]:
-        return False
-    moment = prefix_moment(raw)
-    if moment is None:
-        return False
-    if not (start <= moment < stop):
-        return True
-    payload = PAYLOAD_TYPE_RE.search(raw[:640])
-    if payload is None:
-        return False
-    ptype = payload.group(1).decode("utf-8", "replace")
-    if ptype not in MESSAGE_TYPES and ptype not in TOOL_TYPES:
-        return True
-    role = None
-    if ptype == "message":
-        role_match = PAYLOAD_ROLE_RE.search(raw[:640])
-        if role_match is None:
-            return False
-        role = role_match.group(1).decode("utf-8", "replace")
-        if role == "assistant" and not tally.saw_agent:
-            return False
-    elif not tally.saw_agent and not (ptype in TOOL_TYPES and b'"content"' not in raw):
-        return False
-    remember_day(scan, moment, zone)
-    tally.saw = True
-    if ptype == "message" and role == "user" and not tally.subagent:
-        note_user(tally, moment, zone)
-    return True
-
-
-def scan_codex(home, start, stop, zone, scan):
-    roots = [os.path.join(home, ".codex", "sessions"), os.path.join(home, ".codex", "archived_sessions")]
-    if not any(os.path.isdir(root) and not os.path.islink(root) for root in roots):
-        scan["gaps"].add("other_sources_missing")
-        return
-    for root in roots:
-        for path, mtime in each_jsonl(root):
-            if not fresh(mtime, start.timestamp()):
-                continue
-            tally = Tally()
-            for raw in each_record(path):
-                if codex_line_settled(raw, start, stop, zone, scan, tally):
-                    continue
-                obj = load_json(raw)
-                if obj is None:
-                    continue
-                apply_codex(obj, start, stop, zone, scan, tally)
-            if not tally.saw:
-                continue
-            if tally.subagent:
-                scan["sessions"].append(Session("codex", "subagent", tally.day, 0, False, path, "codex"))
-            elif tally.human:
-                scan["sessions"].append(Session("codex", "human", tally.day, tally.user_n, tally.saw_agent, path, "codex"))
-
-
-def file_birth(info):
-    birth = getattr(info, "st_birthtime", None)
-    if birth is None:
-        return None
-    return datetime.fromtimestamp(birth, timezone.utc)
-
-
-def scan_cursor(home, start, stop, zone, scan):
-    root = os.path.join(home, ".cursor", "projects")
-    if not os.path.isdir(root) or os.path.islink(root):
-        scan["gaps"].add("other_sources_missing")
-        return
-    for path, mtime in each_jsonl(root):
-        if "agent-transcripts" not in path.split(os.sep) or not fresh(mtime, start.timestamp()):
+def read_codex(item, start, stop, zone):
+    blob, truncated = capped_bytes(item["path"], item["size"])
+    result = blank(truncated)
+    if blob is None:
+        return result
+    result["opened"] = True
+    objects = objects_from(blob)
+    subagent = False
+    for obj in objects:
+        payload = obj.get("payload") if isinstance(obj.get("payload"), dict) else {}
+        if obj.get("type") == "session_meta" and codex_subagent(payload):
+            subagent = True
+    turns = []
+    day = None
+    for obj in objects:
+        payload = obj.get("payload") if isinstance(obj.get("payload"), dict) else {}
+        moment = message_moment(obj)
+        ptype = payload.get("type")
+        message_like = ptype in MESSAGE_TYPES or ptype in TOOL_TYPES
+        if message_like and moment is None:
+            result["gaps"].add("unattributed_runs")
             continue
-        try:
-            info = os.lstat(path)
-        except OSError:
+        if moment is None or not (start <= moment < stop) or not message_like:
             continue
-        subagent = "subagents" in path.split(os.sep)
-        tally = Tally()
-        timed = False
-        saw_untimed = False
-        untimed_rows = []
-        for obj in iter_objects(path) or ():
-            if not isinstance(obj, dict) or obj.get("role") not in {"user", "assistant"}:
+        remember(result["days"], moment, zone)
+        if subagent:
+            continue
+        role = payload.get("role")
+        if ptype == "message" and role == "user":
+            before = len(turns)
+            extend_turns(turns, "user", payload.get("content"))
+            if any(turn_role == "user" and kind == "message" for turn_role, kind, _text in turns[before:]):
+                day = note_user_day(day, moment, zone)
+        elif ptype == "agent_message" or (ptype == "message" and role == "assistant") or ptype in TOOL_TYPES:
+            extend_turns(turns, "agent", payload.get("content"))
+        if len(turns) >= TURN_CAP:
+            break
+    if not subagent:
+        sample = pack("codex", day, turns)
+        if sample:
+            result["samples"].append(sample)
+    return result
+
+
+def read_cursor(item, start, stop, zone):
+    blob, truncated = capped_bytes(item["path"], item["size"])
+    result = blank(truncated)
+    if blob is None:
+        return result
+    result["opened"] = True
+    objects = objects_from(blob)
+    has_clock = b'"timestamp"' in blob or b'"createdAt"' in blob
+    turns = []
+    day = None
+    if not has_clock:
+        born = item["birth"]
+        modified = datetime.fromtimestamp(item["mtime"], timezone.utc)
+        if born is not None and start <= born < stop and start <= modified < stop:
+            day = local_day(born, zone)
+            result["days"].add(day)
+            for obj in objects:
+                if obj.get("role") not in {"user", "assistant"}:
+                    continue
+                message = obj.get("message") if isinstance(obj.get("message"), dict) else {}
+                role = "user" if obj.get("role") == "user" else "agent"
+                extend_turns(turns, role, message.get("content"))
+                if len(turns) >= TURN_CAP:
+                    break
+        else:
+            result["gaps"].add("unattributed_runs")
+    else:
+        for obj in objects:
+            if obj.get("role") not in {"user", "assistant"}:
                 continue
             raw = obj.get("timestamp") or obj.get("createdAt")
             moment = parse_time(raw) if isinstance(raw, str) else None
             message = obj.get("message") if isinstance(obj.get("message"), dict) else {}
-            produced = has_turn(message.get("content"))
-            role = obj.get("role")
             if moment is None:
-                saw_untimed = True
-                if timed:
-                    scan["gaps"].add("unattributed_runs")
-                else:
-                    untimed_rows.append((role, produced))
+                result["gaps"].add("unattributed_runs")
                 continue
-            if not timed and saw_untimed:
-                scan["gaps"].add("unattributed_runs")
-                untimed_rows.clear()
-            timed = True
-            if not (start <= moment < stop) or not produced:
+            if not (start <= moment < stop):
                 continue
-            remember_day(scan, moment, zone)
-            tally.saw = True
-            if role == "user" and not subagent:
-                note_user(tally, moment, zone)
-            elif role == "assistant":
-                tally.saw_agent = True
-        if not timed:
-            born = file_birth(info)
-            modified = datetime.fromtimestamp(info.st_mtime, timezone.utc)
-            covered = born is not None and start <= born < stop and start <= modified < stop
-            if covered and untimed_rows:
-                for role, produced in untimed_rows:
-                    if not produced:
-                        continue
-                    tally.saw = True
-                    if role == "user" and not subagent:
-                        tally.user_n += 1
-                        tally.human = True
-                    elif role == "assistant":
-                        tally.saw_agent = True
-                if tally.saw:
-                    tally.day = local_day(born, zone)
-                    scan["days"].add(tally.day)
-                else:
-                    scan["gaps"].add("unattributed_runs")
-            else:
-                scan["gaps"].add("unattributed_runs")
-        if not tally.saw:
-            continue
-        if subagent:
-            scan["sessions"].append(Session("cursor", "subagent", tally.day, 0, False, path, "cursor"))
-        elif tally.human:
-            scan["sessions"].append(Session("cursor", "human", tally.day, tally.user_n, tally.saw_agent, path, "cursor"))
+            remember(result["days"], moment, zone)
+            role = "user" if obj.get("role") == "user" else "agent"
+            before = len(turns)
+            extend_turns(turns, role, message.get("content"))
+            if role == "user" and any(turn_role == "user" and kind == "message" for turn_role, kind, _text in turns[before:]):
+                day = note_user_day(day, moment, zone)
+            if len(turns) >= TURN_CAP:
+                break
+    sample = pack("cursor", day, turns)
+    if sample:
+        result["samples"].append(sample)
+    return result
 
 
 def grok_bounds(turns):
@@ -509,55 +413,45 @@ def grok_bounds(turns):
     return moments
 
 
-def scan_grok(home, start, stop, zone, scan):
-    root = os.path.join(home, ".grok", "sessions")
-    if not os.path.isdir(root) or os.path.islink(root):
-        return False
-    found = False
-    for directory, names, files in os.walk(root, followlinks=False):
-        names[:] = [name for name in names if not os.path.islink(os.path.join(directory, name))]
-        if "usage.json" not in files:
-            continue
-        usage_path = os.path.join(directory, "usage.json")
-        if os.path.islink(usage_path):
-            continue
-        found = True
-        try:
-            info = os.lstat(usage_path)
-            if not stat.S_ISREG(info.st_mode) or not fresh(info.st_mtime, start.timestamp()):
-                continue
-            with open_file(usage_path) as handle:
-                usage = json.load(handle)
-        except (OSError, json.JSONDecodeError, UnicodeDecodeError):
-            scan["gaps"].add("unattributed_runs")
-            continue
-        moments = grok_bounds(usage.get("turns") if isinstance(usage, dict) else None)
-        if not moments:
-            scan["gaps"].add("unattributed_runs")
-            continue
-        inside = [moment for moment in moments if start <= moment < stop]
-        if not inside:
-            continue
-        for moment in inside:
-            scan["days"].add(local_day(moment, zone))
-        # Chat lines have no timestamps, so only a fully contained session is usable.
-        if min(moments) < start or max(moments) >= stop:
-            scan["gaps"].add("partial_window")
-            continue
-        chat = os.path.join(directory, "chat_history.jsonl")
-        user_n = 0
-        saw_agent = False
-        if os.path.isfile(chat) and not os.path.islink(chat):
-            for obj in iter_objects(chat) or ():
-                if not isinstance(obj, dict):
-                    continue
-                if obj.get("type") == "user" and redact(obj.get("content") if isinstance(obj.get("content"), str) else ""):
-                    user_n += 1
-                elif obj.get("type") == "assistant" and (redact(obj.get("content") if isinstance(obj.get("content"), str) else "") or obj.get("tool_calls")):
-                    saw_agent = True
-        if user_n:
-            scan["sessions"].append(Session("other", "human", local_day(min(moments), zone), user_n, saw_agent, directory, "grok"))
-    return found
+def read_grok(item, start, stop, zone):
+    result = blank()
+    blob, truncated = capped_bytes(item["path"], item["size"])
+    if blob is None:
+        return result
+    result["opened"] = True
+    result["truncated"] = truncated
+    usage_path = os.path.join(os.path.dirname(item["path"]), "usage.json")
+    try:
+        with open_file(usage_path) as handle:
+            usage = json.load(handle)
+    except (OSError, json.JSONDecodeError, UnicodeDecodeError):
+        result["gaps"].add("unattributed_runs")
+        return result
+    moments = grok_bounds(usage.get("turns") if isinstance(usage, dict) else None)
+    if not moments:
+        result["gaps"].add("unattributed_runs")
+        return result
+    inside = [moment for moment in moments if start <= moment < stop]
+    for moment in inside:
+        remember(result["days"], moment, zone)
+    if min(moments) < start or max(moments) >= stop:
+        result["gaps"].add("partial_window")
+        return result
+    day = local_day(min(moments), zone)
+    turns = []
+    for obj in objects_from(blob):
+        if obj.get("type") == "user":
+            extend_turns(turns, "user", obj.get("content") if isinstance(obj.get("content"), str) else "")
+        elif obj.get("type") == "assistant":
+            extend_turns(turns, "agent", obj.get("content") if isinstance(obj.get("content"), str) else "")
+            if obj.get("tool_calls"):
+                turns.append(("agent", "tool", "tool"))
+        if len(turns) >= TURN_CAP:
+            break
+    sample = pack("other", day, turns)
+    if sample:
+        result["samples"].append(sample)
+    return result
 
 
 def connect_db(path):
@@ -567,250 +461,44 @@ def connect_db(path):
     return sqlite3.connect(f"file:{quoted}?mode=ro", uri=True)
 
 
-def scan_opencode(home, start, stop, zone, scan):
-    # OpenCode stores time_created as unix milliseconds.
-    path = os.path.join(home, ".local", "share", "opencode", "opencode.db")
-    connection = connect_db(path)
+def read_opencode(item, start, stop, zone):
+    result = blank()
+    connection = connect_db(item["path"])
     if connection is None:
-        return False
+        return result
+    result["opened"] = True
     start_ms = int(start.timestamp() * 1000)
     stop_ms = int(stop.timestamp() * 1000)
     try:
-        rows = connection.execute(
-            "SELECT id, parent_id, time_created, time_updated FROM session WHERE time_updated >= ? AND time_created < ?",
+        sessions = connection.execute(
+            "SELECT id, parent_id, time_created FROM session WHERE time_updated >= ? AND time_created < ? ORDER BY id",
             (start_ms, stop_ms),
         ).fetchall()
         parents = {}
-        for sid, parent, created, updated in rows:
-            if parent:
-                scan["sessions"].append(Session("other", "subagent", None, 0, False, "opencode:" + str(sid), "opencode"))
-                if created is not None:
-                    scan["days"].add(local_day(datetime.fromtimestamp(created / 1000, timezone.utc), zone))
-            else:
-                parents[sid] = {"users": 0, "agent": False, "day": None}
-        messages = connection.execute(
-            "SELECT id, session_id, time_created, data FROM message WHERE time_created >= ? AND time_created < ?",
-            (start_ms, stop_ms),
-        )
-        for _mid, sid, created, data in messages:
+        for sid, parent, created in sessions:
+            if created is not None:
+                remember(result["days"], datetime.fromtimestamp(created / 1000, timezone.utc), zone)
+            if not parent:
+                parents[sid] = {"turns": [], "day": None}
+        rows = connection.execute(
+            "SELECT id, session_id, time_created, data FROM message WHERE time_created >= ? AND time_created < ? ORDER BY time_created ASC LIMIT ?",
+            (start_ms, stop_ms, ROW_CAP + 1),
+        ).fetchall()
+        if len(rows) > ROW_CAP:
+            result["truncated"] = True
+            rows = rows[:ROW_CAP]
+        for mid, sid, created, data in rows:
             info = parents.get(sid)
-            if info is None or created is None:
+            if created is None:
+                continue
+            moment = datetime.fromtimestamp(created / 1000, timezone.utc)
+            remember(result["days"], moment, zone)
+            if info is None or len(info["turns"]) >= TURN_CAP:
                 continue
             try:
                 payload = json.loads(data) if isinstance(data, str) else {}
             except json.JSONDecodeError:
                 payload = {}
-            moment = datetime.fromtimestamp(created / 1000, timezone.utc)
-            scan["days"].add(local_day(moment, zone))
-            role = payload.get("role") if isinstance(payload, dict) else None
-            if role == "user":
-                info["users"] += 1
-                current = local_day(moment, zone)
-                info["day"] = current if info["day"] is None else min(info["day"], current)
-            elif role == "assistant":
-                info["agent"] = True
-        for sid, info in parents.items():
-            if info["users"]:
-                scan["sessions"].append(Session("other", "human", info["day"], info["users"], info["agent"], "opencode:" + str(sid), "opencode"))
-    except sqlite3.Error:
-        scan["gaps"].add("unattributed_runs")
-    finally:
-        connection.close()
-    return True
-
-
-def hermes_scale(connection):
-    # Hermes timestamps are seconds or milliseconds. max(started_at) picks the scale.
-    maximum = connection.execute("SELECT max(started_at) FROM sessions").fetchone()[0] or 0
-    return 1000.0 if maximum > 1e11 else 1.0
-
-
-def hermes_auto(source, created):
-    text = f"{source or ''} {created or ''}".lower()
-    return any(word in text for word in AUTO_WORDS)
-
-
-def scan_hermes(home, start, stop, zone, scan):
-    path = os.path.join(home, ".hermes", "state.db")
-    connection = connect_db(path)
-    if connection is None:
-        return False
-    try:
-        scale = hermes_scale(connection)
-        start_n = start.timestamp() * scale
-        stop_n = stop.timestamp() * scale
-        rows = connection.execute(
-            "SELECT id, parent_session_id, started_at, ended_at, last_activity_at, source, created_source "
-            "FROM sessions WHERE COALESCE(last_activity_at, ended_at, started_at) >= ? AND started_at < ?",
-            (start_n, stop_n),
-        ).fetchall()
-        parents = {}
-        for sid, parent, started, _ended, _last, source, created in rows:
-            if parent:
-                scan["sessions"].append(Session("other", "subagent", None, 0, False, "hermes:" + str(sid), "hermes"))
-            elif hermes_auto(source, created):
-                scan["sessions"].append(Session("other", "automated", None, 0, False, "hermes:" + str(sid), "hermes"))
-            else:
-                parents[sid] = {"users": 0, "agent": False, "day": None}
-            if started is not None and start_n <= started < stop_n:
-                scan["days"].add(local_day(datetime.fromtimestamp(started / scale, timezone.utc), zone))
-        messages = connection.execute(
-            "SELECT session_id, role, timestamp FROM messages WHERE timestamp >= ? AND timestamp < ?",
-            (start_n, stop_n),
-        )
-        for sid, role, stamp in messages:
-            info = parents.get(sid)
-            if info is None or stamp is None:
-                continue
-            moment = datetime.fromtimestamp(stamp / scale, timezone.utc)
-            scan["days"].add(local_day(moment, zone))
-            if role == "user":
-                info["users"] += 1
-                current = local_day(moment, zone)
-                info["day"] = current if info["day"] is None else min(info["day"], current)
-            elif role in {"assistant", "tool"}:
-                info["agent"] = True
-        for sid, info in parents.items():
-            if info["users"]:
-                scan["sessions"].append(Session("other", "human", info["day"], info["users"], info["agent"], "hermes:" + str(sid), "hermes"))
-    except sqlite3.Error:
-        scan["gaps"].add("unattributed_runs")
-    finally:
-        connection.close()
-    return True
-
-
-def scan_other(home, start, stop, zone, scan):
-    found = scan_grok(home, start, stop, zone, scan)
-    found = scan_opencode(home, start, stop, zone, scan) or found
-    found = scan_hermes(home, start, stop, zone, scan) or found
-    if not found:
-        scan["gaps"].add("other_sources_missing")
-
-
-def turns_from_jsonl(path, start, stop, accept):
-    turns = []
-    for obj in iter_objects(path) or ():
-        if not isinstance(obj, dict):
-            continue
-        produced = accept(obj, start, stop)
-        if produced:
-            turns.extend(produced)
-        if len(turns) >= 80:
-            break
-    return turns
-
-
-def claude_turns(path, start, stop):
-    def accept(obj, window_start, window_stop):
-        moment = parse_time(obj.get("timestamp")) if isinstance(obj.get("timestamp"), str) else None
-        if moment is None or not (window_start <= moment < window_stop) or "subagents" in path.split(os.sep):
-            return []
-        if obj.get("type") == "user" and claude_user_class(obj) == "human":
-            message = obj.get("message") if isinstance(obj.get("message"), dict) else {}
-            return [("user", kind, text) for kind, text in blocks(message.get("content"))]
-        if obj.get("type") == "assistant":
-            message = obj.get("message") if isinstance(obj.get("message"), dict) else {}
-            return [("agent", kind, text) for kind, text in blocks(message.get("content"))]
-        return []
-
-    return turns_from_jsonl(path, start, stop, accept)
-
-
-def codex_turns(path, start, stop):
-    def accept(obj, window_start, window_stop):
-        payload = obj.get("payload") if isinstance(obj.get("payload"), dict) else {}
-        moment = parse_time(obj.get("timestamp")) if isinstance(obj.get("timestamp"), str) else None
-        if moment is None or not (window_start <= moment < window_stop):
-            return []
-        role = payload.get("role")
-        ptype = payload.get("type")
-        if ptype == "message" and role == "user":
-            return [("user", kind, text) for kind, text in blocks(payload.get("content"))]
-        if ptype == "agent_message" or (ptype == "message" and role == "assistant") or ptype in TOOL_TYPES:
-            return [("agent", kind, text) for kind, text in blocks(payload.get("content"))]
-        return []
-
-    return turns_from_jsonl(path, start, stop, accept)
-
-
-def cursor_has_clock(path):
-    try:
-        handle = open_file(path)
-    except OSError:
-        return False
-    with handle:
-        for raw in handle:
-            if b'"timestamp"' in raw or b'"createdAt"' in raw:
-                return True
-    return False
-
-
-def cursor_turns(path, start, stop):
-    if not cursor_has_clock(path):
-        return []
-
-    def accept(obj, window_start, window_stop):
-        raw = obj.get("timestamp") or obj.get("createdAt")
-        moment = parse_time(raw) if isinstance(raw, str) else None
-        if moment is None or not (window_start <= moment < window_stop):
-            return []
-        message = obj.get("message") if isinstance(obj.get("message"), dict) else {}
-        role = "user" if obj.get("role") == "user" else "agent" if obj.get("role") == "assistant" else None
-        if role is None:
-            return []
-        return [(role, kind, text) for kind, text in blocks(message.get("content"))]
-
-    return turns_from_jsonl(path, start, stop, accept)
-
-
-def grok_turns(directory, start, stop):
-    usage_path = os.path.join(directory, "usage.json")
-    try:
-        with open_file(usage_path) as handle:
-            usage = json.load(handle)
-    except (OSError, json.JSONDecodeError, UnicodeDecodeError):
-        return []
-    moments = grok_bounds(usage.get("turns") if isinstance(usage, dict) else None)
-    if not moments or min(moments) < start or max(moments) >= stop:
-        return []
-    turns = []
-    for obj in iter_objects(os.path.join(directory, "chat_history.jsonl")) or ():
-        if not isinstance(obj, dict):
-            continue
-        if obj.get("type") == "user":
-            text = redact(obj.get("content") if isinstance(obj.get("content"), str) else "")
-            if text:
-                turns.append(("user", "message", text))
-        elif obj.get("type") == "assistant":
-            text = redact(obj.get("content") if isinstance(obj.get("content"), str) else "")
-            if text:
-                turns.append(("agent", "message", text))
-            if obj.get("tool_calls"):
-                turns.append(("agent", "tool", "tool"))
-        if len(turns) >= 80:
-            break
-    return turns
-
-
-def opencode_turns(home, key, start, stop):
-    sid = key.split(":", 1)[1]
-    connection = connect_db(os.path.join(home, ".local", "share", "opencode", "opencode.db"))
-    if connection is None:
-        return []
-    start_ms = int(start.timestamp() * 1000)
-    stop_ms = int(stop.timestamp() * 1000)
-    turns = []
-    try:
-        rows = connection.execute(
-            "SELECT id, data FROM message WHERE session_id = ? AND time_created >= ? AND time_created < ? ORDER BY time_created ASC",
-            (sid, start_ms, stop_ms),
-        ).fetchall()
-        for mid, data in rows:
-            try:
-                payload = json.loads(data) if isinstance(data, str) else {}
-            except json.JSONDecodeError:
-                continue
             role_name = payload.get("role") if isinstance(payload, dict) else None
             role = "user" if role_name == "user" else "agent" if role_name == "assistant" else None
             if role is None:
@@ -827,133 +515,278 @@ def opencode_turns(home, key, start, stop):
                     continue
                 if isinstance(part, dict):
                     content.append(part)
-            for kind, text in blocks(content):
-                turns.append((role, kind, text))
-            if len(turns) >= 80:
-                break
+            before = len(info["turns"])
+            extend_turns(info["turns"], role, content)
+            if role == "user" and any(turn_role == "user" and kind == "message" for turn_role, kind, _text in info["turns"][before:]):
+                info["day"] = note_user_day(info["day"], moment, zone)
+        for sid in sorted(parents):
+            sample = pack("other", parents[sid]["day"], parents[sid]["turns"])
+            if sample:
+                result["samples"].append(sample)
     except sqlite3.Error:
-        return []
+        result["gaps"].add("unattributed_runs")
     finally:
         connection.close()
-    return turns
+    return result
 
 
-def hermes_turns(home, key, start, stop):
-    sid = key.split(":", 1)[1]
-    connection = connect_db(os.path.join(home, ".hermes", "state.db"))
+def hermes_scale(connection):
+    maximum = connection.execute("SELECT max(started_at) FROM sessions").fetchone()[0] or 0
+    return 1000.0 if maximum > 1e11 else 1.0
+
+
+def hermes_auto(source, created):
+    text = f"{source or ''} {created or ''}".lower()
+    return any(word in text for word in AUTO_WORDS)
+
+
+def read_hermes(item, start, stop, zone):
+    result = blank()
+    connection = connect_db(item["path"])
     if connection is None:
-        return []
-    turns = []
+        return result
+    result["opened"] = True
     try:
         scale = hermes_scale(connection)
         start_n = start.timestamp() * scale
         stop_n = stop.timestamp() * scale
+        sessions = connection.execute(
+            "SELECT id, parent_session_id, started_at, source, created_source FROM sessions "
+            "WHERE COALESCE(last_activity_at, ended_at, started_at) >= ? AND started_at < ? ORDER BY id",
+            (start_n, stop_n),
+        ).fetchall()
+        parents = {}
+        for sid, parent, started, source, created in sessions:
+            if started is not None and start_n <= started < stop_n:
+                remember(result["days"], datetime.fromtimestamp(started / scale, timezone.utc), zone)
+            if not parent and not hermes_auto(source, created):
+                parents[sid] = {"turns": [], "day": None}
         rows = connection.execute(
-            "SELECT role, content, tool_name FROM messages WHERE session_id = ? AND timestamp >= ? AND timestamp < ? ORDER BY timestamp ASC",
-            (sid, start_n, stop_n),
-        )
-        for role_name, content, tool_name in rows:
+            "SELECT session_id, role, content, tool_name, timestamp FROM messages WHERE timestamp >= ? AND timestamp < ? ORDER BY timestamp ASC LIMIT ?",
+            (start_n, stop_n, ROW_CAP + 1),
+        ).fetchall()
+        if len(rows) > ROW_CAP:
+            result["truncated"] = True
+            rows = rows[:ROW_CAP]
+        for sid, role_name, content, tool_name, stamp in rows:
+            info = parents.get(sid)
+            if stamp is None:
+                continue
+            moment = datetime.fromtimestamp(stamp / scale, timezone.utc)
+            remember(result["days"], moment, zone)
+            if info is None or len(info["turns"]) >= TURN_CAP:
+                continue
             if role_name == "user":
-                text = redact(content if isinstance(content, str) else "")
-                if text:
-                    turns.append(("user", "message", text))
+                before = len(info["turns"])
+                extend_turns(info["turns"], "user", content if isinstance(content, str) else "")
+                if any(role == "user" and kind == "message" for role, kind, _text in info["turns"][before:]):
+                    info["day"] = note_user_day(info["day"], moment, zone)
             elif role_name == "assistant":
-                text = redact(content if isinstance(content, str) else "")
-                if text:
-                    turns.append(("agent", "message", text))
+                extend_turns(info["turns"], "agent", content if isinstance(content, str) else "")
             elif role_name == "tool":
                 label = redact(tool_name if isinstance(tool_name, str) and tool_name else "tool")
                 if label:
-                    turns.append(("agent", "tool", label))
-            if len(turns) >= 80:
-                break
+                    info["turns"].append(("agent", "tool", label))
+        for sid in sorted(parents):
+            sample = pack("other", parents[sid]["day"], parents[sid]["turns"])
+            if sample:
+                result["samples"].append(sample)
     except sqlite3.Error:
-        return []
+        result["gaps"].add("unattributed_runs")
     finally:
         connection.close()
-    return turns
+    return result
 
 
-def load_turns(home, session, start, stop):
-    if session.kind == "claude":
-        return claude_turns(session.key, start, stop)
-    if session.kind == "codex":
-        return codex_turns(session.key, start, stop)
-    if session.kind == "cursor":
-        return cursor_turns(session.key, start, stop)
-    if session.kind == "grok":
-        return grok_turns(session.key, start, stop)
-    if session.kind == "opencode":
-        return opencode_turns(home, session.key, start, stop)
-    if session.kind == "hermes":
-        return hermes_turns(home, session.key, start, stop)
-    return []
+READERS = {
+    "claude": read_claude,
+    "codex": read_codex,
+    "cursor": read_cursor,
+    "grok": read_grok,
+    "opencode": read_opencode,
+    "hermes": read_hermes,
+}
 
 
-def choose_turns(turns):
-    limited = turns[:80]
-    for index in range(len(limited)):
-        chunk = limited[index:index + 12]
-        roles = {turn[0] for turn in chunk}
-        if "user" in roles and "agent" in roles:
-            return chunk
-    return []
+def directory_exists(path):
+    return os.path.isdir(path) and not os.path.islink(path)
 
 
-def sample_candidates(home, sessions, start, stop):
-    grouped = defaultdict(list)
-    for session in sessions:
-        if session.bucket != "human" or session.user_n < 2 or not session.saw_agent or not session.day:
+def add_file(files, client, kind, path, start, stop, zone):
+    if os.path.islink(path):
+        return
+    try:
+        info = os.lstat(path)
+    except OSError:
+        return
+    if not stat.S_ISREG(info.st_mode):
+        return
+    if not (start.timestamp() <= info.st_mtime < stop.timestamp()):
+        return
+    moment = datetime.fromtimestamp(info.st_mtime, timezone.utc)
+    files.append({
+        "client": client,
+        "kind": kind,
+        "path": path,
+        "mtime": info.st_mtime,
+        "birth": file_birth(info),
+        "week": iso_week(local_day(moment, zone)),
+        "size": info.st_size,
+    })
+
+
+def walk_files(root):
+    if not directory_exists(root):
+        return
+    for directory, names, filenames in os.walk(root, followlinks=False):
+        names[:] = [name for name in names if not os.path.islink(os.path.join(directory, name))]
+        for name in filenames:
+            path = os.path.join(directory, name)
+            if os.path.islink(path):
+                continue
+            yield directory, name, path
+
+
+def list_jsonl(root, client, kind, start, stop, zone, files, marker=None):
+    if not directory_exists(root):
+        return False
+    for _directory, name, path in walk_files(root):
+        if not name.endswith(".jsonl"):
             continue
-        grouped[(session.client, iso_week(session.day))].append(session)
+        parts = path.split(os.sep)
+        if "subagents" in parts:
+            continue
+        if marker is not None and marker not in parts:
+            continue
+        add_file(files, client, kind, path, start, stop, zone)
+    return True
+
+
+def list_grok(home, start, stop, zone, files):
+    root = os.path.join(home, ".grok", "sessions")
+    if not directory_exists(root):
+        return False
+    for _directory, name, path in walk_files(root):
+        if name == "chat_history.jsonl":
+            add_file(files, "other", "grok", path, start, stop, zone)
+    return True
+
+
+def list_db(path, client, kind, start, stop, zone, files):
+    if not os.path.isfile(path) or os.path.islink(path):
+        return False
+    add_file(files, client, kind, path, start, stop, zone)
+    return True
+
+
+def list_files(home, sources, start, stop, zone, gaps):
+    files = []
+    if "claude-code" in sources and not list_jsonl(os.path.join(home, ".claude", "projects"), "claude-code", "claude", start, stop, zone, files):
+        gaps.add("other_sources_missing")
+    if "codex" in sources:
+        roots = [os.path.join(home, ".codex", "sessions"), os.path.join(home, ".codex", "archived_sessions")]
+        found = False
+        for root in roots:
+            found = list_jsonl(root, "codex", "codex", start, stop, zone, files) or found
+        if not found:
+            gaps.add("other_sources_missing")
+    if "cursor" in sources and not list_jsonl(os.path.join(home, ".cursor", "projects"), "cursor", "cursor", start, stop, zone, files, "agent-transcripts"):
+        gaps.add("other_sources_missing")
+    if "other" in sources:
+        found = list_grok(home, start, stop, zone, files)
+        found = list_db(os.path.join(home, ".local", "share", "opencode", "opencode.db"), "other", "opencode", start, stop, zone, files) or found
+        found = list_db(os.path.join(home, ".hermes", "state.db"), "other", "hermes", start, stop, zone, files) or found
+        if not found:
+            gaps.add("other_sources_missing")
+    if "antigravity" in sources or "chatgpt" in sources:
+        gaps.add("other_sources_missing")
+    return files
+
+
+def round_robin(files):
+    grouped = defaultdict(list)
+    for item in files:
+        grouped[(item["client"], item["week"])].append(item)
     for bucket in grouped.values():
-        bucket.sort(key=lambda session: (session.day, session.key))
+        bucket.sort(key=lambda item: (item["mtime"], item["path"]))
     keys = sorted(grouped)
     cursors = {key: 0 for key in keys}
-    picked = []
-    while len(picked) < 24:
+    while True:
         moved = False
         for key in keys:
             index = cursors[key]
             if index >= len(grouped[key]):
                 continue
             cursors[key] = index + 1
-            session = grouped[key][index]
-            turns = choose_turns(load_turns(home, session, start, stop))
-            if turns:
-                picked.append((session, turns))
+            yield grouped[key][index]
             moved = True
-            if len(picked) >= 24:
-                break
         if not moved:
+            return
+
+
+def budget_elapsed():
+    # A fixed elapsed sequence keeps the budget test independent of the machine clock.
+    raw = os.environ.get("COLLECTOR_FAKE_ELAPSED")
+    if not raw:
+        started = time.perf_counter()
+        return lambda: time.perf_counter() - started
+    values = []
+    for part in raw.split(","):
+        text = part.strip()
+        if text:
+            values.append(float(text))
+    state = {"n": 0}
+
+    def elapsed():
+        index = state["n"]
+        state["n"] += 1
+        if not values:
+            return 0.0
+        return values[min(index, len(values) - 1)]
+
+    return elapsed
+
+
+def sample_files(files, start, stop, zone, budget):
+    elapsed = budget_elapsed()
+    samples = []
+    days = set()
+    gaps = set()
+    files_read = 0
+    short = False
+    for item in round_robin(files):
+        if len(samples) >= CANDIDATE_CAP:
             break
+        if elapsed() >= budget:
+            short = True
+            break
+        result = READERS[item["kind"]](item, start, stop, zone)
+        if result["opened"]:
+            files_read += 1
+        if result["truncated"]:
+            short = True
+        days.update(result["days"])
+        gaps.update(result["gaps"])
+        for sample in result["samples"]:
+            samples.append(sample)
+            if len(samples) >= CANDIDATE_CAP:
+                break
+    return samples[:CANDIDATE_CAP], files_read, days, gaps, short
+
+
+def candidates_from(samples):
     candidates = []
-    for number, (session, turns) in enumerate(picked, start=1):
+    for number, sample in enumerate(samples, start=1):
         candidates.append({
             "ref": f"C{number:02d}",
-            "client": session.client,
-            "date": session.day,
-            "turns": [{"n": index, "role": role, "kind": kind, "text": text} for index, (role, kind, text) in enumerate(turns, start=1)],
+            "client": sample["client"],
+            "date": sample["day"],
+            "turns": [
+                {"n": index, "role": role, "kind": kind, "text": text}
+                for index, (role, kind, text) in enumerate(sample["turns"], start=1)
+            ],
         })
     return candidates
-
-
-def session_start(session_id, zone):
-    # Tokscale session ids embed local wall time in the scan timezone, not UTC.
-    if not isinstance(session_id, str):
-        return None
-    matched = ISO_SID_RE.search(session_id)
-    if matched:
-        text = f"{matched.group(1)}T{matched.group(2)}:{matched.group(3)}:{matched.group(4)}"
-    else:
-        matched = COMPACT_SID_RE.search(session_id)
-        if not matched:
-            return None
-        text = f"{matched.group(1)}-{matched.group(2)}-{matched.group(3)}T{matched.group(4)}:{matched.group(5)}:{matched.group(6)}"
-    try:
-        return datetime.fromisoformat(text).replace(tzinfo=zone).astimezone(timezone.utc)
-    except ValueError:
-        return None
 
 
 def tokscale_clients(sources):
@@ -966,7 +799,18 @@ def tokscale_clients(sources):
 
 
 def tokscale_empty(seconds):
-    return {"input": None, "output": None, "source": "unavailable", "usage": [], "unit": "unknown", "family": "unknown", "gaps": {"no_tokscale"}, "seconds": seconds}
+    return {
+        "input": None,
+        "output": None,
+        "source": "unavailable",
+        "usage": [],
+        "unit": "unknown",
+        "family": "unknown",
+        "client": "unknown",
+        "clients": [],
+        "gaps": {"no_tokscale"},
+        "seconds": seconds,
+    }
 
 
 def launch_tokscale(mode, home, zone, sources, start, stop):
@@ -989,9 +833,11 @@ def launch_tokscale(mode, home, zone, sources, start, stop):
         command = ["npm", "exec", "--yes", "@tokscale/cli@4.18.0", "--"]
     else:
         return early()
+    since = local_day(start, zone)
+    until = local_day(stop - timedelta(milliseconds=1), zone)
     command += [
         "models", "--json", "--no-spinner", "--home", home, "--client", ",".join(clients),
-        "--since", local_day(start, zone), "--until", local_day(stop, zone), "--group-by", "client,session,model",
+        "--since", since, "--until", until, "--group-by", "client,model",
     ]
     env = os.environ.copy()
     env["TZ"] = getattr(zone, "key", None) or "UTC"
@@ -1021,7 +867,17 @@ def launch_tokscale(mode, home, zone, sources, start, stop):
     return job
 
 
-def finish_tokscale(job, zone, start, stop):
+def ranked_name(totals):
+    usage = [{"family": name, "count": count} for name, count in sorted(totals.items(), key=lambda item: (-item[1], item[0])) if count > 0]
+    if not usage:
+        return [], "unknown", "unknown"
+    unit = "reported_tokens"
+    if len(usage) == 1 or usage[0]["count"] > usage[1]["count"]:
+        return usage[:8], usage[0]["family"], unit
+    return usage[:8], "unknown", unit
+
+
+def finish_tokscale(job, sources):
     if job["early"] is not None:
         return job["early"]
     job["thread"].join()
@@ -1039,39 +895,25 @@ def finish_tokscale(job, zone, start, stop):
         entries = payload.get("entries") if isinstance(payload, dict) else None
         if not isinstance(entries, list):
             return tokscale_empty(seconds)
-        totals = defaultdict(int)
-        gaps = set()
+        model_totals = defaultdict(int)
+        client_totals = defaultdict(int)
         input_tokens = 0
         output_tokens = 0
-        kept = False
         for entry in entries:
             if not isinstance(entry, dict):
                 continue
-            moment = session_start(entry.get("sessionId"), zone)
-            if moment is None or not (start <= moment < stop):
-                if moment is None:
-                    gaps.add("partial_window")
-                continue
-            kept = True
-            incoming = entry.get("input") if isinstance(entry.get("input"), int) else 0
-            outgoing = entry.get("output") if isinstance(entry.get("output"), int) else 0
+            incoming = entry.get("input") if isinstance(entry.get("input"), int) and not isinstance(entry.get("input"), bool) else 0
+            outgoing = entry.get("output") if isinstance(entry.get("output"), int) and not isinstance(entry.get("output"), bool) else 0
             input_tokens += incoming
             output_tokens += outgoing
             name = family(entry.get("model"))
             if name != "unknown":
-                totals[name] += incoming + outgoing
-        usage = [{"family": name, "count": count} for name, count in sorted(totals.items(), key=lambda item: (-item[1], item[0])) if count > 0][:8]
-        if usage and (len(usage) == 1 or usage[0]["count"] > usage[1]["count"]):
-            top = usage[0]["family"]
-            unit = "reported_tokens"
-        else:
-            top = "unknown"
-            unit = "unknown" if not usage else "reported_tokens"
-            if not usage:
-                usage = []
-        if not kept and not entries:
-            input_tokens = 0
-            output_tokens = 0
+                model_totals[name] += incoming + outgoing
+            client = TOKSCALE_CLIENT.get(entry.get("client"))
+            if client in sources:
+                client_totals[client] += incoming + outgoing
+        usage, top, unit = ranked_name(model_totals)
+        client_usage, top_client, _unit = ranked_name(client_totals)
         return {
             "input": input_tokens,
             "output": output_tokens,
@@ -1079,68 +921,52 @@ def finish_tokscale(job, zone, start, stop):
             "usage": usage,
             "unit": unit if usage else "unknown",
             "family": top if usage else "unknown",
-            "gaps": gaps,
+            "client": top_client if client_usage else "unknown",
+            "clients": [item["family"] for item in client_usage],
+            "gaps": set(),
             "seconds": seconds,
         }
     finally:
         stdout.close()
 
 
-def most_client(sessions, sources):
-    counts = {client: 0 for client in sources}
-    for session in sessions:
-        if session.bucket == "human" and session.client in counts:
-            counts[session.client] += 1
-    ranked = sorted(counts.items(), key=lambda item: (-item[1], item[0]))
-    if not ranked or ranked[0][1] == 0:
-        return "unknown"
-    if len(ranked) > 1 and ranked[0][1] == ranked[1][1]:
-        return "unknown"
-    return ranked[0][0]
-
-
-def build_digest(home, sources, start, stop, zone, mode, window_from, window_to, zone_name):
-    scan = {"sessions": [], "days": set(), "gaps": {"web_history_unavailable", "no_artifact_inspection"}}
+def build_digest(home, sources, start, stop, zone, mode, window_from, window_to, zone_name, budget):
+    gaps = {"web_history_unavailable", "no_artifact_inspection"}
     job = launch_tokscale(mode, home, zone, sources, start, stop)
     try:
-        if "claude-code" in sources:
-            scan_claude(home, start, stop, zone, scan)
-        if "codex" in sources:
-            scan_codex(home, start, stop, zone, scan)
-        if "cursor" in sources:
-            scan_cursor(home, start, stop, zone, scan)
-        if "other" in sources:
-            scan_other(home, start, stop, zone, scan)
-        if "antigravity" in sources or "chatgpt" in sources:
-            scan["gaps"].add("other_sources_missing")
+        files = list_files(home, sources, start, stop, zone, gaps)
+        samples, files_read, days, sample_gaps, short = sample_files(files, start, stop, zone, budget)
+        gaps.update(sample_gaps)
     finally:
-        tokens = finish_tokscale(job, zone, start, stop)
-    scan["gaps"].update(tokens["gaps"])
-    human = [session for session in scan["sessions"] if session.bucket == "human"]
-    if not human:
-        scan["gaps"].add("insufficient_records")
-    active = []
-    for client in CLIENTS:
-        if client in sources and any(session.client == client for session in scan["sessions"]):
-            active.append(client)
-    days = sorted(scan["days"])
-    if days:
-        period = {"from": days[0], "to": days[-1]}
+        tokens = finish_tokscale(job, sources)
+    gaps.update(tokens["gaps"])
+    if not samples:
+        gaps.add("insufficient_records")
+        scope = "insufficient"
+    elif gaps or short:
+        scope = "partial"
+    else:
+        scope = "adequate"
+    seen = {sample["client"] for sample in samples}
+    seen.update(tokens["clients"])
+    active = [client for client in CLIENTS if client in sources and client in seen]
+    ordered_days = sorted(days)
+    if ordered_days:
+        period = {"from": ordered_days[0], "to": ordered_days[-1]}
     else:
         period = {"from": local_day(start, zone), "to": local_day(start, zone)}
-    scope = "insufficient" if not human else "partial" if scan["gaps"] else "adequate"
     metrics = {
-        "humanSessions": len(human),
-        "automatedSessions": sum(session.bucket == "automated" for session in scan["sessions"]),
-        "subagentSessions": sum(session.bucket == "subagent" for session in scan["sessions"]),
-        "userMessages": sum(session.user_n for session in human),
+        "humanSessions": None,
+        "automatedSessions": None,
+        "subagentSessions": None,
+        "userMessages": None,
         "inputTokens": tokens["input"],
         "outputTokens": tokens["output"],
         "tokenSource": tokens["source"],
         "modelUsage": tokens["usage"],
         "modelUsageUnit": tokens["unit"],
         "mostUsedModelFamily": tokens["family"],
-        "mostUsedClient": most_client(scan["sessions"], sources),
+        "mostUsedClient": tokens["client"],
     }
     digest = {
         "window": {"from": window_from, "to": window_to, "timeZone": zone_name},
@@ -1148,16 +974,16 @@ def build_digest(home, sources, start, stop, zone, mode, window_from, window_to,
         "coverage": {
             "scope": scope,
             "sources": active,
-            "gaps": [gap for gap in GAPS if gap in scan["gaps"]],
-            "sampledSessions": len(scan["sessions"]),
+            "gaps": [gap for gap in GAPS if gap in gaps],
+            "sampledSessions": files_read,
         },
         "metrics": metrics,
-        "candidates": sample_candidates(home, scan["sessions"], start, stop),
+        "candidates": candidates_from(samples),
     }
     counts = {client: 0 for client in sources}
-    for session in human:
-        if session.client in counts:
-            counts[session.client] += 1
+    for sample in samples:
+        if sample["client"] in counts:
+            counts[sample["client"]] += 1
     return digest, counts, tokens["seconds"]
 
 
@@ -1176,6 +1002,8 @@ def command_scan(args):
     stop = parse_time(args.time_to)
     if start is None or stop is None or start >= stop:
         fail("invalid_window")
+    if args.budget_seconds < 0 or args.budget_seconds != args.budget_seconds:
+        fail("invalid_budget")
     try:
         zone = ZoneInfo(args.tz)
     except Exception:
@@ -1191,17 +1019,15 @@ def command_scan(args):
     if not home:
         fail("missing_home")
     started = time.perf_counter()
-    digest, counts, tokscale_seconds = build_digest(home, sources, start, stop, zone, args.tokscale, args.time_from, args.time_to, args.tz)
+    digest, counts, tokscale_seconds = build_digest(
+        home, sources, start, stop, zone, args.tokscale, args.time_from, args.time_to, args.tz, args.budget_seconds,
+    )
     write_digest(args.out, digest)
     elapsed = time.perf_counter() - started
-    metrics = digest["metrics"]
     client_counts = " ".join(f"{client}={counts[client]}" for client in sources)
-    print(f"human_sessions={metrics['humanSessions']}")
-    print(f"automated_sessions={metrics['automatedSessions']}")
-    print(f"subagent_sessions={metrics['subagentSessions']}")
-    print(f"user_messages={metrics['userMessages']}")
     print(f"candidates={len(digest['candidates'])}")
-    print(f"human_by_client {client_counts}")
+    print(f"files_read={digest['coverage']['sampledSessions']}")
+    print(f"candidates_by_client {client_counts}")
     print(f"digest_bytes={os.path.getsize(args.out)}")
     print(f"seconds={elapsed:.2f}")
     print(f"tokscale_seconds={tokscale_seconds:.2f}")
@@ -1326,6 +1152,7 @@ def parser():
     scan.add_argument("--tz", required=True)
     scan.add_argument("--sources", required=True)
     scan.add_argument("--tokscale", choices=("off", "existing", "install"), required=True)
+    scan.add_argument("--budget-seconds", type=float, default=20)
     scan.add_argument("--out", required=True)
     scan.set_defaults(func=command_scan)
     submit = commands.add_parser("submit")

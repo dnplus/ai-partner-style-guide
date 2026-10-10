@@ -5,11 +5,12 @@ import { z } from "zod";
 import { toReport, validateSubmission, type CardObservation, type Report } from "../lib/assessment.ts";
 import { nicknameSchema, assessmentSchema, PROTOCOL_VERSION } from "../lib/contract.ts";
 import type { LocalSession } from "../lib/collector-instructions.ts";
+import { receivedProgressSchema, emptyProgress, type ReceivedProgress } from "../lib/collector-progress.ts";
 
 export const SESSION_KEY = "agent-mbti-session-v2";
 const sessionSchema = z.object({ id:z.string().uuid(), readToken:z.string().regex(/^[0-9a-f]{64}$/), writeToken:z.string().regex(/^[0-9a-f]{64}$/).optional(), expiresAt:z.number(), nickname:nicknameSchema });
 const cardSchema = z.object({ nickname:nicknameSchema, kind:z.enum(["fixture","observed"]), assessment:assessmentSchema, modelFamily:z.enum(["openai","anthropic","google","xai","deepseek","zai","other","unknown"]) }).strict();
-const resultSchema = z.object({ id:z.string().uuid(), expiresAt:z.number(), status:z.enum(["pending","complete"]), card:cardSchema.nullable(), report:z.record(z.unknown()).nullable(), reportAccess:z.enum(["email","card_only"]), delivery:z.enum(["not_configured","not_requested"]) });
+const resultSchema = z.object({ id:z.string().uuid(), expiresAt:z.number(), status:z.enum(["pending","complete"]), card:cardSchema.nullable(), report:z.record(z.unknown()).nullable(), reportAccess:z.enum(["email","card_only"]), delivery:z.enum(["not_configured","not_requested"]), progress:receivedProgressSchema });
 export type SessionResult = { card:CardObservation; report:Report | null; reportAccess:"email" | "card_only"; delivery:"not_configured" | "not_requested" };
 
 export function usePersonaSession() {
@@ -22,6 +23,8 @@ export function usePersonaSession() {
   const [expired,setExpired] = useState(false);
   const [remaining,setRemaining] = useState(1800);
   const [lastChecked,setLastChecked] = useState<number | null>(null);
+  const [agentProgress,setAgentProgress] = useState<ReceivedProgress>(emptyProgress);
+  const [clock,setClock] = useState(Date.now());
   const [retry,setRetry] = useState(0);
   const generation = useRef(0);
   const working = useRef(false);
@@ -37,7 +40,7 @@ export function usePersonaSession() {
 
   useEffect(()=>{
     if(!session) return;
-    function tick(){const left=Math.max(0,Math.ceil((session!.expiresAt-Date.now())/1000));setRemaining(left);if(!left)setExpired(true);}
+    function tick(){const time=Date.now();setClock(time);const left=Math.max(0,Math.ceil((session!.expiresAt-time)/1000));setRemaining(left);if(!left)setExpired(true);}
     tick();const timer=setInterval(tick,1000);return ()=>clearInterval(timer);
   },[session]);
 
@@ -59,7 +62,7 @@ export function usePersonaSession() {
         const data=resultSchema.parse(await response.json());
         if(stopped) return;
         if(data.id!==session!.id || data.expiresAt!==session!.expiresAt) throw new Error("會話不一致。");
-        setLastChecked(Date.now());setConnection("connected");failures=0;
+        setLastChecked(Date.now());setAgentProgress(data.progress);setConnection("connected");failures=0;
         if(data.status==="complete" && data.card){
           let report:Report | null=null;
           if(data.reportAccess==="email" && data.report){const {rubric,axisFindings,caveat,...submission}=data.report;void rubric;void axisFindings;void caveat;report=toReport(validateSubmission(submission));}
@@ -86,7 +89,7 @@ export function usePersonaSession() {
       if(current!==generation.current) return null;
       const {writeToken,...saved}=next;void writeToken;
       try{sessionStorage.setItem(SESSION_KEY,JSON.stringify(saved));}catch{}
-      setSession(next);setResult(null);setExpired(false);setRemaining(1800);setLastChecked(null);
+      setSession(next);setResult(null);setExpired(false);setRemaining(1800);setLastChecked(null);setAgentProgress(emptyProgress);
       return next;
     } catch(e) {setError(e instanceof Error ? e.message : "建立失敗，請再試一次。");return null;}
     finally{working.current=false;setBusy(false);}
@@ -100,9 +103,9 @@ export function usePersonaSession() {
         const response=await fetch(`/api/sessions/${session.id}`,{method:"DELETE",headers:{Authorization:`Bearer ${session.readToken}`},redirect:"error"});
         if(!response.ok && ![404,410].includes(response.status)) throw new Error("暫時無法結束，請再試一次。");
       }
-      generation.current++;sessionStorage.removeItem(SESSION_KEY);setSession(null);setResult(null);setExpired(false);setLastChecked(null);return true;
+      generation.current++;sessionStorage.removeItem(SESSION_KEY);setSession(null);setResult(null);setExpired(false);setLastChecked(null);setAgentProgress(emptyProgress);return true;
     } catch(e){setError((e as Error).message);return false;}
     finally{working.current=false;setBusy(false);}
   }
-  return {ready,session,result,busy,error,setError,connection,expired,remaining,lastChecked,create,erase,retry:()=>setRetry(n=>n+1)};
+  return {ready,session,result,busy,error,setError,connection,expired,remaining,lastChecked,agentProgress,clock,create,erase,retry:()=>setRetry(n=>n+1)};
 }

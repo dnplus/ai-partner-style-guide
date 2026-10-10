@@ -467,11 +467,53 @@
           "tests/session.test.ts"
         ]
       }
+    },
+    {
+      "id": "C4",
+      "title": "Single-scope collector authorization with observable waiting and explicit renewal",
+      "status": "verified",
+      "evidence": [
+        {
+          "type": "api",
+          "path": "evidence/agent-mbti-flow/unit-results.txt",
+          "result": "47/47 including scoped grant, exact retry after lost accepted response, explicit renewal, D1 stage authority/order/expiry and Email gate"
+        },
+        {
+          "type": "browser",
+          "path": "evidence/agent-mbti-flow/browser-results.json",
+          "result": "8/8 final built Worker: one consent, automatic reveal, actual stage, host approval, stale unknown, renewal, mobile touch, reduced motion and PNG"
+        },
+        {
+          "type": "api",
+          "path": "evidence/agent-mbti-flow/built-worker-smoke.json",
+          "result": "20/20 loopback built Worker HTTP checks; remote private Sites not verified"
+        },
+        {
+          "type": "build",
+          "path": "evidence/agent-mbti-flow/build-results.txt",
+          "result": "Official Sites build succeeded"
+        },
+        {
+          "type": "download",
+          "path": "evidence/agent-mbti-flow/card-nickname.png",
+          "result": "Actual 1080x1620 private nickname PNG; no email, metrics or session authority"
+        },
+        {
+          "type": "visual",
+          "path": "evidence/agent-mbti-flow/host-approval-pending.png",
+          "result": "Observed finite status fixture and concise actionable native-approval guidance; no generic failure inferred as approval"
+        },
+        {
+          "type": "delivery",
+          "path": "docs/DELIVERY-FLOW.md",
+          "result": "Protocol/functions/commands, sanitized AGY control flow, UI-clock versus API expiry, pending192 art and remote/mail limits documented"
+        }
+      ]
     }
   ],
-  "last_observation": "C3 code 79a5120 committed and verified locally: original Agent MBTI workstyle, v2 schema and explicit reassessment, independent 12-avatar catalog, Email-only report. 35 Node/D1, 7 built browser and 17 built HTTP checks passed; no private-session scan or external deployment.",
+  "last_observation": "C4 observed in visible Chrome and final built Worker: one scope consent automatically validates/submits/reveals; 47 unit/integration tests, 8 browser journeys, 20 built HTTP checks pass. Actual host states, stale uncertainty and explicit renewed-destination grant verified with synthetic data only. 192-image work remains the next authorized checkpoint.",
   "current_blocker": "External email delivery, private Sites callback and real-user evidence remain unverified. Library upload is unavailable to this local workflow; local deliverables are preserved.",
   "correlation_groups": [],
-  "state_revision": 9,
-  "state_digest": "45a07a8090364a09f8ed1e0bead6b263fcccba1e780d6f4c3200a97fe11720f7"
+  "state_revision": 11,
+  "state_digest": "6ae692159d7125b827dbcbf8f43e907af5ac6ebc3bfb8d40bec3598b3b212273"
 }

@@ -15,6 +15,13 @@
       "when": 1791610339388,
       "tag": "0001_new_kinsey_walden",
       "breakpoints": true
+    },
+    {
+      "idx": 2,
+      "version": "6",
+      "when": 1791611868224,
+      "tag": "0002_worthless_bloodstrike",
+      "breakpoints": true
     }
   ]
 }

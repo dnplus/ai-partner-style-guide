@@ -24,7 +24,7 @@ test("zero available evidence stays untyped with null counts",async()=>{
   assert.deepEqual(review.assessment,{type:null,pattern:"????",status:"incomplete"});
   assert.equal(review.metrics.inputTokens,null);assert.equal(review.metrics.mostUsedModelFamily,"unknown");
 });
-test("instructions use new protocol, two consents and write-only authority",()=>{
+test("instructions use new protocol, single scope grant and write-only authority",()=>{
   const text=collectorInstructions({id:"fixture-id",nickname:"小星",readToken:"DO_NOT_COPY_READ",writeToken:"WRITE_ONLY",expiresAt:Date.now()+1000},"http://127.0.0.1:5188");
   assert.match(text,/你的 Agent MBTI/);assert.match(text,/version 2.0/);assert.match(text,/aggregateUploadApproved/);assert.match(text,/ownerRequest/);assert.match(text,/WRITE_ONLY/);
   assert.doesNotMatch(text,/DO_NOT_COPY_READ|Raymond|PVSE|LV4/);

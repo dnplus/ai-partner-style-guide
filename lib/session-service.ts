@@ -1,10 +1,10 @@
-import { createSchema, PROTOCOL_VERSION } from "./contract.ts";
+import { createSchema, progressSchema, PROTOCOL_VERSION } from "./contract.ts";
 import { toReport, toCardObservation, validateSubmission, type Report } from "./assessment.ts";
 
 export const TTL_MS = 30 * 60 * 1000;
 const MAX_BYTES = 24 * 1024;
 const secureHeaders = { "Content-Type": "application/json; charset=utf-8", "Cache-Control": "no-store, private", "Referrer-Policy": "no-referrer", "X-Content-Type-Options": "nosniff", "Cross-Origin-Resource-Policy": "same-origin", "Vary": "Origin" };
-type Row = { id: string; protocol_version: string; read_hash: string; write_hash: string; owner_hash: string | null; nickname: string; email: string | null; expires_at: number; report: string | null; payload_hash: string | null; idempotency_key: string | null; submitted_at: number | null };
+type Row = { id: string; protocol_version: string; progress_phase: string; progress_sequence: number; progress_at: number | null; approval_kind: string | null; read_hash: string; write_hash: string; owner_hash: string | null; nickname: string; email: string | null; expires_at: number; report: string | null; payload_hash: string | null; idempotency_key: string | null; submitted_at: number | null };
 class HttpError extends Error {
   status: number;
   constructor(status: number, message: string) { super(message); this.status = status; }
@@ -52,7 +52,7 @@ async function authorize(db: D1Database, request: Request, id: string, access: "
   if (row.expires_at <= now) { await db.prepare("DELETE FROM sessions WHERE id = ?1").bind(id).run(); failure(410, "會話已到期，請重新開始。"); }
   return row;
 }
-export async function handleSession(db: D1Database, request: Request, id?: string, mode: "session" | "collect" = "session", now = Date.now()): Promise<Response> {
+export async function handleSession(db: D1Database, request: Request, id?: string, mode: "session" | "collect" | "progress" = "session", now = Date.now()): Promise<Response> {
   let phase = "access";
   try {
     sameOrigin(request, !id || request.method === "DELETE");
@@ -72,11 +72,23 @@ export async function handleSession(db: D1Database, request: Request, id?: strin
         .bind(newId, await digest(readToken), await digest(writeToken), await owner(request), parsed.data.nickname, parsed.data.email ?? null, now, expiresAt, PROTOCOL_VERSION).run();
       return json({ id: newId, readToken, writeToken, expiresAt, nickname: parsed.data.nickname }, 201);
     }
-    const row = await authorize(db, request, id, mode === "collect" ? "write" : "read", now);
+    const row = await authorize(db, request, id, mode === "session" ? "read" : "write", now);
     phase = "session_storage";
     if (mode === "session" && request.method === "DELETE") { await db.prepare("DELETE FROM sessions WHERE id = ?1").bind(id).run(); return json({ deleted: true }); }
     if (row.protocol_version !== PROTOCOL_VERSION) return json({ error: "觀察規則已更新。舊結果需要重新分析，請建立新連結。", code: "reassessment_required" }, 410);
     await db.prepare("DELETE FROM sessions WHERE expires_at <= ?1 AND id != ?2").bind(now, id).run();
+    if (mode === "progress") {
+      if (request.method !== "POST") failure(405, "此操作不支援。");
+      const parsed = progressSchema.safeParse(await body(request));
+      if (!parsed.success) return failure(422, "進度只接受已觀察到的狀態，不接受紀錄內容。");
+      const p = parsed.data;
+      const updated = await db.prepare("UPDATE sessions SET progress_phase=?1, progress_sequence=?2, progress_at=?3, approval_kind=?4 WHERE id=?5 AND progress_sequence < ?2 AND report IS NULL AND expires_at > ?3").bind(p.phase, p.sequence, now, p.approvalKind, id).run();
+      if (updated.meta.changes === 1) return json({ accepted: true, duplicate: false });
+      const current = await db.prepare("SELECT * FROM sessions WHERE id=?1").bind(id).first<Row>();
+      if (current?.report) return json({ accepted: true, complete: true });
+      if (current?.progress_sequence === p.sequence && current.progress_phase === p.phase && current.approval_kind === p.approvalKind) return json({ accepted: true, duplicate: true });
+      return failure(409, "此進度已被較新的回報取代。");
+    }
     if (mode === "collect") {
       if (request.method !== "POST") failure(405, "此操作不支援。");
       const key = request.headers.get("idempotency-key");
@@ -99,7 +111,7 @@ export async function handleSession(db: D1Database, request: Request, id?: strin
     if (request.method === "GET") {
       phase = "read_result";
       const report: Report | null = row.report ? JSON.parse(row.report) : null;
-      return json({ id, expiresAt: row.expires_at, status: report ? "complete" : "pending", card: report ? toCardObservation(report) : null, report: row.email ? report : null, reportAccess: row.email ? "email" : "card_only", delivery: row.email ? "not_configured" : "not_requested" });
+      return json({ id, expiresAt: row.expires_at, status: report ? "complete" : "pending", progress: { phase: report ? "complete" : row.progress_phase, sequence: row.progress_sequence, updatedAt: report ? row.submitted_at : row.progress_at, approvalKind: report ? null : row.approval_kind }, card: report ? toCardObservation(report) : null, report: row.email ? report : null, reportAccess: row.email ? "email" : "card_only", delivery: row.email ? "not_configured" : "not_requested" });
     }
     return failure(405, "此操作不支援。");
   } catch (error) {

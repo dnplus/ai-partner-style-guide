@@ -59,3 +59,52 @@ test('unexpected storage errors return 503 with diagnostic phase only, never pay
     assert.doesNotMatch(await r.text(),/secret-payload|fixture@example|prepare/);
   }finally{console.warn=warn;}
 });
+
+test('progress uses only write authority, records observed stages and never extends expiry',async()=>{
+  const s=await create();
+  const push=(payload:unknown,at=now,token=s.writeToken)=>handleSession(db,request('/api/collect/'+s.id+'/status','POST',token,payload),s.id,'progress',at);
+  const event={sequence:1,phase:'analyzing',approvalKind:null};
+  assert.equal((await push(event,now,s.readToken)).status,404);
+  assert.equal((await push({...event,raw:'forbidden'})).status,422);
+  assert.equal((await push({...event,approvalKind:'network'})).status,422);
+  assert.equal((await push({sequence:1,phase:'awaiting_host_approval',approvalKind:null})).status,422);
+  assert.equal((await push(event)).status,200);
+  assert.deepEqual(await(await push(event,now+60000)).json(),{accepted:true,duplicate:true});
+  let value=await(await get(s)).json() as {expiresAt:number;progress:{phase:string;updatedAt:number;sequence:number;approvalKind:string|null}};
+  assert.equal(value.expiresAt,s.expiresAt);assert.equal(value.progress.updatedAt,now);
+  assert.equal((await push({...event,phase:'validating'},now+60000)).status,409);
+  assert.equal((await push({sequence:3,phase:'awaiting_host_approval',approvalKind:'network'},now+61000)).status,200);
+  assert.equal((await push({sequence:2,phase:'validating',approvalKind:null},now+62000)).status,409);
+  value=await(await get(s)).json() as typeof value;assert.equal(value.progress.phase,'awaiting_host_approval');assert.equal(value.progress.approvalKind,'network');
+  assert.equal((await push({sequence:4,phase:'validating',approvalKind:null},s.expiresAt)).status,410);
+});
+test('late progress cannot overwrite a completed result or claim completion before accepted submission',async()=>{
+  const s=await create();
+  const push=(payload:unknown)=>handleSession(db,request('/api/collect/'+s.id+'/status','POST',s.writeToken,payload),s.id,'progress',now);
+  assert.equal((await push({sequence:1,phase:'complete',approvalKind:null})).status,422);
+  await push({sequence:1,phase:'awaiting_host_approval',approvalKind:'command'});await send(s);
+  assert.deepEqual(await(await push({sequence:2,phase:'analyzing',approvalKind:null})).json(),{accepted:true,complete:true});
+  const data=await(await get(s)).json() as {progress:{phase:string;approvalKind:string|null}};
+  assert.equal(data.progress.phase,'complete');assert.equal(data.progress.approvalKind,null);
+});
+test('automatic runner tolerates a lost accepted response and renews only after explicit destination authorization',async()=>{
+  const {submitAuthorizedSummary}=await import('../lib/collector-runner.ts');
+  const s=await create();const sample=makeFixture(s.nickname);
+  const target={origin,id:s.id,writeToken:s.writeToken,expiresAt:s.expiresAt,nickname:s.nickname};
+  const grant={scopeApproved:true as const,sourceOwnershipConfirmed:true as const,origin,sessionId:s.id,expiresAt:s.expiresAt,nickname:s.nickname,sources:sample.coverage.sources,period:sample.observedPeriod};
+  let sends=0;
+  const result=await submitAuthorizedSummary(sample,grant,target,'lost-ack-integration',{now:()=>now,wait:async()=>{},fetcher:async(url,init)=>{
+    const response=await handleSession(db,new Request(url,init),s.id,'collect',now);sends++;
+    if(sends===1){assert.equal(response.status,201);throw new TypeError('lost acknowledgement');}
+    return response;
+  }});
+  assert.deepEqual(result,{status:'accepted',duplicate:true});assert.equal(sends,2);
+  assert.equal((await get(s,s.readToken,s.expiresAt)).status,410);
+  const freshResponse=await handleSession(db,request('/api/sessions','POST',undefined,{nickname:s.nickname,protocolVersion:'2.0'}),undefined,'session',s.expiresAt);
+  const fresh=await freshResponse.json() as Session;
+  const renewed={origin,id:fresh.id,writeToken:fresh.writeToken,expiresAt:fresh.expiresAt,nickname:fresh.nickname};
+  const transport={now:()=>s.expiresAt,fetcher:async(url:URL|RequestInfo,init?:RequestInit)=>handleSession(db,new Request(url,init),fresh.id,'collect',s.expiresAt)};
+  await assert.rejects(()=>submitAuthorizedSummary(sample,grant,renewed,'renewed-integration',transport));
+  assert.equal((await submitAuthorizedSummary(sample,{...grant,sessionId:fresh.id,expiresAt:fresh.expiresAt},renewed,'renewed-integration',transport)).status,'accepted');
+  assert.equal((await get(fresh,fresh.readToken,s.expiresAt)).status,200);
+});

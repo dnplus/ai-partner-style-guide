@@ -10,6 +10,8 @@ import { toCardObservation, type Report } from "../lib/assessment.ts";
 import { families, personas, personaFor, modelLabels, clientLabels, artCredit, type ArtStyle, type Family } from "../lib/catalog.ts";
 import { axisDefinitions, letterLabels, letterTips, behaviorLetters, contextLabels } from "../lib/workstyle.ts";
 import { downloadCard } from "../lib/export-card.ts";
+import { describeProgress } from "../lib/collector-progress.ts";
+import { reportCollectorProgress, submitAuthorizedSummary } from "../lib/collector-runner.ts";
 
 type Stage = "cover" | "identity" | "instructions" | "fixture" | "waiting" | "reveal" | "summary" | "collection";
 const UI_KEY="agent-mbti-view-v2";
@@ -55,6 +57,7 @@ export function PersonaApp(){
   const [notice,setNotice]=useState("");
   const [exporting,setExporting]=useState(false);
   const [demo,setDemo]=useState(false);
+  const [resumeMode,setResumeMode]=useState(false);
   const [fixtureConsent,setFixtureConsent]=useState(false);
   const [sending,setSending]=useState(false);
   const [origin,setOrigin]=useState("");
@@ -69,7 +72,8 @@ export function PersonaApp(){
   const card=result?.card ?? toCardObservation(demoReport);
   const expired=!!active && flow.expired && !result;
   const progress=stage==="identity" ? 1 : ["instructions","fixture","waiting"].includes(stage) ? 2 : 3;
-  const instructions=active ? collectorInstructions(active,origin) : "";
+  const instructions=active ? collectorInstructions(active,origin,resumeMode) : "";
+  const agentState=describeProgress(flow.agentProgress,flow.clock);
   const countdown=`${Math.floor(flow.remaining/60).toString().padStart(2,"0")}:${(flow.remaining%60).toString().padStart(2,"0")}`;
 
   useEffect(()=>{setOrigin(location.origin);},[]);
@@ -78,7 +82,7 @@ export function PersonaApp(){
     initialized.current=true;
     if(active){
       setNickname(active.nickname);setStage("waiting");
-      try{const saved=JSON.parse(sessionStorage.getItem(UI_KEY) ?? "null");if(saved?.id===active.id){if(["reveal","summary","collection"].includes(saved.stage))restoreStage.current=saved.stage;if(["regular","chibi"].includes(saved.style))setStyle(saved.style);if(families.some(f=>f.id===saved.family))setFamily(saved.family);setNicknameOnly(saved.nicknameOnly!==false);setDemo(saved.demo===true);}}catch{}
+      try{const saved=JSON.parse(sessionStorage.getItem(UI_KEY) ?? "null");if(saved?.id===active.id){if(["reveal","summary","collection"].includes(saved.stage))restoreStage.current=saved.stage;if(["regular","chibi"].includes(saved.style))setStyle(saved.style);if(families.some(f=>f.id===saved.family))setFamily(saved.family);setNicknameOnly(saved.nicknameOnly!==false);setDemo(saved.demo===true);setResumeMode(saved.resumeMode===true);}}catch{}
     }
   },[flow.ready,active]);
   useEffect(()=>{
@@ -90,8 +94,8 @@ export function PersonaApp(){
     restoreStage.current=null;setNotice("");setManual(false);
   },[result,active]);
   useEffect(()=>{
-    if(active && initialized.current){try{sessionStorage.setItem(UI_KEY,JSON.stringify({id:active.id,stage,style,family,nicknameOnly,demo}));}catch{}}
-  },[active,stage,style,family,nicknameOnly,demo]);
+    if(active && initialized.current){try{sessionStorage.setItem(UI_KEY,JSON.stringify({id:active.id,stage,style,family,nicknameOnly,demo,resumeMode}));}catch{}}
+  },[active,stage,style,family,nicknameOnly,demo,resumeMode]);
   useEffect(()=>{
     if(!flow.ready)return;
     window.scrollTo({top:0,behavior:"instant"});
@@ -120,18 +124,26 @@ export function PersonaApp(){
   async function erase(next:Stage="cover"){
     if(await flow.erase()){
       sessionStorage.removeItem(UI_KEY);received.current=null;restoreStage.current=null;
-      setFixtureConsent(false);setEmailConsent(false);setManual(false);setNotice("");setStage(next);if(next==="cover"){setDemo(false);setNickname("");setEmail("");setEmailOpen(false);}about.current?.close();return true;
+      setFixtureConsent(false);setEmailConsent(false);setManual(false);setNotice("");setStage(next);if(next==="cover"){setDemo(false);setResumeMode(false);setNickname("");setEmail("");setEmailOpen(false);}about.current?.close();return true;
     }
     return false;
+  }
+  async function renew(){
+    if(await erase("identity"))setResumeMode(true);
   }
   async function sendFixture(){
     if(!active?.writeToken || !fixtureConsent || sending)return;
     setSending(true);setNotice("");
     try{
       fixtureKey.current ||= crypto.randomUUID();
-      const response=await fetch(`/api/collect/${active.id}`,{method:"POST",headers:{"Content-Type":"application/json",Authorization:`Bearer ${active.writeToken}`,"Idempotency-Key":fixtureKey.current},body:JSON.stringify(makeFixture(active.nickname)),redirect:"error"});
-      if(!response.ok){const failure=await response.json() as {error?:string};throw new Error(failure.error ?? "範例提交失敗，請再試一次。");}
-      go("waiting");flow.retry();
+      const sample=makeFixture(active.nickname);
+      const target={origin,id:active.id,writeToken:active.writeToken,expiresAt:active.expiresAt,nickname:active.nickname};
+      const grant={scopeApproved:true as const,sourceOwnershipConfirmed:true as const,origin,sessionId:active.id,expiresAt:active.expiresAt,nickname:active.nickname,sources:sample.coverage.sources,period:sample.observedPeriod};
+      go("waiting");
+      await reportCollectorProgress(grant,target,{sequence:1,phase:"validating",approvalKind:null});
+      const outcome=await submitAuthorizedSummary(sample,grant,target,fixtureKey.current);
+      if(outcome.status!=="accepted")throw new Error(outcome.status==="expired" ? "這個連結已失效，請換新連結後重新授權。" : "範例尚未確認送達，請重試。");
+      flow.retry();
     }catch(e){setNotice((e as Error).message);}finally{setSending(false);}
   }
   async function exportPng(){
@@ -154,10 +166,10 @@ export function PersonaApp(){
         <p className="cover-tagline">你怎麼帶它做事，<br className="mobile-break"/>它就長出怎樣的工作風格。</p><div className="cover-art"><HoloCard report={toCardObservation(demoReport)} style="chibi" family="codex" nicknameOnly teaser/></div>
         <button className="primary" onClick={start}>{active ? "繼續這次觀察" : "開始觀察"}<ArrowRight size={22}/></button>
       </section>}
-      {stage!=="cover" && expired ? <section className="screen recovery-screen"><div className="sealed-card" aria-hidden="true"><span>✧</span></div><h1 tabIndex={-1}>這道光，<br/>暫時收起了。</h1><p className="lead">連結已到期或失效。你的暱稱還在，<br/>建立新連結後，把新指令交給 Agent。</p><button className="primary" disabled={flow.busy} onClick={()=>erase("identity")}>重新建立連結<ArrowRight size={20}/></button></section> : <>
+      {stage!=="cover" && expired ? <section className="screen recovery-screen"><div className="sealed-card" aria-hidden="true"><span>✧</span></div><h1 tabIndex={-1}>這道光，<br/>暫時收起了。</h1><p className="lead">連結已到期或失效。請讓 Agent 保留已整理的最小摘要，<br/>換新連結後，只需明確核准新的收件目的地。</p><button className="primary" disabled={flow.busy} onClick={renew}>沿用分析，換新連結<ArrowRight size={20}/></button></section> : <>
       {stage==="identity" && <section className="identity-screen screen">
         <img className="identity-art" src="/art/codex-portrait-chibi.png" alt=""/>
-        <h1 tabIndex={-1}>{active ? <>你的連結，<br/>還在等你。</> : <>這位搭檔，<br/>該怎麼稱呼？</>}</h1>
+        <h1 tabIndex={-1}>{active ? <>你的連結，<br/>還在等你。</> : <>這位搭檔，<br/>該怎麼稱呼？</>}</h1>{resumeMode && !active && <p className="small-note renewal-note">將建立新的收件連結。舊連結不延長；新指令會要求你明確核准新目的地，已保存的最小摘要可繼續使用。</p>}
         <form onSubmit={create} className="identity-form">
           <label className="sr-only" htmlFor="nickname">Agent 的名字</label><input id="nickname" className="nickname-input" autoComplete="off" placeholder="Agent 的名字" value={active?.nickname ?? nickname} onChange={e=>setNickname(e.target.value)} required maxLength={24} readOnly={!!active}/>
           <p className="field-caption">{active ? "返回不會建立第二個連結" : "這個名字會出現在卡片上"}</p>
@@ -168,27 +180,29 @@ export function PersonaApp(){
       </section>}
       {stage==="instructions" && active && <section className="instructions-screen screen">
         <div className="sealed-card small" aria-hidden="true"><span>✧</span></div>
-        <h1 tabIndex={-1}>{demo ? <>先看看，<br/>範例會送出什麼。</> : <>把這段指令，<br/>交給你的 Agent。</>}</h1>
-        <p className="lead">{demo ? "使用虛構資料，走過同一個收件流程。" : <>它會先詢問可用紀錄，再讓你確認摘要。<br/>只有你核准的摘要會回到這裡。</>}</p>
+        <h1 tabIndex={-1}>{demo ? <>先選好，<br/>這次觀察的範圍。</> : <>把這段指令，<br/>交給你的 Agent。</>}</h1>
+        <p className="lead">{demo ? "使用虛構資料，走過同一個收件流程。" : <>一次確認來源、期間與最小摘要傳送。<br/>同意後自動完成，回來這裡看結果。</>}</p>
         {active.writeToken ? <>
-          <button className="primary" onClick={demo ? ()=>go("fixture") : copy}>{demo ? "預覽範例摘要" : "複製專屬指令"}{demo ? <ArrowRight size={20}/> : <Copy size={19}/>}</button>
+          <button className="primary" onClick={demo ? ()=>go("fixture") : copy}>{demo ? "查看示範範圍" : "複製專屬指令"}{demo ? <ArrowRight size={20}/> : <Copy size={19}/>}</button>
           {!demo && <details className="instruction-disclosure" open={manual} onToggle={e=>setManual(e.currentTarget.open)}><summary>查看／手動複製指令</summary><textarea className="instruction-box" aria-label="貼給 Agent 的指令" value={instructions} readOnly onFocus={e=>e.currentTarget.select()}/><button className="quiet-button" onClick={()=>go("waiting")}>我已複製，開始等待<ArrowRight size={16}/></button></details>}
-        </> : <><p className="small-note">重整後不保留提交權杖。已複製的指令仍可使用。</p><button className="primary" onClick={()=>go("waiting")}>繼續等待<ArrowRight size={20}/></button><button className="quiet-button" disabled={flow.busy} onClick={()=>erase("identity")}>沒複製到？建立新連結</button></>}
+        </> : <><p className="small-note">重整後不保留提交權杖。已複製的指令仍可使用。</p><button className="primary" onClick={()=>go("waiting")}>繼續等待<ArrowRight size={20}/></button><button className="quiet-button" disabled={flow.busy} onClick={renew}>沒複製到？換新連結</button></>}
         <p className="small-note">連結剩餘 {countdown} · 目前僅限同一台電腦使用</p>
       </section>}
       {stage==="fixture" && active && <section className="fixture-screen screen">
-        <p className="eyebrow">虛構資料 · 沒有讀取你的紀錄</p><h1 tabIndex={-1}>看過，<br/>再決定送出。</h1><p className="lead">這是範例 JSON，不會成為你的個人評估。</p>
-        <pre className="fixture-json">{JSON.stringify({...makeFixture(active.nickname),consent:{localAnalysisApproved:true,aggregateUploadApproved:fixtureConsent}},null,2)}</pre>
-        <label className="check-field"><input type="checkbox" checked={fixtureConsent} onChange={e=>setFixtureConsent(e.target.checked)}/>我已預覽，允許提交這份虛構摘要。</label>
-        <button className="primary" disabled={!fixtureConsent || sending} onClick={sendFixture}>{sending ? "送出中…" : "確認送出範例"}<ArrowRight size={20}/></button>
+        <p className="eyebrow">虛構資料 · 沒有讀取你的紀錄</p><h1 tabIndex={-1}>一次同意，<br/>接著等它揭曉。</h1><p className="lead">確認這次範圍，剩下的自動完成。</p>
+        <div className="scope-card"><p><b>來源與期間</b><span>網站內建的 3 個虛構任務，2026/10/01–10/09。沒有你的對話。</span></p><p><b>傳送內容</b><span>暱稱、日期、來源與缺口、用量彙總、抽象任務與行為列舉、衍生分型及階段狀態。</span></p><p><b>目的地</b><span>目前網站的這個收件連結，有效至 {new Date(active.expiresAt).toLocaleTimeString("zh-TW",{hour12:false})}。</span></p></div>
+        <label className="check-field"><input type="checkbox" checked={fixtureConsent} onChange={e=>setFixtureConsent(e.target.checked)}/>我同意此範圍的虛構摘要自動驗證並傳送。</label>
+        <button className="primary" disabled={!fixtureConsent || sending} onClick={sendFixture}>{sending ? "處理中…" : "同意並開始示範"}<ArrowRight size={20}/></button>
       </section>}
       {stage==="waiting" && <section className="waiting-screen screen">
         <div className="sealed-card" aria-hidden="true"><span>✧</span></div>
-        <h1 tabIndex={-1}>等待你的 Agent，<br/>帶回合作的線索。</h1><p className="lead">確認摘要後，這裡會自動揭曉。</p>
-        <div className={`waiting-status ${flow.connection}`} role="status"><i/>{flow.connection==="retrying" ? "暫時連不上，正在重試" : flow.connection==="checking" ? "正在確認收件狀態" : "尚未收到摘要"}</div>
+        <h1 tabIndex={-1}>{flow.connection==="retrying" ? <>正在重新連上，<br/>請稍等一下。</> : <>等它帶回，<br/>你們的合作線索。</>}</h1>
+        <div className={"waiting-status "+flow.connection} role="status"><i/>{flow.connection==="retrying" ? "網站暫時連不上收件服務" : flow.connection==="checking" ? "正在確認收件狀態" : agentState.title}</div>
+        <p className="lead waiting-explanation">{flow.connection==="retrying" ? "這不代表 Agent 中斷。網站會自動重試，請保留這個分頁。" : agentState.details}</p>
+        {flow.agentProgress.updatedAt && <p className="progress-time">最後訊號：{agentState.lastPhase} · {new Date(flow.agentProgress.updatedAt).toLocaleTimeString("zh-TW",{hour12:false})}</p>}
         <p className="countdown">連結剩餘 {countdown}</p>
         {flow.connection==="retrying" ? <button className="quiet-button" onClick={flow.retry}>立即重試</button> : <button className="quiet-button" onClick={()=>go("instructions")}>重看指令</button>}
-        <details className="waiting-help"><summary>還沒收到？</summary><p>把指令貼到同一台電腦上的 Agent，完成兩次授權。網站只知道摘要是否送達，無法判斷 Agent 的分析進度。</p>{flow.lastChecked && <p>上次確認：{new Date(flow.lastChecked).toLocaleTimeString("zh-TW",{hour12:false})}</p>}<button className="quiet-button" disabled={flow.busy} onClick={()=>erase("identity")}>結束這次，建立新連結</button></details>
+        <details className="waiting-help"><summary>還沒收到？</summary><p>只需在 Agent 確認一次來源、期間與摘要傳送範圍。若主機另外要求讀取或連線核准，請在原生提示處處理；網站不會代替核准。</p><p>超過 90 秒沒有新階段訊號時，我們會明確標示未知。若分析已完成，請 Agent 保留最小摘要；換連結後明確核准新目的地，不用重掃資料。</p>{flow.lastChecked && <p>網站上次連上收件服務：{new Date(flow.lastChecked).toLocaleTimeString("zh-TW",{hour12:false})}</p>}<button className="quiet-button" disabled={flow.busy} onClick={renew}>沿用分析，換新連結</button></details>
       </section>}
       {stage==="reveal" && result && <section className="reveal-screen screen">
         <p className="eyebrow">{card.kind==="fixture" ? "示範資料 · 非個人評估" : "你們的合作，留下了這些線索"}</p><h1 tabIndex={-1}>{card.nickname}，<br/>{card.assessment.type ? "這次偏向 "+card.assessment.type+"。" : "輪廓還在形成。"}</h1>
@@ -208,7 +222,7 @@ export function PersonaApp(){
       {(flow.error || notice) && <p className="inline-notice" role="status">{flow.error || notice}</p>}
     </main>
     <footer className="journey-footer"><button onClick={()=>about.current?.showModal()}>關於這份觀察</button></footer>
-    <dialog ref={about} className="about-dialog" aria-labelledby="about-title"><button className="icon-button dialog-close" onClick={()=>about.current?.close()} aria-label="關閉說明"><X size={22}/></button><h2 id="about-title">你怎麼帶它，<br/>它就怎麼做事。</h2><p>這是一段以授權使用紀錄為依據的合作觀察。借用四組字母，以自訂規則描述合作風格，非官方 MBTI 評量。網站只接收你看過並核准的最小摘要。</p>
+    <dialog ref={about} className="about-dialog" aria-labelledby="about-title"><button className="icon-button dialog-close" onClick={()=>about.current?.close()} aria-label="關閉說明"><X size={22}/></button><h2 id="about-title">你怎麼帶它，<br/>它就怎麼做事。</h2><p>這是一段以授權使用紀錄為依據的合作觀察。借用四組字母，以自訂規則描述合作風格，非官方 MBTI 評量。網站只接收你事前明確授權範圍內的最小摘要，授權後自動驗證與傳送。</p>
       <details><summary>觀察依據與 16 種風格</summary><p>借用 E/I 互動節奏、S/N 理解起點、T/F 取捨依據、J/P 推進方式，以原創規則觀察主人帶領 Agent 的實際合作。這不是人的人格診斷，也不是模型的固定性格。</p><p>每軸至少三個獨立任務；同一任務只算一次。受限情境不計入，接近或不足就保留未知。舊結果需要重新分析。<a href="/collector-protocol.md" target="_blank" rel="noreferrer">完整觀察方式 ↗</a></p><div className="about-types">{Object.entries(personas).map(([code,p])=><div key={code}><b>{code}</b><span>{p.name}</span></div>)}</div></details>
       <details><summary>角色來源與非商業授權</summary><p>六個家族各有一般版與 Q 版，共 12 張通用造型。造型與分型無關，沒有宣稱每型都有專屬插圖。Codex 使用 GPT 娘的同人改編，並非官方 Codex 角色。圖片改編參考 <a href="https://github.com/Apprentice-Geo/AI-Fanworks/tree/main/ApprenTice/images" target="_blank" rel="noreferrer">ApprenTice</a>；角色原作參考 ZipZipPipe，DeepSeek 另含上善無形。</p><p>AI 輔助再創作，<a href="https://creativecommons.org/licenses/by-nc-sa/4.0/" target="_blank" rel="noreferrer">CC BY-NC-SA 4.0</a>，限非商業、署名及相同方式分享。上游權利鏈尚未全面核實，沒有模型業者背書。</p><a href="/art-provenance.md" target="_blank" rel="noreferrer">完整素材來源 ↗</a></details>
       <details><summary>資料與 Email 如何使用</summary><p>暱稱與核准摘要只供這次結果。Email 選填：不填只提供卡片，填寫並同意結果用途才可取得完整報告；不行銷，不出現在卡片上。本機預覽尚未連接寄信服務，沒有寄出 Email。</p><p>連結 30 分鐘後禁止讀寫；到期資料於後續請求清理，也可提前結束並刪除。讀取與提交權限分開，沒有公開結果網址。重整不保存提交權杖。</p><p>私人 Sites 外部 callback 尚未驗證。目前只在本機運作，不繞過存取閘門，也不分享整站通行權杖。</p></details>

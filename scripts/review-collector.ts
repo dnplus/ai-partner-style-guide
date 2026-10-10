@@ -15,6 +15,6 @@ async function main(){
   const preview=prepareCollectorReview(input);
   const bytes=JSON.stringify(preview,null,2)+'\n';
   await writeFile(destination,bytes,{encoding:'utf8',mode:0o600,flag:'wx'});
-  console.log(JSON.stringify({prepared:true,kind:preview.kind,assessment:preview.assessment,coverage:preview.coverage.scope,uploadApproved:false,networkUsed:false,sha256:createHash('sha256').update(bytes).digest('hex')}));
+  console.log(JSON.stringify({prepared:true,uploadApproved:false,networkUsed:false,sha256:createHash('sha256').update(bytes).digest('hex')}));
 }
 main().catch(()=>{console.error('摘要未完成：請檢查命令、來源授權、欄位與輸出是否已存在。未使用網路，未提交資料。');process.exitCode=1;});

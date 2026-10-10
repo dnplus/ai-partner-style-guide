@@ -1,0 +1,56 @@
+{
+  "purpose": "Synthetic control-flow regression only; no actual user evidence",
+  "scenario": [
+    "scope_granted",
+    "prepared",
+    "host_approval_pending",
+    "session_expired",
+    "new_destination_granted",
+    "submitted",
+    "website_reveal"
+  ],
+  "summary": {
+    "version": "2.0",
+    "kind": "fixture",
+    "nickname": "去識別流程範例",
+    "consent": {
+      "localAnalysisApproved": true,
+      "aggregateUploadApproved": true
+    },
+    "observedPeriod": {
+      "from": "2026-10-01",
+      "to": "2026-10-09"
+    },
+    "coverage": {
+      "scope": "insufficient",
+      "sources": [
+        "antigravity"
+      ],
+      "gaps": [
+        "insufficient_records",
+        "no_tokscale"
+      ],
+      "sampledSessions": null
+    },
+    "metrics": {
+      "humanSessions": null,
+      "automatedSessions": null,
+      "subagentSessions": null,
+      "userMessages": null,
+      "inputTokens": null,
+      "outputTokens": null,
+      "tokenSource": "unavailable",
+      "modelUsage": [],
+      "modelUsageUnit": "unknown",
+      "mostUsedModelFamily": "unknown",
+      "mostUsedClient": "antigravity"
+    },
+    "tasks": [],
+    "observations": [],
+    "assessment": {
+      "type": null,
+      "pattern": "????",
+      "status": "incomplete"
+    }
+  }
+}

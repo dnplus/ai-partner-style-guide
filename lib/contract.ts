@@ -1,6 +1,11 @@
 import { z } from "zod";
 
 export const PROTOCOL_VERSION = "2.0" as const;
+export const progressSchema = z.object({
+  sequence: z.number().int().min(1).max(1000),
+  phase: z.enum(["analyzing", "validating", "awaiting_host_approval", "submitting", "paused"]),
+  approvalKind: z.enum(["local_read", "network", "command"]).nullable(),
+}).strict().refine(p => (p.phase === "awaiting_host_approval") === (p.approvalKind !== null), "Only observed pending host approvals identify a permission kind");
 export const typeCodes = ["INTJ", "INTP", "ENTJ", "ENTP", "INFJ", "INFP", "ENFJ", "ENFP", "ISTJ", "ISFJ", "ESTJ", "ESFJ", "ISTP", "ISFP", "ESTP", "ESFP"] as const;
 export const behaviorCodes = ["collaborative_iteration", "consolidated_delivery", "concrete_evidence", "pattern_exploration", "consistent_criteria", "people_context", "early_commitment", "reversible_experiments"] as const;
 export const behaviorAxis = { collaborative_iteration: "EI", consolidated_delivery: "EI", concrete_evidence: "SN", pattern_exploration: "SN", consistent_criteria: "TF", people_context: "TF", early_commitment: "JP", reversible_experiments: "JP" } as const;
@@ -11,10 +16,10 @@ export const createSchema = z.object({
 }).strict().refine((p) => !p.email || p.emailResultOnlyConsent === true, "Email requires result-only consent");
 export const assessmentSchema = z.object({ type: z.enum(typeCodes).nullable(), pattern: z.string().regex(/^[EI?][SN?][TF?][JP?]$/), status: z.enum(["complete", "incomplete"]) }).strict();
 const count = z.number().int().min(0).max(Number.MAX_SAFE_INTEGER).nullable();
-const client = z.enum(["codex", "claude-code", "antigravity", "cursor", "chatgpt", "other", "unknown"]);
+export const client = z.enum(["codex", "claude-code", "antigravity", "cursor", "chatgpt", "other", "unknown"]);
 const model = z.enum(["openai", "anthropic", "google", "xai", "deepseek", "zai", "other", "unknown"]);
 const taskId = z.string().regex(/^T(00[1-9]|01[0-9]|02[0-4])$/);
-const date = z.string().regex(/^\d{4}-\d{2}-\d{2}$/).refine((s) => !isNaN(Date.parse(s)) && new Date(s).toISOString().slice(0, 10) === s);
+export const date = z.string().regex(/^\d{4}-\d{2}-\d{2}$/).refine((s) => !isNaN(Date.parse(s)) && new Date(s).toISOString().slice(0, 10) === s);
 
 export const submissionSchema = z.object({
   version: z.literal(PROTOCOL_VERSION), kind: z.enum(["fixture", "observed"]), nickname: nicknameSchema,

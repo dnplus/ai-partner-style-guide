@@ -37,9 +37,11 @@ python3 collect.py scan --from FROM --to TO --tz TZ --sources SOURCES --tokscale
 
 The window is whole local days. `from` is local midnight of the first day. `to` is now. A timestamp counts when `from <= timestamp < to`. The script lists candidate log files from each adapter root without reading them, keeps regular files whose modification time is inside that window, and skips symbolic links. It then reads a spread of those files until it has 24 candidates or the time budget runs out. The default budget is 20 seconds. Pass `--budget-seconds` to change it. Each text log is read only through the first 2 MB. SQLite logs use a bounded query. Do not add skipped files back, and do not treat modification time as a message timestamp. A Cursor transcript with no timestamps counts only when both its creation time and its modification time are inside the window.
 
-The script writes `digest.json` with mode `0600`. Read that file. Do not paste it into the chat, and do not upload it. The terminal prints candidate counts, files read, digest size, and timing only.
+The script writes `digest.json` with mode `0600` as soon as sampling finishes, then starts Tokscale. Tokscale keeps running after the scan exits. Read the digest. Do not paste it into the chat, and do not upload it. The terminal prints candidate counts, files read, digest size, timing, and whether Tokscale started.
 
-Copy `observedPeriod`, `coverage`, and `metrics` into the summary unchanged. `observedPeriod` is the local dates the script actually saw. It can be narrower than the granted window. Task dates have to fall inside it.
+Copy `observedPeriod`, `coverage`, and `metrics` into the summary unchanged. The digest token fields are empty at this point. `tokenSource` is `unavailable`, both token counts are null, and `modelUsage` is empty. Leave those fields as copied. Do not fill token totals from the logs. Submit replaces them from the Tokscale output.
+
+`observedPeriod` is the local dates the script actually saw. It can be narrower than the granted window. Task dates have to fall inside it.
 
 `coverage.scope` is `partial` whenever a gap remains or the budget or a read cap stops the sample early, and `insufficient` when no candidate was kept. This script always records `web_history_unavailable` and `no_artifact_inspection`, so a scan that kept a candidate stays `partial`. Do not rewrite `partial` to `adequate`.
 
@@ -57,7 +59,7 @@ Grok, OpenCode, and Hermes count as `other`. `sampledSessions` is the number of 
 
 Token totals come only from Tokscale, grouped by client and model, for the local dates of the window. Null stays null. Do not copy token totals out of local logs, and do not replace null with zero. When `tokenSource` is `unavailable`, both token counts stay null and `modelUsage` stays empty. When `modelUsageUnit` is `unknown`, `modelUsage` stays empty. A tie, or a zero count, makes `mostUsedModelFamily` or `mostUsedClient` `unknown`.
 
-The script uses a `tokscale` binary that is already on `PATH` for `existing` and for `install`. Only `install`, and only when that binary is missing, runs `npm exec --yes @tokscale/cli@4.18.0` once. On failure the digest already has `tokenSource` `unavailable`, null token counts, and gap `no_tokscale`. Do not install Tokscale yourself. Do not run its TUI, `login`, `usage`, `sync`, `submit`, or `autosubmit`. Do not pass `sudo`.
+The script uses a `tokscale` binary that is already on `PATH` for `existing` and for `install`. Only `install`, and only when that binary is missing, runs `npm exec --yes @tokscale/cli@4.18.0` once. If that binary is missing, or Tokscale fails, the digest keeps `tokenSource` `unavailable`, null token counts, and gap `no_tokscale`. Do not install Tokscale yourself. Do not run its TUI, `login`, `usage`, `sync`, `submit`, or `autosubmit`. Do not pass `sudo`.
 
 ## Classify from agent turns
 
@@ -128,8 +130,10 @@ Validate the JSON against the schema before you submit. A future `observedPeriod
 The write token is 64 hex characters from the prompt. Pass it as the only line on stdin. Keep it out of argv, shell history, the summary, the idempotency file, logs, and the chat.
 
 ```
-python3 collect.py submit --origin ORIGIN --session SESSION --summary summary.json
+python3 collect.py submit --origin ORIGIN --session SESSION --summary summary.json --digest digest.json
 ```
+
+Submit waits up to 20 seconds for the Tokscale output beside that digest. Pass `--wait-seconds` to change the wait. It writes `inputTokens`, `outputTokens`, `tokenSource`, `modelUsage`, `modelUsageUnit`, `mostUsedModelFamily`, and `mostUsedClient` from that output only. It also adds Tokscale clients from the scan to `coverage.sources`. Numbers already in the summary are ignored. If Tokscale is still running at the deadline, submit stops that process, leaves both token counts null, sets `tokenSource` to `unavailable`, and adds gap `no_tokscale`. The script prints `tokscale_wait_seconds` and `tokens_filled` before the HTTP line.
 
 The script writes `summary.json.idempotency` with mode `0600` before the POST and reuses that key on a retry. Leave the file. Do not mint a new key to replace a stored result. The POST goes to `{origin}/api/collect/{session}` with `Content-Type: application/json`, `Authorization: Bearer`, and `Idempotency-Key`. Redirects are disabled. The script retries only a dropped connection or HTTP 503, twice, after 1 second and then 2 seconds.
 

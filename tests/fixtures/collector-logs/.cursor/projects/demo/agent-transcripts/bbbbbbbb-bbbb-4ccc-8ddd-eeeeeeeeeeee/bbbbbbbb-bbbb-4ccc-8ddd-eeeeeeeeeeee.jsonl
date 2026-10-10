@@ -1,0 +1,3 @@
+{"role": "user", "message": {"content": [{"type": "text", "text": "Untimed cursor user one"}]}}
+{"role": "user", "message": {"content": [{"type": "text", "text": "Untimed cursor user two"}]}}
+{"role": "assistant", "message": {"content": [{"type": "text", "text": "Untimed cursor agent"}]}}

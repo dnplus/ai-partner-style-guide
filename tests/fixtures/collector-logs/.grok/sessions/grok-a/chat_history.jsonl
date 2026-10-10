@@ -1,0 +1,4 @@
+{"type": "system", "content": "system preamble"}
+{"type": "user", "content": "Grok user one"}
+{"type": "user", "content": "Grok user two"}
+{"type": "assistant", "content": "Grok agent reply"}

@@ -1,0 +1,2 @@
+{"timestamp": "2026-10-03T02:00:00Z", "type": "session_meta", "payload": {"parent_thread_id": "parent", "source": {"subagent": {"thread_spawn": {}}}}}
+{"timestamp": "2026-10-04T03:00:00Z", "type": "response_item", "payload": {"type": "message", "role": "user", "content": [{"type": "text", "text": "Codex child user"}]}}

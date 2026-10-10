@@ -4,7 +4,7 @@
 
 首頁公開；開始觀察與讀取私人結果需 Sites 原生 ChatGPT 登入。Email 來自受信任的平台身份，不另填表單、不出現在 collector、卡片、網址或瀏覽器儲存空間。行銷勾選預設關閉，與完整報告無關，可於「關於這份觀察」撤回。目前只保存偏好，沒有寄信或外部行銷服務。
 
-註冊網站：https://agent-mbti-cards.dnplus.chatgpt.site/ 。實際發佈與遠端驗證狀態以最新 `docs/DELIVERY-PUBLIC.md` 為準；C8 僅證明本機 built Worker。
+註冊網站：https://agent-mbti-cards.dnplus.chatgpt.site/ 。實際發佈與遠端驗證狀態以 `docs/DELIVERY-PUBLIC.md` 為準。
 
 ## 本機使用
 
@@ -51,7 +51,7 @@ localhost 沒有 Sites 登入 dispatcher；因此匿名只能看首頁，原生�
 
 執行 `npm run typecheck`、`npm test`、`npm run verify:art`、`npm run test:browser`、`node scripts/smoke-built.mjs http://127.0.0.1:5188`。測試只使用隔離 Chrome、專用虛構資料和本機 D1。HTTP smoke 限 loopback。
 
-C8 的程式、瀏覽器與 PNG 證據在 `evidence/final-card/`；發佈與原生登入的實際觀察另記在 `docs/DELIVERY-PUBLIC.md`。較早 C1–C7 的文件和證據保留供稽核，描述的是當時產品，包含已被取代的手動 Email 表單與第四步收藏畫面。
+測試與驗證腳本的輸出寫到 `evidence/`，不納入版本控制。發佈與原生登入的實際觀察記在 `docs/DELIVERY-PUBLIC.md`。
 
 本專案交付的是 Agent 指令和最小摘要驗證／提交協定，沒有原始紀錄自動掃描器、語意去重器、context budget 前處理器或掃描 cache。24 個 task、48 個 MBTI observation、64 個成果 observation、24 KiB 是上傳限制，不是模型讀取紀錄的成本上限。沒有在此工作中安裝／執行 Tokscale、掃描真人紀錄或測量真實 collector 效能；[範圍與限制](docs/DELIVERY-DEFAULTS.md) 有詳細說明。
 

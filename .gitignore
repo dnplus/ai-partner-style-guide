@@ -58,3 +58,6 @@ next-env.d.ts
 *.tsbuildinfo
 
 /docs/references-c8/
+
+# Generated test and verification output.
+/evidence/

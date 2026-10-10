@@ -1,9 +1,0 @@
-{
-  "attemptedSource": "db6f735cf76a1feae88eada979261d120f15b23f",
-  "result": "invalid_archive",
-  "limitBytes": 268435456,
-  "attemptedArchiveBytes": 517321023,
-  "savedVersionCreated": false,
-  "deployed": false,
-  "remedy": "Preserve original PNGs outside public assets; ship original-size quality98 WebP with exact alpha and traceable source hashes."
-}

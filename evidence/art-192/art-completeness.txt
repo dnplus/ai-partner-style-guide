@@ -1,5 +1,0 @@
-
-> ai-persona-card@0.1.0 verify:art
-> node scripts/verify-art.mjs
-
-{"expected":192,"verified":192,"uniqueHashes":192,"uniquePixels":192,"complete":true,"pending":0,"errors":[]}

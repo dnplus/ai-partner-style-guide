@@ -3,6 +3,7 @@ import assert from "node:assert/strict";
 import {readFile} from "node:fs/promises";
 import {makeFixture} from "../lib/fixture.ts";
 import {prepareAuthorizedSummary,reportCollectorProgress,submitAuthorizedSummary,HostApprovalRequired,type CollectorGrant} from "../lib/collector-runner.ts";
+import {toReport} from "../lib/assessment.ts";
 import {describeProgress,emptyProgress} from "../lib/collector-progress.ts";
 import {collectorInstructions} from "../lib/collector-instructions.ts";
 
@@ -15,7 +16,7 @@ const ok=()=>Response.json({accepted:true,duplicate:false},{status:201});
 test("one explicit scope grant authorizes derived minimum summary without a second preview gate",()=>{
   const input=sample();input.assessment={type:"ENFP",pattern:"ENFP",status:"complete"};
   const result=prepareAuthorizedSummary(input,grant,target,now);
-  assert.equal(result.assessment.type,"INTJ");assert.deepEqual(result.consent,{localAnalysisApproved:true,aggregateUploadApproved:true});
+  assert.equal(result.assessment?.type,"ENFP");assert.equal(toReport(result).assessment.type,"INTJ");assert.deepEqual(result.consent,{localAnalysisApproved:true,aggregateUploadApproved:true});
   assert.throws(()=>prepareAuthorizedSummary(input,{...grant,scopeApproved:false} as unknown as CollectorGrant,target,now));
   assert.throws(()=>prepareAuthorizedSummary({...input,raw:"forbidden"},grant,target,now));
 });
@@ -72,7 +73,7 @@ test("waiting distinguishes no contact, last known stale signal and actual host 
 test("sanitized AGY control-flow fixture contains no old assessment or actual transcript",async()=>{
   const fixture=JSON.parse(await readFile(new URL("../fixtures/agy-control-flow.json",import.meta.url),"utf8"));
   const data=prepareAuthorizedSummary({...fixture.summary,nickname:target.nickname},{...grant,sources:["antigravity"]},target,now);
-  assert.equal(data.kind,"fixture");assert.equal(data.metrics.mostUsedModelFamily,"unknown");assert.equal(data.metrics.mostUsedClient,"antigravity");assert.equal(data.assessment.type,null);
+  assert.equal(data.kind,"fixture");assert.equal(data.metrics.mostUsedModelFamily,"unknown");assert.equal(data.metrics.mostUsedClient,"antigravity");assert.equal(data.assessment?.type,null);
   assert.doesNotMatch(JSON.stringify(fixture),/Bearer|readToken|writeToken|PVSE|LV5|transcript/);
   assert.deepEqual(fixture.scenario,["scope_granted","prepared","host_approval_pending","session_expired","new_destination_granted","submitted","website_reveal"]);
 });

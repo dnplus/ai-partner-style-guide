@@ -39,7 +39,7 @@ export const submissionSchema = z.object({
     behavior: z.enum(behaviorCodes), ownerRequest: z.enum([...behaviorCodes, "not_specified", "unknown"]),
     opportunity: z.enum(["both_available", "constrained", "unclear"]),
   }).strict()).max(48),
-  assessment: assessmentSchema,
+  assessment: assessmentSchema.optional(),
   usageEvidence: usageEvidenceSchema.optional(),
 }).strict().superRefine((data, ctx) => {
   const issue = (message: string) => ctx.addIssue({ code: z.ZodIssueCode.custom, message });

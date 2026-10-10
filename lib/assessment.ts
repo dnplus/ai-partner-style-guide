@@ -26,15 +26,13 @@ export function inspectAxes(data: Submission) {
     return { axis: axis.id, value: clear ? (leftTasks.length > rightTasks.length ? axis.left : axis.right) : "?", reason: !sufficient ? "insufficient" : clear ? "leaning" : "near_boundary", eligibleTasks, leftTasks, rightTasks, mixedTasks, excludedTasks: [...excludedTasks] };
   });
 }
-export function deriveAssessment(data: Submission): Submission["assessment"] {
+export function deriveAssessment(data: Submission): NonNullable<Submission["assessment"]> {
   const pattern = inspectAxes(data).map((axis) => axis.value).join("");
   return { type: pattern.includes("?") ? null : pattern as TypeCode, pattern, status: pattern.includes("?") ? "incomplete" : "complete" };
 }
 export function validateSubmission(input: unknown, now = Date.now()) {
   const data = submissionSchema.parse(input);
   if (data.observedPeriod.to > new Date(now+14*60*60*1000).toISOString().slice(0, 10)) throw new Error("Future observations are not valid");
-  const calculated = deriveAssessment(data);
-  if (data.assessment.type !== calculated.type || data.assessment.pattern !== calculated.pattern || data.assessment.status !== calculated.status) throw new Error("Assessment does not match supplied evidence");
   return data;
 }
 export function toReport(data: Submission) {

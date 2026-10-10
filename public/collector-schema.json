@@ -512,8 +512,7 @@
         "coverage",
         "metrics",
         "tasks",
-        "observations",
-        "assessment"
+        "observations"
       ],
       "additionalProperties": false
     }

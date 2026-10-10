@@ -1,6 +1,6 @@
 import { z } from "zod";
 import { client, date, nicknameSchema, progressSchema, submissionSchema, type Submission } from "./contract.ts";
-import { deriveAssessment, validateSubmission } from "./assessment.ts";
+import { validateSubmission } from "./assessment.ts";
 import {collectorScopeSchema,scopeDateBounds,type CollectorScope} from "./collector-scope.ts";
 
 export const grantSchema = z.object({
@@ -36,7 +36,7 @@ export function grantPopulatedScope(scope:CollectorScope,target:CollectorTarget,
 export function prepareAuthorizedSummary(input: unknown, grant: CollectorGrant, target: CollectorTarget, now = Date.now()): Submission {
   validateTarget(grant, target);
   const shape = submissionSchema.parse(input);
-  const data = validateSubmission({ ...shape, assessment: deriveAssessment(shape) }, now);
+  const data = validateSubmission(shape, now);
   if (data.nickname !== grant.nickname || data.observedPeriod.from < grant.period.from || data.observedPeriod.to > grant.period.to || data.coverage.sources.some(s => !grant.sources.includes(s))) throw new Error("Summary exceeds approved scope");
   if(grant.collectionScope&&!grant.collectionScope.options.includeTokscale&&data.metrics.tokenSource==="tokscale")throw new Error("Tokscale was excluded from this scope");
   return data;

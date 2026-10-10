@@ -6,7 +6,7 @@ import { typeCodes, type Submission, type Behavior } from "../lib/contract.ts";
 import { artFor, families, personas } from "../lib/catalog.ts";
 
 const now=Date.parse("2026-10-10T12:00:00Z");
-const valid=(f:Submission)=>validateSubmission({...f,assessment:deriveAssessment(f)},now);
+const valid=(f:Submission)=>{const data=validateSubmission({...f,assessment:deriveAssessment(f)},now);if(!data.assessment)throw new Error("fixture assessment missing");return data as Submission&{assessment:NonNullable<Submission["assessment"]>};};
 test("three independent tasks support the new INTJ workstyle independently from usage level",()=>{
   const f=validateSubmission(makeFixture(),now);
   assert.deepEqual(f.assessment,{type:"INTJ",pattern:"INTJ",status:"complete"});
@@ -87,11 +87,15 @@ test("unknown tokens stay null and tied model aggregates stay unknown",()=>{
   const f=makeFixture();f.metrics.inputTokens=100;assert.throws(()=>valid(f));f.metrics.inputTokens=null;
   f.metrics.modelUsage=[{family:"openai",count:2},{family:"anthropic",count:2}];assert.throws(()=>valid(f));f.metrics.mostUsedModelFamily="unknown";assert.equal(valid(f).metrics.mostUsedModelFamily,"unknown");
 });
-test("raw data, old payloads and forced assessments are rejected",()=>{
+test("raw data and old payloads are rejected; a mismatched assessment is kept for the server to replace",()=>{
   const f=makeFixture();
   assert.throws(()=>validateSubmission({...f,raw:"private"},now));
   assert.throws(()=>validateSubmission({...f,version:"1.0"},now));
-  assert.throws(()=>validateSubmission({...f,assessment:{type:"ENFP",pattern:"ENFP",status:"complete"}},now));
+  const mismatched=validateSubmission({...f,assessment:{type:"ENFP",pattern:"ENFP",status:"complete"}},now);
+  assert.equal(mismatched.assessment?.type,"ENFP");
+  assert.equal(toReport(mismatched).assessment.type,"INTJ");
+  const {assessment: omittedAssessment,...rest}=f;void omittedAssessment;
+  assert.equal(toReport(validateSubmission(rest,now)).assessment.type,"INTJ");
   assert.throws(()=>validateSubmission({...f,assessment:{level:"LV4+",type:"PVSE"}},now));
 });
 test("task and observation integrity: uniqueness, references, dates, owner axis and coverage",()=>{

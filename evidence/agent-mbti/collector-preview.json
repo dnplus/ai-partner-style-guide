@@ -1,0 +1,42 @@
+{
+  "version": "2.0",
+  "kind": "fixture",
+  "nickname": "未知搭檔",
+  "consent": {
+    "localAnalysisApproved": true,
+    "aggregateUploadApproved": false
+  },
+  "observedPeriod": {
+    "from": "2026-10-01",
+    "to": "2026-10-09"
+  },
+  "coverage": {
+    "scope": "insufficient",
+    "sources": [],
+    "gaps": [
+      "insufficient_records",
+      "no_tokscale"
+    ],
+    "sampledSessions": null
+  },
+  "metrics": {
+    "humanSessions": null,
+    "automatedSessions": null,
+    "subagentSessions": null,
+    "userMessages": null,
+    "inputTokens": null,
+    "outputTokens": null,
+    "tokenSource": "unavailable",
+    "modelUsage": [],
+    "modelUsageUnit": "unknown",
+    "mostUsedModelFamily": "unknown",
+    "mostUsedClient": "unknown"
+  },
+  "tasks": [],
+  "observations": [],
+  "assessment": {
+    "type": null,
+    "pattern": "????",
+    "status": "incomplete"
+  }
+}

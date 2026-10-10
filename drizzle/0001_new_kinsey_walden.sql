@@ -1,0 +1,1 @@
+ALTER TABLE `sessions` ADD `protocol_version` text DEFAULT '1.0' NOT NULL;

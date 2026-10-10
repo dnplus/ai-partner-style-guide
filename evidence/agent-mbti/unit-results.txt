@@ -1,0 +1,47 @@
+
+> ai-persona-card@0.1.0 test
+> node --test tests/*.test.ts
+
+✔ three independent tasks support the new INTJ workstyle without levels (3.9685ms)
+✔ all 16 standard codes are reachable with independent visible behavior (2.197167ms)
+✔ same task repetitions cannot manufacture three independent situations (0.150084ms)
+✔ two independent tasks are insufficient even when they agree (0.345917ms)
+✔ 2:1 leaning is deliberately unresolved near the boundary (0.21025ms)
+✔ opposing behavior inside one task is mixed, never two votes (0.135708ms)
+✔ 3:1 independent tasks reach a direction; 3:2 remains near-boundary (0.161625ms)
+✔ constrained and unclear choices are excluded from preference (0.145208ms)
+✔ owner instruction alone and opposite behavior cannot establish a preference (0.123416ms)
+✔ owner intent is separately retained; unspecified intent is not invented (0.136667ms)
+✔ partial axes preserve direction but do not emit a forced four-letter type (0.101667ms)
+✔ insufficient coverage and unknown source stay unknown despite claimed behavior (0.123917ms)
+✔ tokens, client and model family never influence workstyle or art (0.304458ms)
+✔ unknown tokens stay null and tied model aggregates stay unknown (0.402916ms)
+✔ raw data, old payloads and forced assessments are rejected (0.540208ms)
+✔ task and observation integrity: uniqueness, references, dates, owner axis and coverage (0.6515ms)
+✔ card projection excludes report evidence, dates and metrics (0.244958ms)
+✔ local review recalculates workstyle and never grants upload consent (3.448125ms)
+✔ review refuses missing local permission, already-approved data and extra raw fields (0.526667ms)
+✔ zero available evidence stays untyped with null counts (2.41675ms)
+✔ instructions use new protocol, two consents and write-only authority (0.2225ms)
+✔ migration preserves an existing legacy row and requires reassessment; owner may delete (176.598334ms)
+✔ create → submit → read persists aggregates, not email or bearer tokens in report (26.288041ms)
+✔ email gates the full report on the server; nickname-only session receives only card fields (40.1965ms)
+✔ separate authorities and cross-session capabilities (23.677042ms)
+✔ dispatch owner binds reading without requiring callback caller identity (26.669709ms)
+✔ one submission and exact canonical idempotent retry (43.559667ms)
+✔ concurrent independent payloads cannot overwrite each other (21.433417ms)
+✔ expired pending and submitted sessions reject callback and read, then purge (32.695459ms)
+✔ revoke deletes profile and report; old authority no longer works (19.801083ms)
+✔ invalid, oversized, unknown fields, wrong nickname and missing approval reject (36.133333ms)
+✔ origin and PII purpose restrictions (8.979083ms)
+✔ D1 survives runtime restart and preserves authority and report (114.392833ms)
+✔ new sessions require explicit current protocol; old clients cannot submit old semantics (14.994375ms)
+✔ unexpected storage errors return 503 with diagnostic phase only, never payload or credentials (0.273375ms)
+ℹ tests 35
+ℹ suites 0
+ℹ pass 35
+ℹ fail 0
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 792.3995

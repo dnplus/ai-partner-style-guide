@@ -1,70 +1,59 @@
-# AI 人物誌
+# 你的 Agent MBTI
 
-本機可運作的 AI 使用習慣觀察卡：建立短效會話 → 交給自己的 Agent → 本機分析後預覽 JSON → 經本人確認回傳 → 揭曉角色卡（填 Email 才可取得完整報告）→ 一般與 Q 版切換 → 下載 PNG。
+你怎麼帶它做事，它就長出怎樣的工作風格。這是一個以本人授權紀錄為依據的 Agent 合作風格觀察：命名 → 建立短效連結 → 自己的 Agent 本機分析 → 預覽最小摘要並同意 → callback 揭曉 → 收藏一般／Q 版角色卡與下載 PNG。
 
-這是依行為證據整理的期間觀察，不是經驗證的心理測驗。缺乏證據保留 unknown／?，不以 tokens 升級，也不預設任何真人的 LV4+ 或 PVSE/QVSE 結論。
+**填 Email 且同意本次結果用途，才開放完整報告；不填只有卡片。** 本機版沒有寄信服務，畫面明示未寄送。Email 不交給 collector，不進報告、卡片或網址。
 
-## 在這台 Air 啟動
+## 本機啟動
 
-此工作區已安裝依賴並套用本機 D1 migration。使用 Node 26.7.0 驗證；不需登入或雲端憑證。
+專案路徑：/Users/dnplus/Documents/Codex/2026-10-10/task-2/ai-usage-card
 
-```sh
-cd /Users/dnplus/Documents/Codex/2026-10-10/task-2/ai-usage-card
-npm run dev -- --hostname 127.0.0.1 --port 5188
-```
+此 Air 已安裝依賴，並套用 0000、0001 兩個本機 D1 migration。Node 26.7.0。執行 npm run dev -- --hostname 127.0.0.1 --port 5188，開啟 http://127.0.0.1:5188 。
 
-開啟 http://127.0.0.1:5188 。首頁只有「開始觀察」：暱稱 → 交給 Agent → 等待 → 揭曉 → 收藏。完整說明及「使用虛構資料體驗」在頁尾次要入口；範例仍先預覽 JSON、勾選確認，再送出到同一套本機 callback。這不會讀取你的紀錄。
+首頁只有「開始觀察」。頁尾「關於這份觀察」內可選「使用虛構資料體驗」，經預覽與確認後走相同的本機 callback；不讀私人紀錄。
 
-要預覽建置後的 Worker：
+建置：npm run build。建置後預覽：npm start -- --port 5188，請先停止同 port 的 dev server。Sites 官方建置入口與平台資訊見 [Sites starter](docs/SITES-STARTER.md)。
 
-```sh
-npm run build
-npm start -- --port 5189
-```
+全新複製的工作區先 npm run install:ci、建置，再依序僅一次套用各 pending SQL：
+- node --import ./scripts/sites-env.mjs ./node_modules/wrangler/bin/wrangler.js d1 execute DB --local --config dist/server/wrangler.json --persist-to .wrangler/state --file drizzle/0000_quick_devos.sql
+- node --import ./scripts/sites-env.mjs ./node_modules/wrangler/bin/wrangler.js d1 execute DB --local --config dist/server/wrangler.json --persist-to .wrangler/state --file drizzle/0001_new_kinsey_walden.sql
 
-全新複製的工作區，先 `npm run install:ci`、`npm run build`，再僅一次套用 schema：
+不要重播已套用的 migration。這些命令只修改本機預覽資料庫，不部署、不修改雲端資料。
 
-```sh
-node --import ./scripts/sites-env.mjs ./node_modules/wrangler/bin/wrangler.js d1 execute DB --local --config dist/server/wrangler.json --persist-to .wrangler/state --file drizzle/0000_quick_devos.sql
-```
+## 新版規則與資料
 
-不要對已建立的資料庫重播 migration。本機狀態在忽略版控的 `.wrangler/state`；這個命令不修改雲端資料庫。Sites 原始啟動／平台說明保留於 [docs/SITES-STARTER.md](docs/SITES-STARTER.md)。
+完整結果使用標準 16 代碼，但 Agent 行為類比、門檻、中文稱號、描述均為本專案原創。非官方 MBTI 評量，不推斷人的心理人格或模型固定性格。
 
-## 已完成
+- E/I：互動共創／整理後交付。
+- S/N：具體事實起步／模式與可能性起步。
+- T/F：合理方案衝突時，一致準則／受影響者情境取捨。
+- J/P：先定路線／以可逆實驗收斂。
 
-- React/Vinext + Sites 官方 Vite plugin；D1 持久會話與 expiring read/write capabilities。
-- 30 分鐘效期，兩組獨立 256-bit 權杖，只存 SHA-256；讀取權限留在 sessionStorage，提交權限只留記憶體。網址無暱稱、Email 或權杖。
-- 每個會話只收一份結果；原 key、原 JSON 可重試；原子條件更新防覆寫。嚴格 schema、24 KiB 上限、來源／證據／評級一致性驗證、跨來源拒絕、平台使用者 ID 綁定（如有）。
-- 暱稱必填；Email 選填且須同意本次結果用途。不填只回傳卡片欄位，後端不開放完整報告；填了才可查看完整報告。本機尚無寄信服務，狀態明示 not_configured；Email 不給 collector，也不出現在報告／PNG。
-- 四軸、級別、觀察期間、覆蓋與缺口、人類／自動化／子代理計數、模型家族和客戶端分列。網站能驗證規則一致性，不能替代原始證據真實性審查。
-- CSS 3D 的厚度、陰影、角度虹彩、選擇性 foil、背景／角色／文字深度；滑鼠、觸控、方向鍵與 reduced-motion 靜態版。
-- 六家族共 **12 張 PVSE** 插圖，一般／Q 版共享檢視器與評估。16 型風格說明收在次要入口；192 個規劃位置中其餘 180 張誠實標示待製作。
-- 1080 × 1620 PNG，預設只顯示暱稱模式，均保留署名與非官方／非商業說明。
+同一獨立任務在一軸只算一次；主人要求與實際行為分列。受限、可選性不明、已知要求不符的觀察不計入。勝方至少獲三個獨立 task 支持，佔有效 task（含 mixed）至少三分之二且兩端差至少二個 task，才選方向。這是保守啟發式門檻，不是準確率或性格強度。不足或接近時保留未知，不強行定型；模型、工具與 tokens 不影響結果。
 
-## Collector 與來源
+[設計與規則](docs/DESIGN-MBTI.md)、[collector 協定](public/collector-protocol.md)、[空白模板](public/collector-template.json)、[JSON schema](public/collector-schema.json)、[虛構 INTJ 範例](fixtures/intj-workstyle.json)、[部分未知範例](fixtures/partial-workstyle.json)、[完全未知範例](fixtures/insufficient-evidence.json)。
 
-- [回傳協定](public/collector-protocol.md)、[空白 JSON](public/collector-template.json)、[機器可讀 schema](public/collector-schema.json)、[虛構 PVSE 範例](fixtures/pvse-lv4-plus.json)、[證據不足範例](fixtures/insufficient-evidence.json)。Agent 先確認閱讀來源／期間，再在回傳前取得第二次明確同意。
-- 框架 [Raymondhou0917/ai-level-check](https://github.com/Raymondhou0917/ai-level-check/tree/d262ca67a6efa59ffb0e0a2a2843978a149e047d)，v0.4.6，MIT；固定 commit `d262ca67a6efa59ffb0e0a2a2843978a149e047d`。原始 SKILL、levels、personas、evidence-rules 與 LICENSE 保留於 `vendor/ai-level-check`。
-- LV5 的 2 獨立流程／3 次執行／7 天，是本網站對持續性採取的保守門檻，並非上游明定的數字。完整差異見協定。
-- [素材來源、Library IDs 與授權](docs/ART-PROVENANCE.md)、[逐檔 alpha／SHA-256](docs/ASSET-VERIFICATION.json)。ApprenTice／ZipZipPipe；DeepSeek 加上善無形。依可授權範圍使用 CC BY-NC-SA 4.0；上游權利鏈尚未完整核實。GPT 龍娘是 Codex 主題同人改編，並非官方 Codex 角色。
+schema 2.0 移除舊等級和舊型別。既有資料保留但不轉型，已授權舊會話回 410 reassessment_required；仍能刪除。瀏覽器改用新儲存命名空間，不重新顯示舊結果。歷史來源與 MIT 法律聲明保留於 [第三方聲明](THIRD_PARTY_NOTICES.md) 和 vendor；前台不再使用舊規則或介紹舊產品。
 
-## 驗證
+## 已實作
 
-```sh
-npm run typecheck
-npm test
-npm run test:browser
-node scripts/smoke-built.mjs
-```
+- Sites 官方 Vite plugin、React/Vinext、D1 持久會話；30 分鐘效期，讀寫分離的 256-bit capabilities，只存 SHA-256。
+- 一次提交、原 key／原 JSON 可冪等重試；原子更新、嚴格 JSON、24 KiB 上限、未知欄位拒絕、跨欄位與觀察一致性校驗、日期與來源驗證。
+- 後端 Email 報告 gate；不填只有最小卡片資料，無使用統計／日期／任務證據。若平台提供身份則綁定讀取。沒有公開分享網址。
+- 單一焦點逐步 UI、返回、等待、暫時斷線重試、重整復原、取消刪除、到期恢復。讀取權杖留 sessionStorage；寫入權杖只留記憶體。
+- CSS 3D 厚度、柔影、角度虹彩、選擇性 foil 與角色深度；桌面拖曳、手機觸控、方向鍵、reduced-motion 靜態卡。
+- 六家族 × 一般／Q 版，共 12 張通用造型；選主題不改分型，並非 192 張不同型別插圖。所有素材 bytes 保持不變，見 [中性命名與 SHA-256](docs/ASSET-VERIFICATION-MBTI.json)。
+- 1080 × 1620 PNG；可只顯示暱稱，預設開啟。未知結果寫「未定型」，不輸出虛假的完整型別。
+- 本機離線 JSON 預覽 CLI：node scripts/review-collector.ts --approved-input fixtures/collector-review-input.json 新預覽.json。它不讀會話、不使用網路，保持提交同意 false。
 
-`test:browser` 預期 5188 的 dev server，使用此 Air 上的 Chrome，在獨立測試環境執行；`smoke-built.mjs` 預期 5189 的建置後 Worker，僅接受 loopback URL。專用測試資料完成後刪除；不讀使用者會話。
+圖片為 ApprenTice 同人衍生，角色參考 ZipZipPipe，DeepSeek 加上善無形。CC BY-NC-SA 4.0，非官方、非商業；上游權利鏈尚未全面核實。GPT 龍娘是 Codex 主題改編，非官方 Codex 角色。詳見 [素材來源](public/art-provenance.md)；原始生成記錄存於 docs/ART-PROVENANCE.md。
 
-實測結果：**28 項 Node/D1 測試、6 項 Chrome 流程測試（dev 與建置後均通過）、17 個建置後 Worker 檢查**，TypeScript 與 Sites build 成功。詳見 [C2 交付／驗證記錄](docs/DELIVERY-GUIDED.md)、[單步視覺對照](docs/FIDELITY-GUIDED.md) 和 `evidence/guided/` 截圖；`docs/DELIVERY.md` 與根層 evidence 是前一版 C1 的歷史紀錄。
+## 驗證與限制
 
-## 尚未完成的外部條件
+執行 npm run typecheck、npm test、npm run test:browser、node scripts/smoke-built.mjs http://127.0.0.1:5188 。瀏覽器測試只使用此 Air 的隔離 Chrome 與專用範例；API smoke 僅接受 loopback。
 
-未部署、push、merge、公開網站、登入、申請憑證、寄信或讀取真人紀錄。私人 Sites 存取閘門下的外部 callback **尚未驗證**；本機成功不代表遠端成功。下一步需在獲授權的環境驗證精確 callback 路徑，不能分享整站 bypass key 或偷偷公開網站。
+最新 C3 的 [交付記錄](docs/DELIVERY-MBTI.md)、[視覺 QA](docs/FIDELITY-MBTI.md) 與 evidence/agent-mbti/ 是本版證據。docs/DELIVERY.md、docs/DELIVERY-GUIDED.md 及較舊 evidence 是歷史版本，保留供稽核，不代表目前產品。
 
-尚無其餘 180 張插圖、真人證據校準或動畫匯出。到期即拒絕讀寫，實體資料於下一次請求清理；沒有宣稱到期瞬間背景清除。瀏覽器已顯示的結果可暫留記憶體，重新整理不會取回已到期結果。
+未部署、push、merge、公開網站、登入、申請憑證、寄信或讀真人紀錄。私人 Sites 閘門下的外部 callback 尚未驗證；本機 HTTP 成功不代表遠端可用。下一步需在獲授權的目的地驗證精確 callback 路徑，不能分享整站 bypass key 或更改公開權限。
 
-離線 JSON 預覽工具與真實資料覆蓋限制見 [Collector 審查記錄](docs/COLLECTOR-VALIDATION.md)。
+真人證據校準、動畫匯出、寄信仍未完成；不因此阻擋本機核心。資料到期即拒絕讀寫，於下一次請求清理，沒有宣稱到期瞬間背景清除。結果可暫留瀏覽器記憶體；重新整理無法取回已到期資料。Library 本機上傳通道先前不可用，目前交付為本機檔案，沒有新的 Library IDs。

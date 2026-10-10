@@ -1,0 +1,149 @@
+{
+  "operation": "neutral filename only; bytes unchanged; artwork is independent of type",
+  "assets": [
+    {
+      "file": "claude-portrait-chibi.png",
+      "size": [
+        1024,
+        1536
+      ],
+      "mode": "RGBA",
+      "alphaZero": 497058,
+      "alphaPartial": 1075806,
+      "sha256": "a1e0cb531171198887ab621388a8420efcfefc0ef11d355a592984fcf48d6b5f",
+      "libraryFileId": "libfile_37ace4bfb35481919f6c9bae21983a1b"
+    },
+    {
+      "file": "claude-portrait-regular.png",
+      "size": [
+        1024,
+        1536
+      ],
+      "mode": "RGBA",
+      "alphaZero": 476008,
+      "alphaPartial": 1096856,
+      "sha256": "f00803572d6b521dab9d809a9bbc598991efc0f64ac6ffe39aac29996735fff3",
+      "libraryFileId": "libfile_a217a296b6ac81918adf8a4980a75613"
+    },
+    {
+      "file": "codex-portrait-chibi.png",
+      "size": [
+        1024,
+        1536
+      ],
+      "mode": "RGBA",
+      "alphaZero": 460046,
+      "alphaPartial": 1112818,
+      "sha256": "4b543c83b5a94dc9f342fe1a2b16c89d8b0ce4fef07b569ed8cecf0667546134",
+      "libraryFileId": "libfile_76056be2f6508191b0919edcb39ae7ce"
+    },
+    {
+      "file": "codex-portrait-regular.png",
+      "size": [
+        1024,
+        1536
+      ],
+      "mode": "RGBA",
+      "alphaZero": 399928,
+      "alphaPartial": 1172936,
+      "sha256": "de3274e8b38a3d22dadde4ccca7d6c28721f7742bc55232c31ecd7670c4b2ffe",
+      "libraryFileId": "libfile_872f26e182c0819180ccb9c4860fc84d"
+    },
+    {
+      "file": "deepseek-portrait-chibi.png",
+      "size": [
+        1024,
+        1536
+      ],
+      "mode": "RGBA",
+      "alphaZero": 527393,
+      "alphaPartial": 1045471,
+      "sha256": "2602edab316ba8bbcd67c960777e72edc9e291e0975db611a06f5e4dd8aa40a5",
+      "libraryFileId": "libfile_01047e00950c8191b9d84df74811dae7"
+    },
+    {
+      "file": "deepseek-portrait-regular.png",
+      "size": [
+        1024,
+        1536
+      ],
+      "mode": "RGBA",
+      "alphaZero": 480414,
+      "alphaPartial": 1092450,
+      "sha256": "30d3c1ebd14eba1b0dddee910617c4564a808f94671b1b17494373c0bc7b367a",
+      "libraryFileId": "libfile_21cd21cc44088191ab084c1375e84b1f"
+    },
+    {
+      "file": "gemini-portrait-chibi.png",
+      "size": [
+        1024,
+        1536
+      ],
+      "mode": "RGBA",
+      "alphaZero": 540976,
+      "alphaPartial": 1031888,
+      "sha256": "8ef423a94be71f4eac37c5083b122a498852a275012719a36a5283368d7f9506",
+      "libraryFileId": "libfile_27984f439d5881919ffe6514b0eaee01"
+    },
+    {
+      "file": "gemini-portrait-regular.png",
+      "size": [
+        1024,
+        1536
+      ],
+      "mode": "RGBA",
+      "alphaZero": 527469,
+      "alphaPartial": 1045395,
+      "sha256": "2f87d1c144321e25815f9bf1ef726b01573e1ba3c4f58c86b529d51edc691dd4",
+      "libraryFileId": "libfile_1b14e767ae14819186053c2acbdb5f96"
+    },
+    {
+      "file": "glm-portrait-chibi.png",
+      "size": [
+        1024,
+        1536
+      ],
+      "mode": "RGBA",
+      "alphaZero": 494874,
+      "alphaPartial": 1077990,
+      "sha256": "547f57d5a444ff2d7aa46419fefcc06b1a9180e2640da199a6893cb4aaaa1180",
+      "libraryFileId": "libfile_a2c3a67eb6c08191a318ff9fdc53d386"
+    },
+    {
+      "file": "glm-portrait-regular.png",
+      "size": [
+        1024,
+        1536
+      ],
+      "mode": "RGBA",
+      "alphaZero": 448732,
+      "alphaPartial": 1124132,
+      "sha256": "23c9b7bda569e9453540c4b3057d2edb151a9d777fa35730d95b96b345a3b2d8",
+      "libraryFileId": "libfile_981a777862c881918bbab92156165d3d"
+    },
+    {
+      "file": "grok-portrait-chibi.png",
+      "size": [
+        1024,
+        1536
+      ],
+      "mode": "RGBA",
+      "alphaZero": 552951,
+      "alphaPartial": 1019913,
+      "sha256": "b0c5147e4fb4361400d6f01b40bc6a39b13e14f64108b0b60c9001b130c3675a",
+      "libraryFileId": "libfile_5d3e5e21735481918941ef3f3b991cc8"
+    },
+    {
+      "file": "grok-portrait-regular.png",
+      "size": [
+        1024,
+        1536
+      ],
+      "mode": "RGBA",
+      "alphaZero": 411843,
+      "alphaPartial": 1161021,
+      "sha256": "6e5c25b129cfd97b59587f2e3469f38843503c997c21724e089852c3618eafa9",
+      "libraryFileId": "libfile_e920b21a37d8819181bb8c1752416754"
+    }
+  ]
+}

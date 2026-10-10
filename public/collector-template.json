@@ -1,20 +1,21 @@
 {
-  "version": "1.0",
+  "version": "2.0",
   "kind": "observed",
-  "nickname": "你的暱稱",
+  "nickname": "Agent 的名字",
   "consent": {
     "localAnalysisApproved": false,
     "aggregateUploadApproved": false
   },
   "observedPeriod": {
-    "from": "YYYY-MM-DD",
-    "to": "YYYY-MM-DD"
+    "from": "",
+    "to": ""
   },
   "coverage": {
     "scope": "insufficient",
     "sources": [],
     "gaps": [
-      "insufficient_records"
+      "insufficient_records",
+      "no_tokscale"
     ],
     "sampledSessions": null
   },
@@ -31,92 +32,11 @@
     "mostUsedModelFamily": "unknown",
     "mostUsedClient": "unknown"
   },
-  "cases": [],
-  "signals": {
-    "unsafeAdoption": {
-      "status": "unknown",
-      "cases": []
-    },
-    "iterativeRetry": {
-      "status": "unknown",
-      "cases": []
-    },
-    "stableSingleTask": {
-      "status": "unknown",
-      "cases": []
-    },
-    "preciseInstruction": {
-      "status": "unknown",
-      "cases": []
-    },
-    "effectiveCorrection": {
-      "status": "unknown",
-      "cases": []
-    },
-    "reusableArtifact": {
-      "status": "unknown",
-      "cases": []
-    },
-    "testedBeforeUse": {
-      "status": "unknown",
-      "cases": []
-    },
-    "repeatedUse": {
-      "status": "unknown",
-      "cases": []
-    },
-    "handoffReady": {
-      "status": "unknown",
-      "cases": []
-    },
-    "selfTestCases": {
-      "status": "unknown",
-      "cases": []
-    },
-    "rolesAndCriteria": {
-      "status": "unknown",
-      "cases": []
-    },
-    "exceptionHandling": {
-      "status": "unknown",
-      "cases": []
-    },
-    "maintenanceFeedback": {
-      "status": "unknown",
-      "cases": []
-    },
-    "sharedRulesActualUse": {
-      "status": "unknown",
-      "cases": []
-    }
-  },
-  "workflows": {
-    "independentWorkflows": null,
-    "independentRuns": null,
-    "sustainedDays": null,
-    "cloudDependent": null,
-    "entrypoints": []
-  },
-  "axes": {
-    "preparation": {
-      "value": "?",
-      "cases": []
-    },
-    "verification": {
-      "value": "?",
-      "cases": []
-    },
-    "reuse": {
-      "value": "?",
-      "cases": []
-    },
-    "execution": {
-      "value": "?",
-      "cases": []
-    }
-  },
+  "tasks": [],
+  "observations": [],
   "assessment": {
-    "level": "unknown",
-    "type": "????"
+    "type": null,
+    "pattern": "????",
+    "status": "incomplete"
   }
 }

@@ -1,0 +1,138 @@
+{
+  "version": "2.0",
+  "kind": "fixture",
+  "nickname": "顯影中的搭檔",
+  "consent": {
+    "localAnalysisApproved": true,
+    "aggregateUploadApproved": true
+  },
+  "observedPeriod": {
+    "from": "2026-10-01",
+    "to": "2026-10-09"
+  },
+  "coverage": {
+    "scope": "partial",
+    "sources": [
+      "codex"
+    ],
+    "gaps": [
+      "web_history_unavailable",
+      "other_sources_missing",
+      "no_tokscale",
+      "insufficient_records"
+    ],
+    "sampledSessions": 9
+  },
+  "metrics": {
+    "humanSessions": 9,
+    "automatedSessions": 2,
+    "subagentSessions": 3,
+    "userMessages": 42,
+    "inputTokens": null,
+    "outputTokens": null,
+    "tokenSource": "unavailable",
+    "modelUsage": [
+      {
+        "family": "openai",
+        "count": 7
+      },
+      {
+        "family": "anthropic",
+        "count": 2
+      }
+    ],
+    "modelUsageUnit": "sessions",
+    "mostUsedModelFamily": "openai",
+    "mostUsedClient": "codex"
+  },
+  "tasks": [
+    {
+      "id": "T001",
+      "date": "2026-10-01",
+      "source": "codex",
+      "context": "build"
+    },
+    {
+      "id": "T002",
+      "date": "2026-10-04",
+      "source": "codex",
+      "context": "research"
+    },
+    {
+      "id": "T003",
+      "date": "2026-10-09",
+      "source": "codex",
+      "context": "planning"
+    }
+  ],
+  "observations": [
+    {
+      "id": "O001",
+      "task": "T001",
+      "behavior": "consolidated_delivery",
+      "ownerRequest": "consolidated_delivery",
+      "opportunity": "both_available"
+    },
+    {
+      "id": "O002",
+      "task": "T001",
+      "behavior": "pattern_exploration",
+      "ownerRequest": "pattern_exploration",
+      "opportunity": "both_available"
+    },
+    {
+      "id": "O004",
+      "task": "T001",
+      "behavior": "early_commitment",
+      "ownerRequest": "early_commitment",
+      "opportunity": "both_available"
+    },
+    {
+      "id": "O005",
+      "task": "T002",
+      "behavior": "consolidated_delivery",
+      "ownerRequest": "not_specified",
+      "opportunity": "both_available"
+    },
+    {
+      "id": "O006",
+      "task": "T002",
+      "behavior": "pattern_exploration",
+      "ownerRequest": "not_specified",
+      "opportunity": "both_available"
+    },
+    {
+      "id": "O008",
+      "task": "T002",
+      "behavior": "early_commitment",
+      "ownerRequest": "not_specified",
+      "opportunity": "both_available"
+    },
+    {
+      "id": "O009",
+      "task": "T003",
+      "behavior": "consolidated_delivery",
+      "ownerRequest": "consolidated_delivery",
+      "opportunity": "both_available"
+    },
+    {
+      "id": "O010",
+      "task": "T003",
+      "behavior": "pattern_exploration",
+      "ownerRequest": "pattern_exploration",
+      "opportunity": "both_available"
+    },
+    {
+      "id": "O012",
+      "task": "T003",
+      "behavior": "early_commitment",
+      "ownerRequest": "early_commitment",
+      "opportunity": "both_available"
+    }
+  ],
+  "assessment": {
+    "type": null,
+    "pattern": "IN?J",
+    "status": "incomplete"
+  }
+}

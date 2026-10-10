@@ -3,12 +3,12 @@
 import { useEffect, useRef, useState } from "react";
 import { z } from "zod";
 import { toReport, validateSubmission, type CardObservation, type Report } from "../lib/assessment.ts";
-import { nicknameSchema } from "../lib/contract.ts";
+import { nicknameSchema, assessmentSchema, PROTOCOL_VERSION } from "../lib/contract.ts";
 import type { LocalSession } from "../lib/collector-instructions.ts";
 
-export const SESSION_KEY = "ai-persona-session-v1";
+export const SESSION_KEY = "agent-mbti-session-v2";
 const sessionSchema = z.object({ id:z.string().uuid(), readToken:z.string().regex(/^[0-9a-f]{64}$/), writeToken:z.string().regex(/^[0-9a-f]{64}$/).optional(), expiresAt:z.number(), nickname:nicknameSchema });
-const cardSchema = z.object({ nickname:nicknameSchema, kind:z.enum(["fixture","observed"]), assessment:z.object({ level:z.enum(["unknown","LV0","LV1","LV2","LV3","LV4","LV4+","LV5"]), type:z.string().regex(/^[PQ?][VA?][SO?][EC?]$/) }), modelFamily:z.enum(["openai","anthropic","google","xai","deepseek","zai","other","unknown"]) }).strict();
+const cardSchema = z.object({ nickname:nicknameSchema, kind:z.enum(["fixture","observed"]), assessment:assessmentSchema, modelFamily:z.enum(["openai","anthropic","google","xai","deepseek","zai","other","unknown"]) }).strict();
 const resultSchema = z.object({ id:z.string().uuid(), expiresAt:z.number(), status:z.enum(["pending","complete"]), card:cardSchema.nullable(), report:z.record(z.unknown()).nullable(), reportAccess:z.enum(["email","card_only"]), delivery:z.enum(["not_configured","not_requested"]) });
 export type SessionResult = { card:CardObservation; report:Report | null; reportAccess:"email" | "card_only"; delivery:"not_configured" | "not_requested" };
 
@@ -62,7 +62,7 @@ export function usePersonaSession() {
         setLastChecked(Date.now());setConnection("connected");failures=0;
         if(data.status==="complete" && data.card){
           let report:Report | null=null;
-          if(data.reportAccess==="email" && data.report){const {framework,caveat,...submission}=data.report;void framework;void caveat;report=toReport(validateSubmission(submission));}
+          if(data.reportAccess==="email" && data.report){const {rubric,axisFindings,caveat,...submission}=data.report;void rubric;void axisFindings;void caveat;report=toReport(validateSubmission(submission));}
           setResult({card:data.card,report,reportAccess:data.reportAccess,delivery:data.delivery});return;
         }
       } catch { if(!stopped){setConnection("retrying");failures++;} }
@@ -79,7 +79,7 @@ export function usePersonaSession() {
     const current=++generation.current;
     try {
       if(session && !expired) throw new Error("你已有一個連結，請先繼續或結束這次觀察。");
-      const response=await fetch("/api/sessions",{method:"POST",headers:{"Content-Type":"application/json"},body:JSON.stringify(profile),redirect:"error"});
+      const response=await fetch("/api/sessions",{method:"POST",headers:{"Content-Type":"application/json"},body:JSON.stringify({...profile,protocolVersion:PROTOCOL_VERSION}),redirect:"error"});
       const value=await response.json() as {error?:unknown};
       if(!response.ok) throw new Error(typeof value.error==="string" ? value.error : "建立失敗，請再試一次。");
       const next=sessionSchema.parse(value);

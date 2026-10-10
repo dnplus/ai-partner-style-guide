@@ -1,0 +1,18 @@
+
+> ai-persona-card@0.1.0 test:browser
+> playwright test
+
+
+Running 7 tests using 1 worker
+
+(node:37408) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+  ✓  1 tests/browser/journey.spec.ts:18:1 › single-focus desktop: email report, back preservation, real callback, collection and private PNG (8.2s)
+  ✓  2 tests/browser/journey.spec.ts:49:1 › no email is card-only across server, reveal, collection and restored tab (4.2s)
+  ✓  3 tests/browser/journey.spec.ts:57:1 › mobile 390×844: one screen, touch drag, style controls, no overflow (3.9s)
+  ✓  4 tests/browser/journey.spec.ts:65:1 › connection retry, pending restore without write authority, cancellation and expiry recovery (3.4s)
+  ✓  5 tests/browser/journey.spec.ts:73:1 › reduced motion remains keyboard operable; unknown evidence stays unknown (3.7s)
+  ✓  6 tests/browser/journey.spec.ts:79:1 › all twelve artworks retain one assessment and explicitly documented catalog scope (6.8s)
+  ✓  7 tests/browser/journey.spec.ts:85:1 › old browser result is ignored and every catalog entry uses a standard code (256ms)
+
+  7 passed (31.6s)

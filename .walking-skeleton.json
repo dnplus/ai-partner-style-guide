@@ -37,9 +37,10 @@
     "lib/**",
     "public/**",
     "scripts/**",
-    "tests/**"
+    "tests/**",
+    "THIRD_PARTY_NOTICES.md"
   ],
-  "current_checkpoint": "COMPLETE",
+  "current_checkpoint": "C3",
   "checkpoints": [
     {
       "id": "C1",
@@ -297,11 +298,69 @@
           "tests/session.test.ts"
         ]
       }
+    },
+    {
+      "id": "C3",
+      "title": "Your Agent MBTI with observed-workstyle evidence and explicit reassessment",
+      "status": "active",
+      "next_action": "Commit the verified implementation and seal the C3 receipt; leave the final local preview available.",
+      "evidence": [
+        {
+          "type": "api",
+          "path": "evidence/agent-mbti/unit-results.txt",
+          "result": "35/35: all 16 codes, duplicate/mixed/near-boundary/unknown/constraints, D1 authority, concurrency, expiry, actual migration of legacy row, Email gate and sanitized diagnostics"
+        },
+        {
+          "type": "browser",
+          "path": "evidence/agent-mbti/browser-results.json",
+          "result": "7/7 final built Worker Chrome journeys: guided flow, consent, report/card-only, restore/retry/expiry, mobile touch, keyboard, reduced motion, partial state, 12 artworks, old storage ignored"
+        },
+        {
+          "type": "api",
+          "path": "evidence/agent-mbti/built-worker-smoke.json",
+          "result": "17/17 loopback HTTP checks; external callback-style request succeeds locally; remote private Sites gate remains unverified"
+        },
+        {
+          "type": "build",
+          "path": "evidence/agent-mbti/build-results.txt",
+          "result": "Official Sites build exit 0; final SSR/API/browser tested"
+        },
+        {
+          "type": "download",
+          "path": "evidence/agent-mbti/card-nickname.png",
+          "result": "Actual 1080x1620 PNG, nickname only, attribution retained, no type/metrics/contact/session authority"
+        },
+        {
+          "type": "download",
+          "path": "evidence/agent-mbti/card-regular.png",
+          "result": "Actual 1080x1620 regular PNG; new INTJ code and original title, no legacy levels/types"
+        },
+        {
+          "type": "download",
+          "path": "evidence/agent-mbti/card-untyped.png",
+          "result": "Actual 1080x1620 partial-result PNG; says untyped, no fabricated complete code"
+        },
+        {
+          "type": "visual",
+          "path": "docs/FIDELITY-MBTI.md",
+          "result": "1536x1024 desktop and 390x844 mobile reviewed; neutral avatar choices preserve assessment; 12 art hashes unchanged"
+        },
+        {
+          "type": "api",
+          "path": "evidence/agent-mbti/collector-review-run.json",
+          "result": "Offline fixture review preserves null/????, null tokens and uploadApproved=false; networkUsed=false"
+        },
+        {
+          "type": "delivery",
+          "path": "docs/DELIVERY-MBTI.md",
+          "result": "Local paths and exact commands, functions, migration, historical single 503, remote/mail/Library limits documented"
+        }
+      ]
     }
   ],
-  "last_observation": "C2 local code committed and verified: single-focus journey, email-gated full report, card-only privacy, fixture consent and state reset. 28 Node/D1, 6 final-built browser journeys and 17 built Worker checks passed; external conditions remain explicitly unverified.",
+  "last_observation": "C3 verified tests and final local preview are complete. Preserve the required MIT legal notice as a root THIRD_PARTY_NOTICES.md file and seal the reviewed implementation.",
   "current_blocker": "External email delivery, private Sites callback and real-user evidence remain unverified. Library upload is unavailable to this local workflow; local deliverables are preserved.",
   "correlation_groups": [],
-  "state_revision": 5,
-  "state_digest": "1c46c27d5a0a96798eef591469d63d8ce91ed4b5fceb3e88e8eceea1114fb58d"
+  "state_revision": 8,
+  "state_digest": "cdfe40389fbfacade48d758994ae491008851793a479be89c39a313e71bedad4"
 }

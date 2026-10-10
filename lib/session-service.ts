@@ -1,10 +1,10 @@
-import { createSchema } from "./contract.ts";
+import { createSchema, PROTOCOL_VERSION } from "./contract.ts";
 import { toReport, toCardObservation, validateSubmission, type Report } from "./assessment.ts";
 
 export const TTL_MS = 30 * 60 * 1000;
 const MAX_BYTES = 24 * 1024;
 const secureHeaders = { "Content-Type": "application/json; charset=utf-8", "Cache-Control": "no-store, private", "Referrer-Policy": "no-referrer", "X-Content-Type-Options": "nosniff", "Cross-Origin-Resource-Policy": "same-origin", "Vary": "Origin" };
-type Row = { id: string; read_hash: string; write_hash: string; owner_hash: string | null; nickname: string; email: string | null; expires_at: number; report: string | null; payload_hash: string | null; idempotency_key: string | null; submitted_at: number | null };
+type Row = { id: string; protocol_version: string; read_hash: string; write_hash: string; owner_hash: string | null; nickname: string; email: string | null; expires_at: number; report: string | null; payload_hash: string | null; idempotency_key: string | null; submitted_at: number | null };
 class HttpError extends Error {
   status: number;
   constructor(status: number, message: string) { super(message); this.status = status; }
@@ -53,12 +53,14 @@ async function authorize(db: D1Database, request: Request, id: string, access: "
   return row;
 }
 export async function handleSession(db: D1Database, request: Request, id?: string, mode: "session" | "collect" = "session", now = Date.now()): Promise<Response> {
+  let phase = "access";
   try {
     sameOrigin(request, !id || request.method === "DELETE");
     if (!id) {
       if (request.method !== "POST") failure(405, "此操作不支援。");
       const parsed = createSchema.safeParse(await body(request));
       if (!parsed.success) return failure(400, "請檢查暱稱、Email 與結果用途同意。");
+      phase = "create_session";
       await db.prepare("DELETE FROM sessions WHERE expires_at <= ?1").bind(now).run();
       const total = await db.prepare("SELECT COUNT(*) AS count FROM sessions").first<{ count: number }>();
       if ((total?.count ?? 0) >= 2000) failure(429, "目前會話額度已滿，請稍後再試。");
@@ -66,20 +68,25 @@ export async function handleSession(db: D1Database, request: Request, id?: strin
       const writeToken = randomToken();
       const newId = crypto.randomUUID();
       const expiresAt = now + TTL_MS;
-      await db.prepare("INSERT INTO sessions (id, read_hash, write_hash, owner_hash, nickname, email, created_at, expires_at) VALUES (?1, ?2, ?3, ?4, ?5, ?6, ?7, ?8)")
-        .bind(newId, await digest(readToken), await digest(writeToken), await owner(request), parsed.data.nickname, parsed.data.email ?? null, now, expiresAt).run();
+      await db.prepare("INSERT INTO sessions (id, read_hash, write_hash, owner_hash, nickname, email, created_at, expires_at, protocol_version) VALUES (?1, ?2, ?3, ?4, ?5, ?6, ?7, ?8, ?9)")
+        .bind(newId, await digest(readToken), await digest(writeToken), await owner(request), parsed.data.nickname, parsed.data.email ?? null, now, expiresAt, PROTOCOL_VERSION).run();
       return json({ id: newId, readToken, writeToken, expiresAt, nickname: parsed.data.nickname }, 201);
     }
     const row = await authorize(db, request, id, mode === "collect" ? "write" : "read", now);
+    phase = "session_storage";
+    if (mode === "session" && request.method === "DELETE") { await db.prepare("DELETE FROM sessions WHERE id = ?1").bind(id).run(); return json({ deleted: true }); }
+    if (row.protocol_version !== PROTOCOL_VERSION) return json({ error: "觀察規則已更新。舊結果需要重新分析，請建立新連結。", code: "reassessment_required" }, 410);
     await db.prepare("DELETE FROM sessions WHERE expires_at <= ?1 AND id != ?2").bind(now, id).run();
     if (mode === "collect") {
       if (request.method !== "POST") failure(405, "此操作不支援。");
       const key = request.headers.get("idempotency-key");
       if (!key || !/^[A-Za-z0-9_-]{16,80}$/.test(key)) failure(400, "缺少有效的重試識別碼。");
       let data;
+      phase = "read_summary";
       const input = await body(request);
-      try { data = validateSubmission(input, now); } catch { return json({ error: "摘要不符合協定；請保留未知、檢查證據與分級，勿傳原文或其他欄位。" }, 422); }
+      try { data = validateSubmission(input, now); } catch { return json({ error: "摘要不符合新版協定；請保留未知、檢查獨立任務與觀察，勿傳原文或其他欄位。" }, 422); }
       if (data.nickname !== row.nickname) failure(422, "暱稱與此會話不符。");
+      phase = "save_summary";
       const payloadHash = await digest(canonical(data));
       const stored = JSON.stringify(toReport(data));
       const result = await db.prepare("UPDATE sessions SET report = ?1, payload_hash = ?2, idempotency_key = ?3, submitted_at = ?4 WHERE id = ?5 AND report IS NULL AND expires_at > ?4")
@@ -90,12 +97,13 @@ export async function handleSession(db: D1Database, request: Request, id?: strin
       failure(409, "此會話已收到一份結果；相同內容請使用原重試識別碼。");
     }
     if (request.method === "GET") {
+      phase = "read_result";
       const report: Report | null = row.report ? JSON.parse(row.report) : null;
       return json({ id, expiresAt: row.expires_at, status: report ? "complete" : "pending", card: report ? toCardObservation(report) : null, report: row.email ? report : null, reportAccess: row.email ? "email" : "card_only", delivery: row.email ? "not_configured" : "not_requested" });
     }
-    if (request.method === "DELETE") { await db.prepare("DELETE FROM sessions WHERE id = ?1").bind(id).run(); return json({ deleted: true }); }
     return failure(405, "此操作不支援。");
   } catch (error) {
+    if (!(error instanceof HttpError)) console.warn(JSON.stringify({ event: "session_unavailable", phase, errorClass: error instanceof TypeError ? "TypeError" : error instanceof RangeError ? "RangeError" : "Error" }));
     return error instanceof HttpError ? json({ error: error.message }, error.status) : json({ error: "暫時無法處理，請稍後再試。" }, 503);
   }
 }

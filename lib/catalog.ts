@@ -1,22 +1,24 @@
-export const personas = {
-  PVSE: { name: "系統建築師", line: "把一次做對，變成下一次也做得對。" },
-  PVSC: { name: "流程設計者", line: "為想法畫好路線，讓每一步都有依據。" },
-  PVOE: { name: "精準特工", line: "任務清楚，驗收確實，每次出手都到位。" },
-  PVOC: { name: "求證派", line: "給問題脈絡，也給答案一次查核。" },
-  PASE: { name: "自動化狂人", line: "把清楚的想法接上自動執行的開關。" },
-  PASC: { name: "交辦型主管", line: "整理好要求，信任 AI 接下下一棒。" },
-  PAOE: { name: "效率外包客", line: "目標說清楚，把時間留給下一件事。" },
-  PAOC: { name: "需求規格官", line: "先把需求想透，再用對話整理成形。" },
-  QVSE: { name: "邊做邊修的工程腦", line: "邊探索、邊驗證，把走過的路留下來。" },
-  QVSC: { name: "好奇查證家", line: "讓每個好問題，長成可回看的知識。" },
-  QVOE: { name: "直覺實驗家", line: "想到就試，用真實結果回答好奇心。" },
-  QVOC: { name: "抬槓辯論家", line: "在來回追問中，把自己的想法磨清楚。" },
-  QASE: { name: "一把梭", line: "讓靈感迅速開跑，再留下可用的方法。" },
-  QASC: { name: "靈感速記員", line: "接住一閃而過的念頭，累積你的素材庫。" },
-  QAOE: { name: "許願池", line: "先拋出一個可能，再看看它會長成什麼。" },
-  QAOC: { name: "閒聊夥伴", line: "在日常對話裡，打開新的想法。" },
-} as const;
-export type PersonaCode = keyof typeof personas;
+import type { TypeCode } from "./contract.ts";
+
+export const personas: Record<TypeCode, { name: string; line: string }> = {
+  INTJ: { name: "路線策畫家", line: "先看見可能，再替下一步畫好路線。" },
+  INTP: { name: "模型探索者", line: "把想法拆開比一比，讓更好的解釋慢慢成形。" },
+  ENTJ: { name: "推進指揮官", line: "邊對焦、邊定方向，讓共同目標往前走。" },
+  ENTP: { name: "可能性開拓者", line: "用來回激盪打開選項，再用小實驗找到答案。" },
+  INFJ: { name: "願景陪跑者", line: "把人的期待放進遠景，整理成可以前進的路。" },
+  INFP: { name: "價值守望者", line: "留一點探索空間，讓答案靠近真正重視的事。" },
+  ENFJ: { name: "共識召集人", line: "聽懂彼此在乎什麼，帶著大家走向共同方向。" },
+  ENFP: { name: "靈感串連者", line: "在對話中連起人與可能，讓新點子有地方落腳。" },
+  ISTJ: { name: "細節執行家", line: "整理手上的事實，沿著清楚的標準穩穩推進。" },
+  ISFJ: { name: "周到支援者", line: "看見實際需要，把每個照顧放進安排。" },
+  ESTJ: { name: "秩序推進者", line: "從現況對焦分工，讓準則和節奏一起到位。" },
+  ESFJ: { name: "合作協調者", line: "把現場的需求說清楚，替合作安排下一步。" },
+  ISTP: { name: "實作解題者", line: "先摸清眼前條件，再用可逆嘗試找到解法。" },
+  ISFP: { name: "體驗打磨者", line: "貼近真實使用的感受，在小步嘗試裡調整。" },
+  ESTP: { name: "即刻實驗者", line: "一邊對話一邊試，讓現場證據決定下一手。" },
+  ESFP: { name: "現場點子手", line: "接住當下的需求，用互動和嘗試帶來新選擇。" },
+};
+export type PersonaCode = TypeCode;
 export const families = [
   { id: "codex", label: "Codex", model: "openai", color: "#a99aff" },
   { id: "claude", label: "Claude", model: "anthropic", color: "#df967c" },
@@ -29,17 +31,13 @@ export type Family = typeof families[number]["id"];
 export type ArtStyle = "regular" | "chibi";
 export const modelLabels: Record<string, string> = { openai: "OpenAI / GPT", anthropic: "Anthropic / Claude", google: "Google / Gemini", xai: "xAI / Grok", deepseek: "DeepSeek", zai: "Z.ai / GLM", other: "其他模型", unknown: "尚未確認" };
 export const clientLabels: Record<string, string> = { codex: "Codex", "claude-code": "Claude Code", antigravity: "Antigravity", cursor: "Cursor", chatgpt: "ChatGPT", other: "其他工具", unknown: "尚未確認" };
-export const levelLabels: Record<string, string> = { unknown: "無法定級", LV0: "問答探索", LV1: "迭代提問", LV2: "單點式應用", LV3: "精準下指令", LV4: "模組實踐者", "LV4+": "系統架構者", LV5: "系統級營運" };
-export const axisLabels: Record<string, string> = { P: "給足脈絡", Q: "探索起步", V: "動手驗證", A: "直接採用", S: "固化資產", O: "一次性使用", E: "讓 AI 執行", C: "以對話思考", "?": "資料不足" };
-export function artFor(family: Family, type: string, style: ArtStyle) {
-  return type === "PVSE" ? `/art/${family}-pvse-${style}.png` : null;
-}
+export function artFor(family: Family, style: ArtStyle) { return `/art/${family}-portrait-${style}.png`; }
 export function artTitle(family: Family) {
   return family === "codex" ? "GPT 娘的 Codex 主題同人改編" : `${families.find(f => f.id === family)!.label} 角色同人改編`;
 }
 export function artCredit(family: Family) {
   return `ApprenTice · 角色參考 ZipZipPipe${family === "deepseek" ? "、上善無形" : ""} · AI 輔助再創作`;
 }
-export function personaFor(type: string) {
-  return personas[type as PersonaCode] ?? { name: "仍在顯影的風格", line: "保留未知，等更多真實證據讓輪廓清晰。" };
+export function personaFor(type: string | null) {
+  return type && type in personas ? personas[type as TypeCode] : { name: "顯影中的搭檔", line: "有些方向還需要觀察，讓真實合作慢慢留下輪廓。" };
 }

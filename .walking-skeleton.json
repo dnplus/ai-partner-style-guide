@@ -3,7 +3,7 @@
   "skeleton_id": "ai-persona-card-local",
   "git": {
     "base_commit": "a54fc84b3a65fd5739b1d6a9b0897f18f047da8c",
-    "last_verified_code_commit": "b04955a00747e2bcab868a58f5e7358f16a6fe1a"
+    "last_verified_code_commit": "aeb13defaf7a58e17e011dbf1beaea24ce6b62fe"
   },
   "scenario": {
     "actor": "本人，在自己的 Air 使用本機瀏覽器與測試 collector",
@@ -39,7 +39,7 @@
     "scripts/**",
     "tests/**"
   ],
-  "current_checkpoint": "C2",
+  "current_checkpoint": "COMPLETE",
   "checkpoints": [
     {
       "id": "C1",
@@ -183,8 +183,7 @@
     {
       "id": "C2",
       "title": "Polished single-focus journey and consented aggregate review",
-      "status": "active",
-      "next_action": "Commit verified C2 code and seal its new evidence receipt; preserve C1 history unchanged.",
+      "status": "verified",
       "evidence": [
         {
           "type": "api",
@@ -231,12 +230,78 @@
           "path": "docs/LIBRARY-GUIDED.json",
           "result": "Library upload unavailable to local workflow; no confirmed IDs, no alternate write or uncertain retry; local deliverables intact"
         }
-      ]
+      ],
+      "receipt": {
+        "verified_commit": "aeb13defaf7a58e17e011dbf1beaea24ce6b62fe",
+        "evidence_digest": "513e393d35ec134e48232834958c4e9625bce691d78275ea927e6a6e19e34ada",
+        "affected_paths": [
+          "README.md",
+          "app/globals.css",
+          "components/holo-card.tsx",
+          "components/persona-app.tsx",
+          "components/session-flow.tsx",
+          "components/use-persona-session.ts",
+          "docs/CHECKPOINT-GUIDED.md",
+          "docs/COLLECTOR-VALIDATION.md",
+          "docs/DELIVERY-GUIDED.md",
+          "docs/DESIGN-GUIDED.md",
+          "docs/FIDELITY-GUIDED.md",
+          "docs/LIBRARY-GUIDED.json",
+          "docs/guided-cover.png",
+          "docs/guided-identity.png",
+          "docs/guided-waiting.png",
+          "evidence/guided/browser-results.json",
+          "evidence/guided/browser-run.txt",
+          "evidence/guided/build-results.txt",
+          "evidence/guided/built-browser-run.txt",
+          "evidence/guided/built-worker-smoke.json",
+          "evidence/guided/card-nickname.png",
+          "evidence/guided/card-regular.png",
+          "evidence/guided/collector-preview.json",
+          "evidence/guided/collector-review-run.json",
+          "evidence/guided/desktop-collection-chibi.png",
+          "evidence/guided/desktop-collection-regular.png",
+          "evidence/guided/desktop-cover.png",
+          "evidence/guided/desktop-email.png",
+          "evidence/guided/desktop-identity.png",
+          "evidence/guided/desktop-instructions.png",
+          "evidence/guided/desktop-report-expanded.png",
+          "evidence/guided/desktop-reveal.png",
+          "evidence/guided/desktop-summary.png",
+          "evidence/guided/desktop-waiting.png",
+          "evidence/guided/expired.png",
+          "evidence/guided/family-claude.png",
+          "evidence/guided/family-codex.png",
+          "evidence/guided/family-deepseek.png",
+          "evidence/guided/family-gemini.png",
+          "evidence/guided/family-glm.png",
+          "evidence/guided/family-grok.png",
+          "evidence/guided/mobile-collection.png",
+          "evidence/guided/mobile-cover.png",
+          "evidence/guided/mobile-reveal.png",
+          "evidence/guided/mobile-waiting.png",
+          "evidence/guided/reduced-unknown.png",
+          "evidence/guided/typecheck-results.txt",
+          "evidence/guided/unit-results.txt",
+          "fixtures/collector-review-input.json",
+          "lib/assessment.ts",
+          "lib/collector-review.ts",
+          "lib/export-card.ts",
+          "lib/session-service.ts",
+          "playwright.config.ts",
+          "public/collector-protocol.md",
+          "scripts/review-collector.ts",
+          "scripts/smoke-built.mjs",
+          "tests/browser/journey.spec.ts",
+          "tests/collector.test.ts",
+          "tests/session.test.ts"
+        ]
+      }
     }
   ],
-  "last_observation": "Final built local journey verified: email is required for full report; no email receives card-only data. 28 Node/D1 tests, 6 Chrome journeys and 17 built API checks pass. No real private-session analysis or mail delivery claimed.",
+  "last_observation": "C2 local code committed and verified: single-focus journey, email-gated full report, card-only privacy, fixture consent and state reset. 28 Node/D1, 6 final-built browser journeys and 17 built Worker checks passed; external conditions remain explicitly unverified.",
   "current_blocker": "External email delivery, private Sites callback and real-user evidence remain unverified. Library upload is unavailable to this local workflow; local deliverables are preserved.",
   "correlation_groups": [],
-  "state_revision": 4,
-  "state_digest": "f63b159b37658a4754129343be1617afbded9af6b9594b155199f7b2ec4bf235"
+  "state_revision": 5,
+  "state_digest": "1c46c27d5a0a96798eef591469d63d8ce91ed4b5fceb3e88e8eceea1114fb58d"
 }

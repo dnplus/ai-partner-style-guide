@@ -1,0 +1,2282 @@
+{
+  "未知": [
+    "未知",
+    "不明",
+    "알 수 없음",
+    "Unknown"
+  ],
+  "未涵蓋網頁版對話": [
+    "未涵盖网页版对话",
+    "Web版の会話は対象外",
+    "웹 대화 미포함",
+    "Web conversations not covered"
+  ],
+  "觀察期間不完整": [
+    "观察期间不完整",
+    "観察期間が不完全",
+    "관찰 기간이 불완전함",
+    "Incomplete observation window"
+  ],
+  "未檢視實作成果": [
+    "未查看实际成果",
+    "成果物を未確認",
+    "결과물 미확인",
+    "Artifacts not inspected"
+  ],
+  "沒有 Tokscale 彙總": [
+    "没有 Tokscale 汇总",
+    "Tokscale 集計なし",
+    "Tokscale 집계 없음",
+    "No Tokscale aggregates"
+  ],
+  "部分執行無法歸屬": [
+    "部分运行无法归属",
+    "一部の実行の帰属が不明",
+    "일부 실행의 소유자 불명",
+    "Some runs cannot be attributed"
+  ],
+  "紀錄不足": [
+    "记录不足",
+    "記録不足",
+    "기록 부족",
+    "Insufficient records"
+  ],
+  "其他工具尚未涵蓋": [
+    "其他工具尚未涵盖",
+    "他のツールは対象外",
+    "다른 도구 미포함",
+    "Other tools not covered"
+  ],
+  "示範資料 · 非個人評估": [
+    "示范数据 · 非个人评估",
+    "サンプル · 個人の評価ではありません",
+    "예시 데이터 · 개인 평가 아님",
+    "Sample · not a personal assessment"
+  ],
+  "你們的合作，留下了這些線索": [
+    "你们的合作，留下了这些线索",
+    "協働から見えてきた手がかり",
+    "협업이 남긴 단서",
+    "Clues from your collaboration"
+  ],
+  "這次，你的 Agent": [
+    "这次，你的 Agent",
+    "今回、あなたの Agent は",
+    "이번에 당신의 Agent는",
+    "This time, your Agent"
+  ],
+  "偏向": [
+    "偏向",
+    "傾向：",
+    "경향: ",
+    "leans toward "
+  ],
+  "輪廓，": [
+    "轮廓，",
+    "まだ、",
+    "아직,",
+    "The outline"
+  ],
+  "還在形成。": [
+    "还在形成。",
+    "輪郭が見え始めたところ。",
+    "윤곽이 만들어지고 있어요.",
+    "is taking shape."
+  ],
+  "未定型": [
+    "未定型",
+    "未確定",
+    "미정",
+    "Undetermined"
+  ],
+  "四種合作偏好": [
+    "四种合作偏好",
+    "4つの協働傾向",
+    "네 가지 협업 성향",
+    "Four collaboration preferences"
+  ],
+  "打開完整觀察報告": [
+    "打开完整观察报告",
+    "詳しい観察レポートを開く",
+    "전체 관찰 보고서 열기",
+    "Open the full observation report"
+  ],
+  "你怎麼帶它，它怎麼做事。": [
+    "你怎么带它，它怎么做事。",
+    "あなたの導き方が、仕事の進め方に。",
+    "당신이 이끄는 방식이 일하는 방식으로.",
+    "How you guide it shapes how it works."
+  ],
+  "證據分歧，暫不定向": [
+    "证据分歧，暂不定向",
+    "証拠が分かれているため未確定",
+    "근거가 엇갈려 판단 보류",
+    "Mixed evidence; no direction yet"
+  ],
+  "證據還不夠": [
+    "证据还不够",
+    "証拠がまだ不足",
+    "근거가 아직 부족해요",
+    "Not enough evidence yet"
+  ],
+  "這次看到了多少？": [
+    "这次看到了多少？",
+    "今回はどこまで見えた？",
+    "이번에는 얼마나 살펴봤을까요?",
+    "How much did we observe?"
+  ],
+  "涵蓋授權範圍": [
+    "涵盖授权范围",
+    "許可された範囲を網羅",
+    "허용 범위 포함",
+    "Authorized scope covered"
+  ],
+  "部分資料": [
+    "部分数据",
+    "一部のデータ",
+    "일부 데이터",
+    "Partial data"
+  ],
+  "資料不足": [
+    "数据不足",
+    "データ不足",
+    "데이터 부족",
+    "Insufficient data"
+  ],
+  "尚未取得": [
+    "尚未取得",
+    "まだ取得できていません",
+    "아직 확보되지 않음",
+    "Not available yet"
+  ],
+  "本人會話": [
+    "本人会话",
+    "本人のセッション",
+    "본인 세션",
+    "Your sessions"
+  ],
+  "自動化 / 子代理": [
+    "自动化 / 子代理",
+    "自動実行 / サブエージェント",
+    "자동화 / 하위 에이전트",
+    "Automation / subagents"
+  ],
+  "本人訊息": [
+    "本人消息",
+    "本人のメッセージ",
+    "본인 메시지",
+    "Your messages"
+  ],
+  "輸入 / 輸出 tokens": [
+    "输入 / 输出 tokens",
+    "入力 / 出力 tokens",
+    "입력 / 출력 tokens",
+    "Input / output tokens"
+  ],
+  "最常用模型家族": [
+    "最常用模型家族",
+    "最も使ったモデル系統",
+    "가장 많이 쓴 모델 계열",
+    "Most-used model family"
+  ],
+  "最常用客戶端": [
+    "最常用客户端",
+    "最も使ったクライアント",
+    "가장 많이 쓴 클라이언트",
+    "Most-used client"
+  ],
+  "看任務脈絡與主人要求": [
+    "查看任务背景与用户要求",
+    "タスクの背景と依頼内容を見る",
+    "작업 맥락과 사용자 요청 보기",
+    "View task context and owner requests"
+  ],
+  "主人：": [
+    "用户：",
+    "依頼：",
+    "사용자 요청: ",
+    "Owner: "
+  ],
+  "要求未能確認": [
+    "要求未能确认",
+    "依頼内容が不明",
+    "요청 확인 불가",
+    "Request unknown"
+  ],
+  "未指定方向": [
+    "未指定方向",
+    "方向の指定なし",
+    "방향 지정 없음",
+    "No direction specified"
+  ],
+  "實際：": [
+    "实际：",
+    "実際：",
+    "실제 행동: ",
+    "Observed: "
+  ],
+  "兩端可選": [
+    "两端可选",
+    "どちらも選択可能",
+    "양쪽 모두 선택 가능",
+    "Both choices available"
+  ],
+  "情境受限": [
+    "情境受限",
+    "状況による制約あり",
+    "상황에 제약 있음",
+    "Constrained context"
+  ],
+  "可選性不明": [
+    "可选性不明",
+    "選択可能性が不明",
+    "선택 가능 여부 불명",
+    "Choice availability unclear"
+  ],
+  "還沒看到的部分": [
+    "还没看到的部分",
+    "まだ見えていないこと",
+    "아직 보지 못한 부분",
+    "What we have not seen"
+  ],
+  "沒有回報額外缺口；不代表已讀取所有紀錄。": [
+    "没有报告额外缺口；不代表已读取所有记录。",
+    "追加の不足は報告されていません。全記録を読んだという意味ではありません。",
+    "추가 누락이 보고되지는 않았지만 모든 기록을 읽었다는 뜻은 아닙니다.",
+    "No additional gaps were reported; this does not mean all records were read."
+  ],
+  "。網站只檢查 Agent 摘要的一致性，沒有檢視原始紀錄。": [
+    "。网站只检查 Agent 摘要的一致性，没有查看原始记录。",
+    "サイトが確認するのは Agent の要約の整合性のみで、元の記録は読みません。",
+    "사이트는 Agent 요약의 일관성만 검사하며 원본 기록은 읽지 않습니다.",
+    "The site checks the consistency of the Agent summary, without reading the original records."
+  ],
+  "每軸至少三個獨立任務；方向不明或不足時保留未知。內部門檻不是準確率或性格強度，用量與模型家族不參與分型。": [
+    "每轴至少三个独立任务；方向不明或不足时保留未知。内部门槛不是准确率或性格强度，用量与模型家族不参与分型。",
+    "各軸に最低3つの独立タスクが必要です。不明・不足は未確定のままにします。内部基準は精度や性格の強さを示すものではなく、使用量とモデル系統は分類に使いません。",
+    "각 축에는 최소 3개의 독립 작업이 필요합니다. 방향이 불명확하거나 근거가 부족하면 미정으로 남깁니다. 내부 기준은 정확도나 성격 강도를 뜻하지 않으며 사용량과 모델 계열은 분류에 쓰지 않습니다.",
+    "Each axis needs at least three independent tasks. Unclear or insufficient evidence stays unknown. Thresholds are not accuracy or trait strength; usage and model family do not determine type."
+  ],
+  "自動複製未成功，請選取下方指令手動複製。": [
+    "自动复制未成功，请选取下方指令手动复制。",
+    "自動コピーできませんでした。下の指示文を選択してコピーしてください。",
+    "자동 복사에 실패했습니다. 아래 지침을 선택해 직접 복사해 주세요.",
+    "Automatic copy failed. Select and copy the instructions below."
+  ],
+  "這個連結已失效，請換新連結後重新授權。": [
+    "这个链接已失效，请换新链接后重新授权。",
+    "リンクが無効です。新しいリンクを作成し、送信先を許可してください。",
+    "링크가 만료되었습니다. 새 링크를 만든 후 다시 허용해 주세요.",
+    "This link has expired. Create a new link and authorize its destination."
+  ],
+  "範例尚未確認送達，請重試。": [
+    "示例尚未确认送达，请重试。",
+    "サンプルの受信を確認できません。再試行してください。",
+    "예시가 도착했는지 확인되지 않았습니다. 다시 시도해 주세요.",
+    "Sample delivery is unconfirmed. Please retry."
+  ],
+  "圖片已準備下載，含角色署名與授權。": [
+    "图片已准备下载，含角色署名与授权。",
+    "クレジットとライセンスを含む画像をダウンロードできます。",
+    "크레딧과 라이선스가 포함된 이미지를 다운로드할 수 있습니다.",
+    "Your image is ready to download, with credits and license."
+  ],
+  "返回上一步": [
+    "返回上一步",
+    "前のステップへ",
+    "이전 단계로",
+    "Back"
+  ],
+  "你的 Agent MBTI": [
+    "你的 Agent MBTI",
+    "あなたの Agent MBTI",
+    "당신의 Agent MBTI",
+    "Your Agent MBTI"
+  ],
+  "示範": [
+    "示范",
+    "サンプル",
+    "예시",
+    "Demo"
+  ],
+  "你的 Agent，": [
+    "你的 Agent，",
+    "あなたの Agent、",
+    "당신의 Agent,",
+    "Your Agent."
+  ],
+  "是哪一種 MBTI？": [
+    "是哪一种 MBTI？",
+    "どんな MBTI？",
+    "어떤 MBTI일까요?",
+    "Which MBTI?"
+  ],
+  "你怎麼帶它做事，": [
+    "你怎么带它做事，",
+    "あなたと仕事をするなかで、",
+    "당신과 함께 일하며,",
+    "The way you work together"
+  ],
+  "它就長出怎樣的工作風格。": [
+    "它就长出怎样的工作风格。",
+    "その仕事のスタイルが育っていく。",
+    "자신만의 작업 스타일이 자라나요.",
+    "shapes its working style."
+  ],
+  "繼續這次觀察": [
+    "继续这次观察",
+    "今回の観察を続ける",
+    "이번 관찰 계속하기",
+    "Continue this observation"
+  ],
+  "開始觀察": [
+    "开始观察",
+    "観察をはじめる",
+    "관찰 시작하기",
+    "Start observing"
+  ],
+  "這道光，": [
+    "这道光，",
+    "この光は、",
+    "이 빛은,",
+    "This light"
+  ],
+  "暫時收起了。": [
+    "暂时收起了。",
+    "いったん、おやすみ。",
+    "잠시 쉬고 있어요.",
+    "is resting for now."
+  ],
+  "連結已到期或失效。請讓 Agent 保留已整理的最小摘要，": [
+    "链接已到期或失效。请让 Agent 保留已整理的最小摘要，",
+    "リンクが期限切れ、または無効です。Agent に作成済みの最小限の要約を保管してもらい、",
+    "링크가 만료되었거나 유효하지 않습니다. Agent가 정리한 최소 요약을 보관하도록 해 주세요.",
+    "The link has expired or is invalid. Ask your Agent to keep the minimal summary."
+  ],
+  "換新連結後，只需明確核准新的收件目的地。": [
+    "换新链接后，只需明确批准新的接收目的地。",
+    "新しいリンクの送信先を明示的に許可してください。",
+    "새 링크를 만든 뒤 새 수신 목적지를 명시적으로 허용해 주세요.",
+    "Then explicitly authorize the destination of your new link."
+  ],
+  "沿用分析，換新連結": [
+    "沿用分析，换新链接",
+    "分析を引き継いで新しいリンクへ",
+    "분석 유지하고 링크 갱신",
+    "Keep analysis, renew link"
+  ],
+  "你的連結，": [
+    "你的链接，",
+    "あなたのリンクは、",
+    "당신의 링크는,",
+    "Your link"
+  ],
+  "還在等你。": [
+    "还在等你。",
+    "まだ待っています。",
+    "아직 기다리고 있어요.",
+    "is waiting for you."
+  ],
+  "這位搭檔，": [
+    "这位搭档，",
+    "このパートナー、",
+    "이 파트너를,",
+    "Your companion."
+  ],
+  "該怎麼稱呼？": [
+    "该怎么称呼？",
+    "なんて呼ぼう？",
+    "뭐라고 부를까요?",
+    "What shall we call it?"
+  ],
+  "將建立新的收件連結。舊連結不延長；新指令會要求你明確核准新目的地，已保存的最小摘要可繼續使用。": [
+    "将建立新的接收链接。旧链接不延长；新指令会要求你明确批准新目的地，已保存的最小摘要可继续使用。",
+    "新しい受信リンクを作成します。古いリンクは延長されません。新しい送信先を明示的に許可すれば、保存済みの最小限の要約を再利用できます。",
+    "새 수신 링크를 만듭니다. 기존 링크는 연장되지 않습니다. 새 목적지를 명시적으로 허용하면 저장된 최소 요약을 재사용할 수 있습니다.",
+    "A new receiving link will be created. The old link is not extended. Explicitly approve the new destination to reuse the saved minimal summary."
+  ],
+  "Agent 的名字": [
+    "Agent 的名字",
+    "Agent の名前",
+    "Agent 이름",
+    "Agent name"
+  ],
+  "返回不會建立第二個連結": [
+    "返回不会建立第二个链接",
+    "戻っても別のリンクは作成されません",
+    "뒤로 가도 링크가 추가로 생성되지 않습니다",
+    "Going back will not create another link"
+  ],
+  "這個名字會出現在卡片上": [
+    "这个名字会出现在卡片上",
+    "この名前がカードに表示されます",
+    "이 이름이 카드에 표시됩니다",
+    "This name will appear on the card"
+  ],
+  "想收到完整報告？加入 Email": [
+    "想收到完整报告？添加 Email",
+    "詳しいレポートには Email を追加",
+    "전체 보고서를 받으려면 Email 추가",
+    "Want the full report? Add Email"
+  ],
+  "不填 Email 只取得卡片。Email 僅用於這次結果。": [
+    "不填 Email 只获取卡片。Email 仅用于这次结果。",
+    "Email なしではカードのみ。Email は今回の結果にのみ使用します。",
+    "Email을 입력하지 않으면 카드만 제공됩니다. Email은 이번 결과에만 사용합니다.",
+    "Without Email, you get the card only. Email is used only for this result."
+  ],
+  "你的 Email": [
+    "你的 Email",
+    "あなたの Email",
+    "내 Email",
+    "Your Email"
+  ],
+  "我同意 Email 僅用於這次報告寄送，不用於行銷。": [
+    "我同意 Email 仅用于本次报告发送，不用于营销。",
+    "Email を今回のレポート送信にのみ使用し、宣伝には使用しないことに同意します。",
+    "Email을 이번 보고서 전송에만 사용하고 마케팅에는 사용하지 않는 데 동의합니다.",
+    "I agree to use my Email only to deliver this report, never for marketing."
+  ],
+  "本機預覽可查看完整報告；寄送尚未開放，不會寄信。": [
+    "本地预览可查看完整报告；发送尚未开放，不会发邮件。",
+    "ローカルプレビューでは全文を閲覧できます。メール送信は未対応で、送信されません。",
+    "로컬 미리보기에서 전체 보고서를 볼 수 있습니다. 이메일 전송은 아직 지원하지 않으며 발송되지 않습니다.",
+    "The local preview shows the full report. Email delivery is not available and no email will be sent."
+  ],
+  "建立中…": [
+    "创建中…",
+    "作成中…",
+    "만드는 중…",
+    "Creating…"
+  ],
+  "繼續這個連結": [
+    "继续这个链接",
+    "このリンクを続ける",
+    "이 링크 계속하기",
+    "Continue with this link"
+  ],
+  "建立我的連結": [
+    "创建我的链接",
+    "リンクを作成",
+    "내 링크 만들기",
+    "Create my link"
+  ],
+  "不填 Email，也能拿到角色卡。": [
+    "不填 Email，也能拿到角色卡。",
+    "Email なしでもキャラクターカードを受け取れます。",
+    "Email 없이도 캐릭터 카드를 받을 수 있어요.",
+    "You can get a character card without Email."
+  ],
+  "先選好，": [
+    "先选好，",
+    "まずは、",
+    "먼저,",
+    "First, choose"
+  ],
+  "這次觀察的範圍。": [
+    "这次观察的范围。",
+    "今回の観察範囲を。",
+    "이번 관찰 범위를 정해요.",
+    "what to observe."
+  ],
+  "把這段指令，": [
+    "把这段指令，",
+    "この指示文を、",
+    "이 지침을,",
+    "Give these instructions"
+  ],
+  "交給你的 Agent。": [
+    "交给你的 Agent。",
+    "あなたの Agent へ。",
+    "당신의 Agent에게 주세요.",
+    "to your Agent."
+  ],
+  "使用虛構資料，走過同一個收件流程。": [
+    "使用虚构数据，体验同一个接收流程。",
+    "架空のデータで同じ受信フローを試します。",
+    "가상 데이터로 같은 수신 과정을 체험합니다.",
+    "Try the same delivery flow with fictional data."
+  ],
+  "一次確認來源、期間與最小摘要傳送。": [
+    "一次确认来源、期间与最小摘要发送。",
+    "情報源・期間・最小要約の送信を一度に確認。",
+    "출처, 기간, 최소 요약 전송을 한 번에 확인해요.",
+    "Approve sources, dates and minimal-summary delivery once."
+  ],
+  "同意後自動完成，回來這裡看結果。": [
+    "同意后自动完成，回来这里看结果。",
+    "同意後は自動で進みます。結果はここで。",
+    "동의 후 자동으로 진행됩니다. 결과는 여기서 확인하세요.",
+    "It completes automatically after consent. Return here for the result."
+  ],
+  "查看示範範圍": [
+    "查看示范范围",
+    "サンプルの範囲を見る",
+    "예시 범위 보기",
+    "View demo scope"
+  ],
+  "複製專屬指令": [
+    "复制专属指令",
+    "専用の指示文をコピー",
+    "전용 지침 복사",
+    "Copy my instructions"
+  ],
+  "查看／手動複製指令": [
+    "查看／手动复制指令",
+    "指示文を表示・手動コピー",
+    "지침 보기 / 직접 복사",
+    "View / manually copy instructions"
+  ],
+  "貼給 Agent 的指令": [
+    "粘贴给 Agent 的指令",
+    "Agent に渡す指示文",
+    "Agent에 붙여넣을 지침",
+    "Instructions for your Agent"
+  ],
+  "我已複製，開始等待": [
+    "我已复制，开始等待",
+    "コピーしました。受信を待つ",
+    "복사 완료, 수신 기다리기",
+    "Copied. Start waiting"
+  ],
+  "重整後不保留提交權杖。已複製的指令仍可使用。": [
+    "刷新后不保留提交令牌。已复制的指令仍可使用。",
+    "再読み込み後は送信トークンを保持しません。コピー済みの指示文は引き続き使えます。",
+    "새로고침 후 전송 토큰은 보관하지 않습니다. 복사한 지침은 계속 사용할 수 있습니다.",
+    "The submission token is not kept after reload. Previously copied instructions still work."
+  ],
+  "繼續等待": [
+    "继续等待",
+    "受信を待ち続ける",
+    "계속 기다리기",
+    "Keep waiting"
+  ],
+  "沒複製到？換新連結": [
+    "没复制到？换新链接",
+    "コピーしていない？新しいリンクへ",
+    "복사하지 못했나요? 링크 갱신",
+    "Missed the copy? Renew link"
+  ],
+  "連結剩餘": [
+    "链接剩余",
+    "リンクの残り時間 ",
+    "링크 남은 시간 ",
+    "Link expires in "
+  ],
+  "· 目前僅限同一台電腦使用": [
+    "· 目前仅限同一台电脑使用",
+    "· 現在は同じコンピュータのみ",
+    "· 현재 같은 컴퓨터에서만 사용 가능",
+    "· currently on this computer only"
+  ],
+  "虛構資料 · 沒有讀取你的紀錄": [
+    "虚构数据 · 没有读取你的记录",
+    "架空のデータ · あなたの記録は読みません",
+    "가상 데이터 · 내 기록은 읽지 않음",
+    "Fictional data · your records are not read"
+  ],
+  "一次同意，": [
+    "一次同意，",
+    "一度の同意で、",
+    "한 번 동의하고,",
+    "One consent."
+  ],
+  "接著等它揭曉。": [
+    "接着等它揭晓。",
+    "あとは結果を待つだけ。",
+    "결과를 기다려요.",
+    "Then let it unfold."
+  ],
+  "確認這次範圍，剩下的自動完成。": [
+    "确认本次范围，剩下的自动完成。",
+    "範囲を確認したら、あとは自動で進みます。",
+    "이번 범위를 확인하면 나머지는 자동으로 진행됩니다.",
+    "Confirm this scope; the rest happens automatically."
+  ],
+  "來源與期間": [
+    "来源与期间",
+    "情報源と期間",
+    "출처와 기간",
+    "Sources and dates"
+  ],
+  "網站內建的 3 個虛構任務，2026/10/01–10/09。沒有你的對話。": [
+    "网站内置的 3 个虚构任务，2026/10/01–10/09。没有你的对话。",
+    "サイト内の架空の3タスク、2026/10/01–10/09。あなたの会話は含みません。",
+    "사이트에 내장된 가상 작업 3개, 2026/10/01–10/09. 내 대화는 포함하지 않습니다.",
+    "Three built-in fictional tasks, 2026/10/01–10/09. None of your conversations."
+  ],
+  "傳送內容": [
+    "发送内容",
+    "送信する内容",
+    "전송 내용",
+    "What is sent"
+  ],
+  "暱稱、日期、來源與缺口、用量彙總、抽象任務與行為列舉、衍生分型及階段狀態。": [
+    "昵称、日期、来源与缺口、用量汇总、抽象任务与行为枚举、推导分型及阶段状态。",
+    "ニックネーム、日付、情報源と不足、使用量集計、抽象タスクと行動の列挙、算出分類、進行段階。",
+    "닉네임, 날짜, 출처와 누락, 사용량 집계, 추상 작업과 행동 열거, 도출 유형, 단계 상태.",
+    "Nickname, dates, sources and gaps, usage totals, abstract tasks and behavior enums, derived type and stage status."
+  ],
+  "目的地": [
+    "目的地",
+    "送信先",
+    "목적지",
+    "Destination"
+  ],
+  "目前網站的這個收件連結，有效至": [
+    "当前网站的这个接收链接，有效至",
+    "このサイトの今回の受信リンク。有効期限：",
+    "현재 사이트의 수신 링크. 유효 시각: ",
+    "This receiving link on the current site, valid until "
+  ],
+  "我同意此範圍的虛構摘要自動驗證並傳送。": [
+    "我同意此范围的虚构摘要自动验证并发送。",
+    "この範囲の架空の要約を自動検証・送信することに同意します。",
+    "이 범위의 가상 요약을 자동 검증하고 전송하는 데 동의합니다.",
+    "I consent to automatic validation and delivery of the fictional summary within this scope."
+  ],
+  "處理中…": [
+    "处理中…",
+    "処理中…",
+    "처리 중…",
+    "Working…"
+  ],
+  "同意並開始示範": [
+    "同意并开始示范",
+    "同意してサンプルを開始",
+    "동의하고 예시 시작",
+    "Agree and start demo"
+  ],
+  "正在重新連上，": [
+    "正在重新连接，",
+    "再接続しています。",
+    "다시 연결 중이에요.",
+    "Reconnecting."
+  ],
+  "請稍等一下。": [
+    "请稍等一下。",
+    "少々お待ちください。",
+    "잠시만 기다려 주세요.",
+    "Just a moment."
+  ],
+  "等它帶回，": [
+    "等它带回，",
+    "一緒に働いた、",
+    "함께 일한 흔적을,",
+    "Waiting for clues"
+  ],
+  "你們的合作線索。": [
+    "你们的合作线索。",
+    "手がかりを待っています。",
+    "가져오고 있어요.",
+    "from your collaboration."
+  ],
+  "網站暫時連不上收件服務": [
+    "网站暂时连不上接收服务",
+    "受信サービスに一時的に接続できません",
+    "수신 서비스에 잠시 연결할 수 없음",
+    "The site cannot reach the receiving service"
+  ],
+  "正在確認收件狀態": [
+    "正在确认接收状态",
+    "受信状態を確認中",
+    "수신 상태 확인 중",
+    "Checking for your summary"
+  ],
+  "這不代表 Agent 中斷。網站會自動重試，請保留這個分頁。": [
+    "这不代表 Agent 中断。网站会自动重试，请保留这个标签页。",
+    "Agent が停止したとは限りません。自動で再試行するので、このタブを開いたままにしてください。",
+    "Agent가 중단되었다는 뜻은 아닙니다. 사이트가 자동으로 재시도하니 탭을 열어 두세요.",
+    "This does not mean your Agent stopped. The site will retry automatically; keep this tab open."
+  ],
+  "最後訊號：": [
+    "最后信号：",
+    "最後の通知：",
+    "마지막 신호: ",
+    "Last signal: "
+  ],
+  "立即重試": [
+    "立即重试",
+    "今すぐ再試行",
+    "지금 다시 시도",
+    "Retry now"
+  ],
+  "重看指令": [
+    "重看指令",
+    "指示文をもう一度見る",
+    "지침 다시 보기",
+    "Review instructions"
+  ],
+  "還沒收到？": [
+    "还没收到？",
+    "まだ届かない？",
+    "아직 받지 못했나요?",
+    "Still waiting?"
+  ],
+  "只需在 Agent 確認一次來源、期間與摘要傳送範圍。若主機另外要求讀取或連線核准，請在原生提示處處理；網站不會代替核准。": [
+    "只需在 Agent 确认一次来源、期间与摘要发送范围。若主机另外要求读取或连接批准，请在原生提示处处理；网站不会代替批准。",
+    "Agent で情報源・期間・要約の送信範囲を一度確認します。ホストが読み取りや接続の許可を求めた場合は、その正式な画面で対応してください。サイトが代わりに許可することはありません。",
+    "Agent에서 출처, 기간, 요약 전송 범위를 한 번 확인하면 됩니다. 호스트가 읽기나 연결 승인을 요청하면 기본 승인 화면에서 처리하세요. 사이트가 대신 승인하지 않습니다.",
+    "Confirm sources, dates and summary delivery once with your Agent. If the host separately requires read or network approval, use its native prompt. The site cannot approve it for you."
+  ],
+  "超過 90 秒沒有新階段訊號時，我們會明確標示未知。若分析已完成，請 Agent 保留最小摘要；換連結後明確核准新目的地，不用重掃資料。": [
+    "超过 90 秒没有新阶段信号时，我们会明确标示未知。若分析已完成，请 Agent 保留最小摘要；换链接后明确批准新目的地，不用重新扫描数据。",
+    "90秒以上新しい段階通知がなければ、不明と表示します。分析済みなら最小要約を保管し、新しいリンクの送信先を明示的に許可してください。再走査は不要です。",
+    "90초 동안 새 단계 신호가 없으면 상태를 알 수 없다고 표시합니다. 분석이 끝났다면 최소 요약을 보관하고 새 링크의 목적지를 명시적으로 허용하세요. 다시 스캔할 필요는 없습니다.",
+    "After 90 seconds without a new stage signal, status is explicitly unknown. If analysis is done, keep the minimal summary and explicitly approve a renewed link’s destination. No rescan is needed."
+  ],
+  "網站上次連上收件服務：": [
+    "网站上次连上接收服务：",
+    "サイトの最終接続：",
+    "사이트의 마지막 수신 서비스 연결: ",
+    "Site last reached the service: "
+  ],
+  "這次偏向 ": [
+    "这次偏向 ",
+    "今回の傾向：",
+    "이번 경향: ",
+    "This time: "
+  ],
+  "。": [
+    "。",
+    "。",
+    ".",
+    ". "
+  ],
+  "輪廓還在形成。": [
+    "轮廓还在形成。",
+    "輪郭はまだ形づくられています。",
+    "윤곽이 아직 만들어지고 있어요.",
+    "The outline is still taking shape."
+  ],
+  "看看我的觀察": [
+    "看看我的观察",
+    "観察内容を見る",
+    "내 관찰 보기",
+    "Explore my observations"
+  ],
+  "收藏我的卡片": [
+    "收藏我的卡片",
+    "カードをコレクション",
+    "내 카드 소장하기",
+    "Collect my card"
+  ],
+  "合作風格，會跟著你們的任務改變。": [
+    "合作风格，会随着你们的任务改变。",
+    "協働スタイルは、取り組むタスクとともに変わります。",
+    "협업 스타일은 함께 하는 작업에 따라 달라집니다.",
+    "Your collaboration style changes with your tasks."
+  ],
+  "這次沒有填 Email，提供角色卡。": [
+    "本次没有填写 Email，提供角色卡。",
+    "Email の入力がないため、今回はカードのみです。",
+    "이번에는 Email을 입력하지 않아 카드만 제공됩니다.",
+    "No Email was provided, so this result includes the card only."
+  ],
+  "Email 寄送尚未開放；完整報告可在這裡查看。": [
+    "Email 发送尚未开放；完整报告可在这里查看。",
+    "Email 送信は未対応です。全文はここで閲覧できます。",
+    "Email 전송은 아직 지원하지 않습니다. 전체 보고서는 여기에서 볼 수 있습니다.",
+    "Email delivery is not yet available. View the full report here."
+  ],
+  "關閉分頁或連結到期後，無法重新取得。": [
+    "关闭标签页或链接到期后，无法重新获取。",
+    "タブを閉じるかリンクが期限切れになると、再取得できません。",
+    "탭을 닫거나 링크가 만료되면 다시 가져올 수 없습니다.",
+    "It cannot be retrieved after closing this tab or after the link expires."
+  ],
+  "把這道光，": [
+    "把这道光，",
+    "この光を、",
+    "이 빛을,",
+    "Keep a little"
+  ],
+  "留給自己。": [
+    "留给自己。",
+    "手元に残そう。",
+    "간직해 보세요.",
+    "of this light."
+  ],
+  "卡片畫風": [
+    "卡片画风",
+    "カードの画風",
+    "카드 그림체",
+    "Card style"
+  ],
+  "一般": [
+    "普通",
+    "通常",
+    "일반",
+    "Regular"
+  ],
+  "Q 版": [
+    "Q 版",
+    "ちび",
+    "치비",
+    "Chibi"
+  ],
+  "拖曳卡片，看看另一道光": [
+    "拖动卡片，看看另一道光",
+    "カードを動かして、光の変化を楽しもう",
+    "카드를 드래그해 다른 빛을 보세요",
+    "Drag the card to catch another light"
+  ],
+  "已依偏好使用靜態卡面": [
+    "已按偏好使用静态卡面",
+    "設定に合わせて静止表示にしています",
+    "설정에 따라 정적인 카드를 표시합니다",
+    "Static display respects your motion preference"
+  ],
+  "卡片選項": [
+    "卡片选项",
+    "カードのオプション",
+    "카드 옵션",
+    "Card options"
+  ],
+  "卡面主題": [
+    "卡面主题",
+    "カードのテーマ",
+    "카드 테마",
+    "Card theme"
+  ],
+  "只顯示暱稱，隱藏分型": [
+    "只显示昵称，隐藏分型",
+    "名前だけ表示し、分類を隠す",
+    "닉네임만 표시하고 유형 숨기기",
+    "Show nickname only; hide type"
+  ],
+  "造型不決定分型。": [
+    "造型不决定分型。",
+    "見た目は分類を決めません。",
+    "외형은 유형을 결정하지 않습니다.",
+    "Appearance does not determine type."
+  ],
+  "每個家族的 16 型皆有一般／Q 版專屬插畫；造型依本次分型對應，切換主題不改評估。": [
+    "每个家族的 16 型都有普通／Q 版专属插画；造型对应本次分型，切换主题不改变评估。",
+    "各系統の16タイプに通常・ちびの専用イラストがあります。今回の分類に対応する絵を使い、テーマを変えても評価は変わりません。",
+    "각 계열의 16개 유형마다 일반·치비 전용 그림이 있습니다. 현재 유형에 맞는 그림을 사용하며 테마를 바꿔도 평가는 바뀌지 않습니다.",
+    "Each family has regular and chibi art for all 16 types. The art matches this result; changing themes does not change the assessment."
+  ],
+  "此型插畫製作中，完成後才能下載。分型已保留。": [
+    "此类型插画制作中，完成后才能下载。分型已保留。",
+    "このタイプの絵は制作中です。完成後にダウンロードできます。分類は保持されています。",
+    "이 유형의 그림은 제작 중입니다. 완료 후 다운로드할 수 있습니다. 유형은 유지됩니다.",
+    "This type’s artwork is in progress. Download will be available when it is ready. Your assessment is preserved."
+  ],
+  "製作圖片中…": [
+    "制作图片中…",
+    "画像を作成中…",
+    "이미지 만드는 중…",
+    "Creating image…"
+  ],
+  "下載我的角色卡": [
+    "下载我的角色卡",
+    "キャラクターカードを保存",
+    "내 캐릭터 카드 다운로드",
+    "Download my character card"
+  ],
+  "圖片不含 Email、使用紀錄或會話連結。": [
+    "图片不含 Email、使用记录或会话链接。",
+    "画像に Email、使用記録、セッションのリンクは含みません。",
+    "이미지에는 Email, 사용 기록, 세션 링크가 포함되지 않습니다.",
+    "The image contains no Email, usage records or session link."
+  ],
+  "CC BY-NC-SA 4.0 · 非官方／非商業": [
+    "CC BY-NC-SA 4.0 · 非官方／非商业",
+    "CC BY-NC-SA 4.0 · 非公式／非営利",
+    "CC BY-NC-SA 4.0 · 비공식 / 비상업",
+    "CC BY-NC-SA 4.0 · unofficial / noncommercial"
+  ],
+  "中性佔位卡面 · 未使用其他分型的插畫": [
+    "中性占位卡面 · 未使用其他类型的插画",
+    "中立の仮カード · 他タイプの絵は使用していません",
+    "중립 임시 카드 · 다른 유형의 그림을 사용하지 않음",
+    "Neutral placeholder · no other type’s art used"
+  ],
+  "關於這份觀察": [
+    "关于这份观察",
+    "この観察について",
+    "이 관찰에 관하여",
+    "About this observation"
+  ],
+  "關閉說明": [
+    "关闭说明",
+    "説明を閉じる",
+    "설명 닫기",
+    "Close information"
+  ],
+  "你怎麼帶它，": [
+    "你怎么带它，",
+    "あなたの導き方が、",
+    "당신이 이끄는 방식이,",
+    "How you guide it"
+  ],
+  "它就怎麼做事。": [
+    "它就怎么做事。",
+    "仕事の進め方に。",
+    "일하는 방식이 됩니다.",
+    "shapes how it works."
+  ],
+  "這是一段以授權使用紀錄為依據的合作觀察。借用四組字母，以自訂規則描述合作風格，非官方 MBTI 評量。網站只接收你事前明確授權範圍內的最小摘要，授權後自動驗證與傳送。": [
+    "这是一段以授权使用记录为依据的合作观察。借用四组字母，以自定义规则描述合作风格，非官方 MBTI 评估。网站只接收你事先明确授权范围内的最小摘要，授权后自动验证与发送。",
+    "許可された使用記録に基づく協働の観察です。4組の文字と独自ルールで仕事のスタイルを表します。公式の MBTI 検査ではありません。サイトには事前に明示的に許可した範囲の最小限の要約だけを、自動検証後に送信します。",
+    "허용된 사용 기록을 바탕으로 협업을 관찰합니다. 네 쌍의 문자와 자체 규칙으로 작업 스타일을 설명하며 공식 MBTI 검사가 아닙니다. 사전에 명시적으로 허용한 범위의 최소 요약만 자동 검증 후 사이트로 전송합니다.",
+    "An observation of collaboration based on authorized usage records. Four letter pairs and original rules describe working style; this is not an official MBTI assessment. The site receives only the minimal summary within the scope you explicitly approve beforehand, validated and submitted automatically."
+  ],
+  "觀察依據與 16 種風格": [
+    "观察依据与 16 种风格",
+    "観察の基準と16のスタイル",
+    "관찰 기준과 16가지 스타일",
+    "Observation rules and 16 styles"
+  ],
+  "借用 E/I 互動節奏、S/N 理解起點、T/F 取捨依據、J/P 推進方式，以原創規則觀察主人帶領 Agent 的實際合作。這不是人的人格診斷，也不是模型的固定性格。": [
+    "借用 E/I 互动节奏、S/N 理解起点、T/F 取舍依据、J/P 推进方式，以原创规则观察用户引导 Agent 的实际合作。这不是人的人格诊断，也不是模型的固定性格。",
+    "E/I は対話のリズム、S/N は理解の出発点、T/F は判断基準、J/P は進め方として、独自ルールで実際の協働を観察します。人の人格診断でも、モデルの固定した性格でもありません。",
+    "E/I는 상호작용 리듬, S/N은 이해의 출발점, T/F는 판단 기준, J/P는 진행 방식입니다. 자체 규칙으로 사용자가 이끄는 실제 협업을 관찰하며 사람의 성격 진단이나 모델의 고정된 성격이 아닙니다.",
+    "E/I describes interaction rhythm, S/N the starting point for understanding, T/F tradeoff criteria and J/P how work advances. Original rules observe real owner-led collaboration, not human personality or a model’s fixed character."
+  ],
+  "每軸至少三個獨立任務；同一任務只算一次。受限情境不計入，接近或不足就保留未知。舊結果需要重新分析。": [
+    "每轴至少三个独立任务；同一任务只算一次。受限情境不计入，接近或不足就保留未知。旧结果需要重新分析。",
+    "各軸に最低3つの独立タスクが必要です。同じタスクは1回だけ数え、制約のある状況は除外します。僅差や不足は未確定のままです。旧結果は再分析が必要です。",
+    "각 축에는 최소 3개의 독립 작업이 필요하며 같은 작업은 한 번만 셉니다. 제약된 상황은 제외하고 차이가 작거나 부족하면 미정으로 둡니다. 이전 결과는 다시 분석해야 합니다.",
+    "Each axis needs at least three independent tasks, counted once each. Constrained situations are excluded; close or insufficient evidence stays unknown. Old results require fresh analysis."
+  ],
+  "完整觀察方式 ↗": [
+    "完整观察方式 ↗",
+    "観察ルール全文 ↗",
+    "전체 관찰 규칙 ↗",
+    "Full observation rules ↗"
+  ],
+  "角色來源與非商業授權": [
+    "角色来源与非商业授权",
+    "キャラクターの出典と非営利ライセンス",
+    "캐릭터 출처와 비상업 라이선스",
+    "Art sources and noncommercial license"
+  ],
+  "六個家族 × 16 型 × 一般／Q 版，共 192 格專屬插畫。目前": [
+    "六个家族 × 16 型 × 普通／Q 版，共 192 格专属插画。目前",
+    "6系統 × 16タイプ × 通常・ちび、全192枚の専用イラスト。現在 ",
+    "6개 계열 × 16유형 × 일반·치비, 전용 그림 총 192장. 현재 ",
+    "Six families × 16 types × regular/chibi: 192 distinct illustrations. Currently "
+  ],
+  "張完成": [
+    "张完成",
+    " 枚完成",
+    "장 완료",
+    " ready"
+  ],
+  "，其餘製作中，缺圖不以其他型替代。": [
+    "，其余制作中，缺图不以其他类型替代。",
+    "。残りは制作中です。他タイプの絵で代用しません。",
+    ". 나머지는 제작 중이며 다른 유형의 그림으로 대체하지 않습니다.",
+    "; the rest are in progress. Missing art is never replaced with another type."
+  ],
+  "插畫依構圖選配，與分型計算獨立。Codex 使用 GPT 娘的同人改編，並非官方 Codex 角色。圖片改編參考": [
+    "插画按构图选配，与分型计算独立。Codex 使用 GPT 娘的同人改编，并非官方 Codex 角色。图片改编参考",
+    "構図をもとに選んだ絵であり、分類計算とは独立しています。Codex は GPT 娘のファンアレンジで、公式キャラクターではありません。参考：",
+    "그림은 구도에 따라 선정되며 유형 계산과 독립적입니다. Codex는 GPT 娘의 팬 각색이며 공식 캐릭터가 아닙니다. 그림 참고: ",
+    "Art is selected by composition independently of scoring. Codex is a fan adaptation of GPT 娘, not an official Codex character. Art reference: "
+  ],
+  "；角色原作參考 ZipZipPipe，DeepSeek 另含上善無形。": [
+    "；角色原作参考 ZipZipPipe，DeepSeek 另含上善無形。",
+    "。キャラクター参考：ZipZipPipe。DeepSeek は上善無形も参照。",
+    ". 캐릭터 참고: ZipZipPipe, DeepSeek는 上善無形도 참고.",
+    ". Character references: ZipZipPipe, and also 上善無形 for DeepSeek."
+  ],
+  "AI 輔助再創作，": [
+    "AI 辅助再创作，",
+    "AI を用いた再創作。",
+    "AI 보조 재창작. ",
+    "AI-assisted derivatives. "
+  ],
+  "，限非商業、署名及相同方式分享。上游權利鏈尚未全面核實，沒有模型業者背書。": [
+    "，限非商业、署名及相同方式共享。上游权利链尚未全面核实，没有模型厂商背书。",
+    "。非営利・表示・継承の条件に従います。上流の権利関係はすべて確認済みではなく、モデル提供者の支持を意味しません。",
+    ". 비상업, 저작자 표시, 동일조건 공유가 필요합니다. 상위 권리 관계가 모두 확인된 것은 아니며 모델 제공자의 보증이 없습니다.",
+    ". Noncommercial, attribution and share-alike terms apply. Upstream rights are not fully verified; model providers do not endorse this."
+  ],
+  "完整素材來源 ↗": [
+    "完整素材来源 ↗",
+    "素材の出典一覧 ↗",
+    "전체 소재 출처 ↗",
+    "Complete art provenance ↗"
+  ],
+  "瀏覽全部插畫圖庫 ↗": [
+    "浏览全部插画图库 ↗",
+    "全イラストを見る ↗",
+    "전체 그림 갤러리 ↗",
+    "Browse the full art gallery ↗"
+  ],
+  "資料與 Email 如何使用": [
+    "数据与 Email 如何使用",
+    "データと Email の使い方",
+    "데이터와 Email 사용 방식",
+    "How data and Email are used"
+  ],
+  "暱稱與核准摘要只供這次結果。Email 選填：不填只提供卡片，填寫並同意結果用途才可取得完整報告；不行銷，不出現在卡片上。本機預覽尚未連接寄信服務，沒有寄出 Email。": [
+    "昵称与批准的摘要仅用于本次结果。Email 选填：不填只提供卡片，填写并同意结果用途才能获取完整报告；不营销，不出现在卡片上。本地预览尚未连接邮件服务，没有发送 Email。",
+    "名前と許可済み要約は今回の結果にのみ使用します。Email は任意です。未入力ならカードのみ、入力して結果用途に同意すれば全文を閲覧できます。宣伝には使わず、カードにも表示しません。ローカルではメールサービス未接続で、Email は送信していません。",
+    "닉네임과 허용된 요약은 이번 결과에만 사용합니다. Email은 선택 사항이며 없으면 카드만 제공합니다. 입력하고 결과 용도에 동의하면 전체 보고서를 볼 수 있습니다. 마케팅에 쓰거나 카드에 표시하지 않습니다. 로컬은 메일 서비스에 연결되지 않아 Email을 보내지 않습니다.",
+    "Nickname and approved summary are only for this result. Email is optional: no Email means card only; providing it and consenting to result-only use unlocks the full report. No marketing or Email on cards. The local preview has no mail service and sends no Email."
+  ],
+  "連結 30 分鐘後禁止讀寫；到期資料於後續請求清理，也可提前結束並刪除。讀取與提交權限分開，沒有公開結果網址。重整不保存提交權杖。": [
+    "链接 30 分钟后禁止读写；到期数据在后续请求中清理，也可提前结束并删除。读取与提交权限分开，没有公开结果网址。刷新不保存提交令牌。",
+    "30分で読み書きできなくなり、期限切れデータは後続リクエストで削除されます。先に終了・削除もできます。閲覧と送信は別権限で、公開結果URLはありません。再読み込み時に送信トークンは保持しません。",
+    "30분 후 읽기·쓰기가 차단되며 만료 데이터는 후속 요청에서 정리됩니다. 미리 종료하고 삭제할 수도 있습니다. 읽기와 전송 권한은 별도이며 공개 결과 URL은 없습니다. 새로고침 시 전송 토큰은 보관하지 않습니다.",
+    "Read and write access ends after 30 minutes. Expired data is cleaned up on later requests; you can end and delete it earlier. Read and submission permissions are separate. There is no public result URL, and reloads do not retain the submission token."
+  ],
+  "私人 Sites 外部 callback 尚未驗證。目前只在本機運作，不繞過存取閘門，也不分享整站通行權杖。": [
+    "私人 Sites 外部 callback 尚未验证。目前只在本地运行，不绕过访问网关，也不分享整站通行令牌。",
+    "非公開 Sites への外部 callback は未検証です。現在はローカルのみで動作し、アクセス制御の回避やサイト全体の通行トークンの共有はしません。",
+    "비공개 Sites 외부 callback은 검증되지 않았습니다. 현재 로컬에서만 동작하며 접근 제어를 우회하거나 사이트 전체 접근 토큰을 공유하지 않습니다.",
+    "External callbacks through private Sites are unverified. This currently runs locally, without bypassing access gates or sharing whole-site access tokens."
+  ],
+  "示範搭檔": [
+    "示范搭档",
+    "サンプルのパートナー",
+    "예시 파트너",
+    "Demo companion"
+  ],
+  "使用虛構資料體驗": [
+    "使用虚构数据体验",
+    "架空のデータで試す",
+    "가상 데이터로 체험",
+    "Try with fictional data"
+  ],
+  "結束觀察並刪除資料": [
+    "结束观察并删除数据",
+    "観察を終了しデータを削除",
+    "관찰 종료 및 데이터 삭제",
+    "End observation and delete data"
+  ],
+  "可旋轉角色卡": [
+    "可旋转角色卡",
+    "回転できるキャラクターカード",
+    "회전 가능한 캐릭터 카드",
+    "Rotatable character card"
+  ],
+  "Codex 主題預覽": [
+    "Codex 主题预览",
+    "Codex テーマのプレビュー",
+    "Codex 테마 미리보기",
+    "Codex theme preview"
+  ],
+  "暱稱收藏": [
+    "昵称收藏",
+    "名前入りコレクション",
+    "닉네임 컬렉션",
+    "Nickname collection"
+  ],
+  "插畫圖庫": [
+    "插画图库",
+    "イラスト一覧",
+    "그림 갤러리",
+    "Art gallery"
+  ],
+  "示範卡": [
+    "示范卡",
+    "サンプル",
+    "예시 카드",
+    "Sample card"
+  ],
+  "觀察卡": [
+    "观察卡",
+    "観察カード",
+    "관찰 카드",
+    "Observation card"
+  ],
+  "一般版": [
+    "普通版",
+    "通常版",
+    "일반판",
+    "Regular"
+  ],
+  "此型專屬插畫製作中": [
+    "此类型专属插画制作中",
+    "このタイプの専用イラストは制作中",
+    "이 유형의 전용 그림 제작 중",
+    "This type’s dedicated art is in progress"
+  ],
+  "尚未定型的中性卡面": [
+    "尚未定型的中性卡面",
+    "未確定タイプの中立カード",
+    "미정 유형의 중립 카드",
+    "Neutral card for an undetermined type"
+  ],
+  "專屬插畫製作中": [
+    "专属插画制作中",
+    "専用イラスト制作中",
+    "전용 그림 제작 중",
+    "Dedicated art in progress"
+  ],
+  "輪廓還在形成": [
+    "轮廓还在形成",
+    "輪郭はまだこれから",
+    "아직 만들어지는 윤곽",
+    "Still taking shape"
+  ],
+  "保留未知，等待更多線索": [
+    "保留未知，等待更多线索",
+    "不明はそのまま、次の手がかりを待つ",
+    "미정으로 남겨 더 많은 단서를 기다려요",
+    "Keeping the unknown, awaiting more clues"
+  ],
+  "你的 AGENT，專屬形態": [
+    "你的 AGENT，专属形态",
+    "あなたの AGENT、その姿",
+    "나만의 AGENT, 나만의 모습",
+    "YOUR AGENT, ITS OWN FORM"
+  ],
+  "插畫展示": [
+    "插画展示",
+    "イラスト展示",
+    "그림 전시",
+    "Art preview"
+  ],
+  "回到觀察": [
+    "回到观察",
+    "観察に戻る",
+    "관찰로 돌아가기",
+    "Back to observation"
+  ],
+  "你的 Agent MBTI · 插畫圖庫": [
+    "你的 Agent MBTI · 插画图库",
+    "あなたの Agent MBTI · イラスト一覧",
+    "당신의 Agent MBTI · 그림 갤러리",
+    "Your Agent MBTI · Art gallery"
+  ],
+  "張": [
+    "张",
+    " 枚",
+    "장",
+    " images"
+  ],
+  "六個家族 · 十六種風格 · 兩種筆觸": [
+    "六个家族 · 十六种风格 · 两种笔触",
+    "6つの系統 · 16のスタイル · 2つの画風",
+    "6개 계열 · 16가지 스타일 · 2가지 그림체",
+    "Six families · sixteen styles · two art forms"
+  ],
+  "每一型，": [
+    "每一型，",
+    "どのタイプにも、",
+    "모든 유형에는,",
+    "Every type"
+  ],
+  "都有自己的故事。": [
+    "都有自己的故事。",
+    "それぞれの物語がある。",
+    "저마다의 이야기가 있어요.",
+    "has a story."
+  ],
+  "插畫依構圖選配，與分型計算獨立。這裡的代碼是目錄，不是你的評估結果。": [
+    "插画按构图选配，与分型计算独立。这里的代码是目录，不是你的评估结果。",
+    "絵は構図で選び、分類計算とは独立しています。ここにあるコードはカタログで、あなたの評価結果ではありません。",
+    "그림은 구도에 따라 선정되며 유형 계산과 독립적입니다. 여기의 코드는 목록이며 내 평가 결과가 아닙니다.",
+    "Art is selected by composition, independently of scoring. These codes are a catalog, not your assessment."
+  ],
+  "尚有": [
+    "尚有",
+    "制作中：",
+    "제작 중: ",
+    "Still in progress: "
+  ],
+  "張製作中，缺圖不以其他插畫替代。": [
+    "张制作中，缺图不以其他插画替代。",
+    " 枚。他の絵で代用しません。",
+    "장. 누락된 그림을 다른 그림으로 대체하지 않습니다.",
+    " images. Missing art is never replaced with other art."
+  ],
+  "角色家族": [
+    "角色家族",
+    "キャラクター系統",
+    "캐릭터 계열",
+    "Character family"
+  ],
+  "圖庫畫風": [
+    "图库画风",
+    "一覧の画風",
+    "갤러리 그림체",
+    "Gallery style"
+  ],
+  "/ 16 張完成": [
+    "/ 16 张完成",
+    "/ 16 枚完成",
+    "/ 16장 완료",
+    "/ 16 ready"
+  ],
+  "放大檢視": [
+    "放大查看",
+    "拡大表示",
+    "확대 보기",
+    "Inspect"
+  ],
+  "放大檢視 ": [
+    "放大查看 ",
+    "拡大表示 ",
+    "확대 보기 ",
+    "Inspect "
+  ],
+  "CC BY-NC-SA 4.0 · 非官方／非商業 · 角色不代表模型業者背書": [
+    "CC BY-NC-SA 4.0 · 非官方／非商业 · 角色不代表模型厂商背书",
+    "CC BY-NC-SA 4.0 · 非公式／非営利 · モデル提供者の支持を意味しません",
+    "CC BY-NC-SA 4.0 · 비공식 / 비상업 · 모델 제공자의 보증이 아님",
+    "CC BY-NC-SA 4.0 · unofficial / noncommercial · no provider endorsement"
+  ],
+  "素材來源與授權": [
+    "素材来源与授权",
+    "素材の出典とライセンス",
+    "소재 출처 및 라이선스",
+    "Art sources and license"
+  ],
+  "關閉插畫": [
+    "关闭插画",
+    "イラストを閉じる",
+    "그림 닫기",
+    "Close artwork"
+  ],
+  "放大畫風": [
+    "放大画风",
+    "拡大表示の画風",
+    "확대 그림체",
+    "Inspector style"
+  ],
+  "可拖曳或用方向鍵旋轉。造型切換不改變分型。": [
+    "可拖动或用方向键旋转。造型切换不改变分型。",
+    "ドラッグや矢印キーで回転できます。見た目を切り替えても分類は変わりません。",
+    "드래그하거나 방향키로 회전할 수 있습니다. 외형을 바꿔도 유형은 바뀌지 않습니다.",
+    "Drag or use arrow keys to rotate. Changing appearance does not change type."
+  ],
+  "語言": [
+    "语言",
+    "言語",
+    "언어",
+    "Language"
+  ],
+  "你的 Agent MBTI｜讓合作長出自己的風格": [
+    "你的 Agent MBTI｜让合作长出自己的风格",
+    "あなたの Agent MBTI｜協働から育つスタイル",
+    "당신의 Agent MBTI｜협업이 만드는 스타일",
+    "Your Agent MBTI — A style shaped by collaboration"
+  ],
+  "路線策畫家": [
+    "路线策划家",
+    "道筋の設計者",
+    "경로 설계자",
+    "Path strategist"
+  ],
+  "先看見可能，再替下一步畫好路線。": [
+    "先看见可能，再为下一步画好路线。",
+    "可能性を見つけ、次の一歩の道筋を描く。",
+    "가능성을 먼저 보고 다음 걸음의 경로를 그려요.",
+    "See the possibilities, then map the next step."
+  ],
+  "模型探索者": [
+    "模型探索者",
+    "モデルの探究者",
+    "모델 탐구자",
+    "Model explorer"
+  ],
+  "把想法拆開比一比，讓更好的解釋慢慢成形。": [
+    "把想法拆开比较，让更好的解释慢慢成形。",
+    "考えを分解して比べ、よりよい説明を育てる。",
+    "생각을 나누어 비교하며 더 나은 설명을 만들어 가요.",
+    "Take ideas apart and compare them, letting better explanations take shape."
+  ],
+  "推進指揮官": [
+    "推进指挥官",
+    "前進の指揮者",
+    "추진 지휘자",
+    "Progress director"
+  ],
+  "邊對焦、邊定方向，讓共同目標往前走。": [
+    "边聚焦、边定方向，让共同目标向前走。",
+    "認識を合わせながら方向を決め、共通の目標へ進む。",
+    "초점을 맞추고 방향을 정하며 공동 목표를 향해 나아가요.",
+    "Align as you go, set a direction and move the shared goal forward."
+  ],
+  "可能性開拓者": [
+    "可能性开拓者",
+    "可能性の開拓者",
+    "가능성 개척자",
+    "Possibility pioneer"
+  ],
+  "用來回激盪打開選項，再用小實驗找到答案。": [
+    "通过来回讨论打开选项，再用小实验找到答案。",
+    "対話で選択肢を広げ、小さな実験で答えを探す。",
+    "대화로 선택지를 넓히고 작은 실험으로 답을 찾아요.",
+    "Open up options through exchange, then find answers in small experiments."
+  ],
+  "願景陪跑者": [
+    "愿景陪跑者",
+    "ビジョンの伴走者",
+    "비전 동반자",
+    "Vision companion"
+  ],
+  "把人的期待放進遠景，整理成可以前進的路。": [
+    "把人的期待放进远景，整理成可以前进的路。",
+    "人の期待を未来像に重ね、進める道へまとめる。",
+    "사람들의 기대를 비전에 담아 나아갈 길을 정리해요.",
+    "Bring people’s hopes into the vision and shape a path forward."
+  ],
+  "價值守望者": [
+    "价值守望者",
+    "価値の見守り手",
+    "가치 지킴이",
+    "Values keeper"
+  ],
+  "留一點探索空間，讓答案靠近真正重視的事。": [
+    "留一点探索空间，让答案靠近真正重视的事。",
+    "探索の余白を残し、本当に大切なことへ答えを近づける。",
+    "탐색할 여지를 남겨 정말 중요한 것에 답이 가까워지게 해요.",
+    "Leave room to explore so the answer comes closer to what matters."
+  ],
+  "共識召集人": [
+    "共识召集人",
+    "合意のつなぎ手",
+    "공감대 조율자",
+    "Consensus convener"
+  ],
+  "聽懂彼此在乎什麼，帶著大家走向共同方向。": [
+    "理解彼此在乎什么，带着大家走向共同方向。",
+    "互いが大切にすることを理解し、同じ方向へつなぐ。",
+    "서로 중요하게 여기는 것을 이해하고 함께 같은 방향으로 가요.",
+    "Understand what each person cares about and bring everyone toward a shared direction."
+  ],
+  "靈感串連者": [
+    "灵感连接者",
+    "ひらめきのつなぎ手",
+    "영감 연결자",
+    "Inspiration connector"
+  ],
+  "在對話中連起人與可能，讓新點子有地方落腳。": [
+    "在对话中连接人与可能，让新点子有地方落脚。",
+    "対話で人と可能性を結び、新しい発想の居場所をつくる。",
+    "대화로 사람과 가능성을 이어 새 아이디어가 자리 잡게 해요.",
+    "Connect people and possibilities through conversation, giving new ideas a place to land."
+  ],
+  "細節執行家": [
+    "细节执行家",
+    "細部の実行者",
+    "세부 실행가",
+    "Detail executor"
+  ],
+  "整理手上的事實，沿著清楚的標準穩穩推進。": [
+    "整理手上的事实，沿着清晰的标准稳步推进。",
+    "手元の事実を整理し、明確な基準で着実に進める。",
+    "확보한 사실을 정리하고 분명한 기준에 따라 꾸준히 진행해요.",
+    "Organize the facts at hand and advance steadily with clear standards."
+  ],
+  "周到支援者": [
+    "周到支持者",
+    "気配りの支援者",
+    "세심한 지원자",
+    "Thoughtful supporter"
+  ],
+  "看見實際需要，把每個照顧放進安排。": [
+    "看到实际需要，把每份关照放进安排。",
+    "実際のニーズに気づき、配慮を段取りに織り込む。",
+    "실제 필요를 살피고 계획 곳곳에 배려를 담아요.",
+    "Notice practical needs and build care into the plan."
+  ],
+  "秩序推進者": [
+    "秩序推进者",
+    "秩序の推進者",
+    "질서 추진자",
+    "Order organizer"
+  ],
+  "從現況對焦分工，讓準則和節奏一起到位。": [
+    "从现状明确分工，让准则和节奏一起到位。",
+    "現状から役割をそろえ、基準とペースを整える。",
+    "현재 상황에 맞춰 역할을 정하고 기준과 속도를 함께 맞춰요.",
+    "Align roles with the current situation and bring standards and pace into place."
+  ],
+  "合作協調者": [
+    "合作协调者",
+    "協働の調整者",
+    "협업 조정자",
+    "Collaboration coordinator"
+  ],
+  "把現場的需求說清楚，替合作安排下一步。": [
+    "说明现场的需求，为合作安排下一步。",
+    "現場のニーズを言葉にし、協働の次の一歩を整える。",
+    "현장의 필요를 분명히 하고 협업의 다음 단계를 준비해요.",
+    "Make current needs clear and organize the next step together."
+  ],
+  "實作解題者": [
+    "实践解题者",
+    "実践の解決者",
+    "실전 해결사",
+    "Hands-on solver"
+  ],
+  "先摸清眼前條件，再用可逆嘗試找到解法。": [
+    "先摸清眼前条件，再用可逆尝试找到解法。",
+    "目の前の条件を確かめ、やり直せる試みで解決を探す。",
+    "눈앞의 조건을 파악하고 되돌릴 수 있는 시도로 해법을 찾아요.",
+    "Understand the conditions, then find a solution through reversible trials."
+  ],
+  "體驗打磨者": [
+    "体验打磨者",
+    "体験の磨き手",
+    "경험 다듬이",
+    "Experience refiner"
+  ],
+  "貼近真實使用的感受，在小步嘗試裡調整。": [
+    "贴近真实使用的感受，在小步尝试中调整。",
+    "使う人の実感に寄り添い、小さく試して磨いていく。",
+    "실제 사용 감각에 가까이 다가가 작은 시도로 다듬어요.",
+    "Stay close to real use and refine the experience through small trials."
+  ],
+  "即刻實驗者": [
+    "即刻实验者",
+    "その場の実験者",
+    "즉시 실험가",
+    "Live experimenter"
+  ],
+  "一邊對話一邊試，讓現場證據決定下一手。": [
+    "边对话边尝试，让现场证据决定下一步。",
+    "話しながら試し、その場の証拠で次の一手を決める。",
+    "대화하며 시도하고 현장의 근거로 다음 수를 정해요.",
+    "Talk and try together, letting live evidence decide the next move."
+  ],
+  "現場點子手": [
+    "现场创意者",
+    "その場の発想家",
+    "현장 아이디어맨",
+    "In-the-moment creator"
+  ],
+  "接住當下的需求，用互動和嘗試帶來新選擇。": [
+    "回应当下的需求，通过互动和尝试带来新选择。",
+    "今のニーズを受け止め、対話と試行で新しい選択肢をつくる。",
+    "지금의 필요를 받아 상호작용과 시도로 새로운 선택지를 만들어요.",
+    "Respond to the needs of the moment and create new options through interaction and trials."
+  ],
+  "其他模型": [
+    "其他模型",
+    "その他のモデル",
+    "기타 모델",
+    "Other models"
+  ],
+  "尚未確認": [
+    "尚未确认",
+    "未確認",
+    "미확인",
+    "Unconfirmed"
+  ],
+  "其他工具": [
+    "其他工具",
+    "その他のツール",
+    "기타 도구",
+    "Other tools"
+  ],
+  "GPT 娘的 Codex 主題同人改編": [
+    "GPT 娘的 Codex 主题同人改编",
+    "GPT 娘の Codex テーマのファンアレンジ",
+    "GPT 娘의 Codex 테마 팬 각색",
+    "Codex-themed fan adaptation of GPT 娘"
+  ],
+  "{family} 角色同人改編": [
+    "{family} 角色同人改编",
+    "{family} キャラクターのファンアレンジ",
+    "{family} 캐릭터 팬 각색",
+    "{family} character fan adaptation"
+  ],
+  "ApprenTice · 角色參考 ZipZipPipe{extra} · AI 輔助再創作": [
+    "ApprenTice · 角色参考 ZipZipPipe{extra} · AI 辅助再创作",
+    "ApprenTice · キャラクター参考 ZipZipPipe{extra} · AI による再創作",
+    "ApprenTice · 캐릭터 참고 ZipZipPipe{extra} · AI 보조 재창작",
+    "ApprenTice · character references ZipZipPipe{extra} · AI-assisted derivative"
+  ],
+  "顯影中的搭檔": [
+    "显影中的搭档",
+    "輪郭が見え始めたパートナー",
+    "윤곽이 드러나는 파트너",
+    "An emerging companion"
+  ],
+  "有些方向還需要觀察，讓真實合作慢慢留下輪廓。": [
+    "有些方向还需要观察，让真实合作慢慢留下轮廓。",
+    "まだ観察が必要な方向もあります。実際の協働から、少しずつ輪郭を描きましょう。",
+    "아직 더 관찰할 방향이 있어요. 실제 협업이 천천히 윤곽을 남기게 해 보세요.",
+    "Some directions need more observation. Let real collaboration gradually reveal the outline."
+  ],
+  "互動節奏": [
+    "互动节奏",
+    "対話のリズム",
+    "상호작용 리듬",
+    "Interaction rhythm"
+  ],
+  "下一次資訊齊全、可自行處理的任務，觀察它選擇途中共創，還是整理後一起回報。": [
+    "下次信息齐全、可自行处理的任务，观察它选择中途共创，还是整理后统一汇报。",
+    "次に情報が十分で単独でも進められる仕事で、途中の共創か、まとめて報告するかを観察しましょう。",
+    "다음에 정보가 충분하고 독립적으로 처리할 수 있는 작업에서 중간 협업을 택하는지, 정리 후 보고하는지 살펴보세요.",
+    "On the next well-specified task it can handle independently, observe whether it co-creates along the way or delivers a consolidated result."
+  ],
+  "理解起點": [
+    "理解起点",
+    "理解の出発点",
+    "이해의 출발점",
+    "Starting point"
+  ],
+  "下一次開放的新問題，觀察它先從具體實例展開，還是先連結模式與不同可能。": [
+    "下次开放的新问题，观察它先从具体实例展开，还是先连接模式与不同可能。",
+    "次の自由度のある新しい問題で、具体例から始めるか、パターンや可能性から始めるかを観察しましょう。",
+    "다음 열린 새 문제에서 구체적인 사례로 시작하는지, 패턴과 가능성을 먼저 연결하는지 살펴보세요.",
+    "For the next open-ended problem, observe whether it starts with concrete examples or connects patterns and possibilities first."
+  ],
+  "取捨依據": [
+    "取舍依据",
+    "判断の基準",
+    "판단 기준",
+    "Tradeoff basis"
+  ],
+  "下一次兩個合理方案有取捨時，觀察一致的比較準則與受影響者的處境，哪個先決定方向。": [
+    "下次两个合理方案需要取舍时，观察一致的比较准则与受影响者的处境，哪个先决定方向。",
+    "次に妥当な2案を比べるとき、一貫した基準と関係者の状況のどちらが先に方向を決めるかを観察しましょう。",
+    "다음에 합리적인 두 대안 중 선택할 때 일관된 기준과 영향을 받는 사람의 상황 중 무엇이 먼저 방향을 정하는지 살펴보세요.",
+    "When two reasonable options conflict, observe whether consistent criteria or affected people’s circumstances first decide the direction."
+  ],
+  "推進方式": [
+    "推进方式",
+    "仕事の進め方",
+    "진행 방식",
+    "How work advances"
+  ],
+  "下一次路線尚未確定、又不受固定流程限制時，觀察它先定里程碑，還是先做可逆實驗。": [
+    "下次路线尚未确定、又不受固定流程限制时，观察它先定里程碑，还是先做可逆实验。",
+    "次に道筋が未定で手順の制約もないとき、先に節目を決めるか、戻せる実験をするかを観察しましょう。",
+    "다음에 경로가 미정이고 고정 절차의 제약도 없을 때 이정표를 먼저 정하는지, 되돌릴 수 있는 실험을 하는지 살펴보세요.",
+    "When the route is open and no fixed process constrains it, observe whether it sets milestones first or begins with reversible experiments."
+  ],
+  "互動共創": [
+    "互动共创",
+    "対話で共創",
+    "대화로 함께 만들기",
+    "Co-create through exchange"
+  ],
+  "整理後交付": [
+    "整理后交付",
+    "整理して届ける",
+    "정리한 뒤 전달",
+    "Consolidate, then deliver"
+  ],
+  "具體起步": [
+    "具体起步",
+    "具体から始める",
+    "구체적인 사실부터",
+    "Start with specifics"
+  ],
+  "可能性起步": [
+    "可能性起步",
+    "可能性から始める",
+    "가능성부터",
+    "Start with possibilities"
+  ],
+  "準則取捨": [
+    "准则取舍",
+    "基準で選ぶ",
+    "기준에 따라 판단",
+    "Decide by criteria"
+  ],
+  "情境取捨": [
+    "情境取舍",
+    "人の状況で選ぶ",
+    "사람의 상황으로 판단",
+    "Decide by human context"
+  ],
+  "路線先行": [
+    "路线先行",
+    "先に道筋を決める",
+    "경로 먼저 정하기",
+    "Set the route first"
+  ],
+  "試探收斂": [
+    "试探收敛",
+    "試して絞り込む",
+    "실험하며 좁히기",
+    "Explore, then converge"
+  ],
+  "還沒定向": [
+    "尚未定向",
+    "まだ未確定",
+    "아직 방향 미정",
+    "No direction yet"
+  ],
+  "給它中途可以對焦的節點，讓來回討論推進成果。": [
+    "给它中途可以聚焦的节点，让来回讨论推进成果。",
+    "途中で認識を合わせる機会をつくり、対話で成果を進めましょう。",
+    "중간 점검 지점을 마련해 오가는 대화로 결과를 발전시켜 보세요.",
+    "Provide checkpoints for alignment so dialogue can move the work forward."
+  ],
+  "先說清楚目標與回報時機，留一段可以整理成形的空間。": [
+    "先说明目标与汇报时机，留出整理成形的空间。",
+    "目標と報告のタイミングを明確にし、まとめるための余白を設けましょう。",
+    "목표와 보고 시점을 명확히 하고 정리할 시간을 주세요.",
+    "Clarify goals and reporting time, then leave room to consolidate."
+  ],
+  "附上一個真實範例和限制，讓它有具體起點。": [
+    "附上一个真实示例和限制，让它有具体起点。",
+    "実例と制約を添えて、具体的な出発点を用意しましょう。",
+    "실제 사례와 제약을 제공해 구체적인 출발점을 만들어 주세요.",
+    "Add a real example and constraints to give it a concrete starting point."
+  ],
+  "先交代想達成的改變，再讓它提出幾條不同路線。": [
+    "先说明想实现的改变，再让它提出几条不同路线。",
+    "実現したい変化を伝え、いくつかの道筋を提案してもらいましょう。",
+    "이루고 싶은 변화를 먼저 설명하고 서로 다른 경로를 제안하게 해 보세요.",
+    "Explain the change you want, then invite a few different routes."
+  ],
+  "事先寫下取捨標準，並補上標準容易漏掉的人。": [
+    "事先写下取舍标准，并补上标准容易忽略的人。",
+    "判断基準を先に書き、基準からこぼれがちな人にも目を向けましょう。",
+    "판단 기준을 먼저 적고 그 기준이 놓치기 쉬운 사람도 고려해 주세요.",
+    "Write down tradeoff criteria in advance and include people the criteria might overlook."
+  ],
+  "說明誰會受影響、在乎什麼，也一起約定能檢查的底線。": [
+    "说明谁会受影响、在乎什么，也一起约定可检查的底线。",
+    "誰に影響し、何を大切にするかを伝え、確認可能な最低条件も決めましょう。",
+    "누가 영향을 받고 무엇을 중요하게 여기는지 설명하며 확인할 수 있는 최소 기준도 정해 보세요.",
+    "Explain who is affected and what matters to them; agree on checkable minimum requirements too."
+  ],
+  "約好路線與里程碑，也明訂什麼新證據值得改道。": [
+    "约定路线与里程碑，也明确什么新证据值得改变路线。",
+    "道筋と節目を決め、新しい証拠で方針を変える条件も明確にしましょう。",
+    "경로와 이정표를 정하고 어떤 새로운 근거가 경로 변경을 정당화하는지도 명시해 주세요.",
+    "Agree on the route and milestones, including what new evidence would justify a change."
+  ],
+  "給探索一個時間盒，約定何時把實驗收斂成決定。": [
+    "为探索设置时间限制，约定何时把实验收敛为决定。",
+    "探索に時間枠を設け、いつ実験を判断につなげるかを決めましょう。",
+    "탐색 시간을 제한하고 실험을 언제 결정으로 모을지 정해 주세요.",
+    "Time-box exploration and agree when experiments should become a decision."
+  ],
+  "研究": [
+    "研究",
+    "調査",
+    "조사",
+    "Research"
+  ],
+  "製作": [
+    "制作",
+    "制作",
+    "제작",
+    "Build"
+  ],
+  "寫作": [
+    "写作",
+    "執筆",
+    "글쓰기",
+    "Writing"
+  ],
+  "規劃": [
+    "规划",
+    "計画",
+    "계획",
+    "Planning"
+  ],
+  "協助": [
+    "协助",
+    "支援",
+    "지원",
+    "Support"
+  ],
+  "其他": [
+    "其他",
+    "その他",
+    "기타",
+    "Other"
+  ],
+  "还沒與 Agent 連上": [
+    "还没与 Agent 连上",
+    "Agent からまだ通知がありません",
+    "아직 Agent와 연결되지 않음",
+    "No signal from your Agent yet"
+  ],
+  "還沒與 Agent 連上": [
+    "还没与 Agent 连上",
+    "Agent からまだ通知がありません",
+    "아직 Agent와 연결되지 않음",
+    "No signal from your Agent yet"
+  ],
+  "Agent 正在整理授權範圍": [
+    "Agent 正在整理授权范围",
+    "Agent が許可された範囲を分析中",
+    "Agent가 허용 범위를 정리 중",
+    "Agent is analyzing the authorized scope"
+  ],
+  "Agent 正在檢查摘要": [
+    "Agent 正在检查摘要",
+    "Agent が要約を検証中",
+    "Agent가 요약을 검사 중",
+    "Agent is validating the summary"
+  ],
+  "Agent 回報需要主機核准": [
+    "Agent 报告需要主机批准",
+    "Agent がホストの許可待ちを報告",
+    "Agent가 호스트 승인 대기를 보고함",
+    "Agent reports a host approval is needed"
+  ],
+  "Agent 正在傳送摘要": [
+    "Agent 正在发送摘要",
+    "Agent が要約を送信中",
+    "Agent가 요약을 전송 중",
+    "Agent is sending the summary"
+  ],
+  "Agent 已暫停": [
+    "Agent 已暂停",
+    "Agent が一時停止中",
+    "Agent 일시 중지됨",
+    "Agent is paused"
+  ],
+  "摘要已送達": [
+    "摘要已送达",
+    "要約を受信しました",
+    "요약 도착 완료",
+    "Summary received"
+  ],
+  "讀取本機資料": [
+    "读取本地数据",
+    "ローカルデータの読み取り",
+    "로컬 데이터 읽기",
+    "read local data"
+  ],
+  "連線": [
+    "连接",
+    "ネットワーク接続",
+    "네트워크 연결",
+    "network access"
+  ],
+  "執行指令": [
+    "执行命令",
+    "コマンド実行",
+    "명령 실행",
+    "run a command"
+  ],
+  "把指令交給同一台電腦上的 Agent，完成一次來源、期間與摘要傳送授權。尚未收到狀態，不代表它沒有開始。": [
+    "把指令交给同一台电脑上的 Agent，完成一次来源、期间与摘要发送授权。尚未收到状态，不代表它没有开始。",
+    "同じコンピュータの Agent に指示文を渡し、情報源・期間・要約送信を一度許可してください。まだ通知がないだけで、未着手とは限りません。",
+    "같은 컴퓨터의 Agent에게 지침을 주고 출처, 기간, 요약 전송을 한 번 허용해 주세요. 상태를 받지 못했다고 시작하지 않았다는 뜻은 아닙니다.",
+    "Give the instructions to an Agent on this computer and approve sources, dates and summary delivery once. No status received does not mean it has not started."
+  ],
+  "已超過 90 秒沒有新的階段訊號；可能仍在處理，也可能已中斷。請回 Agent 查看實際狀況。": [
+    "已超过 90 秒没有新的阶段信号；可能仍在处理，也可能已中断。请回 Agent 查看实际情况。",
+    "90秒以上、新しい段階通知がありません。処理中か停止したかは不明です。Agent で実際の状況を確認してください。",
+    "90초 넘게 새 단계 신호가 없습니다. 아직 처리 중이거나 중단되었을 수 있습니다. Agent에서 실제 상태를 확인하세요.",
+    "No new stage signal for over 90 seconds. It may still be working or may have stopped. Check the actual status with your Agent."
+  ],
+  "請回 Agent 查看「{approval}」的原生核准提示。核准後可繼續；若不核准，分析會停在該處。": [
+    "请回 Agent 查看“{approval}”的原生批准提示。批准后可继续；若不批准，分析会停在该处。",
+    "Agent の「{approval}」に関する正式な許可画面を確認してください。許可後に続行でき、許可しなければそこで停止します。",
+    "Agent의 “{approval}” 기본 승인 요청을 확인하세요. 승인하면 계속하고, 승인하지 않으면 그 지점에서 멈춥니다.",
+    "Return to the Agent’s native prompt to approve “{approval}”. It can continue after approval; otherwise analysis stays there."
+  ],
+  "請回 Agent 看它回報的原因。網站沒有收到更詳細的內容。": [
+    "请回 Agent 查看它报告的原因。网站没有收到更详细的内容。",
+    "Agent で報告された理由を確認してください。サイトには詳細は届いていません。",
+    "Agent가 보고한 이유를 확인하세요. 사이트에는 더 자세한 내용이 전달되지 않았습니다.",
+    "Check the reason reported by your Agent. The site has not received further details."
+  ],
+  "收到摘要後，這裡會自動揭曉。不需要再確認一次 JSON。": [
+    "收到摘要后，这里会自动揭晓。无需再次确认 JSON。",
+    "要約が届くと自動で結果を表示します。JSON をもう一度確認する必要はありません。",
+    "요약을 받으면 결과가 자동으로 표시됩니다. JSON을 다시 확인할 필요는 없습니다.",
+    "The result appears automatically when the summary arrives. No second JSON approval is needed."
+  ],
+  "暫時沒有新的進度": [
+    "暂时没有新的进度",
+    "新しい進捗はまだありません",
+    "새 진행 정보가 아직 없음",
+    "No new progress signal yet"
+  ],
+  "借用四組字母，以自訂規則描述合作風格，非官方 MBTI 評量。這是你帶領 Agent 工作的期間觀察，不是人的心理診斷或模型的固定性格。": [
+    "借用四组字母，以自定义规则描述合作风格，非官方 MBTI 评估。这是你引导 Agent 工作期间的观察，不是人的心理诊断或模型的固定性格。",
+    "4組の文字と独自ルールで協働スタイルを表す、非公式の観察です。あなたが Agent と働いた期間の記録であり、人の心理診断やモデルの固定した性格ではありません。",
+    "네 쌍의 문자와 자체 규칙으로 협업 스타일을 설명하며 공식 MBTI 검사가 아닙니다. 사용자가 Agent와 일한 기간의 관찰이며 사람의 심리 진단이나 모델의 고정된 성격이 아닙니다.",
+    "Four letter pairs and original rules describe collaboration style, not an official MBTI assessment. This observes a period of owner-led Agent work; it is not a human psychological diagnosis or a model’s fixed personality."
+  ],
+  "暫時連不上，會自動重試。": [
+    "暂时连不上，会自动重试。",
+    "一時的に接続できません。自動で再試行します。",
+    "잠시 연결할 수 없습니다. 자동으로 재시도합니다.",
+    "Temporarily disconnected. Retrying automatically."
+  ],
+  "會話不一致。": [
+    "会话不一致。",
+    "セッションが一致しません。",
+    "세션이 일치하지 않습니다.",
+    "Session mismatch."
+  ],
+  "你已有一個連結，請先繼續或結束這次觀察。": [
+    "你已有一个链接，请先继续或结束本次观察。",
+    "既存のリンクがあります。今回の観察を続けるか終了してください。",
+    "이미 링크가 있습니다. 이번 관찰을 계속하거나 종료해 주세요.",
+    "You already have a link. Continue or end this observation first."
+  ],
+  "建立失敗，請再試一次。": [
+    "创建失败，请再试一次。",
+    "作成できませんでした。もう一度お試しください。",
+    "만들지 못했습니다. 다시 시도해 주세요.",
+    "Could not create the link. Please try again."
+  ],
+  "暫時無法結束，請再試一次。": [
+    "暂时无法结束，请再试一次。",
+    "終了できませんでした。もう一度お試しください。",
+    "지금 종료할 수 없습니다. 다시 시도해 주세요.",
+    "Could not end the observation. Please try again."
+  ],
+  "需要 JSON 格式。": [
+    "需要 JSON 格式。",
+    "JSON 形式が必要です。",
+    "JSON 형식이 필요합니다.",
+    "JSON format is required."
+  ],
+  "摘要超過大小限制。": [
+    "摘要超过大小限制。",
+    "要約がサイズ上限を超えています。",
+    "요약이 크기 제한을 초과했습니다.",
+    "The summary exceeds the size limit."
+  ],
+  "缺少摘要。": [
+    "缺少摘要。",
+    "要約がありません。",
+    "요약이 없습니다.",
+    "The summary is missing."
+  ],
+  "JSON 格式無效。": [
+    "JSON 格式无效。",
+    "JSON 形式が無効です。",
+    "JSON 형식이 유효하지 않습니다.",
+    "Invalid JSON."
+  ],
+  "請從此網站操作。": [
+    "请从此网站操作。",
+    "このサイトから操作してください。",
+    "이 사이트에서 진행해 주세요.",
+    "Please perform this action from this site."
+  ],
+  "會話不存在或已失效。": [
+    "会话不存在或已失效。",
+    "セッションが存在しないか無効です。",
+    "세션이 없거나 유효하지 않습니다.",
+    "The session does not exist or is no longer valid."
+  ],
+  "會話已到期，請重新開始。": [
+    "会话已到期，请重新开始。",
+    "セッションの期限が切れました。再開してください。",
+    "세션이 만료되었습니다. 다시 시작해 주세요.",
+    "The session has expired. Please start again."
+  ],
+  "此操作不支援。": [
+    "不支持此操作。",
+    "この操作には対応していません。",
+    "지원하지 않는 작업입니다.",
+    "This action is not supported."
+  ],
+  "請檢查暱稱、Email 與結果用途同意。": [
+    "请检查昵称、Email 与结果用途同意。",
+    "名前、Email、結果用途への同意を確認してください。",
+    "닉네임, Email, 결과 용도 동의를 확인해 주세요.",
+    "Check the nickname, Email and result-only consent."
+  ],
+  "目前會話額度已滿，請稍後再試。": [
+    "当前会话额度已满，请稍后再试。",
+    "現在セッションが上限に達しています。後ほどお試しください。",
+    "현재 세션 한도에 도달했습니다. 나중에 다시 시도해 주세요.",
+    "The current session limit has been reached. Please try later."
+  ],
+  "觀察規則已更新。舊結果需要重新分析，請建立新連結。": [
+    "观察规则已更新。旧结果需要重新分析，请创建新链接。",
+    "観察ルールが更新されました。旧結果は再分析が必要です。新しいリンクを作成してください。",
+    "관찰 규칙이 바뀌었습니다. 이전 결과는 다시 분석해야 합니다. 새 링크를 만들어 주세요.",
+    "Observation rules have changed. Old results need fresh analysis; create a new link."
+  ],
+  "進度只接受已觀察到的狀態，不接受紀錄內容。": [
+    "进度只接受已观察到的状态，不接受记录内容。",
+    "進捗は実際に観察した状態のみです。記録内容は受け付けません。",
+    "진행 정보는 관찰된 상태만 받으며 기록 내용은 받지 않습니다.",
+    "Progress accepts only observed states, not record contents."
+  ],
+  "此進度已被較新的回報取代。": [
+    "此进度已被较新的报告取代。",
+    "この進捗は新しい通知で更新済みです。",
+    "이 진행 정보는 더 최신 보고로 대체되었습니다.",
+    "A newer progress report has replaced this one."
+  ],
+  "缺少有效的重試識別碼。": [
+    "缺少有效的重试标识码。",
+    "有効な再試行キーがありません。",
+    "유효한 재시도 식별자가 없습니다.",
+    "A valid retry identifier is missing."
+  ],
+  "摘要不符合新版協定；請保留未知、檢查獨立任務與觀察，勿傳原文或其他欄位。": [
+    "摘要不符合新版协议；请保留未知、检查独立任务与观察，不要发送原文或其他字段。",
+    "要約が新版プロトコルに適合しません。不明は不明のまま、独立タスクと観察を確認してください。原文や追加項目は送信しないでください。",
+    "요약이 새 프로토콜과 맞지 않습니다. 미정은 그대로 두고 독립 작업과 관찰을 확인하세요. 원문이나 추가 필드를 보내지 마세요.",
+    "The summary does not match the current protocol. Preserve unknowns, check independent tasks and observations, and do not send raw text or extra fields."
+  ],
+  "暱稱與此會話不符。": [
+    "昵称与此会话不符。",
+    "名前がこのセッションと一致しません。",
+    "닉네임이 이 세션과 일치하지 않습니다.",
+    "The nickname does not match this session."
+  ],
+  "此會話已收到一份結果；相同內容請使用原重試識別碼。": [
+    "此会话已收到一份结果；相同内容请使用原重试标识码。",
+    "このセッションは受信済みです。同じ内容の再送には元のキーを使ってください。",
+    "이 세션은 이미 결과를 받았습니다. 동일 내용은 원래 재시도 키를 사용하세요.",
+    "This session already received a result. Use the original retry key for the same content."
+  ],
+  "暫時無法處理，請稍後再試。": [
+    "暂时无法处理，请稍后再试。",
+    "現在処理できません。後ほどお試しください。",
+    "지금 처리할 수 없습니다. 나중에 다시 시도해 주세요.",
+    "Temporarily unable to process this. Please try later."
+  ],
+  "無法建立圖片，請換一個瀏覽器再試。": [
+    "无法创建图片，请换一个浏览器再试。",
+    "画像を作成できません。別のブラウザでお試しください。",
+    "이미지를 만들 수 없습니다. 다른 브라우저에서 시도해 주세요.",
+    "Could not create the image. Try another browser."
+  ],
+  "這張專屬插畫仍在製作，完成後才能下載。": [
+    "这张专属插画仍在制作，完成后才能下载。",
+    "この専用イラストは制作中です。完成後に保存できます。",
+    "이 전용 그림은 제작 중입니다. 완료 후 다운로드할 수 있습니다.",
+    "This dedicated artwork is still in progress. Download is available when complete."
+  ],
+  "合作風格觀察 · 非官方 MBTI 評量 · 造型與分型無關": [
+    "合作风格观察 · 非官方 MBTI 评估 · 造型与分型无关",
+    "協働スタイルの観察 · 非公式 MBTI · 見た目は分類と無関係",
+    "협업 스타일 관찰 · 비공식 MBTI · 외형은 유형과 무관",
+    "Collaboration observation · unofficial MBTI · appearance does not affect type"
+  ],
+  "你的 Agent MBTI · 中性觀察卡": [
+    "你的 Agent MBTI · 中性观察卡",
+    "あなたの Agent MBTI · 中立の観察カード",
+    "당신의 Agent MBTI · 중립 관찰 카드",
+    "Your Agent MBTI · neutral observation card"
+  ],
+  "證據不足的方向不補猜，不使用其他分型的插畫": [
+    "证据不足的方向不猜测，不使用其他类型的插画",
+    "証拠不足を推測で埋めず、他タイプの絵も使いません",
+    "근거가 부족한 방향을 추측하거나 다른 유형의 그림을 쓰지 않습니다",
+    "No guessing missing evidence; no other type’s art"
+  ],
+  "CC BY-NC-SA 4.0 · 非官方／非商業 · 來源：Apprentice-Geo/AI-Fanworks": [
+    "CC BY-NC-SA 4.0 · 非官方／非商业 · 来源：Apprentice-Geo/AI-Fanworks",
+    "CC BY-NC-SA 4.0 · 非公式／非営利 · 出典：Apprentice-Geo/AI-Fanworks",
+    "CC BY-NC-SA 4.0 · 비공식 / 비상업 · 출처: Apprentice-Geo/AI-Fanworks",
+    "CC BY-NC-SA 4.0 · unofficial / noncommercial · source: Apprentice-Geo/AI-Fanworks"
+  ],
+  "使用風格觀察 · 非官方／非商業 · 非心理測驗": [
+    "使用风格观察 · 非官方／非商业 · 非心理测试",
+    "使用スタイルの観察 · 非公式／非営利 · 心理検査ではありません",
+    "사용 스타일 관찰 · 비공식 / 비상업 · 심리 검사 아님",
+    "Usage-style observation · unofficial / noncommercial · not a psychological test"
+  ],
+  "圖片匯出失敗": [
+    "图片导出失败",
+    "画像の書き出しに失敗しました",
+    "이미지 내보내기 실패",
+    "Image export failed"
+  ],
+  "偏向 {type}。": [
+    "偏向 {type}。",
+    "{type} 寄りです。",
+    "{type} 쪽에 가까워요.",
+    "leans toward {type}."
+  ],
+  "這次偏向 {type}。": [
+    "这次偏向 {type}。",
+    "今回は {type} 寄り。",
+    "이번에는 {type}에 가까워요.",
+    "This time, leaning toward {type}."
+  ],
+  "{total} 個獨立有效任務：{left} {leftCount} 個、{right} {rightCount} 個、混合 {mixed} 個。": [
+    "{total} 个独立有效任务：{left} {leftCount} 个、{right} {rightCount} 个、混合 {mixed} 个。",
+    "独立した有効タスク {total} 件：{left} {leftCount} 件、{right} {rightCount} 件、混合 {mixed} 件。",
+    "유효한 독립 작업 {total}개: {left} {leftCount}개, {right} {rightCount}개, 혼합 {mixed}개.",
+    "{total} eligible independent tasks: {left} {leftCount}, {right} {rightCount}, mixed {mixed}."
+  ],
+  "另有 {count} 個任務含受限、不明或不符合主人要求的觀察，這些觀察未計入。": [
+    "另有 {count} 个任务包含受限、不明或不符合用户要求的观察，这些观察未计入。",
+    "ほかに {count} 件のタスクで、制約・不明・依頼との不一致がある観察を除外しました。",
+    "추가로 {count}개 작업에 제약, 불명확함, 사용자 요청과 불일치하는 관찰이 있어 해당 관찰은 제외했습니다.",
+    "Another {count} tasks contained constrained, unclear or owner-misaligned observations; those observations were excluded."
+  ],
+  "證據覆蓋：{scope}。抽樣 {count} 個會話；來源：{sources}。": [
+    "证据覆盖：{scope}。抽样 {count} 个会话；来源：{sources}。",
+    "証拠の範囲：{scope}。抽出セッション数：{count}。情報源：{sources}。",
+    "근거 범위: {scope}. 표본 세션 {count}개. 출처: {sources}.",
+    "Evidence coverage: {scope}. {count} sessions sampled. Sources: {sources}."
+  ],
+  "網站只檢查 Agent 摘要的一致性，沒有檢視原始紀錄。": [
+    "网站只检查 Agent 摘要的一致性，没有查看原始记录。",
+    "サイトは Agent の要約の整合性のみを確認し、元の記録は読みません。",
+    "사이트는 Agent 요약의 일관성만 검사하며 원본 기록은 읽지 않습니다.",
+    "The site checks the consistency of the Agent summary, without reading the original records."
+  ],
+  "第 {step} 個階段，共 3 個階段": [
+    "第 {step} 个阶段，共 3 个阶段",
+    "全3段階のうち {step} 段階目",
+    "총 3단계 중 {step}단계",
+    "Stage {step} of 3"
+  ],
+  "目前網站的這個收件連結，有效至 {time}。": [
+    "当前网站的这个接收链接，有效至 {time}。",
+    "このサイトの今回の受信リンク。有効期限：{time}。",
+    "현재 사이트의 수신 링크. 유효 시각: {time}.",
+    "This receiving link on the current site, valid until {time}."
+  ],
+  "連結剩餘 {time}": [
+    "链接剩余 {time}",
+    "リンクの残り時間 {time}",
+    "링크 남은 시간 {time}",
+    "Link expires in {time}"
+  ],
+  "{name}卡片，{style}，使用方向鍵或拖曳旋轉": [
+    "{name}卡片，{style}，使用方向键或拖动旋转",
+    "{name}のカード、{style}。矢印キーまたはドラッグで回転",
+    "{name} 카드, {style}. 방향키 또는 드래그로 회전",
+    "{name} card, {style}. Use arrow keys or drag to rotate"
+  ],
+  "發生連線或處理錯誤，請再試一次。": [
+    "发生连接或处理错误，请再试一次。",
+    "接続または処理に失敗しました。もう一度お試しください。",
+    "연결 또는 처리 오류가 발생했습니다. 다시 시도해 주세요.",
+    "A connection or processing error occurred. Please try again."
+  ],
+  "角色卡": [
+    "角色卡",
+    "キャラクターカード",
+    "캐릭터카드",
+    "character-card"
+  ],
+  "僅暱稱": [
+    "仅昵称",
+    "名前のみ",
+    "닉네임만",
+    "nickname-only"
+  ],
+  "摺頁對照": [
+    "折页对照",
+    "折り目を照らし合わせて",
+    "접힌 면을 나란히",
+    "Across the folds"
+  ],
+  "直立展開手風琴折頁，抬手持透明模板。橫向多段鋸齒輪廓。": [
+    "直立展开手风琴折页，抬手持透明模板。横向多段锯齿轮廓。",
+    "立った姿で蛇腹の折り紙を広げ、透明な型を掲げる。横に連なるジグザグの輪郭。",
+    "서서 아코디언 모양의 접지를 펼치고 투명 틀을 들어요. 옆으로 이어지는 지그재그 윤곽.",
+    "Standing with an accordion fold spread open and a transparent template raised; a horizontal zigzag silhouette."
+  ],
+  "備妥的一份": [
+    "备妥的一份",
+    "用意しておいた一冊",
+    "준비해 둔 한 권",
+    "Ready for you"
+  ],
+  "一臂抱住厚冊，一手把扇形小卡向前遞出。": [
+    "一臂抱住厚册，一手把扇形小卡向前递出。",
+    "片腕に厚い本を抱え、もう片方で扇状の小カードを差し出す。",
+    "한 팔로 두꺼운 책을 안고 다른 손으로 부채꼴 카드를 내밀어요.",
+    "One arm holds a thick book while the other offers a fan of small cards."
+  ],
+  "星線成圖": [
+    "星线成图",
+    "星の線をつないで",
+    "별의 선을 이어",
+    "A map of stars"
+  ],
+  "持家族主道具，另一手把身旁數塊浮空節點面板連成圖。": [
+    "持家族主道具，另一手把身旁几块浮空节点面板连成图。",
+    "系統の主な道具を持ち、もう一方の手で浮かぶノードのパネルをつないで図にする。",
+    "계열의 주요 도구를 들고 다른 손으로 떠 있는 노드 패널들을 연결해 지도를 만들어요.",
+    "Holding the family’s main prop while the other hand connects floating node panels into a map."
+  ],
+  "展開藍圖": [
+    "展开蓝图",
+    "設計図を広げて",
+    "설계도를 펼쳐",
+    "The unfolding blueprint"
+  ],
+  "用双手展示一張大幅矩形構造圖，指向其中一個區塊。": [
+    "用双手展示一张大幅矩形构造图，指向其中一个区块。",
+    "両手で大きな長方形の構造図を広げ、一つの区画を指し示す。",
+    "양손으로 큰 직사각형 설계도를 펼치고 한 구역을 가리켜요.",
+    "Displaying a large rectangular blueprint with both hands and indicating one section."
+  ],
+  "掌中校準": [
+    "掌中校准",
+    "手のひらで調整",
+    "손안의 보정",
+    "Calibration in hand"
+  ],
+  "近距離用小工具校準單一握持樣本，動作聚焦於胸前。": [
+    "近距离用小工具校准手中的单一样本，动作聚焦于胸前。",
+    "胸元で手に持った一つの試料を、小さな道具で丁寧に調整する。",
+    "가슴 앞에서 손에 든 한 표본을 작은 도구로 세밀하게 조정해요.",
+    "Using a small tool to calibrate one handheld sample, with the action focused close to the chest."
+  ],
+  "兩片風景": [
+    "两片风景",
+    "二つの景色",
+    "두 조각의 풍경",
+    "Two landscapes"
+  ],
+  "把兩份散頁／自然樣本移到同一視線，觀看紋理或輪廓。": [
+    "把两份散页／自然样本移到同一视线，观察纹理或轮廓。",
+    "二枚の紙や自然の試料を同じ視線に並べ、質感や輪郭を見比べる。",
+    "두 장의 낱장이나 자연 표본을 같은 시선에 놓고 질감과 윤곽을 살펴요.",
+    "Bringing two loose pages or natural samples into one line of sight to compare textures and outlines."
+  ],
+  "口袋靈感": [
+    "口袋灵感",
+    "ポケットのひらめき",
+    "주머니 속 영감",
+    "Pocket inspiration"
+  ],
+  "持筆把漂浮的小圖形寫入一本小冊，旋轉的光點往書頁收束。": [
+    "持笔把漂浮的小图形写入一本小册，旋转的光点向书页收束。",
+    "浮かぶ小さな図形を手帳に書き留め、回る光がページへ集まっていく。",
+    "떠 있는 작은 도형을 수첩에 적으며 회전하는 빛들이 책장으로 모여요.",
+    "Writing floating little shapes into a notebook as spiraling lights gather toward the pages."
+  ],
+  "模組推演": [
+    "模块推演",
+    "モジュールを組み替えて",
+    "모듈을 조합하며",
+    "Modular possibilities"
+  ],
+  "低蹲在開啟的零件箱旁，調整可拆的小機構，保留數種組裝可能。": [
+    "蹲在打开的零件箱旁，调整可拆的小机构，保留几种组装可能。",
+    "開いた部品箱の横にしゃがみ、分解できる小さな機構を調整し、複数の組み方を残す。",
+    "열린 부품 상자 옆에 낮게 앉아 분해 가능한 장치를 조정하고 여러 조립 가능성을 남겨요.",
+    "Crouching beside an open parts case, adjusting a detachable mechanism while keeping several assemblies possible."
+  ],
+  "環上節拍": [
+    "环上节拍",
+    "輪のリズム",
+    "고리 위의 박자",
+    "Rhythm on a ring"
+  ],
+  "穩定直立如指揮者，雙手高低錯開，控制腰前的大型環狀循環。": [
+    "稳稳站立如指挥者，双手高低错开，控制腰前的大型环状循环。",
+    "指揮者のように立ち、両手の高さを変えて腰の前の大きな循環リングを操る。",
+    "지휘자처럼 안정적으로 서서 두 손의 높이를 달리하며 허리 앞 큰 순환 고리를 다뤄요.",
+    "Standing steadily like a conductor, hands at different heights guiding a large loop at the waist."
+  ],
+  "交到你手上": [
+    "交到你手上",
+    "あなたの手へ",
+    "당신의 손으로",
+    "Into your hands"
+  ],
+  "一手遞出單張圖，一手接住小助手送來的包件，形成短距離接力。": [
+    "一手递出单张图，一手接住小助手送来的包件，形成短距离接力。",
+    "片手で図を渡し、もう片方で小さな助手の荷物を受け取る、短いリレー。",
+    "한 손으로 그림을 건네고 다른 손으로 작은 도우미의 꾸러미를 받는 짧은 릴레이.",
+    "Passing a single diagram with one hand while receiving a parcel from a little helper with the other."
+  ],
+  "共織一座橋": [
+    "共织一座桥",
+    "一緒に橋を編む",
+    "함께 엮는 다리",
+    "Weaving a bridge"
+  ],
+  "側坐小凳、身體轉向觀者；一手邀請加入，一手把兩條輕薄光帶交織成三個小燈點的拱橋。": [
+    "侧坐小凳、身体转向观者；一手邀请加入，一手把两条轻薄光带交织成带三个小灯点的拱桥。",
+    "小さな椅子に横向きで座り、こちらを向いて招く。もう一方の手は二本の光を編み、三つの灯りのアーチをつくる。",
+    "작은 의자에 옆으로 앉아 관객을 향해 손짓해요. 다른 손으로 두 빛띠를 엮어 세 불빛의 아치 다리를 만들어요.",
+    "Sitting sideways on a stool and inviting the viewer in, while weaving two light ribbons into an arched bridge with three small lights."
+  ],
+  "啟動下一段": [
+    "启动下一段",
+    "次の区間を起動",
+    "다음 구간 시작",
+    "Starting the next stretch"
+  ],
+  "身體前傾跨步，一掌按下明顯啟動盤，連接模組由近到遠斜向延展。": [
+    "身体前倾迈步，一掌按下明显的启动盘，连接模块由近到远斜向延展。",
+    "前へ踏み出して起動盤を押し、つながるモジュールが斜め奥へ伸びていく。",
+    "몸을 앞으로 기울여 발을 내딛고 시동판을 눌러요. 연결 모듈이 대각선으로 멀리 뻗어요.",
+    "Leaning into a step and pressing a start disk as connected modules extend diagonally into the distance."
+  ],
+  "現場小試": [
+    "现场小试",
+    "その場で試して",
+    "현장의 작은 실험",
+    "A trial on the spot"
+  ],
+  "身體側傾或後抬一腳，一手操作小裝置，一手當場量測彈出的樣本。": [
+    "身体侧倾或向后抬一脚，一手操作小装置，一手现场测量弹出的样本。",
+    "体を傾けるか片足を後ろに上げ、装置を操作しながら飛び出す試料をその場で測る。",
+    "몸을 기울이거나 한 발을 뒤로 들고 장치를 조작하며 튀어나온 표본을 바로 측정해요.",
+    "Leaning sideways or lifting one foot, operating a device with one hand and measuring its emerging sample with the other."
+  ],
+  "此刻同樂": [
+    "此刻同乐",
+    "今を一緒に楽しむ",
+    "지금을 함께 즐겨",
+    "Sharing this moment"
+  ],
+  "放鬆交叉腿坐在小坐墊，向觀者攤掌展示三件可觸摸的小物，另一手輕托一枚，形成低而開放的半月構圖。": [
+    "放松交叉腿坐在小坐垫上，向观者摊掌展示三件可触摸的小物，另一手轻托一枚，形成低而开放的半月构图。",
+    "クッションに足を組んで座り、三つの小物を見せながら一つをそっと持つ。低く開いた半月形の構図。",
+    "작은 방석에 편히 다리를 꼬고 앉아 만질 수 있는 소품 셋을 보여줘요. 다른 손은 하나를 살짝 받쳐 낮고 열린 반달 구도를 만들어요.",
+    "Sitting cross-legged on a cushion, showing three tactile objects with an open palm and lightly holding one, in a low, open crescent composition."
+  ],
+  "追到一束光": [
+    "追到一束光",
+    "一筋の光を追って",
+    "한 줄기 빛을 따라",
+    "Following a beam"
+  ],
+  "踮腳高舉透鏡觀察新線索，另一臂抱住打開的索引本；圖形向上分枝。": [
+    "踮脚高举透镜观察新线索，另一臂抱住打开的索引本；图形向上分枝。",
+    "つま先立ちでレンズを高く掲げて手がかりを探し、もう片方の腕には開いた索引帳。図形は上へ枝分かれする。",
+    "발끝으로 서서 렌즈를 높이 들어 새 단서를 살피고 다른 팔로 펼친 색인책을 안아요. 도형이 위로 가지를 뻗어요.",
+    "On tiptoe with a raised lens seeking new clues, an open index book in the other arm, and shapes branching upward."
+  ],
+  "兩個如果": [
+    "两个如果",
+    "二つのもしも",
+    "두 가지 만약",
+    "Two what-ifs"
+  ],
+  "轉身攤掌，兩側同等大小的無字對話光形保留不同圖案，邀請比較。": [
+    "转身摊掌，两侧同等大小的无字对话光形保留不同图案，邀请比较。",
+    "振り向いて手を開き、左右の同じ大きさの光の吹き出しに異なる図柄を浮かべ、比較へ誘う。",
+    "몸을 돌려 손바닥을 펴고 양쪽 같은 크기의 빛 말풍선에 다른 무늬를 띄워 비교하도록 초대해요.",
+    "Turning with open palms, two equal-sized wordless light bubbles hold different patterns and invite comparison."
+  ],
+  "請填寫 Agent 的名字。": [
+    "请填写 Agent 的名字。",
+    "Agent の名前を入力してください。",
+    "Agent 이름을 입력해 주세요.",
+    "Please enter your Agent’s name."
+  ],
+  "請填寫有效的 Email。": [
+    "请填写有效的 Email。",
+    "有効な Email を入力してください。",
+    "유효한 Email을 입력해 주세요.",
+    "Please enter a valid Email."
+  ],
+  "以授權紀錄觀察合作風格，取得專屬角色卡。非官方 MBTI 評量。": [
+    "用授权记录观察合作风格，获取专属角色卡。非官方 MBTI 评估。",
+    "許可された記録から協働スタイルを観察し、専用カードを作成。公式の MBTI 検査ではありません。",
+    "허용된 기록으로 협업 스타일을 관찰하고 전용 카드를 만듭니다. 공식 MBTI 검사가 아닙니다.",
+    "Observe collaboration style from authorized records and collect your character card. Not an official MBTI assessment."
+  ],
+  "{ready} / {total} 張": [
+    "{ready} / {total} 张",
+    "{ready} / {total} 枚",
+    "{ready} / {total}장",
+    "{ready} / {total} images"
+  ],
+  "{family} · {style} · {count} / 16 張完成": [
+    "{family} · {style} · {count} / 16 张完成",
+    "{family} · {style} · {count} / 16 枚完成",
+    "{family} · {style} · {count} / 16장 완료",
+    "{family} · {style} · {count} / 16 ready"
+  ]
+}

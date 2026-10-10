@@ -1,3 +1,4 @@
+import {translator,type Locale} from "./i18n.ts";
 import type { TypeCode } from "./contract.ts";
 
 export const personas: Record<TypeCode, { name: string; line: string }> = {
@@ -32,11 +33,12 @@ export type ArtStyle = "regular" | "chibi";
 export const modelLabels: Record<string, string> = { openai: "OpenAI / GPT", anthropic: "Anthropic / Claude", google: "Google / Gemini", xai: "xAI / Grok", deepseek: "DeepSeek", zai: "Z.ai / GLM", other: "其他模型", unknown: "尚未確認" };
 export const clientLabels: Record<string, string> = { codex: "Codex", "claude-code": "Claude Code", antigravity: "Antigravity", cursor: "Cursor", chatgpt: "ChatGPT", other: "其他工具", unknown: "尚未確認" };
 export {artFor,artSlot,artCounts} from "./art-catalog.ts";
-export function artTitle(family: Family) {
-  return family === "codex" ? "GPT 娘的 Codex 主題同人改編" : `${families.find(f => f.id === family)!.label} 角色同人改編`;
+export function artTitle(family:Family,locale:Locale="zh-TW") {
+  const t=translator(locale);
+  return family==="codex"?t("GPT 娘的 Codex 主題同人改編"):t("{family} 角色同人改編",{family:families.find(f=>f.id===family)!.label});
 }
-export function artCredit(family: Family) {
-  return `ApprenTice · 角色參考 ZipZipPipe${family === "deepseek" ? "、上善無形" : ""} · AI 輔助再創作`;
+export function artCredit(family:Family,locale:Locale="zh-TW") {
+  return translator(locale)("ApprenTice · 角色參考 ZipZipPipe{extra} · AI 輔助再創作",{extra:family==="deepseek"?"、上善無形":""});
 }
 export function personaFor(type: string | null) {
   return type && type in personas ? personas[type as TypeCode] : { name: "顯影中的搭檔", line: "有些方向還需要觀察，讓真實合作慢慢留下輪廓。" };

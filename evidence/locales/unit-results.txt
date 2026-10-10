@@ -1,0 +1,68 @@
+
+> ai-persona-card@0.1.0 test
+> node --test tests/*.test.ts
+
+✔ 192 unique tuple slots cover six families, sixteen codes and two styles (0.823875ms)
+✔ resolver never falls back across type, family, style or unknown assessment (0.368167ms)
+✔ completeness gate cannot count fallback hashes or missing slots as complete (6.31725ms)
+✔ archive filenames do not appear in rendered paths or affect the workstyle contract (0.512834ms)
+✔ three independent tasks support the new INTJ workstyle without levels (2.455041ms)
+✔ all 16 standard codes are reachable with independent visible behavior (3.069875ms)
+✔ same task repetitions cannot manufacture three independent situations (0.161917ms)
+✔ two independent tasks are insufficient even when they agree (0.791125ms)
+✔ 2:1 leaning is deliberately unresolved near the boundary (0.294958ms)
+✔ opposing behavior inside one task is mixed, never two votes (0.413917ms)
+✔ 3:1 independent tasks reach a direction; 3:2 remains near-boundary (0.375583ms)
+✔ constrained and unclear choices are excluded from preference (0.402958ms)
+✔ owner instruction alone and opposite behavior cannot establish a preference (0.514125ms)
+✔ owner intent is separately retained; unspecified intent is not invented (0.719167ms)
+✔ partial axes preserve direction but do not emit a forced four-letter type (0.193542ms)
+✔ insufficient coverage and unknown source stay unknown despite claimed behavior (0.145875ms)
+✔ tokens, client and model family never influence workstyle or art (0.580209ms)
+✔ unknown tokens stay null and tied model aggregates stay unknown (0.90175ms)
+✔ raw data, old payloads and forced assessments are rejected (0.739458ms)
+✔ task and observation integrity: uniqueness, references, dates, owner axis and coverage (1.077541ms)
+✔ card projection excludes report evidence, dates and metrics (0.384375ms)
+✔ one explicit scope grant authorizes derived minimum summary without a second preview gate (5.219375ms)
+✔ approved dates, source ownership, source set and destination cannot be silently expanded (2.258125ms)
+✔ lost acknowledgement and temporary 503 retry exact bytes and key, bounded to three attempts (14.318417ms)
+✔ actual host approval is distinguished from generic access failure and never retried around (0.873833ms)
+✔ expiry retains prepared summary and requires a new explicit grant to resume without rescanning (1.639292ms)
+✔ progress is finite and content-free, approval kind is valid only for actual pending approval (0.445959ms)
+✔ waiting distinguishes no contact, last known stale signal and actual host approval (0.196833ms)
+✔ sanitized AGY control-flow fixture contains no old assessment or actual transcript (3.252375ms)
+✔ readable renewal prompt requires destination grant, preserves analysis and avoids terminal report dump (0.226708ms)
+✔ local review recalculates workstyle and never grants upload consent (4.764958ms)
+✔ review refuses missing local permission, already-approved data and extra raw fields (0.532875ms)
+✔ zero available evidence stays untyped with null counts (4.782542ms)
+✔ instructions use new protocol, single scope grant and write-only authority (0.461167ms)
+✔ browser language priority, region/script variants and explicit fallback (0.409417ms)
+✔ all authored UI, report, art and error strings have four complete translations with matching parameters (20.365041ms)
+✔ parameters retain names and codes literally without recursive translation, and unexpected errors stay private (0.520834ms)
+✔ every localized collector preserves write-only destination, protocol, one-grant flow and explicit renewal (1.89475ms)
+✔ real approval and stale progress are localized independently of the observed state (0.15925ms)
+✔ migration preserves an existing legacy row and requires reassessment; owner may delete (172.308125ms)
+✔ create → submit → read persists aggregates, not email or bearer tokens in report (31.740208ms)
+✔ email gates the full report on the server; nickname-only session receives only card fields (36.049125ms)
+✔ separate authorities and cross-session capabilities (20.224708ms)
+✔ dispatch owner binds reading without requiring callback caller identity (22.241291ms)
+✔ one submission and exact canonical idempotent retry (37.140959ms)
+✔ concurrent independent payloads cannot overwrite each other (19.493625ms)
+✔ expired pending and submitted sessions reject callback and read, then purge (24.913666ms)
+✔ revoke deletes profile and report; old authority no longer works (21.58275ms)
+✔ invalid, oversized, unknown fields, wrong nickname and missing approval reject (32.039333ms)
+✔ origin and PII purpose restrictions (4.647084ms)
+✔ D1 survives runtime restart and preserves authority and report (99.812625ms)
+✔ new sessions require explicit current protocol; old clients cannot submit old semantics (13.94775ms)
+✔ unexpected storage errors return 503 with diagnostic phase only, never payload or credentials (0.263709ms)
+✔ progress uses only write authority, records observed stages and never extends expiry (68.926917ms)
+✔ late progress cannot overwrite a completed result or claim completion before accepted submission (33.85925ms)
+✔ automatic runner tolerates a lost accepted response and renews only after explicit destination authorization (41.377125ms)
+ℹ tests 56
+ℹ suites 0
+ℹ pass 56
+ℹ fail 0
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 913.297708

@@ -56,3 +56,38 @@
 @media(max-width:1000px){.art-grid{grid-template-columns:repeat(3,minmax(0,1fr));gap:44px 18px}.art-grid .card-copy h2{font-size:12px}.art-grid .card-code{font-size:29px}}
 @media(max-width:640px){.gallery-page{padding:0 22px}.gallery-header{min-height:72px;font-size:11px;gap:8px}.gallery-header>span:nth-child(2){font-size:13px}.gallery-page main{margin-top:40px}.gallery-page h1{font-size:37px}.gallery-intro{font-size:12px}.gallery-filters{gap:16px}.gallery-filters .style-switch{width:150px}.art-grid{grid-template-columns:repeat(2,minmax(0,1fr));gap:34px 14px}.art-grid .holo-card{width:100%}.art-grid .card-code{font-size:23px}.art-grid .card-copy h2{font-size:9px}.art-grid .card-heading{font-size:8px}.art-grid .card-heading>span:last-child{display:none}.art-grid .card-nickname{font-size:7px}.art-grid .card-corner{font-size:14px}.art-grid .missing-art>span{font-size:55px;margin-bottom:9px}.art-grid .missing-art strong{font-size:9px}.art-grid .missing-art small{font-size:6px}.gallery-caption h2{font-size:19px}.gallery-caption h2 span{display:block;font-size:10px;margin:5px 0 0}.gallery-caption p{font-size:9px}.gallery-caption .quiet-button{font-size:10px}.gallery-footer{font-size:9px}.art-inspector{padding:35px 20px}.art-inspector>h2{font-size:21px}}
 @media(prefers-reduced-motion:reduce){.art-grid .holo-card{transform:none}}
+
+.locale-switch{display:inline-flex;align-items:center;gap:5px;color:#84728f;font-size:12px;max-width:180px}
+.locale-switch select{border:0;background:transparent;color:inherit;max-width:150px;padding:5px 20px 5px 4px;font-size:12px;cursor:pointer}
+.journey-footer{gap:28px;flex-wrap:wrap}
+html[lang="zh-CN"]{--display:"Songti SC","Noto Serif SC","STSong",serif}
+html[lang="ja"]{--display:"Hiragino Mincho ProN","Yu Mincho","Noto Serif JP",serif}
+html[lang="ko"]{--display:"Apple SD Gothic Neo","Noto Sans KR","Malgun Gothic",sans-serif}
+html[lang="en"]{--display:Georgia,"Times New Roman",serif}
+html[lang="en"] .brand{letter-spacing:.015em}
+html[lang="ko"] .brand{letter-spacing:0}
+html[lang="en"] .axis-line span,html[lang="ko"] .axis-line span{font-size:10px;line-height:1.45}
+html[lang="en"] .card-copy h2,html[lang="ko"] .card-copy h2{font-size:16px;line-height:1.3}
+html[lang="en"] .card-code.untyped{font-size:28px}
+html[lang="en"] .about-types span{line-height:1.4}
+html[lang="en"] .art-grid .card-copy h2,html[lang="ko"] .art-grid .card-copy h2{font-size:11px}
+.primary{max-width:100%;min-width:min(300px,100%);text-wrap:balance}
+.primary svg{flex-shrink:0}
+.brand{max-width:calc(100% - 80px);white-space:normal;text-align:center;line-height:1.3}
+.gallery-header>span{min-width:0}.gallery-header>a{flex-shrink:0}
+@media(max-width:640px){
+  .journey-footer{gap:15px;padding-bottom:18px}.locale-switch,.locale-switch select{font-size:11px}
+  html[lang="en"] .brand,html[lang="ko"] .brand{font-size:16px}
+  html[lang="en"] .cover-screen h1{font-size:39px}
+  html[lang="ja"] .cover-screen h1{font-size:36px}
+  html[lang="ko"] .cover-screen h1{font-size:35px}
+  html[lang="en"] .screen h1,html[lang="ko"] .screen h1{font-size:33px}
+  .primary{gap:16px;padding-left:24px;padding-right:24px;font-size:15px;min-width:min(300px,100%)}
+  html[lang="en"] .card-copy h2,html[lang="ko"] .card-copy h2{font-size:13px}
+  html[lang="en"] .art-grid .card-copy h2,html[lang="ko"] .art-grid .card-copy h2{font-size:8px}
+  html[lang="en"] .art-grid .card-code.untyped{font-size:14px}
+  .gallery-header>span:nth-child(2){font-size:11px}
+  .gallery-filters select{max-width:160px}
+  .gallery-caption h2 span{min-height:28px;line-height:1.35}
+  html[lang="en"] .about-types b{width:43px;flex-shrink:0}
+}

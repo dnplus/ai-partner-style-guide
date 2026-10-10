@@ -33,5 +33,5 @@ try{
   const full=await call(`/api/sessions/${emailSession.id}`,{headers:emailRead});const data=await full.json();assert.equal(data.reportAccess,'email');assert.equal(data.report.assessment.type,'INTJ');assert.equal(data.delivery,'not_configured');assert.doesNotMatch(JSON.stringify(data),/fixture@example/);checks.push({step:'full report available, mail explicitly not configured',status:200});
 }finally{const deleted=await call(`/api/sessions/${emailSession.id}`,{method:'DELETE',headers:{...emailRead,Origin:origin}});assert.equal(deleted.status,200);checks.push({step:'delete email fixture',status:200});}
 const result={runtime:'built Worker / local Wrangler + D1',origin,kind:'fixture',remoteWebhookVerified:false,checks};
-await writeFile(new URL('../evidence/art-192/built-worker-smoke.json',import.meta.url),JSON.stringify(result,null,2)+'\n');
+await writeFile(new URL('../evidence/locales/built-worker-smoke.json',import.meta.url),JSON.stringify(result,null,2)+'\n');
 console.log(`Built Worker smoke passed: ${checks.length} checks; no credentials logged; fixture session deleted.`);

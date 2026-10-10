@@ -419,6 +419,13 @@ def scan_codex(home, start, stop, zone, scan):
                 scan["sessions"].append(Session("codex", "human", tally.day, tally.user_n, tally.saw_agent, path, "codex"))
 
 
+def file_birth(info):
+    birth = getattr(info, "st_birthtime", None)
+    if birth is None:
+        return None
+    return datetime.fromtimestamp(birth, timezone.utc)
+
+
 def scan_cursor(home, start, stop, zone, scan):
     root = os.path.join(home, ".cursor", "projects")
     if not os.path.isdir(root) or os.path.islink(root):
@@ -427,42 +434,69 @@ def scan_cursor(home, start, stop, zone, scan):
     for path, mtime in each_jsonl(root):
         if "agent-transcripts" not in path.split(os.sep) or not fresh(mtime, start.timestamp()):
             continue
+        try:
+            info = os.lstat(path)
+        except OSError:
+            continue
         subagent = "subagents" in path.split(os.sep)
-        human = saw_agent = saw = timed = False
-        user_n = 0
-        day = None
+        tally = Tally()
+        timed = False
+        saw_untimed = False
+        untimed_rows = []
         for obj in iter_objects(path) or ():
             if not isinstance(obj, dict) or obj.get("role") not in {"user", "assistant"}:
                 continue
             raw = obj.get("timestamp") or obj.get("createdAt")
             moment = parse_time(raw) if isinstance(raw, str) else None
-            if moment is None:
-                scan["gaps"].add("unattributed_runs")
-                continue
-            timed = True
-            if not (start <= moment < stop):
-                continue
             message = obj.get("message") if isinstance(obj.get("message"), dict) else {}
-            produced = blocks(message.get("content"))
-            if not produced:
+            produced = has_turn(message.get("content"))
+            role = obj.get("role")
+            if moment is None:
+                saw_untimed = True
+                if timed:
+                    scan["gaps"].add("unattributed_runs")
+                else:
+                    untimed_rows.append((role, produced))
                 continue
-            scan["days"].add(local_day(moment, zone))
-            saw = True
-            if obj.get("role") == "user" and not subagent:
-                user_n += 1
-                human = True
-                current = local_day(moment, zone)
-                day = current if day is None else min(day, current)
-            elif obj.get("role") == "assistant":
-                saw_agent = True
+            if not timed and saw_untimed:
+                scan["gaps"].add("unattributed_runs")
+                untimed_rows.clear()
+            timed = True
+            if not (start <= moment < stop) or not produced:
+                continue
+            remember_day(scan, moment, zone)
+            tally.saw = True
+            if role == "user" and not subagent:
+                note_user(tally, moment, zone)
+            elif role == "assistant":
+                tally.saw_agent = True
         if not timed:
-            scan["gaps"].add("unattributed_runs")
-        if not saw:
+            born = file_birth(info)
+            modified = datetime.fromtimestamp(info.st_mtime, timezone.utc)
+            covered = born is not None and start <= born < stop and start <= modified < stop
+            if covered and untimed_rows:
+                for role, produced in untimed_rows:
+                    if not produced:
+                        continue
+                    tally.saw = True
+                    if role == "user" and not subagent:
+                        tally.user_n += 1
+                        tally.human = True
+                    elif role == "assistant":
+                        tally.saw_agent = True
+                if tally.saw:
+                    tally.day = local_day(born, zone)
+                    scan["days"].add(tally.day)
+                else:
+                    scan["gaps"].add("unattributed_runs")
+            else:
+                scan["gaps"].add("unattributed_runs")
+        if not tally.saw:
             continue
         if subagent:
-            scan["sessions"].append(Session("cursor", "subagent", day, 0, False, path, "cursor"))
-        elif human:
-            scan["sessions"].append(Session("cursor", "human", day, user_n, saw_agent, path, "cursor"))
+            scan["sessions"].append(Session("cursor", "subagent", tally.day, 0, False, path, "cursor"))
+        elif tally.human:
+            scan["sessions"].append(Session("cursor", "human", tally.day, tally.user_n, tally.saw_agent, path, "cursor"))
 
 
 def grok_bounds(turns):
@@ -700,7 +734,22 @@ def codex_turns(path, start, stop):
     return turns_from_jsonl(path, start, stop, accept)
 
 
+def cursor_has_clock(path):
+    try:
+        handle = open_file(path)
+    except OSError:
+        return False
+    with handle:
+        for raw in handle:
+            if b'"timestamp"' in raw or b'"createdAt"' in raw:
+                return True
+    return False
+
+
 def cursor_turns(path, start, stop):
+    if not cursor_has_clock(path):
+        return []
+
     def accept(obj, window_start, window_stop):
         raw = obj.get("timestamp") or obj.get("createdAt")
         moment = parse_time(raw) if isinstance(raw, str) else None
@@ -957,12 +1006,14 @@ def launch_tokscale(mode, home, zone, sources, start, stop):
 
     def wait_proc():
         try:
-            proc.wait(timeout=TOKSCALE_TIMEOUT)
-        except subprocess.TimeoutExpired:
-            job["timed_out"] = True
-            proc.kill()
-            proc.wait()
-        job["ended"] = time.perf_counter()
+            try:
+                proc.wait(timeout=TOKSCALE_TIMEOUT)
+            except subprocess.TimeoutExpired:
+                job["timed_out"] = True
+                proc.kill()
+                proc.wait()
+        finally:
+            job["ended"] = time.perf_counter()
 
     thread = threading.Thread(target=wait_proc, daemon=True)
     thread.start()

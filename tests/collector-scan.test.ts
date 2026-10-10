@@ -2,6 +2,7 @@ import test from "node:test";
 import assert from "node:assert/strict";
 import { createServer } from "node:http";
 import { Worker } from "node:worker_threads";
+import { execFileSync } from "node:child_process";
 import { cpSync, mkdtempSync, mkdirSync, readFileSync, rmSync, statSync, symlinkSync, utimesSync, writeFileSync } from "node:fs";
 import { tmpdir } from "node:os";
 import { join } from "node:path";
@@ -17,6 +18,10 @@ function scanHome() {
   const home = mkdtempSync(join(tmpdir(), "collector-home-"));
   cpSync(fixture, home, { recursive: true });
   utimesSync(join(home, ".claude/projects/demo/stale.jsonl"), new Date("2020-01-01T00:00:00Z"), new Date("2020-01-01T00:00:00Z"));
+  utimesSync(join(home, ".cursor/projects/demo/agent-transcripts/bbbbbbbb-bbbb-4ccc-8ddd-eeeeeeeeeeee/bbbbbbbb-bbbb-4ccc-8ddd-eeeeeeeeeeee.jsonl"), new Date("2026-10-11T00:00:00Z"), new Date("2026-10-11T00:00:00Z"));
+  for (const id of ["cccccccc-cccc-4ccc-8ddd-eeeeeeeeeeee", "dddddddd-dddd-4ccc-8ddd-eeeeeeeeeeee"]) {
+    utimesSync(join(home, ".cursor/projects/demo/agent-transcripts", id, `${id}.jsonl`), new Date("2020-01-01T00:00:00Z"), new Date("2020-01-01T00:00:00Z"));
+  }
   const outside = join(home, "outside");
   mkdirSync(outside);
   writeFileSync(join(outside, "note.jsonl"), [
@@ -93,6 +98,81 @@ test("scan digest counts fixture logs, keeps agent turns, and drops secrets and 
   for (const candidate of digest.candidates) assert.equal(candidate.turns.some((turn: { role: string }) => turn.role === "agent"), true);
   const raw = readFileSync(out, "utf8");
   for (const secret of ["ada@example.com", "/Users/ada", "abcdefghijklmnop", "https://example.com", "This line is outside the window.", "Codex outside", "OpenCode outside", "Hermes outside", "Stale mtime", "Linked user", "Untimed cursor", "Subagent user"]) {
+    assert.equal(raw.includes(secret), false, secret);
+  }
+  rmSync(home, { recursive: true, force: true });
+});
+
+function setFileTimes(path: string, birthIso: string, mtimeIso: string) {
+  const birth = Math.floor(new Date(birthIso).getTime() / 1000);
+  const mtime = new Date(mtimeIso);
+  utimesSync(path, mtime, mtime);
+  execFileSync("python3", ["-c", `
+import ctypes, ctypes.util, os, sys
+libc = ctypes.CDLL(ctypes.util.find_library("c"), use_errno=True)
+class AttrList(ctypes.Structure):
+    _fields_ = [("bitmapcount", ctypes.c_ushort), ("reserved", ctypes.c_ushort), ("commonattr", ctypes.c_uint), ("volattr", ctypes.c_uint), ("dirattr", ctypes.c_uint), ("fileattr", ctypes.c_uint), ("forkattr", ctypes.c_uint)]
+class TimeSpec(ctypes.Structure):
+    _fields_ = [("tv_sec", ctypes.c_long), ("tv_nsec", ctypes.c_long)]
+attr = AttrList()
+attr.bitmapcount = 5
+attr.commonattr = 0x00000200
+times = TimeSpec(int(sys.argv[1]), 0)
+if libc.setattrlist(os.fsencode(sys.argv[2]), ctypes.byref(attr), ctypes.byref(times), ctypes.sizeof(times), 0) != 0:
+    err = ctypes.get_errno()
+    raise OSError(err, os.strerror(err), sys.argv[2])
+`, String(birth), path], { stdio: "pipe" });
+}
+
+test("cursor counts a session only when creation and mtime are both inside the window", async () => {
+  const home = mkdtempSync(join(tmpdir(), "collector-cursor-"));
+  const insideId = "cccccccc-cccc-4ccc-8ddd-eeeeeeeeeeee";
+  const outsideId = "dddddddd-dddd-4ccc-8ddd-eeeeeeeeeeee";
+  for (const id of [insideId, outsideId]) {
+    const dir = join(home, ".cursor/projects/demo/agent-transcripts", id);
+    mkdirSync(dir, { recursive: true });
+    cpSync(join(fixture, ".cursor/projects/demo/agent-transcripts", id, `${id}.jsonl`), join(dir, `${id}.jsonl`));
+  }
+  const inside = join(home, ".cursor/projects/demo/agent-transcripts", insideId, `${insideId}.jsonl`);
+  const outside = join(home, ".cursor/projects/demo/agent-transcripts", outsideId, `${outsideId}.jsonl`);
+  setFileTimes(inside, "2026-10-03T02:00:00Z", "2026-10-04T03:00:00Z");
+  setFileTimes(outside, "2026-10-03T02:00:00Z", "2026-10-11T00:00:00Z");
+  const out = join(home, "digest.json");
+  const result = await run([
+    "scan",
+    "--from", "2026-09-30T16:00:00Z",
+    "--to", "2026-10-10T16:00:00Z",
+    "--tz", "Asia/Taipei",
+    "--sources", "cursor",
+    "--tokscale", "off",
+    "--out", out,
+  ], home, "");
+  assert.equal(result.status, 0, result.stderr);
+  assert.match(result.stdout, /human_sessions=1\nautomated_sessions=0\nsubagent_sessions=0\nuser_messages=2\ncandidates=0\nhuman_by_client cursor=1\n/);
+  const digest = JSON.parse(readFileSync(out, "utf8"));
+  assert.deepEqual(digest.observedPeriod, { from: "2026-10-03", to: "2026-10-03" });
+  assert.deepEqual(digest.coverage, {
+    scope: "partial",
+    sources: ["cursor"],
+    gaps: ["web_history_unavailable", "no_artifact_inspection", "no_tokscale", "unattributed_runs"],
+    sampledSessions: 1,
+  });
+  assert.deepEqual(digest.metrics, {
+    humanSessions: 1,
+    automatedSessions: 0,
+    subagentSessions: 0,
+    userMessages: 2,
+    inputTokens: null,
+    outputTokens: null,
+    tokenSource: "unavailable",
+    modelUsage: [],
+    modelUsageUnit: "unknown",
+    mostUsedModelFamily: "unknown",
+    mostUsedClient: "cursor",
+  });
+  assert.deepEqual(digest.candidates, []);
+  const raw = readFileSync(out, "utf8");
+  for (const secret of ["Cursor file user one", "Cursor file kept out one", "Cursor file agent"]) {
     assert.equal(raw.includes(secret), false, secret);
   }
   rmSync(home, { recursive: true, force: true });

@@ -3,7 +3,7 @@
   "skeleton_id": "ai-persona-card-local",
   "git": {
     "base_commit": "a54fc84b3a65fd5739b1d6a9b0897f18f047da8c",
-    "last_verified_code_commit": "d83b8acafd63e479fe3469f0834f033285f71b0d"
+    "last_verified_code_commit": "54dbd836c91aee762ef27ebc87e3eecf93f58d5f"
   },
   "scenario": {
     "actor": "本人，在自己的 Air 使用本機瀏覽器與測試 collector",
@@ -40,7 +40,7 @@
     "tests/**",
     "THIRD_PARTY_NOTICES.md"
   ],
-  "current_checkpoint": "COMPLETE",
+  "current_checkpoint": "C8",
   "checkpoints": [
     {
       "id": "C1",
@@ -1136,12 +1136,62 @@
           "path": "docs/DELIVERY-DEFAULTS.md",
           "result": "Scope implementation and collector architecture limitations"
         }
-      ]
+      ],
+      "receipt": {
+        "verified_commit": "54dbd836c91aee762ef27ebc87e3eecf93f58d5f",
+        "evidence_digest": "71067cad191b25e9c98e7cf74ec15555f258c85f311effa6cae5d8ea41148b9c",
+        "affected_paths": [
+          ".gitignore",
+          ".openai/hosting.json",
+          "app/globals.css",
+          "components/collector-scope-options.tsx",
+          "components/persona-app.tsx",
+          "docs/DELIVERY-DEFAULTS.md",
+          "evidence/defaults/browser-errors.txt",
+          "evidence/defaults/browser-results.json",
+          "evidence/defaults/build-results.txt",
+          "evidence/defaults/en-instructions.png",
+          "evidence/defaults/en-prompt.txt",
+          "evidence/defaults/ja-instructions.png",
+          "evidence/defaults/ja-prompt.txt",
+          "evidence/defaults/ko-instructions.png",
+          "evidence/defaults/ko-prompt.txt",
+          "evidence/defaults/typecheck-results.txt",
+          "evidence/defaults/unit-results.txt",
+          "evidence/defaults/zh-CN-instructions.png",
+          "evidence/defaults/zh-CN-prompt.txt",
+          "evidence/defaults/zh-TW-instructions.png",
+          "evidence/defaults/zh-TW-prompt.txt",
+          "lib/collector-copy.json",
+          "lib/collector-instructions.ts",
+          "lib/collector-runner.ts",
+          "lib/collector-scope.ts",
+          "lib/messages.json",
+          "public/collector-protocol.md",
+          "public/collector-scope-schema.json",
+          "public/collector/en.md",
+          "public/collector/ja.md",
+          "public/collector/ko.md",
+          "public/collector/zh-CN.md",
+          "scripts/export-localized-protocols.mjs",
+          "scripts/export-schema.mjs",
+          "tests/browser/defaults.spec.ts",
+          "tests/collector-scope.test.ts",
+          "tests/locales.test.ts"
+        ]
+      }
+    },
+    {
+      "id": "C8",
+      "title": "Complete third-step card with independent usage levels,device recall and safe share formats",
+      "status": "active",
+      "evidence": [],
+      "next_action": "Implement one card composition for preview/PNG/share,short brief,owner-bound recall,localized level evidence and tests."
     }
   ],
-  "last_observation": "C7 default60-day scope,optional advanced options,and one concise grant pass60unit/D1 checks and5built-browser locales.",
-  "current_blocker": "None for C7. User-authorized finalscreen/levels/remember/share and private publication remain.",
+  "last_observation": "C7 sealed; advancing user-authorized final3-step result,independent levels,device recall and share outputs.",
+  "current_blocker": "Implement C8 without changing MBTI rubric or scanning private history.",
   "correlation_groups": [],
-  "state_revision": 20,
-  "state_digest": "f66a0774a39f04f4a729d54b2ad619c7d30e05d52c193ad16784d87cc0447ab4"
+  "state_revision": 21,
+  "state_digest": "8e9ab0651637d24a3f0b370e5bfca5a9a21d404563bac9869173900d3154c1e6"
 }

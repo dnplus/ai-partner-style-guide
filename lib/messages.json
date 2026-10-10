@@ -2278,5 +2278,101 @@
     "{family} · {style} · {count} / 16 枚完成",
     "{family} · {style} · {count} / 16장 완료",
     "{family} · {style} · {count} / 16 ready"
+  ],
+  "最近 {days} 天 · {sources} · {tokscale}": [
+    "最近 {days} 天 · {sources} · {tokscale}",
+    "直近 {days} 日 · {sources} · {tokscale}",
+    "최근 {days}일 · {sources} · {tokscale}",
+    "Last {days} days · {sources} · {tokscale}"
+  ],
+  "所有支援本機來源": [
+    "所有支持的本地来源",
+    "対応するすべてのローカル記録",
+    "지원되는 모든 로컬 기록",
+    "All supported local sources"
+  ],
+  "已選來源": [
+    "已选来源",
+    "選択した記録",
+    "선택한 기록",
+    "Selected sources"
+  ],
+  "不含 Tokscale": [
+    "不含 Tokscale",
+    "Tokscale なし",
+    "Tokscale 제외",
+    "Without Tokscale"
+  ],
+  "進階範圍（選填）": [
+    "高级范围（选填）",
+    "範囲を調整（任意）",
+    "범위 조정(선택)",
+    "Adjust scope (optional)"
+  ],
+  "觀察天數": [
+    "观察天数",
+    "観察日数",
+    "관찰 일수",
+    "Days to observe"
+  ],
+  "來源範圍": [
+    "来源范围",
+    "記録の範囲",
+    "기록 범위",
+    "Source scope"
+  ],
+  "自行選取": [
+    "自行选择",
+    "個別に選ぶ",
+    "직접 선택",
+    "Choose sources"
+  ],
+  "其他已支援的本機工具": [
+    "其他已支持的本地工具",
+    "その他の対応ローカルツール",
+    "기타 지원 로컬 도구",
+    "Other supported local tools"
+  ],
+  "包含 Tokscale 彙總": [
+    "包含 Tokscale 汇总",
+    "Tokscale 集計を含める",
+    "Tokscale 집계 포함",
+    "Include Tokscale aggregates"
+  ],
+  "缺少時安裝官方 Tokscale 套件": [
+    "缺少时安装官方 Tokscale 软件包",
+    "未導入なら公式 Tokscale をインストール",
+    "없으면 공식 Tokscale 패키지 설치",
+    "Install the official Tokscale package if missing"
+  ],
+  "時區：{zone}": [
+    "时区：{zone}",
+    "タイムゾーン：{zone}",
+    "시간대: {zone}",
+    "Time zone: {zone}"
+  ],
+  "只限本人所有、主機允許讀取的支援紀錄。不會掃整顆磁碟或憑證。": [
+    "仅限本人所有、主机允许读取的支持记录。不扫描整个磁盘或凭据。",
+    "本人所有で端末が許可した対応記録のみ。ディスク全体や認証情報は読みません。",
+    "본인 소유이며 기기에서 허용한 지원 기록만 사용합니다. 디스크 전체나 인증 정보는 읽지 않습니다.",
+    "Only supported records you own and your host allows. No whole-disk or credential scans."
+  ],
+  "請選擇至少一個來源，觀察天數需為 1–365 天。": [
+    "请选择至少一个来源，观察天数需为 1–365 天。",
+    "記録を1つ以上選び、日数を1〜365にしてください。",
+    "기록을 하나 이상 선택하고 1~365일로 설정하세요.",
+    "Choose at least one source and between 1 and 365 days."
+  ],
+  "範圍已替你填好，只需同意一次。": [
+    "范围已替你填好，只需同意一次。",
+    "範囲は設定済み。確認は一度だけです。",
+    "범위는 이미 설정되어 있어 한 번만 동의하면 됩니다.",
+    "Your scope is ready. Approve it once."
+  ],
+  "查看這次範圍": [
+    "查看本次范围",
+    "今回の範囲を見る",
+    "이번 범위 보기",
+    "View this scope"
   ]
 }

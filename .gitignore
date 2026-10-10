@@ -56,3 +56,5 @@ next-env.d.ts
 /work/
 /.test-results/
 *.tsbuildinfo
+
+/docs/references-c8/

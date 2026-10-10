@@ -5,6 +5,8 @@ import { ArrowLeft, ArrowRight, Copy, Download, X } from "lucide-react";
 import { HoloCard } from "./holo-card.tsx";
 import { usePersonaSession } from "./use-persona-session.ts";
 import { collectorInstructions } from "../lib/collector-instructions.ts";
+import {CollectorScopeOptions} from "./collector-scope-options.tsx";
+import {createCollectorScope,collectorScopeSchema,defaultScopeOptions,scopeOptionsSchema,SESSION_TTL_MS,formatScopeWindow,type CollectorScope} from "../lib/collector-scope.ts";
 import { makeFixture, demoReport } from "../lib/fixture.ts";
 import { toCardObservation, type Report } from "../lib/assessment.ts";
 import { families, personas, personaFor, modelLabels, clientLabels, artCredit, artFor, artCounts, type ArtStyle, type Family } from "../lib/catalog.ts";
@@ -62,6 +64,9 @@ export function PersonaApp() {
     const [fixtureConsent, setFixtureConsent] = useState(false);
     const [sending, setSending] = useState(false);
     const [origin, setOrigin] = useState("");
+    const [timeZone,setTimeZone]=useState("UTC");
+    const [scopeOptions,setScopeOptions]=useState(defaultScopeOptions);
+    const [collectionScope,setCollectionScope]=useState<CollectorScope|null>(null);
     const about = useRef<HTMLDialogElement>(null);
     const focus = useRef<HTMLElement>(null);
     const received = useRef<string | null>(null);
@@ -73,10 +78,11 @@ export function PersonaApp() {
     const card = result?.card ?? toCardObservation(demoReport);
     const expired = !!active && flow.expired && !result;
     const progress = stage === "identity" ? 1 : ["instructions", "fixture", "waiting"].includes(stage) ? 2 : 3;
-    const instructions = active ? collectorInstructions(active, origin, resumeMode, locale) : "";
+    const effectiveScope=active?(collectionScope??createCollectorScope(active.expiresAt-SESSION_TTL_MS,timeZone)):null;
+    const instructions = active ? collectorInstructions(active, origin, resumeMode, locale,effectiveScope!) : "";
     const agentState = describeProgress(flow.agentProgress, flow.clock, locale);
     const countdown = `${Math.floor(flow.remaining / 60).toString().padStart(2, "0")}:${(flow.remaining % 60).toString().padStart(2, "0")}`;
-    useEffect(() => { setOrigin(location.origin); }, []);
+    useEffect(() => { setOrigin(location.origin);setTimeZone(Intl.DateTimeFormat().resolvedOptions().timeZone||"UTC"); }, []);
     useEffect(() => {
         if (!flow.ready || initialized.current)
             return;
@@ -96,6 +102,8 @@ export function PersonaApp() {
                     setNicknameOnly(saved.nicknameOnly !== false);
                     setDemo(saved.demo === true);
                     setResumeMode(saved.resumeMode === true);
+                    const scope=collectorScopeSchema.safeParse(saved.collectionScope);
+                    if(scope.success){setCollectionScope(scope.data);setScopeOptions(scope.data.options);}
                 }
             }
             catch { }
@@ -116,11 +124,11 @@ export function PersonaApp() {
     useEffect(() => {
         if (active && initialized.current) {
             try {
-                sessionStorage.setItem(UI_KEY, JSON.stringify({ id: active.id, stage, style, family, nicknameOnly, demo, resumeMode }));
+                sessionStorage.setItem(UI_KEY, JSON.stringify({ id: active.id, stage, style, family, nicknameOnly, demo, resumeMode,collectionScope }));
             }
             catch { }
         }
-    }, [active, stage, style, family, nicknameOnly, demo, resumeMode]);
+    }, [active, stage, style, family, nicknameOnly, demo, resumeMode,collectionScope]);
     useEffect(() => {
         if (!flow.ready)
             return;
@@ -148,8 +156,10 @@ export function PersonaApp() {
             go("instructions");
             return;
         }
+        if(!scopeOptionsSchema.safeParse(scopeOptions).success){setNotice("請選擇至少一個來源，觀察天數需為 1–365 天。");return;}
         const next = await flow.create({ nickname, ...(email.trim() ? { email: email.trim(), emailResultOnlyConsent: emailConsent } : {}) });
         if (next) {
+            if(!resumeMode||!collectionScope)setCollectionScope(createCollectorScope(next.expiresAt-SESSION_TTL_MS,timeZone,scopeOptions));
             fixtureKey.current = crypto.randomUUID();
             setNicknameOnly(true);
             setFixtureConsent(false);
@@ -183,6 +193,7 @@ export function PersonaApp() {
                 setNickname("");
                 setEmail("");
                 setEmailOpen(false);
+                setScopeOptions(defaultScopeOptions());setCollectionScope(null);
             }
             about.current?.close();
             return true;
@@ -254,6 +265,7 @@ export function PersonaApp() {
           <label className="sr-only" htmlFor="nickname">{t("Agent 的名字")}</label><input id="nickname" className="nickname-input" autoComplete="off" placeholder={t("Agent 的名字")} value={active?.nickname ?? nickname} onInvalid={e=>e.currentTarget.setCustomValidity(t("請填寫 Agent 的名字。"))} onInput={e=>e.currentTarget.setCustomValidity("")} onChange={e => setNickname(e.target.value)} required maxLength={24} readOnly={!!active}/>
           <p className="field-caption">{active ? t("返回不會建立第二個連結") : t("這個名字會出現在卡片上")}</p>
           {!active && <details className="email-disclosure" open={emailOpen} onToggle={e => setEmailOpen(e.currentTarget.open)}><summary>{t("想收到完整報告？加入 Email")}<span aria-hidden="true">＋</span></summary><div className="email-fields"><p>{t("不填 Email 只取得卡片。Email 僅用於這次結果。")}</p><label className="sr-only" htmlFor="email">Email</label><input id="email" type="email" autoComplete="email" placeholder={t("你的 Email")} value={email} onInvalid={e=>e.currentTarget.setCustomValidity(t("請填寫有效的 Email。"))} onInput={e=>e.currentTarget.setCustomValidity("")} onChange={e => setEmail(e.target.value)} maxLength={254}/><label className="check-field"><input type="checkbox" checked={emailConsent} onChange={e => setEmailConsent(e.target.checked)}/>{t("我同意 Email 僅用於這次報告寄送，不用於行銷。")}</label><p className="local-delivery-note">{t("本機預覽可查看完整報告；寄送尚未開放，不會寄信。")}</p></div></details>}
+          {!active&&!demo&&!resumeMode&&<CollectorScopeOptions value={scopeOptions} onChange={setScopeOptions} timeZone={timeZone}/>}
           <button className="primary wide" disabled={flow.busy || (!!email.trim() && !emailConsent)}>{flow.busy ? t("建立中…") : active ? t("繼續這個連結") : t("建立我的連結")}<ArrowRight size={20}/></button>
           {!active && !emailOpen && <p className="small-note">{t("不填 Email，也能拿到角色卡。")}</p>}
         </form>
@@ -261,7 +273,8 @@ export function PersonaApp() {
       {stage === "instructions" && active && <section className="instructions-screen screen">
         <div className="sealed-card small" aria-hidden="true"><span>✧</span></div>
         <h1 tabIndex={-1}>{demo ? <>{t("先選好，")}<br />{t("這次觀察的範圍。")}</> : <>{t("把這段指令，")}<br />{t("交給你的 Agent。")}</>}</h1>
-        <p className="lead">{demo ? t("使用虛構資料，走過同一個收件流程。") : <>{t("一次確認來源、期間與最小摘要傳送。")}<br />{t("同意後自動完成，回來這裡看結果。")}</>}</p>
+        <p className="lead">{demo ? t("使用虛構資料，走過同一個收件流程。") : <>{t("範圍已替你填好，只需同意一次。")}<br />{t("同意後自動完成，回來這裡看結果。")}</>}</p>
+        {!demo&&effectiveScope&&<details className="scope-window"><summary>{t("查看這次範圍")}</summary><p>{formatScopeWindow(effectiveScope,locale)}</p><p>{t(effectiveScope.options.sourceMode==="all_supported_local"?"所有支援本機來源":"已選來源")}{effectiveScope.options.sourceMode==="selected"?" · "+effectiveScope.options.sources.join(", "):""} · {effectiveScope.options.includeTokscale?"Tokscale":t("不含 Tokscale")}</p></details>}
         {active.writeToken ? <>
           <button className="primary" onClick={demo ? () => go("fixture") : copy}>{demo ? t("查看示範範圍") : t("複製專屬指令")}{demo ? <ArrowRight size={20}/> : <Copy size={19}/>}</button>
           {!demo && <details className="instruction-disclosure" open={manual} onToggle={e => setManual(e.currentTarget.open)}><summary>{t("查看／手動複製指令")}</summary><textarea className="instruction-box" aria-label={t("貼給 Agent 的指令")} value={instructions} readOnly onFocus={e => e.currentTarget.select()}/><button className="quiet-button" onClick={() => go("waiting")}>{t("我已複製，開始等待")}<ArrowRight size={16}/></button></details>}

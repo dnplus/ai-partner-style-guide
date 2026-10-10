@@ -1,0 +1,86 @@
+{
+  "$ref": "#/definitions/CollectorScopeV1",
+  "definitions": {
+    "CollectorScopeV1": {
+      "type": "object",
+      "properties": {
+        "version": {
+          "type": "string",
+          "const": "1.0"
+        },
+        "options": {
+          "type": "object",
+          "properties": {
+            "lookbackDays": {
+              "type": "integer",
+              "minimum": 1,
+              "maximum": 365,
+              "default": 60
+            },
+            "sourceMode": {
+              "type": "string",
+              "enum": [
+                "all_supported_local",
+                "selected"
+              ],
+              "default": "all_supported_local"
+            },
+            "sources": {
+              "type": "array",
+              "items": {
+                "type": "string",
+                "enum": [
+                  "codex",
+                  "claude-code",
+                  "antigravity",
+                  "cursor",
+                  "chatgpt",
+                  "other"
+                ]
+              },
+              "minItems": 1,
+              "maxItems": 6,
+              "default": [
+                "codex",
+                "claude-code",
+                "antigravity",
+                "cursor",
+                "chatgpt",
+                "other"
+              ]
+            },
+            "includeTokscale": {
+              "type": "boolean",
+              "default": true
+            },
+            "installTokscaleIfMissing": {
+              "type": "boolean",
+              "default": true
+            }
+          },
+          "additionalProperties": false
+        },
+        "timeZone": {
+          "type": "string"
+        },
+        "from": {
+          "type": "string",
+          "format": "date-time"
+        },
+        "to": {
+          "type": "string",
+          "format": "date-time"
+        }
+      },
+      "required": [
+        "version",
+        "options",
+        "timeZone",
+        "from",
+        "to"
+      ],
+      "additionalProperties": false
+    }
+  },
+  "$schema": "http://json-schema.org/draft-07/schema#"
+}

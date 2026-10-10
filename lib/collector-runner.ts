@@ -1,11 +1,13 @@
 import { z } from "zod";
 import { client, date, nicknameSchema, progressSchema, submissionSchema, type Submission } from "./contract.ts";
 import { deriveAssessment, validateSubmission } from "./assessment.ts";
+import {collectorScopeSchema,scopeDateBounds,type CollectorScope} from "./collector-scope.ts";
 
 export const grantSchema = z.object({
   scopeApproved: z.literal(true), sourceOwnershipConfirmed: z.literal(true),
   origin: z.string().url(), sessionId: z.string().uuid(), expiresAt: z.number().int(), nickname: nicknameSchema,
   sources: z.array(client).max(7), period: z.object({ from: date, to: date }).strict(),
+  collectionScope: collectorScopeSchema.optional(),
 }).strict();
 export type CollectorGrant = z.infer<typeof grantSchema>;
 export type CollectorTarget = { origin: string; id: string; writeToken: string; expiresAt: number; nickname: string };
@@ -22,13 +24,21 @@ function validateTarget(input: CollectorGrant, target: CollectorTarget) {
   if ((!local && url.protocol !== "https:") || url.origin !== target.origin || url.username || url.password) throw new Error("Invalid destination");
   if (grant.origin !== target.origin || grant.sessionId !== target.id || grant.expiresAt !== target.expiresAt || grant.nickname !== target.nickname || !/^[0-9a-f]{64}$/.test(target.writeToken)) throw new Error("A new destination requires an explicit new grant");
   if (grant.period.from > grant.period.to || new Set(grant.sources).size !== grant.sources.length) throw new Error("Invalid approved scope");
+  if(grant.collectionScope){
+    const dates=scopeDateBounds(grant.collectionScope);
+    if(grant.period.from!==dates.from||grant.period.to!==dates.to||grant.sources.some(s=>!grant.collectionScope!.options.sources.includes(s as Exclude<typeof s,"unknown">)))throw new Error("Grant differs from the populated scope");
+  }
   return grant;
+}
+export function grantPopulatedScope(scope:CollectorScope,target:CollectorTarget,approval:{scopeApproved:true;sourceOwnershipConfirmed:true}):CollectorGrant{
+  return grantSchema.parse({...approval,origin:target.origin,sessionId:target.id,expiresAt:target.expiresAt,nickname:target.nickname,sources:scope.options.sources,period:scopeDateBounds(scope),collectionScope:scope});
 }
 export function prepareAuthorizedSummary(input: unknown, grant: CollectorGrant, target: CollectorTarget, now = Date.now()): Submission {
   validateTarget(grant, target);
   const shape = submissionSchema.parse(input);
   const data = validateSubmission({ ...shape, assessment: deriveAssessment(shape) }, now);
   if (data.nickname !== grant.nickname || data.observedPeriod.from < grant.period.from || data.observedPeriod.to > grant.period.to || data.coverage.sources.some(s => !grant.sources.includes(s))) throw new Error("Summary exceeds approved scope");
+  if(grant.collectionScope&&!grant.collectionScope.options.includeTokscale&&data.metrics.tokenSource==="tokscale")throw new Error("Tokscale was excluded from this scope");
   return data;
 }
 async function send(path: string, body: string, target: CollectorTarget, extra: Record<string, string>, transport: Transport): Promise<Outcome> {

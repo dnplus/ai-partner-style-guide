@@ -5,7 +5,8 @@ import ts from "typescript";
 import messages from "../lib/messages.json" with {type:"json"};
 import copy from "../lib/collector-copy.json" with {type:"json"};
 import {locales,resolveLocale,translate,noticeText,localizedProtocol,bodyFonts} from "../lib/i18n.ts";
-import {collectorInstructions} from "../lib/collector-instructions.ts";
+import {collectorInstructions,collectorConfirmation} from "../lib/collector-instructions.ts";
+import {createCollectorScope,SESSION_TTL_MS} from "../lib/collector-scope.ts";
 import {describeProgress} from "../lib/collector-progress.ts";
 import {artSlots} from "../lib/art-catalog.ts";
 
@@ -19,7 +20,7 @@ test("all authored UI, report, art and error strings have four complete translat
     assert.equal(values.length,4,key);
     for(const text of values){assert.ok(text.trim(),key);assert.deepEqual(params(text),params(key),key);}
   }
-  for(const file of ["components/persona-app.tsx","components/holo-card.tsx","components/art-gallery.tsx","components/locale-provider.tsx","lib/catalog.ts","lib/workstyle.ts","lib/collector-progress.ts","lib/session-service.ts","lib/assessment.ts","lib/export-card.ts"]){
+  for(const file of ["components/persona-app.tsx","components/collector-scope-options.tsx","components/holo-card.tsx","components/art-gallery.tsx","components/locale-provider.tsx","lib/catalog.ts","lib/workstyle.ts","lib/collector-progress.ts","lib/session-service.ts","lib/assessment.ts","lib/export-card.ts"]){
     const sf=ts.createSourceFile(file,fs.readFileSync(file,"utf8"),ts.ScriptTarget.Latest,true,ts.ScriptKind.TSX);
     const visit=(node:ts.Node)=>{
       if((ts.isStringLiteral(node)||ts.isJsxText(node))&&/[\u3400-\u9fff]/.test(node.text)){
@@ -43,7 +44,7 @@ test("every localized collector preserves write-only destination, protocol, one-
     const renewal=collectorInstructions(session,"http://127.0.0.1:5188",true,locale);
     for(const part of ["version 2.0","agent-workstyle-v1","ownerRequest","both_available","type:null","24 KiB","Idempotency-Key","awaiting_host_approval","Authorization: Bearer WRITE_ONLY_TEST_TOKEN","0600","503","409","404","410","Email","Tokscale",JSON.stringify(session.nickname),localizedProtocol(locale)])assert.ok(prompt.includes(part),locale+": "+part);
     assert.ok(prompt.includes(copy[locale].intro));
-    assert.ok(renewal.includes(copy[locale].renew));
+    assert.ok(renewal.includes(copy[locale].renew.replace("{confirmation}",collectorConfirmation(createCollectorScope(session.expiresAt-SESSION_TTL_MS),locale))));
     assert.ok(!prompt.includes("NEVER_REVEAL_READ_CAPABILITY"));
     assert.ok(!prompt.includes("{origin}")&&!prompt.includes("{nickname}"));
     assert.notEqual(prompt,renewal);

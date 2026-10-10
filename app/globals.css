@@ -91,3 +91,12 @@ html[lang="en"] .art-grid .card-copy h2,html[lang="ko"] .art-grid .card-copy h2{
   .gallery-caption h2 span{min-height:28px;line-height:1.35}
   html[lang="en"] .about-types b{width:43px;flex-shrink:0}
 }
+
+.collector-scope-options { margin: 1.2rem 0; text-align: left; font-size: 12px; color: var(--muted); }
+.scope-defaults { text-align: center; margin: .6rem 0; line-height: 1.6; }
+.collector-scope-options summary, .scope-window summary { cursor: pointer; text-align: center; padding: .5rem; }
+.scope-fields { display: grid; gap: .8rem; margin-top: .6rem; padding: 1rem; border: 1px solid #dcd4eb; border-radius: 14px; background: #ffffff88; }
+.scope-fields > label { display: flex; justify-content: space-between; align-items: center; gap: .8rem; }
+.scope-fields input[type=number], .scope-fields select { max-width: 65%; padding: .55rem; border: 1px solid #c8bdd8; border-radius: 8px; background: white; color: #282035; }
+.scope-fields fieldset { border: 0; display: grid; grid-template-columns: 1fr 1fr; gap: .5rem; padding: 0; }
+.scope-window { font-size: 12px; color: #786b88; max-width: 420px; line-height: 1.65; margin: 0 auto 1rem; }

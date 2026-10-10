@@ -1110,11 +1110,38 @@
           "tests/locales.test.ts"
         ]
       }
+    },
+    {
+      "id": "C7",
+      "title": "Default owned local60-day collection with optional Tokscale setup and one concise approval",
+      "status": "verified",
+      "evidence": [
+        {
+          "type": "api",
+          "path": "evidence/defaults/unit-results.txt",
+          "result": "60/60 unit and D1 checks"
+        },
+        {
+          "type": "browser",
+          "path": "evidence/defaults/browser-results.json",
+          "result": "5/5 built browser locale/default-scope journeys"
+        },
+        {
+          "type": "build",
+          "path": "evidence/defaults/build-results.txt",
+          "result": "Official Sites build succeeded"
+        },
+        {
+          "type": "delivery",
+          "path": "docs/DELIVERY-DEFAULTS.md",
+          "result": "Scope implementation and collector architecture limitations"
+        }
+      ]
     }
   ],
-  "last_observation": "C6 is complete and sealed at d83b8acafd63e479fe3469f0834f033285f71b0d: final local built Worker passed56unit/D1,15browser,20HTTP checks and build/typecheck;192art and scoring remain unchanged. User preview is restored to zh-TW. Delivery details and known remote/email limitations are in docs/DELIVERY-LOCALES.md.",
-  "current_blocker": "No local feature blocker. Actual email delivery, remote callback through private Sites access, real personal-data validation and animated export remain unconfigured or unverified; no deployment authorized. One initial post-restart HTTP503 was not reproduced and is documented.",
+  "last_observation": "C7 default60-day scope,optional advanced options,and one concise grant pass60unit/D1 checks and5built-browser locales.",
+  "current_blocker": "None for C7. User-authorized finalscreen/levels/remember/share and private publication remain.",
   "correlation_groups": [],
-  "state_revision": 18,
-  "state_digest": "a68ab072f1656fc825353beaa9520a17dcb794d485efe5639aa121d8091f069c"
+  "state_revision": 20,
+  "state_digest": "f66a0774a39f04f4a729d54b2ad619c7d30e05d52c193ad16784d87cc0447ab4"
 }

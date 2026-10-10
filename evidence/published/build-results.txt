@@ -1,0 +1,51 @@
+
+> ai-persona-card@0.1.0 build
+> node scripts/run-framework.mjs build
+
+
+  vinext build  (Vite 8.0.13)
+
+(node:97925) [DEP0205] DeprecationWarning: `module.register()` is deprecated. Use `module.registerHooks()` instead.
+(Use `node --trace-deprecation ...` to show where the warning was created)
+[1/5] analyze client references...
+[2Ktransforming...✓ 256 modules transformed.
+rendering chunks...
+✓ built in 217ms
+[2/5] analyze server references...
+[2Ktransforming...✓ 129 modules transformed.
+rendering chunks...
+✓ built in 81ms
+[3/5] build rsc environment...
+[2Ktransforming...✓ 253 modules transformed.
+rendering chunks...
+computing gzip size...
+✓ built in 199ms
+[4/5] build client environment...
+[2Ktransforming...✓ 1965 modules transformed.
+rendering chunks...
+computing gzip size...
+✓ built in 774ms
+[5/5] build ssr environment...
+[2Ktransforming...✓ 198 modules transformed.
+rendering chunks...
+computing gzip size...
+✓ built in 198ms
+[0m
+  Route (app)
+  ┌ ƒ /                      
+  ├ λ /api/account           
+  ├ λ /api/collect/:id       
+  ├ λ /api/collect/:id/status
+  ├ λ /api/remembered        
+  ├ λ /api/sessions          
+  ├ λ /api/sessions/:id      
+  └ ? /art-gallery           
+
+  λ API  ƒ Dynamic  ? Unknown
+
+  ? Some routes could not be classified. vinext currently uses static analysis
+    and cannot detect dynamic API usage (headers(), cookies(), etc.) at build time.
+    Automatic classification will be improved in a future release.
+
+  Build complete. Run `vinext start` to start the production server.
+

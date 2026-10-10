@@ -1,0 +1,1 @@
+Built Worker smoke passed: 26 checks; no capabilities logged; dedicated fixtures cleared.

@@ -23,6 +23,6 @@ test("completeness gate cannot count fallback hashes or missing slots as complet
   if(artCounts.complete)assert.doesNotThrow(()=>validateArtManifest(manifest,true));else assert.throws(()=>validateArtManifest(manifest,true),/incomplete/);
 });
 test("archive filenames do not appear in rendered paths or affect the workstyle contract",()=>{
-  for(const s of artSlots.filter(s=>s.status==="ready"))assert.equal(s.src,"/art/mbti/"+s.family+"/"+s.type.toLowerCase()+"-"+s.style+".png");
+  for(const s of artSlots.filter(s=>s.status==="ready"))assert.equal(s.src,"/art/mbti/"+s.family+"/"+s.type.toLowerCase()+"-"+s.style+".webp");
   assert.doesNotMatch(JSON.stringify(manifest),/PVSE|QVSE|PVSC|QASC/);
 });

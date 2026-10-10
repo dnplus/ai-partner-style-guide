@@ -58,3 +58,5 @@ C8 的程式、瀏覽器與 PNG 證據在 `evidence/final-card/`；發佈與原�
 圖片是 ApprenTice 同人衍生，角色參考 ZipZipPipe；DeepSeek 另含上善無形。CC BY-NC-SA 4.0：非商業、署名及相同方式分享。GPT 龍娘是 Codex 主題改編，並非官方角色；上游權利鏈未全面核實，沒有模型業者背書。[素材來源](public/art-provenance.md)。
 
 真人證據校準、動畫匯出、寄信尚未完成。資料過期後拒絕讀寫，於後續請求清理；沒有宣稱到期瞬間背景刪除。
+
+網站素材採原尺寸 WebP（品質 98、透明度一致），原始 PNG 全數保存在 `art-source/`。編碼、來源 hash 與 Sites 封裝限制說明見 [ART-DELIVERY](docs/ART-DELIVERY.md)。

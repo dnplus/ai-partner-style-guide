@@ -81,7 +81,7 @@ test("tokens, client and model family never influence workstyle or art",()=>{
   const f=makeFixture();f.metrics.inputTokens=999999999;f.metrics.outputTokens=999999999;f.metrics.tokenSource="authorized_records";
   f.metrics.modelUsage=[{family:"google",count:100}];f.metrics.mostUsedModelFamily="google";
   assert.equal(valid(f).assessment.type,"INTJ");
-  for(const family of families)for(const style of ["regular","chibi"] as const) assert.equal(artFor(family.id,"INTJ",style),"/art/mbti/"+family.id+"/intj-"+style+".png");
+  for(const family of families)for(const style of ["regular","chibi"] as const) assert.equal(artFor(family.id,"INTJ",style),"/art/mbti/"+family.id+"/intj-"+style+".webp");
 });
 test("unknown tokens stay null and tied model aggregates stay unknown",()=>{
   const f=makeFixture();f.metrics.inputTokens=100;assert.throws(()=>valid(f));f.metrics.inputTokens=null;

@@ -1,0 +1,87 @@
+
+> ai-persona-card@0.1.0 test
+> node --test tests/*.test.ts
+
+✔ 192 unique tuple slots cover six families, sixteen codes and two styles (1.977375ms)
+✔ resolver never falls back across type, family, style or unknown assessment (0.420167ms)
+✔ completeness gate cannot count fallback hashes or missing slots as complete (11.276917ms)
+✔ archive filenames do not appear in rendered paths or affect the workstyle contract (0.257667ms)
+✔ three independent tasks support the new INTJ workstyle independently from usage level (4.65425ms)
+✔ all 16 standard codes are reachable with independent visible behavior (4.590333ms)
+✔ same task repetitions cannot manufacture three independent situations (0.772875ms)
+✔ two independent tasks are insufficient even when they agree (0.149584ms)
+✔ 2:1 leaning is deliberately unresolved near the boundary (0.338167ms)
+✔ opposing behavior inside one task is mixed, never two votes (0.450541ms)
+✔ 3:1 independent tasks reach a direction; 3:2 remains near-boundary (1.382333ms)
+✔ constrained and unclear choices are excluded from preference (0.3975ms)
+✔ owner instruction alone and opposite behavior cannot establish a preference (0.269041ms)
+✔ owner intent is separately retained; unspecified intent is not invented (0.315167ms)
+✔ partial axes preserve direction but do not emit a forced four-letter type (0.246333ms)
+✔ insufficient coverage and unknown source stay unknown despite claimed behavior (0.252667ms)
+✔ tokens, client and model family never influence workstyle or art (0.795875ms)
+✔ unknown tokens stay null and tied model aggregates stay unknown (0.666167ms)
+✔ raw data, old payloads and forced assessments are rejected (0.88525ms)
+✔ task and observation integrity: uniqueness, references, dates, owner axis and coverage (1.147792ms)
+✔ card projection excludes report evidence, dates and metrics (0.144417ms)
+✔ one explicit scope grant authorizes derived minimum summary without a second preview gate (7.385375ms)
+✔ approved dates, source ownership, source set and destination cannot be silently expanded (1.418292ms)
+✔ lost acknowledgement and temporary 503 retry exact bytes and key, bounded to three attempts (14.104ms)
+✔ actual host approval is distinguished from generic access failure and never retried around (0.503541ms)
+✔ expiry retains prepared summary and requires a new explicit grant to resume without rescanning (0.749334ms)
+✔ progress is finite and content-free, approval kind is valid only for actual pending approval (0.980916ms)
+✔ waiting distinguishes no contact, last known stale signal and actual host approval (0.420166ms)
+✔ sanitized AGY control-flow fixture contains no old assessment or actual transcript (3.484625ms)
+✔ readable renewal prompt requires destination grant, preserves analysis and avoids terminal report dump (24.896334ms)
+✔ defaults fill all supported owned sources and Tokscale for exact rolling60days (35.19425ms)
+✔ DST and timezone boundaries never inflate rolling interval or guess dates (1.997584ms)
+✔ each actual localized prompt contains populated defaults, one paragraph approval, official install and no secondary questions (4.624333ms)
+✔ optional source/days/Tokscale changes bind the one grant and cannot expand silently (4.751709ms)
+✔ local review recalculates workstyle and never grants upload consent (6.72ms)
+✔ review refuses missing local permission, already-approved data and extra raw fields (1.066709ms)
+✔ zero available evidence stays untyped with null counts (3.424625ms)
+✔ instructions use new protocol, single scope grant and write-only authority (12.144416ms)
+✔ browser language priority, region/script variants and explicit fallback (0.496209ms)
+✔ all authored UI, report, art and error strings have four complete translations with matching parameters (31.216667ms)
+✔ parameters retain names and codes literally without recursive translation, and unexpected errors stay private (0.757125ms)
+✔ every localized collector preserves write-only destination, protocol, one-grant flow and explicit renewal (14.462791ms)
+✔ real approval and stale progress are localized independently of the observed state (0.182708ms)
+
+  #  /Users/dnplus/.hermes/node/bin/node[97725]: void node::InternalCallbackScope::Close() at ../src/api/callback.cc:185
+  #  Assertion failed: (env_->execution_async_id()) == (0)
+
+----- Native stack trace -----
+
+ 1: 0x100482100 node::Assert(node::AssertionInfo const&) [/Users/dnplus/.hermes/node/bin/node]
+ 2: 0x10291ba14 node::InternalCallbackScope::Close() (.cold.1) [/Users/dnplus/.hermes/node/bin/node]
+ 3: 0x10038736c node::InternalCallbackScope::Close() [/Users/dnplus/.hermes/node/bin/node]
+ 4: 0x100386b1c node::InternalCallbackScope::~InternalCallbackScope() [/Users/dnplus/.hermes/node/bin/node]
+ 5: 0x100504f84 node::PerIsolatePlatformData::RunForegroundTask(std::__1::unique_ptr<v8::Task, std::__1::default_delete<v8::Task>>) [/Users/dnplus/.hermes/node/bin/node]
+ 6: 0x100503dd4 node::PerIsolatePlatformData::FlushForegroundTasksInternal() [/Users/dnplus/.hermes/node/bin/node]
+ 7: 0x101370fdc uv__async_io [/Users/dnplus/.hermes/node/bin/node]
+ 8: 0x1013858d8 uv__io_poll [/Users/dnplus/.hermes/node/bin/node]
+ 9: 0x10137189c uv_run [/Users/dnplus/.hermes/node/bin/node]
+10: 0x1003886d0 node::SpinEventLoopInternal(node::Environment*) [/Users/dnplus/.hermes/node/bin/node]
+11: 0x10297efcc node::NodeMainInstance::Run() (.cold.1) [/Users/dnplus/.hermes/node/bin/node]
+12: 0x1004c80fc node::NodeMainInstance::Run() [/Users/dnplus/.hermes/node/bin/node]
+13: 0x10043f334 node::Start(int, char**) [/Users/dnplus/.hermes/node/bin/node]
+14: 0x1916dbe80 start [/usr/lib/dyld]
+✖ tests/session.test.ts (393.281583ms)
+✔ missing usage evidence never becomes LV0 and MBTI/token/client cannot fill it (0.780959ms)
+✔ LV0–3 require direct, independent outcome facts (0.24775ms)
+✔ LV4 requires an inspected tested artifact reused in a distinct task after testing (0.6385ms)
+✔ LV5 requires sustained disjoint workflows and maintenance, never volume or one workflow (6.849125ms)
+✔ unknown sources, insufficient coverage, extra content and broken references fail closed (1.777ms)
+ℹ tests 49
+ℹ suites 0
+ℹ pass 48
+ℹ fail 1
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 405.231
+
+✖ failing tests:
+
+test at tests/session.test.ts:1:1
+✖ tests/session.test.ts (393.281583ms)
+  'test failed'

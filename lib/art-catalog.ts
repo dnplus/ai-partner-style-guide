@@ -18,7 +18,7 @@ export function validateArtManifest(input:unknown,requireComplete=false) {
     const key=s.family+":"+s.type+":"+s.style;
     if(keys.has(key))throw new Error("Duplicate art slot: "+key);keys.add(key);
     if(s.status==="ready"){
-      if(s.src!=="/art/mbti/"+s.family+"/"+s.type.toLowerCase()+"-"+s.style+".png"||!s.sha256)throw new Error("Invalid ready art: "+key);
+      if(s.src!=="/art/mbti/"+s.family+"/"+s.type.toLowerCase()+"-"+s.style+".webp"||!s.sha256)throw new Error("Invalid ready art: "+key);
       if(sources.has(s.src)||hashes.has(s.sha256))throw new Error("Repeated fallback artwork: "+key);
       sources.add(s.src);hashes.add(s.sha256);
     }else if(s.src!==null||s.sha256!==null)throw new Error("Pending slot must not contain fallback art: "+key);

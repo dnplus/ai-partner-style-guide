@@ -1,0 +1,1547 @@
+{
+  "expected": 192,
+  "verified": 192,
+  "uniqueHashes": 192,
+  "uniquePixels": 192,
+  "complete": true,
+  "pending": [],
+  "errors": [],
+  "files": [
+    {
+      "slot": "codex:ISTJ:regular",
+      "src": "/art/mbti/codex/istj-regular.webp",
+      "sha256": "af6b8e2c2bdcd1e6ee1dafcf6483db7d9df139a5bf7af57227c81b1115f776b2",
+      "pixelHash": "30af78e95a495f3ac43bc2604c041ce53f461993c068171c49f74737a01357d4",
+      "width": 1024,
+      "height": 1536
+    },
+    {
+      "slot": "codex:ISTJ:chibi",
+      "src": "/art/mbti/codex/istj-chibi.webp",
+      "sha256": "e181e059456d7bbc139a612f1d260abc317b1bded2b2adcf28ceade01333d705",
+      "pixelHash": "550b34619db3d11c049f380f33080a2ac3c8bf0932d4f5cbf05565bac11647fc",
+      "width": 1024,
+      "height": 1536
+    },
+    {
+      "slot": "codex:ISFJ:regular",
+      "src": "/art/mbti/codex/isfj-regular.webp",
+      "sha256": "c42856a24504ebabd0e2cd8f676202772fb79ff62f9afe0a9bcb4f02a80af16d",
+      "pixelHash": "ff21aef878162987b339ec58d5c528accb0188410ddfa6e336774e1bbf0963e9",
+      "width": 1024,
+      "height": 1536
+    },
+    {
+      "slot": "codex:ISFJ:chibi",
+      "src": "/art/mbti/codex/isfj-chibi.webp",
+      "sha256": "0a7ccd421f085ba8a4507865ed0121ccba1d644690d3cf60c8c70771358e4e80",
+      "pixelHash": "809314a007f78f35ead662713f1047f95e87d27f07e00660c254839461798a68",
+      "width": 1024,
+      "height": 1536
+    },
+    {
+      "slot": "codex:INFJ:regular",
+      "src": "/art/mbti/codex/infj-regular.webp",
+      "sha256": "0dcfea9edbf8f0dc08f73e192ded02253fbd6fb3ef5e5d6fa86d19c92940d0c6",
+      "pixelHash": "9009e1cee74606db5bb5d33c8bcc8306e75ad2e4b560b1cf5aebb0d129e895e0",
+      "width": 1024,
+      "height": 1536
+    },
+    {
+      "slot": "codex:INFJ:chibi",
+      "src": "/art/mbti/codex/infj-chibi.webp",
+      "sha256": "f6c02a7f0da725331d5c74d4f79aafc625dae46e87451220f8b8bf46a89dd128",
+      "pixelHash": "55c9bbb9e83900ccae6f8b4c5869151c23da969f15865f922de0b939ab693e46",
+      "width": 1024,
+      "height": 1536
+    },
+    {
+      "slot": "codex:INTJ:regular",
+      "src": "/art/mbti/codex/intj-regular.webp",
+      "sha256": "0a7a1114bf12d22d8d1d114a8f2f81b6520dd0654320a4ec41217a207b47defe",
+      "pixelHash": "fcdef28c440185d346f70fc264dde62b1a2aa7dd805e6125c0caf47a679e8e41",
+      "width": 1024,
+      "height": 1536
+    },
+    {
+      "slot": "codex:INTJ:chibi",
+      "src": "/art/mbti/codex/intj-chibi.webp",
+      "sha256": "f3c2e208ea00ab382510346974b58517d2cda6eed99c4bd9c6dc0c5d048e1db0",
+      "pixelHash": "4556d00d3d3dab84ff5b03770f173c1aaeaf45f0577adf9a6b25223eae5ccdd2",
+      "width": 1024,
+      "height": 1536
+    },
+    {
+      "slot": "codex:ISTP:regular",
+      "src": "/art/mbti/codex/istp-regular.webp",
+      "sha256": "04b77128a3135fd0a84639d630d054f1e203976a9449d33a4ed6beebd53cba4d",
+      "pixelHash": "7f30efe15921f8727dafa80a4f3051e19feb147592d30383d7b82a10c35bbd25",
+      "width": 1024,
+      "height": 1536
+    },
+    {
+      "slot": "codex:ISTP:chibi",
+      "src": "/art/mbti/codex/istp-chibi.webp",
+      "sha256": "d3075c1cfc2d774ff0a81d6df760e19825407f69f6ff503a6d9c98cd08b68050",
+      "pixelHash": "ec98ce6783854eb8e3511c21f555d059b3c31aaeb43d95ea582471c57d486633",
+      "width": 1024,
+      "height": 1536
+    },
+    {
+      "slot": "codex:ISFP:regular",
+      "src": "/art/mbti/codex/isfp-regular.webp",
+      "sha256": "78d9ff328898e69c69246fae7d4603fe6791257e3cc912f4ffbc3e59fb816eb8",
+      "pixelHash": "b0777a68c638f4b9e7560cb38b6d3b439bd2c7d507b7569627117ac4b4b13ce5",
+      "width": 1024,
+      "height": 1536
+    },
+    {
+      "slot": "codex:ISFP:chibi",
+      "src": "/art/mbti/codex/isfp-chibi.webp",
+      "sha256": "4df5faae3664a5fd09b0ffe6a03d8c7db4a5947428fff9bf7460b66c9b461992",
+      "pixelHash": "c1947b15b6bd24d9f3c3aba0d021798b07ea913c660713848b363ce97de03528",
+      "width": 1024,
+      "height": 1536
+    },
+    {
+      "slot": "codex:INFP:regular",
+      "src": "/art/mbti/codex/infp-regular.webp",
+      "sha256": "95f4e5bcf0fc5bac88e22ef3d2c3b266120f7fed130878e130a2980b9a8077f0",
+      "pixelHash": "e9bfbe4a6ba5421694a79efcf5596b53c856a17e89f1187f5e716fd0b2b2cd80",
+      "width": 1024,
+      "height": 1536
+    },
+    {
+      "slot": "codex:INFP:chibi",
+      "src": "/art/mbti/codex/infp-chibi.webp",
+      "sha256": "5e4cb789030eacb2979f30f0226cef511cc8cb1c56e152e7b885716b3159ad3d",
+      "pixelHash": "d278ebb7a35c95375dcdcef7dbeaf4b405b278dc2313dc7e1d89c08587931f77",
+      "width": 1024,
+      "height": 1536
+    },
+    {
+      "slot": "codex:INTP:regular",
+      "src": "/art/mbti/codex/intp-regular.webp",
+      "sha256": "f5521211864e752e729c31893f59996cafece3f783e0e5f2e9320cbe84f6d5bf",
+      "pixelHash": "9fe73cc9c9a26684cc618a6a52d6ac9d95f0fde325d30bace58bb4a238c3fdab",
+      "width": 1024,
+      "height": 1536
+    },
+    {
+      "slot": "codex:INTP:chibi",
+      "src": "/art/mbti/codex/intp-chibi.webp",
+      "sha256": "30383d9fedf4c12067bd977f42f1736627c8051e2b0595debe239189d7329750",
+      "pixelHash": "e5c578f6d8bfb51c8b4c9dd0a90e590309c08f468d27b4f0a82b5727823fd056",
+      "width": 1024,
+      "height": 1536
+    },
+    {
+      "slot": "codex:ESTJ:regular",
+      "src": "/art/mbti/codex/estj-regular.webp",
+      "sha256": "cb26fc4de95b38b9490a3d46fdc3260387b8c8fad51fe900fe03dd3058eb3cfb",
+      "pixelHash": "d60956a3dbf8d46688c5f71c0f65b2ebda599e660c1f5d2a0b03472ab9b8ff3c",
+      "width": 1024,
+      "height": 1536
+    },
+    {
+      "slot": "codex:ESTJ:chibi",
+      "src": "/art/mbti/codex/estj-chibi.webp",
+      "sha256": "41f757725bbf6a4d80434aa49713c6a77fc55ca41d7fe5c988b355c822c5d613",
+      "pixelHash": "6e25915ff5a2ddab75c4a32dd013e93ae2b59a88c674c4a9a9719087ea05da26",
+      "width": 1024,
+      "height": 1536
+    },
+    {
+      "slot": "codex:ESFJ:regular",
+      "src": "/art/mbti/codex/esfj-regular.webp",
+      "sha256": "a410984d97da45f7110cd3384cb061dd41c847245da502752ca33f0ae49fd33c",
+      "pixelHash": "e938e0407393db2b01b95c10616d379aa8254c456049c559dd907b28f15b0464",
+      "width": 1024,
+      "height": 1536
+    },
+    {
+      "slot": "codex:ESFJ:chibi",
+      "src": "/art/mbti/codex/esfj-chibi.webp",
+      "sha256": "028580dc3e677b50681c86141c85f50dce58e861a0ee37ca8ef4f6f30b09d0c3",
+      "pixelHash": "f5353b02c5b3cd0aae4c79fce9699ef9205d65bbd1d154e4c6a4bbdfb19fb6f2",
+      "width": 1024,
+      "height": 1536
+    },
+    {
+      "slot": "codex:ENFJ:regular",
+      "src": "/art/mbti/codex/enfj-regular.webp",
+      "sha256": "dcb783b6a1eedff9c336aeb95a042461df855d9a32741f30b456cf8d30af6838",
+      "pixelHash": "3eef9197b9357b436748b83d2a74293fc92ad3693500ab42bb6638f397193158",
+      "width": 1024,
+      "height": 1536
+    },
+    {
+      "slot": "codex:ENFJ:chibi",
+      "src": "/art/mbti/codex/enfj-chibi.webp",
+      "sha256": "8925abb0670791be787fc1760a875187d3156ce90e1e4059b2ad00875eae26c0",
+      "pixelHash": "45e1e2c5f5ee448c8ef6ea5c45ba78e601ccd0b171825ece3a4ca91a836e1d87",
+      "width": 1024,
+      "height": 1536
+    },
+    {
+      "slot": "codex:ENTJ:regular",
+      "src": "/art/mbti/codex/entj-regular.webp",
+      "sha256": "53d18e40370e2cbf6711371398ccf2230ad789b8357300d1e5ebbbcf75b6304e",
+      "pixelHash": "46298def04da7be5d22317629510731fe7472c4d49c095a329aacc03be3544d5",
+      "width": 1024,
+      "height": 1536
+    },
+    {
+      "slot": "codex:ENTJ:chibi",
+      "src": "/art/mbti/codex/entj-chibi.webp",
+      "sha256": "792e2290a46cf10c59ce4d7249351de50bbf19aef2943b8f6d8e9a5405412139",
+      "pixelHash": "d1ea054f85f02e81853b1c55689e4ef6df88b7014d62a29e16350118e30ed009",
+      "width": 1024,
+      "height": 1536
+    },
+    {
+      "slot": "codex:ESTP:regular",
+      "src": "/art/mbti/codex/estp-regular.webp",
+      "sha256": "573befe6531371f3465be25de263c79d98205a038812bba1030411ecba29be51",
+      "pixelHash": "d9b98038bb23f829a7722976e1de3845d334db18b5fdb1355eae0383975bae62",
+      "width": 1024,
+      "height": 1536
+    },
+    {
+      "slot": "codex:ESTP:chibi",
+      "src": "/art/mbti/codex/estp-chibi.webp",
+      "sha256": "9b181d03ff3a91e455eaeeb59d3cf17e21dbb0beb7a2ae45ab5698656ee0d4f5",
+      "pixelHash": "87da58810123d2daa82305bcf0556f4628a024fd39067d980b1626b262dc5652",
+      "width": 1024,
+      "height": 1536
+    },
+    {
+      "slot": "codex:ESFP:regular",
+      "src": "/art/mbti/codex/esfp-regular.webp",
+      "sha256": "2063fcd90e1a78d10b349349287127c6ceafee1daadc0ee76e89fb69e966096b",
+      "pixelHash": "e33e85f6bdcd9dfbb95de156a63af0616778bab04839da71d61b962e7e5d7700",
+      "width": 1024,
+      "height": 1536
+    },
+    {
+      "slot": "codex:ESFP:chibi",
+      "src": "/art/mbti/codex/esfp-chibi.webp",
+      "sha256": "7d726fb73c3b10639c4cc5c703cb1b2dccbb0320fea38c38c3f01b1b00361dad",
+      "pixelHash": "71ef6cba62090868192b235fc00e3da87d38cc0dc2f045f06074815f3e3c4639",
+      "width": 1024,
+      "height": 1536
+    },
+    {
+      "slot": "codex:ENFP:regular",
+      "src": "/art/mbti/codex/enfp-regular.webp",
+      "sha256": "9444913060cca87fb8f75227e447bd5f015f4fe83b722d287a4f5c40e7f7c70b",
+      "pixelHash": "c0beb1719d76a342f2baab928707301d34c9edb980bb75de9cc2f15ad0407f41",
+      "width": 1024,
+      "height": 1536
+    },
+    {
+      "slot": "codex:ENFP:chibi",
+      "src": "/art/mbti/codex/enfp-chibi.webp",
+      "sha256": "11a960595596fec91f2382b01acbf2103c28ff0b3aea94f0a44b55d45e23da16",
+      "pixelHash": "826c3e9b1e92b5360bbe1a7bd5b3fee8e3bfd0a0b975c9fb4d4aea3267e00c5a",
+      "width": 1024,
+      "height": 1536
+    },
+    {
+      "slot": "codex:ENTP:regular",
+      "src": "/art/mbti/codex/entp-regular.webp",
+      "sha256": "120b6d9573b0ffb6bf8b8d68ef99215e2f80d0a6b8e7f33dfbeba3d83082ee9b",
+      "pixelHash": "1dba55ecad446004bb2d8d1b2afc91bdabc5632447e8b1c7f280e591a87f33f0",
+      "width": 1024,
+      "height": 1536
+    },
+    {
+      "slot": "codex:ENTP:chibi",
+      "src": "/art/mbti/codex/entp-chibi.webp",
+      "sha256": "f9c21b1737c01f92ae4b2c79b272520df3c3b9edf98d938149b34ee331d169c6",
+      "pixelHash": "99f04d22af44f46d49dbc142ec5f85083461de6319f1e5857d1243cabecd3c19",
+      "width": 1024,
+      "height": 1536
+    },
+    {
+      "slot": "claude:ISTJ:regular",
+      "src": "/art/mbti/claude/istj-regular.webp",
+      "sha256": "3fb36b18eb35ca152af3dc24111099b2f1669e4e4c67d19fa613d2705540fdc1",
+      "pixelHash": "1c36ced216faeb46b05097eaa3f571f754603bcf939080e8a46e0bff948c8c01",
+      "width": 1024,
+      "height": 1536
+    },
+    {
+      "slot": "claude:ISTJ:chibi",
+      "src": "/art/mbti/claude/istj-chibi.webp",
+      "sha256": "fa5a17d55c25bc8748317111dd25a9cf546dcd675069c980ef33abe6d99b3219",
+      "pixelHash": "985b8137fc2f749937f3759ca6493cebcadbb2b59320ff1888b0772466e592a1",
+      "width": 1024,
+      "height": 1536
+    },
+    {
+      "slot": "claude:ISFJ:regular",
+      "src": "/art/mbti/claude/isfj-regular.webp",
+      "sha256": "d09bf354a63216c3f8b4393c88cb0821c721210afac38e677fe83cc207091a4a",
+      "pixelHash": "8e2f94b7931c2a99dd31917c8abf691faa2a92f62634f61197b046287242a209",
+      "width": 1024,
+      "height": 1536
+    },
+    {
+      "slot": "claude:ISFJ:chibi",
+      "src": "/art/mbti/claude/isfj-chibi.webp",
+      "sha256": "8d5c96a0705087cd2270d2545be016bd63bd4425a24123e0cdfd7e1187faee8c",
+      "pixelHash": "1e9f7733214a37b145998288682f6b619595a0a13d51dbc25637d5cbcff9d7d8",
+      "width": 1024,
+      "height": 1536
+    },
+    {
+      "slot": "claude:INFJ:regular",
+      "src": "/art/mbti/claude/infj-regular.webp",
+      "sha256": "65300f4557b9ca6a3237b1ff40dd3f06b20a798d1daacfe5063055c743831637",
+      "pixelHash": "21ea5d0866abd343097cc7da29ea84ec9d9ddee7b93db85e423139fdb5e7d20b",
+      "width": 1024,
+      "height": 1536
+    },
+    {
+      "slot": "claude:INFJ:chibi",
+      "src": "/art/mbti/claude/infj-chibi.webp",
+      "sha256": "f585e639d0e9fe78c2c629c0a11361b2aaf4502f0eea9f2303234e251bb64c57",
+      "pixelHash": "14bee9b0efac76e4c5d9d081289bb9e61de003507e7b3f21b98c171ea466d9e6",
+      "width": 1024,
+      "height": 1536
+    },
+    {
+      "slot": "claude:INTJ:regular",
+      "src": "/art/mbti/claude/intj-regular.webp",
+      "sha256": "f845866399d9e8bd2c118224a220955900912f1a31b3f0a4effcd54acc604103",
+      "pixelHash": "ff0fffa66afce1413f928dbde3588f9a261a7498a5fcb6147c22d3707a1c96e8",
+      "width": 1024,
+      "height": 1536
+    },
+    {
+      "slot": "claude:INTJ:chibi",
+      "src": "/art/mbti/claude/intj-chibi.webp",
+      "sha256": "106852e6d5eb3340a8dbc36d76db509e32b1c58431d8d45c12f1efec1677da87",
+      "pixelHash": "a40498f45dee27093f470e996cddd4f46bf70c486d9b7e2240bd151e6b9ea29b",
+      "width": 1024,
+      "height": 1536
+    },
+    {
+      "slot": "claude:ISTP:regular",
+      "src": "/art/mbti/claude/istp-regular.webp",
+      "sha256": "5cd34203983c4f3dc2135a0e4834ec6b23f6c42f7e49861724cc133b78735d03",
+      "pixelHash": "ac2e109b365192a6bf9ae6388f1c2e8a0e232a0bb4d65cbfcb88125397b0655f",
+      "width": 1024,
+      "height": 1536
+    },
+    {
+      "slot": "claude:ISTP:chibi",
+      "src": "/art/mbti/claude/istp-chibi.webp",
+      "sha256": "8248d931833e6692793831a011b7c840e44b18429bd3980eff07b27e2df3c248",
+      "pixelHash": "2b79dfa41f18bc186cacffbfd76b964ad472c7b7028db7fb7254692752d290a0",
+      "width": 1024,
+      "height": 1536
+    },
+    {
+      "slot": "claude:ISFP:regular",
+      "src": "/art/mbti/claude/isfp-regular.webp",
+      "sha256": "c8660c100897cc1cefcc91a344aad4288037c835fde7f271722e89990a77e118",
+      "pixelHash": "cfa29d06228837b56b971e31bd38741862233082489e99e17d6b27193a12c1cf",
+      "width": 1024,
+      "height": 1536
+    },
+    {
+      "slot": "claude:ISFP:chibi",
+      "src": "/art/mbti/claude/isfp-chibi.webp",
+      "sha256": "2857059919024207ecae00e8146f24ce8197cc381d83c214cb993a0d68830ec0",
+      "pixelHash": "7b85bca695f6b510948c3fa0193938335f07d3ffbeb849ef394333b16a20e7ee",
+      "width": 1024,
+      "height": 1536
+    },
+    {
+      "slot": "claude:INFP:regular",
+      "src": "/art/mbti/claude/infp-regular.webp",
+      "sha256": "bdb6c54c76d43f5fc4aac5d4dcf502168c8920be297d7d2e0383f87d790b06fc",
+      "pixelHash": "0b7a4f56563b58fad50e53c57ab514c97cce534014dff53c55bcb4b3a41b6c8c",
+      "width": 1024,
+      "height": 1536
+    },
+    {
+      "slot": "claude:INFP:chibi",
+      "src": "/art/mbti/claude/infp-chibi.webp",
+      "sha256": "dfba0912f8f1348123e303429a4df172342b8826a59180141474d87a023feaa2",
+      "pixelHash": "fae10c74ff71379e60e7c430ddb2f6646e88eee43e4bde6d2f1a08970cd62db9",
+      "width": 1024,
+      "height": 1536
+    },
+    {
+      "slot": "claude:INTP:regular",
+      "src": "/art/mbti/claude/intp-regular.webp",
+      "sha256": "4cf2db2c1aea56c6bccd1475a2ee23ace3563ff02faf8967be214715843bf745",
+      "pixelHash": "714026c140b0976f85d025af924d37e0d782d380a1bd2936a270fd2d7a39ad14",
+      "width": 1024,
+      "height": 1536
+    },
+    {
+      "slot": "claude:INTP:chibi",
+      "src": "/art/mbti/claude/intp-chibi.webp",
+      "sha256": "57a1c73951f61ce3afc54cf96f07b51c03d5358aae0a3e0312968da6f7b9b7e5",
+      "pixelHash": "cbc6bbe306c604991231507f9a7192a336e0660af256f192c40b7efb42327a6e",
+      "width": 1024,
+      "height": 1536
+    },
+    {
+      "slot": "claude:ESTJ:regular",
+      "src": "/art/mbti/claude/estj-regular.webp",
+      "sha256": "183afa20e7d8ff152483be6c02d24d8eeea3da0eca6b12cca3f1b7276d066251",
+      "pixelHash": "4fb0052f1d51eb6894e484328aeda0ed25d86019e7d9d3445ef1463ee3f1bfc0",
+      "width": 1024,
+      "height": 1536
+    },
+    {
+      "slot": "claude:ESTJ:chibi",
+      "src": "/art/mbti/claude/estj-chibi.webp",
+      "sha256": "c4bf713f9aaf302e3b7d1540630709225a807c5dae1fd995dd371613810a525e",
+      "pixelHash": "1c74f799e5f6fb386889da1b309070a1e9ccadfffa630522781cbb50d97b203f",
+      "width": 1024,
+      "height": 1536
+    },
+    {
+      "slot": "claude:ESFJ:regular",
+      "src": "/art/mbti/claude/esfj-regular.webp",
+      "sha256": "08aa5cde949d02adb2925f9a23838fd280337de7a339fb977b748566a1aea987",
+      "pixelHash": "67030d5e6e55e39558757e6ce2fba46a72665c79f541b3a6453adfc20c42a577",
+      "width": 1024,
+      "height": 1536
+    },
+    {
+      "slot": "claude:ESFJ:chibi",
+      "src": "/art/mbti/claude/esfj-chibi.webp",
+      "sha256": "3bf32572902bc2e83ce556192b2bb309e87f31d64c144ddc9a90b5da910d1ca0",
+      "pixelHash": "112d44505557f8848f7881a1848c72e526796909f30feb3d2680c92e5b7a1c07",
+      "width": 1024,
+      "height": 1536
+    },
+    {
+      "slot": "claude:ENFJ:regular",
+      "src": "/art/mbti/claude/enfj-regular.webp",
+      "sha256": "d604077314f258fd021c8eef30d05d3383535acad7e7d39c817c3f05616bb36b",
+      "pixelHash": "e671c62efd993d4269c4a1cc4cd21b06c1a19f2f63339794f02e771fea60de09",
+      "width": 1024,
+      "height": 1536
+    },
+    {
+      "slot": "claude:ENFJ:chibi",
+      "src": "/art/mbti/claude/enfj-chibi.webp",
+      "sha256": "38f11c32f40aa7e4150d5c4efa200d54a3cbe953819ecbdc597a40be5c19979b",
+      "pixelHash": "b44cc5020313a49877abdb05f0435a41ef1e780772d91cd247de9b5be935c412",
+      "width": 1024,
+      "height": 1536
+    },
+    {
+      "slot": "claude:ENTJ:regular",
+      "src": "/art/mbti/claude/entj-regular.webp",
+      "sha256": "2c0ac4bfab67a3f4d886035259570063d293c9ed82b32eb4e2fed8a2698305de",
+      "pixelHash": "17a65fa48db0da2c426adcc5b2f2baadcebdba12fda64efa3ac8eebca9e8ce26",
+      "width": 1024,
+      "height": 1536
+    },
+    {
+      "slot": "claude:ENTJ:chibi",
+      "src": "/art/mbti/claude/entj-chibi.webp",
+      "sha256": "d901aafd4eec4b500a92cf8fb8334c04ea1004bd38f9715339c71452d4f0f2c4",
+      "pixelHash": "a88f7c5ef005dfac824a4f80915475a51a48ead4989c9c876049dc89bc76b2e5",
+      "width": 1024,
+      "height": 1536
+    },
+    {
+      "slot": "claude:ESTP:regular",
+      "src": "/art/mbti/claude/estp-regular.webp",
+      "sha256": "ec5fa09d1d357e92eb95c09ba9e11f572c4b394d1cc72e130eea79c76b2616cb",
+      "pixelHash": "9543ff358b6be2977a1a9781b7ec3a0e25482f2483bdd6966587d73694398f32",
+      "width": 1024,
+      "height": 1536
+    },
+    {
+      "slot": "claude:ESTP:chibi",
+      "src": "/art/mbti/claude/estp-chibi.webp",
+      "sha256": "0784729348f926b0c4f7652b59d34c2de55674ce888595229fc4620e216dc545",
+      "pixelHash": "b38e452bf0c34953b14d6c1df00250d9ec43ea7c3cc30b1a612a3903c1f87068",
+      "width": 1024,
+      "height": 1536
+    },
+    {
+      "slot": "claude:ESFP:regular",
+      "src": "/art/mbti/claude/esfp-regular.webp",
+      "sha256": "abd2ee6cd65b3cb09e773c98311ad991a2d92b85854d72da415ef80359c9e8f5",
+      "pixelHash": "21905563bf0eef10286c6aa53e089c2b2f97c6a59bc51999871b10fc991fa6ed",
+      "width": 1024,
+      "height": 1536
+    },
+    {
+      "slot": "claude:ESFP:chibi",
+      "src": "/art/mbti/claude/esfp-chibi.webp",
+      "sha256": "2063b2a160c1dacc64eef085167afccae42ae1094d4a5eeb2bd61d793c433d42",
+      "pixelHash": "c2ac3fb262ca6c218b8b3a8dc91005570ebd1b1bd3ef2fc37627070d1218925c",
+      "width": 1024,
+      "height": 1536
+    },
+    {
+      "slot": "claude:ENFP:regular",
+      "src": "/art/mbti/claude/enfp-regular.webp",
+      "sha256": "3be0e1db0bd1f8b31bce667f4f7d03eaed7d9b3c2f788a8db76c26b8a5530411",
+      "pixelHash": "b5deac4ee18a0dd2f28c34f53d042eb140b351453e11cea2874337b5586ca13e",
+      "width": 1024,
+      "height": 1536
+    },
+    {
+      "slot": "claude:ENFP:chibi",
+      "src": "/art/mbti/claude/enfp-chibi.webp",
+      "sha256": "4edf348dde151b732d1f0e9fa56109b3a9eff45340ad1c80889e89b1322c712b",
+      "pixelHash": "a8b001c51c703d05bdd3bc1a7fd6aba0af39eeb3e64d62ae05c66d9d3e6b769e",
+      "width": 1024,
+      "height": 1536
+    },
+    {
+      "slot": "claude:ENTP:regular",
+      "src": "/art/mbti/claude/entp-regular.webp",
+      "sha256": "24ba7dccf9bb192d8c35f88e4ec54514a351565a323321a6e15b58f65d72326e",
+      "pixelHash": "6d03c5df00b8635d4124b0fb5401d2b5a07a2c2c56afb8de9b129c967d983087",
+      "width": 1024,
+      "height": 1536
+    },
+    {
+      "slot": "claude:ENTP:chibi",
+      "src": "/art/mbti/claude/entp-chibi.webp",
+      "sha256": "656097e2ae1bfa5b284738b7b35504fe69dbe8be7fa21525ae59d674529ba8b0",
+      "pixelHash": "5abd8f89f9fa8d852ab6f91af760673f84b12cb43621516f07b5bb15267a4045",
+      "width": 1024,
+      "height": 1536
+    },
+    {
+      "slot": "gemini:ISTJ:regular",
+      "src": "/art/mbti/gemini/istj-regular.webp",
+      "sha256": "190b7df1c8315e0db4b1ac61400d881fb578c3eb0f3ec328b1ee23b20ab68476",
+      "pixelHash": "2a8069f705145b547eac2e9e576979d5572164681916eab68164747091aab926",
+      "width": 1024,
+      "height": 1536
+    },
+    {
+      "slot": "gemini:ISTJ:chibi",
+      "src": "/art/mbti/gemini/istj-chibi.webp",
+      "sha256": "bb0cf9756757fac46fce82766d330413f7d060ecee8a5438ae170fbe7d169a1b",
+      "pixelHash": "365311709716ba570f18460e411ea2dd2d5d5d387d77f8a15fd53d499e3cd61f",
+      "width": 1024,
+      "height": 1536
+    },
+    {
+      "slot": "gemini:ISFJ:regular",
+      "src": "/art/mbti/gemini/isfj-regular.webp",
+      "sha256": "d7b9f2e80d3e5baf3c93ebcb65102b4842e27602de89ad81f2bdbb2548b21e74",
+      "pixelHash": "980a171bb60f7899eeec708ac2b70c5df38b777e7ba52cf16e95002271f74830",
+      "width": 1024,
+      "height": 1536
+    },
+    {
+      "slot": "gemini:ISFJ:chibi",
+      "src": "/art/mbti/gemini/isfj-chibi.webp",
+      "sha256": "282a351b0709a0855ac9a2f6d18ce5bdbc455c88e11a29f97f05c5fc64fdbf91",
+      "pixelHash": "b6b5f6c336d3512068cd1584f51633a9b402251e41f33060a01a21cb386c71ad",
+      "width": 1024,
+      "height": 1536
+    },
+    {
+      "slot": "gemini:INFJ:regular",
+      "src": "/art/mbti/gemini/infj-regular.webp",
+      "sha256": "4a5f4da839e9860180199aa8064e176e69569203feb8aace3d7577aff19a5f1a",
+      "pixelHash": "9fed069fdde151bfa3359f0d0b8cd2700b5fc9d775327dc8b21d98c5607f05b8",
+      "width": 1024,
+      "height": 1536
+    },
+    {
+      "slot": "gemini:INFJ:chibi",
+      "src": "/art/mbti/gemini/infj-chibi.webp",
+      "sha256": "091ec4bb777dd987e085f5e736c7ba212979bdaa410df558c1a6e84bd2816d00",
+      "pixelHash": "a79aeea2189f7884239b97f9cbd3c42dea4928a30a3baf79ea69abe187e63b87",
+      "width": 1024,
+      "height": 1536
+    },
+    {
+      "slot": "gemini:INTJ:regular",
+      "src": "/art/mbti/gemini/intj-regular.webp",
+      "sha256": "e62fcf50bedd1b04ae9ade933f137496389251f2457e6c47a4aca81b3f764db0",
+      "pixelHash": "1bea902eb208fd429aa106bb76b747899510561ec5e0760f90fe0b7f1e88624e",
+      "width": 1024,
+      "height": 1536
+    },
+    {
+      "slot": "gemini:INTJ:chibi",
+      "src": "/art/mbti/gemini/intj-chibi.webp",
+      "sha256": "c47fad48a87782409697cceb784b228d69e6ebb23fb66fba3ebe25a10f814914",
+      "pixelHash": "6dcbbbd5283e9cbee3b57f39842231587a05c02f8edd8692288918ad32993ef3",
+      "width": 1024,
+      "height": 1536
+    },
+    {
+      "slot": "gemini:ISTP:regular",
+      "src": "/art/mbti/gemini/istp-regular.webp",
+      "sha256": "5e1114dba71c3921bbdb1ac92b19b0696d01c8f3b9bb3e3a384745dbc6cabae6",
+      "pixelHash": "12b24f0d73cf52b909e0c2f74b8a13587eb90911fcf9aee51ee4e0f13916d916",
+      "width": 1024,
+      "height": 1536
+    },
+    {
+      "slot": "gemini:ISTP:chibi",
+      "src": "/art/mbti/gemini/istp-chibi.webp",
+      "sha256": "523602250007f3a665e8bac5eab1ccc4661e8beaad9d95071786287bfb0612eb",
+      "pixelHash": "cc1149d4c9ea3bf2e8f3318b20ace5abf9d307e0798fd1ae103c68214f6e3670",
+      "width": 1024,
+      "height": 1536
+    },
+    {
+      "slot": "gemini:ISFP:regular",
+      "src": "/art/mbti/gemini/isfp-regular.webp",
+      "sha256": "7b5a5bb4808d0d6a44f11f495d8da2f8b1f2f2254eba4c76ee4b570bb417a6fa",
+      "pixelHash": "1b79bcb8dfc39a4cfc1fabfbf069480616709c679bc93381d867cfd155514d6b",
+      "width": 1024,
+      "height": 1536
+    },
+    {
+      "slot": "gemini:ISFP:chibi",
+      "src": "/art/mbti/gemini/isfp-chibi.webp",
+      "sha256": "a56eec28df57691eb7ed4f0715ddd07c380bf83ff41855d23cd268c5ba1f15ba",
+      "pixelHash": "a9e9913e468a6dfa1378a0ddfc93f4ee831fdd8bf8a23c3a4e7660772b46fac4",
+      "width": 1024,
+      "height": 1536
+    },
+    {
+      "slot": "gemini:INFP:regular",
+      "src": "/art/mbti/gemini/infp-regular.webp",
+      "sha256": "50af70796684d7ad2b401d45bd37da1aacf667df6b8f362de5825ac4f1aa92a9",
+      "pixelHash": "a7fe96f4928cd51ae89883e6ad369dfc713327fbb6415c682b37e0223c4e72e9",
+      "width": 1024,
+      "height": 1536
+    },
+    {
+      "slot": "gemini:INFP:chibi",
+      "src": "/art/mbti/gemini/infp-chibi.webp",
+      "sha256": "ed16adecfeaeb2b7a8857d2f5ab8268729e974f0182ad3ca55a5fafbd3e93840",
+      "pixelHash": "e3b7228cf301ee48ac5b24315ab2e11f298d22071e0295a501bd5b44288d050c",
+      "width": 1024,
+      "height": 1536
+    },
+    {
+      "slot": "gemini:INTP:regular",
+      "src": "/art/mbti/gemini/intp-regular.webp",
+      "sha256": "9c68cd019e4cf1637ab6c71af37f25b147c1fa9ba3fd6e66872e584b4a801bc8",
+      "pixelHash": "fe408ca60ec1bd1264b25605fb30762ffefa8cf7a2e7c28fdf35e1538f561f04",
+      "width": 1024,
+      "height": 1536
+    },
+    {
+      "slot": "gemini:INTP:chibi",
+      "src": "/art/mbti/gemini/intp-chibi.webp",
+      "sha256": "0f7b96556a389eb4dd117e4b0c4b6f7f6edf76807b14f94d7850ad0402c879c1",
+      "pixelHash": "46881af2c9c8902f526788d3c0ebf9e73e7013bef88b5cfb13137a78fc45bbcb",
+      "width": 1024,
+      "height": 1536
+    },
+    {
+      "slot": "gemini:ESTJ:regular",
+      "src": "/art/mbti/gemini/estj-regular.webp",
+      "sha256": "be77e7ee9ebfad33b8ae2f632c60994bdc2d2f2f8d146d34aff61a94a57d01e2",
+      "pixelHash": "180b15365c57197c038268844856355743428291c7cc5399ce09c57f7d32cf87",
+      "width": 1024,
+      "height": 1536
+    },
+    {
+      "slot": "gemini:ESTJ:chibi",
+      "src": "/art/mbti/gemini/estj-chibi.webp",
+      "sha256": "d2f537cbaf3e8717ad16173f9ce340b6c87db234fb85f7324759922eca425d62",
+      "pixelHash": "66b33decf30c954cf25c53f41047c7d6c4216eecf20deb96653cdbd281fedac8",
+      "width": 1024,
+      "height": 1536
+    },
+    {
+      "slot": "gemini:ESFJ:regular",
+      "src": "/art/mbti/gemini/esfj-regular.webp",
+      "sha256": "6e379fa9da8f1458b853941a4b0ef62440f742b3203acdbb2ef4f16d28514f97",
+      "pixelHash": "f933f576589a5c0f6fc501a09236709a2dbbc5776d9da9c751b7e85299a06606",
+      "width": 1024,
+      "height": 1536
+    },
+    {
+      "slot": "gemini:ESFJ:chibi",
+      "src": "/art/mbti/gemini/esfj-chibi.webp",
+      "sha256": "0d7dad50ffefd72fd54dca6dad3bf684192c65fcc573ffac0ce692256288b821",
+      "pixelHash": "76cf65d56cb912c77f2ddf3f5e5eba9d8772e957057973ea6412d0315fa2df3f",
+      "width": 1024,
+      "height": 1536
+    },
+    {
+      "slot": "gemini:ENFJ:regular",
+      "src": "/art/mbti/gemini/enfj-regular.webp",
+      "sha256": "6ee0c89086dd027cc1f22bd7a36516bca9b61b228851b31ed5ae6577b7b06b2e",
+      "pixelHash": "2d055ce0ce887e4dd30eb83b4c08f2f46fe7e71e6504294aa9ed87d2a487922c",
+      "width": 1024,
+      "height": 1536
+    },
+    {
+      "slot": "gemini:ENFJ:chibi",
+      "src": "/art/mbti/gemini/enfj-chibi.webp",
+      "sha256": "f370c47f867935e4d6b95531cdc152455cbfee974d4424290e083043d9e17bf8",
+      "pixelHash": "c913adb717d593e8dfc7f55c32c8664d030d7a013b27bef1cd7743fc51f4d380",
+      "width": 1024,
+      "height": 1536
+    },
+    {
+      "slot": "gemini:ENTJ:regular",
+      "src": "/art/mbti/gemini/entj-regular.webp",
+      "sha256": "11abaedc90655cf9e587c95550dbb69a9e89e6bb1cb0c8446d9a2a3ce2be136f",
+      "pixelHash": "cea9cadc05642a559471608cf8b2e65bb9bf11afc2e3414780b00b64b3dfbd4a",
+      "width": 1024,
+      "height": 1536
+    },
+    {
+      "slot": "gemini:ENTJ:chibi",
+      "src": "/art/mbti/gemini/entj-chibi.webp",
+      "sha256": "3e5ea76ccd5858ea55b178b886542ca5085ca5037540a6de08cae95f935a3b47",
+      "pixelHash": "bd52238b02ecaf4e6c6ccccce4a619ea05f20a12c4bebafd531dd4d67945bced",
+      "width": 1024,
+      "height": 1536
+    },
+    {
+      "slot": "gemini:ESTP:regular",
+      "src": "/art/mbti/gemini/estp-regular.webp",
+      "sha256": "9c320de2f2db4a4939f8b59d1049035572cbe4ed53789daab76481cd51647c2e",
+      "pixelHash": "9751fe77c57bbb58af0df431c4fc742e44f2226d82b7ecf4aab4db62d4003406",
+      "width": 1024,
+      "height": 1536
+    },
+    {
+      "slot": "gemini:ESTP:chibi",
+      "src": "/art/mbti/gemini/estp-chibi.webp",
+      "sha256": "47c827402ad45a1f5e998def1fedb6b2aba197ebb154c9f4ac02a5a3f770d00c",
+      "pixelHash": "f3c27228fbfa58c0c59048fe28f9f0b8daf6eb784c61b8d4a5c10a69ae24c4a3",
+      "width": 1024,
+      "height": 1536
+    },
+    {
+      "slot": "gemini:ESFP:regular",
+      "src": "/art/mbti/gemini/esfp-regular.webp",
+      "sha256": "17ff5163b6e7b50c82bd606f0e4befe7e133bddef1fab4e8af3405bb1aa29c78",
+      "pixelHash": "f3155f082d06ed6df4004befc77c66db617f3e7f342a8df590198a5b7342de4f",
+      "width": 1024,
+      "height": 1536
+    },
+    {
+      "slot": "gemini:ESFP:chibi",
+      "src": "/art/mbti/gemini/esfp-chibi.webp",
+      "sha256": "52cda3f08f54a299a09404d4b6bc787d65902188d2dfc2d236b4d58c7a1ab3ed",
+      "pixelHash": "09b85e952b486b25b8316e297c14f036196d4bbc9f5a8c53b19bb42bc758ae17",
+      "width": 1024,
+      "height": 1536
+    },
+    {
+      "slot": "gemini:ENFP:regular",
+      "src": "/art/mbti/gemini/enfp-regular.webp",
+      "sha256": "16069ead178f5f124cdc6c8eeb6cfd40e5106bb5c830be49ef9d3c1ab96a0d57",
+      "pixelHash": "c0d05146826cb9417ec3e9549e4713adfbe80f2cdd38a4105970e35c3b5b2e3b",
+      "width": 1024,
+      "height": 1536
+    },
+    {
+      "slot": "gemini:ENFP:chibi",
+      "src": "/art/mbti/gemini/enfp-chibi.webp",
+      "sha256": "927e1412a9823a57ccf3620e0efb5ecacf2c803a7d0587e4fd6a4c79f77cba61",
+      "pixelHash": "92fd5430009a217439df9d87bf89d83696fa14272ea863cef69469780f7a0f44",
+      "width": 1024,
+      "height": 1536
+    },
+    {
+      "slot": "gemini:ENTP:regular",
+      "src": "/art/mbti/gemini/entp-regular.webp",
+      "sha256": "f8ca97403ac1da160f8f7bb25b768dcfaa600554d6bb08e9effef8b794eea812",
+      "pixelHash": "bcae3479f4f4525317f23112305b3672e636c3f877d282d51dbf31d753ea234a",
+      "width": 1024,
+      "height": 1536
+    },
+    {
+      "slot": "gemini:ENTP:chibi",
+      "src": "/art/mbti/gemini/entp-chibi.webp",
+      "sha256": "7b1573ffa5051db5215eae49b0974f4989b35ee146782d15f0d4b9423c7ea7b4",
+      "pixelHash": "6eb44f7b7312c9d30737f25f2b766223d3f4c5cf979656804faa65a1d85bf8b1",
+      "width": 1024,
+      "height": 1536
+    },
+    {
+      "slot": "deepseek:ISTJ:regular",
+      "src": "/art/mbti/deepseek/istj-regular.webp",
+      "sha256": "82b0eea1bfb37da9d9718cbddc3dde908ebbcd5848a27bd88a370384d6c514da",
+      "pixelHash": "5667724bf3b3d7559f0ca8028a2961ce8ac080fdd3dd1f062ac5ce94264fe77b",
+      "width": 1024,
+      "height": 1536
+    },
+    {
+      "slot": "deepseek:ISTJ:chibi",
+      "src": "/art/mbti/deepseek/istj-chibi.webp",
+      "sha256": "57c817b66aa77507df6d1b2e233fb7866fed286731b6a202416f6e7696ca0820",
+      "pixelHash": "1a159de7003d91d26bf4eb5dea46a675dd38d4ce8cc75f3818d5a7e8b3969bc0",
+      "width": 1024,
+      "height": 1536
+    },
+    {
+      "slot": "deepseek:ISFJ:regular",
+      "src": "/art/mbti/deepseek/isfj-regular.webp",
+      "sha256": "ac0478053b96b70c181952de626a8e739efef66fcc5a22ab91ad5d695efbd811",
+      "pixelHash": "fdbac5e75eb7949adb245de92a35b9ef5f3e7bf72d8b9e87a5a503fe6c23205c",
+      "width": 1024,
+      "height": 1536
+    },
+    {
+      "slot": "deepseek:ISFJ:chibi",
+      "src": "/art/mbti/deepseek/isfj-chibi.webp",
+      "sha256": "863f5c062fa0303e6caca37c15c3831c7cf38bb26bcfba54754ee6660f39b688",
+      "pixelHash": "0c6b1cca72cd7cde838bf20b72b0332fc016bfd534cad8eec4db24e875d75d4e",
+      "width": 1024,
+      "height": 1536
+    },
+    {
+      "slot": "deepseek:INFJ:regular",
+      "src": "/art/mbti/deepseek/infj-regular.webp",
+      "sha256": "7b596623b4fe60fa35c43675d406c95713f5b4aa60fcb6e00250b2b9cb915873",
+      "pixelHash": "a7220738d22499b3af5d8ae6e9714cc17b9261b177ed6b07ba1a58364e694d9d",
+      "width": 1024,
+      "height": 1536
+    },
+    {
+      "slot": "deepseek:INFJ:chibi",
+      "src": "/art/mbti/deepseek/infj-chibi.webp",
+      "sha256": "8a45e280fcdaac03c2b99679a93765a6458abc339e513dbc7f7a5df419134167",
+      "pixelHash": "25689d34e62fcb4e557dab8f6a4660d474a9bdc06354f6d209cca4bc0e85c178",
+      "width": 1024,
+      "height": 1536
+    },
+    {
+      "slot": "deepseek:INTJ:regular",
+      "src": "/art/mbti/deepseek/intj-regular.webp",
+      "sha256": "404acfe929622d3e2978ddcd4f8dabfc32b610790d3c55c06c3f886950daf280",
+      "pixelHash": "dbd836ae7219aca52a96097976d5b432b70cf5466812011df08aaff70869c734",
+      "width": 1024,
+      "height": 1536
+    },
+    {
+      "slot": "deepseek:INTJ:chibi",
+      "src": "/art/mbti/deepseek/intj-chibi.webp",
+      "sha256": "b9a0e272d5394f2c443b784f74b2bdf8d913dcaf8d69b56c8709eb746c0b4498",
+      "pixelHash": "d1b4f1bb9fc311a1a5ea44aaeb51c273bc582a5d748fa832cac4cf99bf37ba13",
+      "width": 1024,
+      "height": 1536
+    },
+    {
+      "slot": "deepseek:ISTP:regular",
+      "src": "/art/mbti/deepseek/istp-regular.webp",
+      "sha256": "680a7c552816643117693eec0a8ed7e1113a5fec271b0bb366a6f3b92fa89d15",
+      "pixelHash": "fa14515899ab271b8de86a70bffd870a5b6883da7993c68e1c0326ccf218cb06",
+      "width": 1024,
+      "height": 1536
+    },
+    {
+      "slot": "deepseek:ISTP:chibi",
+      "src": "/art/mbti/deepseek/istp-chibi.webp",
+      "sha256": "5086798feb86b3e0f6a3bf298f0d832a2c3eca5512a0db45b1f9e06e95c2b602",
+      "pixelHash": "292b5d4a5e851aaeff48e9a8916919473ea1d7a603f98772529e529c06975542",
+      "width": 1024,
+      "height": 1536
+    },
+    {
+      "slot": "deepseek:ISFP:regular",
+      "src": "/art/mbti/deepseek/isfp-regular.webp",
+      "sha256": "1d844ab90888fbd8b61107b059974388aa36d148b9f1823954865bea216227a1",
+      "pixelHash": "fd77f5c92ceb46de147798c5c552a8be4358c6f0b85e023ca3e47cbc791bbba4",
+      "width": 1024,
+      "height": 1536
+    },
+    {
+      "slot": "deepseek:ISFP:chibi",
+      "src": "/art/mbti/deepseek/isfp-chibi.webp",
+      "sha256": "7be770a0160ea46121defbeba5305ee7b5e269079e8dc2884c569d7ee000e920",
+      "pixelHash": "e77f2db2484a956c791bdf8ccead591fa1115e4b8eb392f6ecbf2660313b2bde",
+      "width": 1024,
+      "height": 1536
+    },
+    {
+      "slot": "deepseek:INFP:regular",
+      "src": "/art/mbti/deepseek/infp-regular.webp",
+      "sha256": "dde484088054c18aa27666c8cb03125a27097c37b5e51dc206541a7efd48260d",
+      "pixelHash": "ffabeda7a4e853a48b3ed8724ce3e300739df8f258f47b42d5360ecf6e777dd2",
+      "width": 1024,
+      "height": 1536
+    },
+    {
+      "slot": "deepseek:INFP:chibi",
+      "src": "/art/mbti/deepseek/infp-chibi.webp",
+      "sha256": "53a9fbd233a0dfe595d0618c643da0e1cca838d90e1438f21a4e2331c8722228",
+      "pixelHash": "0100302ce8b2e0a15fa9ca4914535609fd7e02c5c69a3c92bc800170f162e0b9",
+      "width": 1024,
+      "height": 1536
+    },
+    {
+      "slot": "deepseek:INTP:regular",
+      "src": "/art/mbti/deepseek/intp-regular.webp",
+      "sha256": "77c860cbe52964dc7489aedb8682a754234003a240727ec50ca5212501472b96",
+      "pixelHash": "6f4122db019b37a5d6001624c909af1eda7a824a6f317f3558d26be5482e78e9",
+      "width": 1024,
+      "height": 1536
+    },
+    {
+      "slot": "deepseek:INTP:chibi",
+      "src": "/art/mbti/deepseek/intp-chibi.webp",
+      "sha256": "48788d2bfa63348ef9162a6a790f6845d753d095406302f6a63a019560448090",
+      "pixelHash": "7431c40b4517edb5e247528bb68f3e68cf9b5afd128d8a11c9ee49920e62c65d",
+      "width": 1024,
+      "height": 1536
+    },
+    {
+      "slot": "deepseek:ESTJ:regular",
+      "src": "/art/mbti/deepseek/estj-regular.webp",
+      "sha256": "2138712ce1d36c8a7509a5323f75f1c6b2495ba7bb68744b5eb28cc8355a1785",
+      "pixelHash": "a701508f519a565301f047171b6840df729dcbc51a9de64e20f1c3af8eb6d902",
+      "width": 1024,
+      "height": 1536
+    },
+    {
+      "slot": "deepseek:ESTJ:chibi",
+      "src": "/art/mbti/deepseek/estj-chibi.webp",
+      "sha256": "b6fa3815310a761749020a0dde56f1e747f0acbf6c15d5cd2fa06dd7f931e029",
+      "pixelHash": "f0585ecd93f3219bad36da2ee0ff803965a99451604e05ecff3c5f926425cb9b",
+      "width": 1024,
+      "height": 1536
+    },
+    {
+      "slot": "deepseek:ESFJ:regular",
+      "src": "/art/mbti/deepseek/esfj-regular.webp",
+      "sha256": "8c54ba6a8312937c1b0b8b993c3014faa09ff642324586a5178777dba5fab4ca",
+      "pixelHash": "c42b0fb26ad6caad7594abf72b356681a8098334ef4a925d15c22b7719fff780",
+      "width": 1024,
+      "height": 1536
+    },
+    {
+      "slot": "deepseek:ESFJ:chibi",
+      "src": "/art/mbti/deepseek/esfj-chibi.webp",
+      "sha256": "83f27a8e73401a87c93fae18dd7254716d44c1d32999bfe168d201540794f775",
+      "pixelHash": "f799e2454fece3d7e846bff7479e6c3536b9fddf473c0a24a6691db2ff732b9e",
+      "width": 1024,
+      "height": 1536
+    },
+    {
+      "slot": "deepseek:ENFJ:regular",
+      "src": "/art/mbti/deepseek/enfj-regular.webp",
+      "sha256": "1956632d40fdea2a19a51c40525e93305dc586c96530e3f4980042931a9a8f51",
+      "pixelHash": "203eb0a5716a8b8491123d9c9b42fc2a84e55e86e64fa7300830be9bd8d4002f",
+      "width": 1024,
+      "height": 1536
+    },
+    {
+      "slot": "deepseek:ENFJ:chibi",
+      "src": "/art/mbti/deepseek/enfj-chibi.webp",
+      "sha256": "c59b1a02ab7f0ef8638eba867bfded375ec834446149e89738e84f9e59d15578",
+      "pixelHash": "a6b5e174d9797471ca3572d69bc64156ef51d918e4d8e88b1e84e45bcaf94b91",
+      "width": 1024,
+      "height": 1536
+    },
+    {
+      "slot": "deepseek:ENTJ:regular",
+      "src": "/art/mbti/deepseek/entj-regular.webp",
+      "sha256": "b3f952e413b4fd6a92a07fe564907916285a8dde824123dc13539c0978631760",
+      "pixelHash": "098e04723e77ae3bc2cd20edf088c584f952aa0e47ec7e2c067b5042f58b4609",
+      "width": 1024,
+      "height": 1536
+    },
+    {
+      "slot": "deepseek:ENTJ:chibi",
+      "src": "/art/mbti/deepseek/entj-chibi.webp",
+      "sha256": "fcbb76fc728ded214198b80d62ad3031aefa3cb0bbcc591fdbb54c7d27daab73",
+      "pixelHash": "f333512181e5ba36ea033ac8c970d9bcd86e7a6600844bd341086a78b8c5eb35",
+      "width": 1024,
+      "height": 1536
+    },
+    {
+      "slot": "deepseek:ESTP:regular",
+      "src": "/art/mbti/deepseek/estp-regular.webp",
+      "sha256": "cdd80fd5f79289ee3676916f0e5cff73dc10ee1f09b8a6e561b609a80a70d6f9",
+      "pixelHash": "3bbaecfe94a2e4f874343d06fc013f3d74110b1310834e1b6ec19c1ed2027e06",
+      "width": 1024,
+      "height": 1536
+    },
+    {
+      "slot": "deepseek:ESTP:chibi",
+      "src": "/art/mbti/deepseek/estp-chibi.webp",
+      "sha256": "a7af6b42cf07b0f0114ab2181667a2c89ffc390b4862e2499b068857229d8565",
+      "pixelHash": "b65085958893ae23f068123a963476678c5eab149e77e9ba3bbfcbf85fc92615",
+      "width": 1024,
+      "height": 1536
+    },
+    {
+      "slot": "deepseek:ESFP:regular",
+      "src": "/art/mbti/deepseek/esfp-regular.webp",
+      "sha256": "8e98f1363eaef2e56026abfbf96f66de380c41c22272ebef0b0633f1253f60c8",
+      "pixelHash": "e477cb7ca9fae5bfa20cfb6ca0d3446e31d0c46fdf49ad78c19b9c91878c530f",
+      "width": 1024,
+      "height": 1536
+    },
+    {
+      "slot": "deepseek:ESFP:chibi",
+      "src": "/art/mbti/deepseek/esfp-chibi.webp",
+      "sha256": "dcb8cedadc744fd8e537f6603bb35e27dd25acbee591e76b947c8003d64749b6",
+      "pixelHash": "d2c300ffbc47614333b4d5e2408a72702c956b60a6995ccbbe503f6b7143b440",
+      "width": 1024,
+      "height": 1536
+    },
+    {
+      "slot": "deepseek:ENFP:regular",
+      "src": "/art/mbti/deepseek/enfp-regular.webp",
+      "sha256": "c054ed27c26088cb85311d99510fd66fa471522c46943504bb2a6664ecbbf30e",
+      "pixelHash": "164acfb3ceb2847e69a4d39b22baf248e94cd9b4f08ff51b1b597e9d027b4c6e",
+      "width": 1024,
+      "height": 1536
+    },
+    {
+      "slot": "deepseek:ENFP:chibi",
+      "src": "/art/mbti/deepseek/enfp-chibi.webp",
+      "sha256": "a52fe6a9a4a88481e112a350849475bbbd4ca3638e9eb773db2ec58c1e1f5d32",
+      "pixelHash": "fe5a0f826a9759f7117b967b91814cb7340684a30b71018526a20ceaf2fec2c3",
+      "width": 1024,
+      "height": 1536
+    },
+    {
+      "slot": "deepseek:ENTP:regular",
+      "src": "/art/mbti/deepseek/entp-regular.webp",
+      "sha256": "e74f73f799605de918733f2e7db3c48054abad3795a7bd72c29e89fb10ef24dd",
+      "pixelHash": "20d0388be7674644ce8d80648b37a9048109899cd17c0d39c1af0a504c8b1682",
+      "width": 1024,
+      "height": 1536
+    },
+    {
+      "slot": "deepseek:ENTP:chibi",
+      "src": "/art/mbti/deepseek/entp-chibi.webp",
+      "sha256": "3888b29293b5c312a7d0a76f5a3545888168fc7bd618def59f88b576e9463e71",
+      "pixelHash": "44a3798e43755bad5f0a547a387cbe169e6402b866a724d53e8265aa1e6a2145",
+      "width": 1024,
+      "height": 1536
+    },
+    {
+      "slot": "glm:ISTJ:regular",
+      "src": "/art/mbti/glm/istj-regular.webp",
+      "sha256": "9e4691240399649e0a36281133712e12a25d4b6c1f2a5fc71e7754e8d9c08354",
+      "pixelHash": "12ab858ad94ac58d011b53b7c95964604cd702ae9359e18883519ab37a923bd5",
+      "width": 1024,
+      "height": 1536
+    },
+    {
+      "slot": "glm:ISTJ:chibi",
+      "src": "/art/mbti/glm/istj-chibi.webp",
+      "sha256": "9d836463083cc42a4dae71f376b1ca984a4d27c99d0ea7d13f50c757fcd22f51",
+      "pixelHash": "c88b62297df07726fa5850dbf42e91c7a5e0d5139c548f236e90a874e7e3482e",
+      "width": 1024,
+      "height": 1536
+    },
+    {
+      "slot": "glm:ISFJ:regular",
+      "src": "/art/mbti/glm/isfj-regular.webp",
+      "sha256": "fc2fe47be515d4d7ca5ba4f54e64f464dec7d734f257e471e43f58e08a8e9bbf",
+      "pixelHash": "869303eff24b7f85483917dd44cf7ae4c124773c2bfb34693e74ed1f6512821e",
+      "width": 1024,
+      "height": 1536
+    },
+    {
+      "slot": "glm:ISFJ:chibi",
+      "src": "/art/mbti/glm/isfj-chibi.webp",
+      "sha256": "c6ffe47de550e4ead462f72a82635f76e446eab6691974a577c488f4a4897e11",
+      "pixelHash": "11b7372aa698df55f744a488c255cdfe102104304984ea211c86177bf8595df6",
+      "width": 1024,
+      "height": 1536
+    },
+    {
+      "slot": "glm:INFJ:regular",
+      "src": "/art/mbti/glm/infj-regular.webp",
+      "sha256": "7aa6f33373d91afdac5a8da717f065fbf274c1c4cc725717398c99bf89ed7766",
+      "pixelHash": "67a25315a65c370792cdbb09aecff70d9dd0dfb928650db3bbbb046e3bb55a65",
+      "width": 1024,
+      "height": 1536
+    },
+    {
+      "slot": "glm:INFJ:chibi",
+      "src": "/art/mbti/glm/infj-chibi.webp",
+      "sha256": "21240458449eb154e0ce194c4c068e570f07eea1702fe057a49f4b9ed24fd448",
+      "pixelHash": "d92f787be3aec84c6703879776bf1b4c871afc67297cd214edcfc104231dda0b",
+      "width": 1024,
+      "height": 1536
+    },
+    {
+      "slot": "glm:INTJ:regular",
+      "src": "/art/mbti/glm/intj-regular.webp",
+      "sha256": "67ced050760e495e02ed72abfd2b06c650d8b4fb5fc8b9ce6038e99afee024e5",
+      "pixelHash": "44111d38da4ab3cd9d169a007d572db81988b7ef5852d445b3c42572613f853a",
+      "width": 1024,
+      "height": 1536
+    },
+    {
+      "slot": "glm:INTJ:chibi",
+      "src": "/art/mbti/glm/intj-chibi.webp",
+      "sha256": "244c298fe7f69859442ad5eb2d456b27047160d5642fa1a0f3f2f7e7d9e90a18",
+      "pixelHash": "da8edd0a85779a3073ece8e84296012980924a4d84c31bc6421929cd21e9a2c7",
+      "width": 1024,
+      "height": 1536
+    },
+    {
+      "slot": "glm:ISTP:regular",
+      "src": "/art/mbti/glm/istp-regular.webp",
+      "sha256": "82eb55b682431807b53fe1036b7f07f8bf33e3615f57f880954ce48257ffc8b9",
+      "pixelHash": "fecb54e111e6a19c30613bf661347bc278c8caebeac57a31dc38050052887eaf",
+      "width": 1024,
+      "height": 1536
+    },
+    {
+      "slot": "glm:ISTP:chibi",
+      "src": "/art/mbti/glm/istp-chibi.webp",
+      "sha256": "e1b75ebb745c0ab91477007dfbe7087a64a9760ed590ae766f5235f9a6b0b101",
+      "pixelHash": "f97215bdd3517c8dd122d859642605d6850c90bdb6f6df5e409a394064e0d6de",
+      "width": 1024,
+      "height": 1536
+    },
+    {
+      "slot": "glm:ISFP:regular",
+      "src": "/art/mbti/glm/isfp-regular.webp",
+      "sha256": "521bccf9f6b4f77cb52a82dd2c9562db267238c5ff98a4631161bb9619f892b7",
+      "pixelHash": "f27a85ea2975d7547f7f2a9b0b46be76be196b136cfeb2e634674eed4d7bdf36",
+      "width": 1024,
+      "height": 1536
+    },
+    {
+      "slot": "glm:ISFP:chibi",
+      "src": "/art/mbti/glm/isfp-chibi.webp",
+      "sha256": "4b79ba60afc80b2c15b6b1e7a47ab943597b09463ee38630cb4dea51827ba0e2",
+      "pixelHash": "1d2e9146e6548f44e86df65a7447d2a0ae56b583a54a3fbf66eb47c4a24e172c",
+      "width": 1024,
+      "height": 1536
+    },
+    {
+      "slot": "glm:INFP:regular",
+      "src": "/art/mbti/glm/infp-regular.webp",
+      "sha256": "1afb046a0a24d1f9bc5ba3ea08ce04c4cf132c2ead98aacd12bdc0fe2dc2ccd2",
+      "pixelHash": "6e89014d58f20454636c3224cb45382b78e7c399993ec011ee09a7a94f60f26c",
+      "width": 1024,
+      "height": 1536
+    },
+    {
+      "slot": "glm:INFP:chibi",
+      "src": "/art/mbti/glm/infp-chibi.webp",
+      "sha256": "8dfe7708feaaa37c104d286c7ea3a188f184b60d5255b915e50cf5b89ac7048a",
+      "pixelHash": "a609ea2662078c13bfd3c5acb343ed9486017d1e7c75dbcae99ea2749aa8a96f",
+      "width": 1024,
+      "height": 1536
+    },
+    {
+      "slot": "glm:INTP:regular",
+      "src": "/art/mbti/glm/intp-regular.webp",
+      "sha256": "b231e6efa30aaa3b86fbaee60868b8c1bde27b8f45f80b9de984a0150eadf9a2",
+      "pixelHash": "5b63c35b94fb3a1e47e8f6dc30aa875346b3ab013ed354974c39a7b09be2392e",
+      "width": 1024,
+      "height": 1536
+    },
+    {
+      "slot": "glm:INTP:chibi",
+      "src": "/art/mbti/glm/intp-chibi.webp",
+      "sha256": "b399ca7138315c37e4e811534d54108ddbd88f94b40f51c4cf70f87bfae1a691",
+      "pixelHash": "1e25dbb7d5bb765685d2af35a231c6bee18a41b90ae0923da9df38313383f764",
+      "width": 1024,
+      "height": 1536
+    },
+    {
+      "slot": "glm:ESTJ:regular",
+      "src": "/art/mbti/glm/estj-regular.webp",
+      "sha256": "5444eb88117d4ce326c4b06467ec8f080f45d768e86d5208cc98d2c898fdc57c",
+      "pixelHash": "9b6f77da982c42e74cbcf1b41f97104284211ccc29feca148785671aa9e06798",
+      "width": 1024,
+      "height": 1536
+    },
+    {
+      "slot": "glm:ESTJ:chibi",
+      "src": "/art/mbti/glm/estj-chibi.webp",
+      "sha256": "acb723fdc4291dbb463851db08c9bd062dc68a0b8f7c3af073505af8d748f108",
+      "pixelHash": "5895fefd34a787ec6294366ec056d462cdcbc853dcd5df925955db79082001d7",
+      "width": 1024,
+      "height": 1536
+    },
+    {
+      "slot": "glm:ESFJ:regular",
+      "src": "/art/mbti/glm/esfj-regular.webp",
+      "sha256": "830891add5cd559a016149d4277f9d27da4c0a42cd9bca3e60b68ccfc66f61df",
+      "pixelHash": "b075571df5e60bd1432542ace2cce0e65794822d383be8075e9a2ed8dc9554da",
+      "width": 1024,
+      "height": 1536
+    },
+    {
+      "slot": "glm:ESFJ:chibi",
+      "src": "/art/mbti/glm/esfj-chibi.webp",
+      "sha256": "a88d24edfb8c04e8f9dd73ab1e44e85ef00c798e0aa7d4b47fd5529bf0435608",
+      "pixelHash": "6a7fb8be487bae1eb6ecd187ad2237982f6d6286a1db709d51cefcf287325d29",
+      "width": 1024,
+      "height": 1536
+    },
+    {
+      "slot": "glm:ENFJ:regular",
+      "src": "/art/mbti/glm/enfj-regular.webp",
+      "sha256": "4d6ec4934f7a917d4ece819389e001cf170ab151a558ef20487d23d8241bd767",
+      "pixelHash": "fd7d0911104bb80068ec45755ee269dc60b6518ce7dea9803425f204afd8014b",
+      "width": 1024,
+      "height": 1536
+    },
+    {
+      "slot": "glm:ENFJ:chibi",
+      "src": "/art/mbti/glm/enfj-chibi.webp",
+      "sha256": "1379e61fd62d70176496ccdf9d565dced1d225de9995d64b3d36c2f8808c058d",
+      "pixelHash": "2a2df03788efe790b0c65683a73edc055f9cce3154f168f3906b580e49dcead1",
+      "width": 1024,
+      "height": 1536
+    },
+    {
+      "slot": "glm:ENTJ:regular",
+      "src": "/art/mbti/glm/entj-regular.webp",
+      "sha256": "eed219a528312298c4f47ffa2d6b2130827e9e1fa8ae683f9d0723c2f401473a",
+      "pixelHash": "0fa3eeeaf493a212fcd494cfe3799a64cd3e1545073a200612ac891944ee848a",
+      "width": 1024,
+      "height": 1536
+    },
+    {
+      "slot": "glm:ENTJ:chibi",
+      "src": "/art/mbti/glm/entj-chibi.webp",
+      "sha256": "166ac61d51d74d6a1b5c62b8d39d8feadaca9bf7409d20a828b07120b2c4178e",
+      "pixelHash": "645045dd5f52991650eaee7d7b333392108b733725cd5e954e8c32ea0fe065fb",
+      "width": 1024,
+      "height": 1536
+    },
+    {
+      "slot": "glm:ESTP:regular",
+      "src": "/art/mbti/glm/estp-regular.webp",
+      "sha256": "4fce8549def810963f1e767335500704b4b53a0c01d2e0ba509c4dd6d82d23a6",
+      "pixelHash": "3e0a0d9188c0426b62dffbef2ed3cac24acdfd86ac4bb7c085f35a093265b57b",
+      "width": 1024,
+      "height": 1536
+    },
+    {
+      "slot": "glm:ESTP:chibi",
+      "src": "/art/mbti/glm/estp-chibi.webp",
+      "sha256": "b9a8a989808ffc5b2693acb1a53ee9db4c6c243e689fc61536ea73f1227773fd",
+      "pixelHash": "46f64d631b5e82f6d7f192923226347bf145cd76292994fea98bc93fa37b0802",
+      "width": 1024,
+      "height": 1536
+    },
+    {
+      "slot": "glm:ESFP:regular",
+      "src": "/art/mbti/glm/esfp-regular.webp",
+      "sha256": "20d3c91cf4de94ed88276438af9c65af4257500432a6ec82b38e4028d8cc8f7f",
+      "pixelHash": "770c21deb50971e519df094b14b1157b612da3ac8744b77668bd323241fd6ff0",
+      "width": 1024,
+      "height": 1536
+    },
+    {
+      "slot": "glm:ESFP:chibi",
+      "src": "/art/mbti/glm/esfp-chibi.webp",
+      "sha256": "408e73a09ebaf7bd64a730f1f53518f3e6973549460183c8a04ff4e1bb7c17d8",
+      "pixelHash": "831df8d4c1b9a857eb383f7657b0efd6ade26c20bcdf7dc2ac3139612c20dcd8",
+      "width": 1024,
+      "height": 1536
+    },
+    {
+      "slot": "glm:ENFP:regular",
+      "src": "/art/mbti/glm/enfp-regular.webp",
+      "sha256": "9bcb440aeeb233003d573e55d27c6b95c8b90097322bd4b4d3bbe69ca7a23f45",
+      "pixelHash": "ec53a65bc556b552483095b06f5834fa0933a8b065ac374b3afaaf2e24f11bcd",
+      "width": 1024,
+      "height": 1536
+    },
+    {
+      "slot": "glm:ENFP:chibi",
+      "src": "/art/mbti/glm/enfp-chibi.webp",
+      "sha256": "32ce95623731f36f71f2a6100a74de8d689a0982382a13673189f4ef1e21bfe1",
+      "pixelHash": "8d00e2af178560705e0094992a9b576b290930a9c1ccc54d4868bca77886a619",
+      "width": 1024,
+      "height": 1536
+    },
+    {
+      "slot": "glm:ENTP:regular",
+      "src": "/art/mbti/glm/entp-regular.webp",
+      "sha256": "e5e2e87e84e2a1770412db613fae655f972f5baaa6b9cff648256cfa9539331d",
+      "pixelHash": "56604f4aab3b4765a809c1de8400d8ada34f8a00a433e6ebc239ca5f8474168b",
+      "width": 1024,
+      "height": 1536
+    },
+    {
+      "slot": "glm:ENTP:chibi",
+      "src": "/art/mbti/glm/entp-chibi.webp",
+      "sha256": "819723c34a51b304c1b6099eb5bdf0b1b7c4ba088992cbc347ec7cf457eb2be7",
+      "pixelHash": "90e743d20f482f67cbb6441f0666369977cdc78dafcf6e5f1e14d91b37e61ec4",
+      "width": 1024,
+      "height": 1536
+    },
+    {
+      "slot": "grok:ISTJ:regular",
+      "src": "/art/mbti/grok/istj-regular.webp",
+      "sha256": "1ff73ad34f9525c0364c787d45690c067ef9614a850b3980a518a12f664f1a78",
+      "pixelHash": "b16dbd45488e8b42e298a359bdc4e90985b2acb8dc0dd6b0ed9468cfed9c67e2",
+      "width": 1024,
+      "height": 1536
+    },
+    {
+      "slot": "grok:ISTJ:chibi",
+      "src": "/art/mbti/grok/istj-chibi.webp",
+      "sha256": "9a8465c9f7ccf961c39b3fcd08934957803ef58938234febdf30d5b58cc0aa43",
+      "pixelHash": "6bce168d3edd7835ed62ce30f5fd216f18234818229890508b2bf1dcd594cede",
+      "width": 1024,
+      "height": 1536
+    },
+    {
+      "slot": "grok:ISFJ:regular",
+      "src": "/art/mbti/grok/isfj-regular.webp",
+      "sha256": "e2eeda7554de2fab761759899bc22ee598b41cb5ff48377bb1a3f6f66d33e2ef",
+      "pixelHash": "ebc3a55bb8f4108b826a7105780c35dfea810a2a02cc42ac3a2cc5797be92134",
+      "width": 1024,
+      "height": 1536
+    },
+    {
+      "slot": "grok:ISFJ:chibi",
+      "src": "/art/mbti/grok/isfj-chibi.webp",
+      "sha256": "dae0927878800868f673ab00eb7d2b5d746301b9f785eea1cdfd41a9f0345b7d",
+      "pixelHash": "196430ac215c7080cd88e13312f613d0ab41a8dad60cb9522903d01da1cad060",
+      "width": 1024,
+      "height": 1536
+    },
+    {
+      "slot": "grok:INFJ:regular",
+      "src": "/art/mbti/grok/infj-regular.webp",
+      "sha256": "be22684871806b7db077466eb3717461910e4dc82afbc17182eecd28d8ef529b",
+      "pixelHash": "33379d90482de6a3f70fc6448f7cc102286063eabb55b9611f855a5b2aceb78f",
+      "width": 1024,
+      "height": 1536
+    },
+    {
+      "slot": "grok:INFJ:chibi",
+      "src": "/art/mbti/grok/infj-chibi.webp",
+      "sha256": "75af35fb96a5fd02659cd5647f0f606668d77e63d145d3cd5d33c2873a440b21",
+      "pixelHash": "93fd61df18d5965018448c6b0ceb0087323bc82201f135a7423a1b00d456361a",
+      "width": 1024,
+      "height": 1536
+    },
+    {
+      "slot": "grok:INTJ:regular",
+      "src": "/art/mbti/grok/intj-regular.webp",
+      "sha256": "b36cc7e70d3a517ff340c7fdd491376fb2f11fc7ac7819517f1c51a354788511",
+      "pixelHash": "be0954f7ef3151041ced0f0992afef4ae848e150abee94747f6561f40fc5f6ef",
+      "width": 1024,
+      "height": 1536
+    },
+    {
+      "slot": "grok:INTJ:chibi",
+      "src": "/art/mbti/grok/intj-chibi.webp",
+      "sha256": "99d0bbb7a79f9640457c27f79b51f1382c2f691cceba17980b29d90b80765396",
+      "pixelHash": "91aaa2636eeaed424f3b2f032a886dc7945ace07835462abdd9d2e1f6e49158e",
+      "width": 1024,
+      "height": 1536
+    },
+    {
+      "slot": "grok:ISTP:regular",
+      "src": "/art/mbti/grok/istp-regular.webp",
+      "sha256": "95b0df04112e1f72458b48f4fac52ce706512c531def2f6f292f13e95a9efd80",
+      "pixelHash": "ea65f48afd37d7dbd95aef7a9047038b9d2f0292e8023515d246e2b069f3ad90",
+      "width": 1024,
+      "height": 1536
+    },
+    {
+      "slot": "grok:ISTP:chibi",
+      "src": "/art/mbti/grok/istp-chibi.webp",
+      "sha256": "c2e59d61a5f8ea36d44beb607856f201c401a6a5b06c90e2acca5d9189a75bd8",
+      "pixelHash": "9412701df1e78412152f7c4fef534f96d1d3b05a27e173e9b108ad928a86c17f",
+      "width": 1024,
+      "height": 1536
+    },
+    {
+      "slot": "grok:ISFP:regular",
+      "src": "/art/mbti/grok/isfp-regular.webp",
+      "sha256": "d1af355c5cad1b80a3186898e0b3d3a7f1d478dd3e3da0a4c047ccf36ad48669",
+      "pixelHash": "299677dbcc01e871b30c8d12bcd1a76421f26292362f74459d88c6f2183f71ad",
+      "width": 1024,
+      "height": 1536
+    },
+    {
+      "slot": "grok:ISFP:chibi",
+      "src": "/art/mbti/grok/isfp-chibi.webp",
+      "sha256": "a9477f0a34d430e647a7ca2bb370ffb1102f0c730488611a8039d4cc068da9c3",
+      "pixelHash": "f84bce65fec231f10b768a9e986322eb8fad42f1a664ea56cb800a49419a199b",
+      "width": 1024,
+      "height": 1536
+    },
+    {
+      "slot": "grok:INFP:regular",
+      "src": "/art/mbti/grok/infp-regular.webp",
+      "sha256": "891e31c262ac2b809978f1a295910d264fe5147ad5931ebdddd462eb66438f07",
+      "pixelHash": "b7b7f385198f1eb17a051e78835343d438e2573b514877d825e105048fc0111b",
+      "width": 1024,
+      "height": 1536
+    },
+    {
+      "slot": "grok:INFP:chibi",
+      "src": "/art/mbti/grok/infp-chibi.webp",
+      "sha256": "3f364b8b811774c5f4f1cbdf976dce22a3b872555276a02725733b7043e1e9b8",
+      "pixelHash": "06c1ff986253bdabfcf2f8c650cd1201a26be9dc696be7f2d2ad559e848b2ad7",
+      "width": 1024,
+      "height": 1536
+    },
+    {
+      "slot": "grok:INTP:regular",
+      "src": "/art/mbti/grok/intp-regular.webp",
+      "sha256": "dcb916446d688fa276fad63b8a0b7eba7341947d5a103b39a0a4e90079fbb750",
+      "pixelHash": "e7f7546b1aff8b5d145c6eef9fe67d4af66493e152adb62916b027d49ccc9029",
+      "width": 1024,
+      "height": 1536
+    },
+    {
+      "slot": "grok:INTP:chibi",
+      "src": "/art/mbti/grok/intp-chibi.webp",
+      "sha256": "e50d6c1f2b3ca9ac70ba28c031f77d99c884ba82eed803894f0d4f31113f4989",
+      "pixelHash": "cc4ae534865bbe290e789983eef7f7a6706e004a8ebaeaff8645df7754e7956c",
+      "width": 1024,
+      "height": 1536
+    },
+    {
+      "slot": "grok:ESTJ:regular",
+      "src": "/art/mbti/grok/estj-regular.webp",
+      "sha256": "79d75a716e982768ba4aa78de5beabf88997fe967b87023b9c61b9ad934302ca",
+      "pixelHash": "be0680804da673851b856f5a5b7040cd079c37e50e1deacabe0893e5e4581c1e",
+      "width": 1024,
+      "height": 1536
+    },
+    {
+      "slot": "grok:ESTJ:chibi",
+      "src": "/art/mbti/grok/estj-chibi.webp",
+      "sha256": "cf5ce74b633d53c250ba3766de5d27ada6cc55266391fee3f33f1c2e6a0294fe",
+      "pixelHash": "d27c7b3dfd19eae3866d0585251027245e8d0ee24387c3e5cccd28b28c0b273f",
+      "width": 1024,
+      "height": 1536
+    },
+    {
+      "slot": "grok:ESFJ:regular",
+      "src": "/art/mbti/grok/esfj-regular.webp",
+      "sha256": "a34c8e675e8820e73758675c3d1ec34e7adf5e9d5ed26048a5d4eeae5d852958",
+      "pixelHash": "bc624e8de85fe1013c456c59855fdfd2fc3ea48c6f328b7015d7b4f952243c11",
+      "width": 1024,
+      "height": 1536
+    },
+    {
+      "slot": "grok:ESFJ:chibi",
+      "src": "/art/mbti/grok/esfj-chibi.webp",
+      "sha256": "b0cd65ebbd77f9a7bd65574da0469bfc98fa960a613022d70cb3c8f9b0fc6f56",
+      "pixelHash": "9eee8579e10c3e6d9ed04112175c5de236b1ab9866cbd4052a2fa660a1be4364",
+      "width": 1024,
+      "height": 1536
+    },
+    {
+      "slot": "grok:ENFJ:regular",
+      "src": "/art/mbti/grok/enfj-regular.webp",
+      "sha256": "f31e9e2a4548b233e68274a35605b5c1115faa38b2172bc4b522f2b3530142ba",
+      "pixelHash": "d402d7f65519fefeadf991cdfb9148f8c727d9b173934b0f2a18912bb8f02bf7",
+      "width": 1024,
+      "height": 1536
+    },
+    {
+      "slot": "grok:ENFJ:chibi",
+      "src": "/art/mbti/grok/enfj-chibi.webp",
+      "sha256": "7479cfcfe1c6f3f1061735767216a41a88565523d169dfa20ecb422a46da8762",
+      "pixelHash": "8075850ae67ba2be4c012460e62ec692e1a08d6d482f3cc807c333ea4ee0e241",
+      "width": 1024,
+      "height": 1536
+    },
+    {
+      "slot": "grok:ENTJ:regular",
+      "src": "/art/mbti/grok/entj-regular.webp",
+      "sha256": "67335321a5870579fe75d0e3c74d37871ff27887a662dfd1e7f8389a70cf2614",
+      "pixelHash": "dbf9a29241ba1d03e3c7410a2db5b116011a3827a0b6d5764d6d229711f95647",
+      "width": 1024,
+      "height": 1536
+    },
+    {
+      "slot": "grok:ENTJ:chibi",
+      "src": "/art/mbti/grok/entj-chibi.webp",
+      "sha256": "0e1fcac3d0f6ce7b101e8ad065a09dba5b3bb2a44f8a444882ea830d21569c99",
+      "pixelHash": "576bbc047d43af9da6e9cd026a6c0636e8cb0626af86cc8f6bdf77fc22e4abf6",
+      "width": 1024,
+      "height": 1536
+    },
+    {
+      "slot": "grok:ESTP:regular",
+      "src": "/art/mbti/grok/estp-regular.webp",
+      "sha256": "95609f65d86034cc34032d55ba011582d00f372d6b64ec602b927a878c38dd3a",
+      "pixelHash": "6d88aeb2de1300116bf372507f007794bc8fcdc0646059971b5e70de915fcfe4",
+      "width": 1024,
+      "height": 1536
+    },
+    {
+      "slot": "grok:ESTP:chibi",
+      "src": "/art/mbti/grok/estp-chibi.webp",
+      "sha256": "d0bd11a3058beaca54687d9b43ccd1233993bfbaf88f06ac8a006f5ceac2e212",
+      "pixelHash": "a1bc7971ab1fe695ee9d289208fd7f81078f3f3710fe93fca1d4fcac89067314",
+      "width": 1024,
+      "height": 1536
+    },
+    {
+      "slot": "grok:ESFP:regular",
+      "src": "/art/mbti/grok/esfp-regular.webp",
+      "sha256": "62ac34b6770ddc9657f0f94de03b6bf8b925813dae79e78094944405b20ded00",
+      "pixelHash": "df4807abe273b77346aeea711ce9a5bc55b3df881c76fce0be158c2470b9b8b4",
+      "width": 1024,
+      "height": 1536
+    },
+    {
+      "slot": "grok:ESFP:chibi",
+      "src": "/art/mbti/grok/esfp-chibi.webp",
+      "sha256": "4e68ac1cd818b5dae5561dadba89ef2beb15b1d085ceda67b906011d8f8f1f5b",
+      "pixelHash": "8839f4acac114652dbdd23051314b02e6061051d920a0c7cced853f159bb0b5d",
+      "width": 1024,
+      "height": 1536
+    },
+    {
+      "slot": "grok:ENFP:regular",
+      "src": "/art/mbti/grok/enfp-regular.webp",
+      "sha256": "e3dca5fa5871f4d6d94cf9d65f525c89c70d2673f32faec092a89d4525958c75",
+      "pixelHash": "56168b51d318b236bd3bd56d9e24546b5c91bd772d9c9700ec194db1b5f35e90",
+      "width": 1024,
+      "height": 1536
+    },
+    {
+      "slot": "grok:ENFP:chibi",
+      "src": "/art/mbti/grok/enfp-chibi.webp",
+      "sha256": "dc198593e912da03770f6c711c93ab6ba85a9f3ac145349df032a4a4a792315a",
+      "pixelHash": "06ad88a38624c2b08bdb237dc5b415833074bdbe29a8b396083a740b06957bbb",
+      "width": 1024,
+      "height": 1536
+    },
+    {
+      "slot": "grok:ENTP:regular",
+      "src": "/art/mbti/grok/entp-regular.webp",
+      "sha256": "d22deed55aefe3a00ea837813530547e9e9cdd2fbbce7dedf373e361fa95940d",
+      "pixelHash": "802b7e201728debf3320d6db49abc785ed8667b2fdbcd691a4783cc1ed15172a",
+      "width": 1024,
+      "height": 1536
+    },
+    {
+      "slot": "grok:ENTP:chibi",
+      "src": "/art/mbti/grok/entp-chibi.webp",
+      "sha256": "776b41fe7c279b5df5bfc83dd53759e894a174b2ad8f82a0fc592f6b18ad06b5",
+      "pixelHash": "8e7b5baf0da93466c38dbe81d9b22f3428509c3b683349c3160a0687f2bf5191",
+      "width": 1024,
+      "height": 1536
+    }
+  ]
+}

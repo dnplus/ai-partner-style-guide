@@ -1403,13 +1403,34 @@
       "id": "C9",
       "title": "Publish one public Sites homepage with native identity and verify scoped remote callback",
       "status": "active",
-      "evidence": [],
-      "next_action": "Use official source helper to push/package verified source,save and deploy once,then verify anonymous/authenticated boundaries and fixture callback."
+      "evidence": [
+        {
+          "type": "build",
+          "path": "evidence/published/packaging-blocker.json",
+          "result": "Native archive rejected at256MiB before any saved version or deployment; original artwork preserved and delivery format corrected."
+        },
+        {
+          "type": "api",
+          "path": "evidence/published/unit-results.txt",
+          "result": "69/69 after WebP path adaptation"
+        },
+        {
+          "type": "visual",
+          "path": "evidence/published/art-verification.json",
+          "result": "192 unique delivered files and decoded images; no pending slots"
+        },
+        {
+          "type": "visual",
+          "path": "evidence/published/originals-preserved.json",
+          "result": "All204 original PNGs byte-identical to C8 and preserved in art-source"
+        }
+      ],
+      "next_action": "Finish focused WebP/browser checks, sync the corrected runtime to the same Site, save one version and deploy; then verify native login and external fixture callback."
     }
   ],
-  "last_observation": "C8 sealed at 27e2682c9441d78700d2d556657445b768dd43cc; public Site audience revision2 already authorized and applied. Advancing official source push/package,one version deployment,and native remote verification.",
-  "current_blocker": "Remote Site is unpublished. No approval pending; native identity and external callback require deployment.",
+  "last_observation": "C9 encountered the native 256 MiB archive limit before any version was saved. Original PNGs are retained unchanged; delivery WebP now totals 121788932 bytes. Typecheck, 69/69 tests, 192 unique image verification and official build pass. Targeted browser regression is running.",
+  "current_blocker": "Native publication and real sign-in/external callback remain pending after media packaging correction.",
   "correlation_groups": [],
-  "state_revision": 23,
-  "state_digest": "747c304280e07711ea73aa73cdddaa89f24b25ed4e12bb54b6e879ce905900d3"
+  "state_revision": 24,
+  "state_digest": "44255d5d8dd94fb712cff13f9cebd1373923ac125cf4ac9024909918b6d02602"
 }

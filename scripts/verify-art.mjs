@@ -23,7 +23,8 @@ for(const s of data.slots){
 const pending=data.slots.filter(s=>s.status==="pending").map(s=>s.family+":"+s.type+":"+s.style);
 if(!allowPending&&pending.length)errors.push({error:"Incomplete artwork matrix",pending:pending.length});
 const report={expected:192,verified:verified.length,uniqueHashes:hashes.size,uniquePixels:pixels.size,complete:verified.length===192&&errors.length===0,pending,errors,files:verified};
-await mkdir(new URL("../evidence/art-192/",import.meta.url),{recursive:true});
-await writeFile(new URL("../evidence/art-192/verification.json",import.meta.url),JSON.stringify(report,null,2)+"\n");
+const output=new URL("../"+(process.env.ART_VERIFY_OUTPUT??"evidence/art-192/verification.json"),import.meta.url);
+await mkdir(new URL(".",output),{recursive:true});
+await writeFile(output,JSON.stringify(report,null,2)+"\n");
 console.log(JSON.stringify({expected:192,verified:verified.length,uniqueHashes:hashes.size,uniquePixels:pixels.size,complete:report.complete,pending:pending.length,errors}));
 if(errors.length)process.exitCode=1;

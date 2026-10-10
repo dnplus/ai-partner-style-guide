@@ -1,3 +1,4 @@
+const evidenceDir=process.env.BROWSER_EVIDENCE_DIR??"evidence/final-card";
 import {test,expect} from "@playwright/test";
 import {artSlots,artFamilies,artStyles,artCounts} from "../../lib/art-catalog.ts";
 import {typeCodes,type TypeCode,type Behavior} from "../../lib/contract.ts";
@@ -25,18 +26,18 @@ test("192-slot gallery loads exact art or honest pending states, inspector and m
           expect(sources.has(slot.src!)).toBe(false);sources.add(slot.src!);
         }else{await expect(card.locator(".card-front image")).toHaveCount(0);await expect(card.locator(".missing-art")).toContainText("專屬插畫製作中");}
       }
-      await page.screenshot({fullPage:true,animations:"disabled",path:"evidence/final-card/gallery-"+family+"-"+style+".png"});
+      await page.screenshot({fullPage:true,animations:"disabled",path:evidenceDir+"/gallery-"+family+"-"+style+".png"});
     }
   }
   expect(sources.size).toBe(artCounts.ready);
   await page.getByRole("button",{name:"放大檢視 INTP",exact:true}).click();await expect(page.getByRole("dialog")).toBeVisible();
   await page.getByRole("dialog").getByRole("button",{name:"一般",exact:true}).click();
-  await expect(page.getByRole("dialog").locator(".card-front image")).toHaveAttribute("href","/art/mbti/glm/intp-regular.png");
-  await page.screenshot({animations:"disabled",path:"evidence/final-card/gallery-inspector.png"});
+  await expect(page.getByRole("dialog").locator(".card-front image")).toHaveAttribute("href","/art/mbti/glm/intp-regular.webp");
+  await page.screenshot({animations:"disabled",path:evidenceDir+"/gallery-inspector.png"});
   await page.getByRole("button",{name:"關閉插畫",exact:true}).click();
   await page.setViewportSize({width:390,height:844});await page.getByRole("combobox",{name:"角色家族",exact:true}).selectOption("codex");await page.getByRole("button",{name:"Q 版",exact:true}).first().click();
   expect(await page.evaluate(()=>document.documentElement.scrollWidth)).toBeLessThanOrEqual(390);
-  await page.screenshot({animations:"disabled",path:"evidence/final-card/gallery-mobile.png"});
+  await page.screenshot({animations:"disabled",path:evidenceDir+"/gallery-mobile.png"});
   expect(errors).toEqual([]);
 });
 
@@ -70,8 +71,8 @@ test("every type reaches its own art through real callback; theme and style neve
       }
       if(type==="INTP"||type==="ENFJ"||type==="ESFP"){
         await page.getByLabel("卡面主題").selectOption("codex");await page.getByRole("button",{name:"一般",exact:true}).click();await page.locator(".card-options>summary").click();
-        await page.screenshot({animations:"disabled",path:"evidence/final-card/result-"+type+".png"});
-        for(const style of artStyles){await page.getByRole("button",{name:style==="regular" ? "一般" : "Q 版",exact:true}).click();const file=page.waitForEvent("download");await page.getByRole("button",{name:"下載我的角色卡",exact:true}).click();await(await file).saveAs("evidence/final-card/card-"+type+"-"+style+".png");}
+        await page.screenshot({animations:"disabled",path:evidenceDir+"/result-"+type+".png"});
+        for(const style of artStyles){await page.getByRole("button",{name:style==="regular" ? "一般" : "Q 版",exact:true}).click();const file=page.waitForEvent("download");await page.getByRole("button",{name:"下載我的角色卡",exact:true}).click();await(await file).saveAs(evidenceDir+"/card-"+type+"-"+style+".png");}
       }
       const state=await(await request.get("/api/sessions/"+session.id,{headers:{Authorization:"Bearer "+session.readToken}})).json();expect(state.card.assessment.type).toBe(type);
       await page.getByRole("button",{name:"關於這份觀察",exact:true}).click();await page.getByRole("button",{name:"結束觀察並刪除資料",exact:true}).click();await expect(page.locator(".app-root")).toHaveAttribute("data-stage","cover");

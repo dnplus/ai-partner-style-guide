@@ -35,7 +35,7 @@ Use the scope line from the prompt. `TOKSCALE_MODE` is `off`, `existing`, or `in
 python3 collect.py scan --from FROM --to TO --tz TZ --sources SOURCES --tokscale TOKSCALE_MODE --out digest.json
 ```
 
-The window is exact. A timestamp counts when `from <= timestamp < to`. The script reads only known per-tool log roots, skips symbolic links, and drops records whose time it cannot place. Do not add those records back, and do not use file modification time as a timestamp.
+The window is whole local days. `from` is local midnight of the first day. `to` is now. A timestamp counts when `from <= timestamp < to`. The script reads only known per-tool log roots, skips symbolic links, and drops records whose time it cannot place. Do not add those records back, and do not use file modification time as a timestamp.
 
 The script writes `digest.json` with mode `0600`. Read that file. Do not paste it into the chat, and do not upload it. The terminal prints counts and timing only.
 

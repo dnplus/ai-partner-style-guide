@@ -1,7 +1,7 @@
 import { artFor, artTitle, artCredit, families, personaFor, type ArtStyle, type Family } from "./catalog.ts";
-import type { Report } from "./assessment.ts";
+import type { CardObservation } from "./assessment.ts";
 
-export async function downloadCard(report: Report, style: ArtStyle, family: Family, nicknameOnly: boolean) {
+export async function downloadCard(report: CardObservation, style: ArtStyle, family: Family, nicknameOnly: boolean) {
   await document.fonts.ready;
   const canvas = document.createElement("canvas");
   canvas.width = 1080; canvas.height = 1620;

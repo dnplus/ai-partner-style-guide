@@ -1,0 +1,51 @@
+{
+  "status": "not_confirmed",
+  "reason": "Library uploads unavailable to the current local workflow before file transfer. No confirmed file IDs; not retried or switched to another write route.",
+  "files": [
+    {
+      "local_path": "/Users/dnplus/Documents/Codex/2026-10-10/task-2/ai-usage-card/evidence/guided/desktop-cover.png",
+      "status": "not_confirmed",
+      "library_file_id": null
+    },
+    {
+      "local_path": "/Users/dnplus/Documents/Codex/2026-10-10/task-2/ai-usage-card/evidence/guided/desktop-waiting.png",
+      "status": "not_confirmed",
+      "library_file_id": null
+    },
+    {
+      "local_path": "/Users/dnplus/Documents/Codex/2026-10-10/task-2/ai-usage-card/evidence/guided/desktop-summary.png",
+      "status": "not_confirmed",
+      "library_file_id": null
+    },
+    {
+      "local_path": "/Users/dnplus/Documents/Codex/2026-10-10/task-2/ai-usage-card/evidence/guided/desktop-collection-chibi.png",
+      "status": "not_confirmed",
+      "library_file_id": null
+    },
+    {
+      "local_path": "/Users/dnplus/Documents/Codex/2026-10-10/task-2/ai-usage-card/evidence/guided/desktop-collection-regular.png",
+      "status": "not_confirmed",
+      "library_file_id": null
+    },
+    {
+      "local_path": "/Users/dnplus/Documents/Codex/2026-10-10/task-2/ai-usage-card/evidence/guided/card-nickname.png",
+      "status": "not_confirmed",
+      "library_file_id": null
+    },
+    {
+      "local_path": "/Users/dnplus/Documents/Codex/2026-10-10/task-2/ai-usage-card/evidence/guided/mobile-cover.png",
+      "status": "not_confirmed",
+      "library_file_id": null
+    },
+    {
+      "local_path": "/Users/dnplus/Documents/Codex/2026-10-10/task-2/ai-usage-card/evidence/guided/mobile-collection.png",
+      "status": "not_confirmed",
+      "library_file_id": null
+    },
+    {
+      "local_path": "/Users/dnplus/Documents/Codex/2026-10-10/task-2/ai-usage-card/docs/DELIVERY-GUIDED.md",
+      "status": "not_confirmed",
+      "library_file_id": null
+    }
+  ]
+}

@@ -39,7 +39,7 @@
     "scripts/**",
     "tests/**"
   ],
-  "current_checkpoint": "COMPLETE",
+  "current_checkpoint": "C2",
   "checkpoints": [
     {
       "id": "C1",
@@ -179,11 +179,64 @@
           "tsconfig.json"
         ]
       }
+    },
+    {
+      "id": "C2",
+      "title": "Polished single-focus journey and consented aggregate review",
+      "status": "active",
+      "next_action": "Commit verified C2 code and seal its new evidence receipt; preserve C1 history unchanged.",
+      "evidence": [
+        {
+          "type": "api",
+          "path": "evidence/guided/unit-results.txt",
+          "result": "28/28: assessment, D1 authority, email-only full report, expiry, idempotency, persistence, offline review consent"
+        },
+        {
+          "type": "browser",
+          "path": "evidence/guided/browser-results.json",
+          "result": "6/6 on final built Worker: single-focus flow, email/card-only, back, retry, restore, cancel, simulated UI expiry, mobile touch, reduced motion, keyboard, twelve artworks, fixture consent and privacy reset"
+        },
+        {
+          "type": "api",
+          "path": "evidence/guided/built-worker-smoke.json",
+          "result": "17/17 built Worker + local D1 checks; two dedicated fixture sessions removed; external private Sites not verified"
+        },
+        {
+          "type": "download",
+          "path": "evidence/guided/card-nickname.png",
+          "result": "Actual 1080x1620 PNG; nickname-only, no email, metrics, session authority; attribution retained"
+        },
+        {
+          "type": "download",
+          "path": "evidence/guided/card-regular.png",
+          "result": "Actual regular-style 1080x1620 PNG; same assessment, no private usage data; inspected visually"
+        },
+        {
+          "type": "build",
+          "path": "evidence/guided/build-results.txt",
+          "result": "Official Sites build exit 0; built runtime then exercised in Chrome and HTTP"
+        },
+        {
+          "type": "visual",
+          "path": "docs/FIDELITY-GUIDED.md",
+          "result": "Three new concepts paired with final desktop/mobile renders; single-focus UI and no horizontal overflow"
+        },
+        {
+          "type": "api",
+          "path": "evidence/guided/collector-review-run.json",
+          "result": "Offline fixture preview unknown/????, null token counts and uploadApproved=false; no real private-session scan"
+        },
+        {
+          "type": "delivery",
+          "path": "docs/LIBRARY-GUIDED.json",
+          "result": "Library upload unavailable to local workflow; no confirmed IDs, no alternate write or uncertain retry; local deliverables intact"
+        }
+      ]
     }
   ],
-  "last_observation": "Verified local scenario sealed at b04955a00747e2bcab868a58f5e7358f16a6fe1a. Remote private Sites callback, real-user validation and other 180 artworks remain explicitly deferred in docs/DELIVERY.md.",
-  "current_blocker": null,
+  "last_observation": "Final built local journey verified: email is required for full report; no email receives card-only data. 28 Node/D1 tests, 6 Chrome journeys and 17 built API checks pass. No real private-session analysis or mail delivery claimed.",
+  "current_blocker": "External email delivery, private Sites callback and real-user evidence remain unverified. Library upload is unavailable to this local workflow; local deliverables are preserved.",
   "correlation_groups": [],
-  "state_revision": 2,
-  "state_digest": "42866ca9f436491251c1bcd17a94b65ad27d1cc22524cb277fe3f75527973580"
+  "state_revision": 4,
+  "state_digest": "f63b159b37658a4754129343be1617afbded9af6b9594b155199f7b2ec4bf235"
 }

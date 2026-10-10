@@ -1,0 +1,123 @@
+{
+  "version": "1.0",
+  "kind": "fixture",
+  "nickname": "無紀錄示範",
+  "consent": {
+    "localAnalysisApproved": true,
+    "aggregateUploadApproved": false
+  },
+  "observedPeriod": {
+    "from": "2026-09-26",
+    "to": "2026-10-09"
+  },
+  "coverage": {
+    "scope": "insufficient",
+    "sources": [],
+    "gaps": [
+      "insufficient_records",
+      "no_tokscale"
+    ],
+    "sampledSessions": null
+  },
+  "metrics": {
+    "humanSessions": null,
+    "automatedSessions": null,
+    "subagentSessions": null,
+    "userMessages": null,
+    "inputTokens": null,
+    "outputTokens": null,
+    "tokenSource": "unavailable",
+    "modelUsage": [],
+    "modelUsageUnit": "unknown",
+    "mostUsedModelFamily": "unknown",
+    "mostUsedClient": "unknown"
+  },
+  "cases": [],
+  "signals": {
+    "unsafeAdoption": {
+      "status": "unknown",
+      "cases": []
+    },
+    "iterativeRetry": {
+      "status": "unknown",
+      "cases": []
+    },
+    "stableSingleTask": {
+      "status": "unknown",
+      "cases": []
+    },
+    "preciseInstruction": {
+      "status": "unknown",
+      "cases": []
+    },
+    "effectiveCorrection": {
+      "status": "unknown",
+      "cases": []
+    },
+    "reusableArtifact": {
+      "status": "unknown",
+      "cases": []
+    },
+    "testedBeforeUse": {
+      "status": "unknown",
+      "cases": []
+    },
+    "repeatedUse": {
+      "status": "unknown",
+      "cases": []
+    },
+    "handoffReady": {
+      "status": "unknown",
+      "cases": []
+    },
+    "selfTestCases": {
+      "status": "unknown",
+      "cases": []
+    },
+    "rolesAndCriteria": {
+      "status": "unknown",
+      "cases": []
+    },
+    "exceptionHandling": {
+      "status": "unknown",
+      "cases": []
+    },
+    "maintenanceFeedback": {
+      "status": "unknown",
+      "cases": []
+    },
+    "sharedRulesActualUse": {
+      "status": "unknown",
+      "cases": []
+    }
+  },
+  "workflows": {
+    "independentWorkflows": null,
+    "independentRuns": null,
+    "sustainedDays": null,
+    "cloudDependent": null,
+    "entrypoints": []
+  },
+  "axes": {
+    "preparation": {
+      "value": "?",
+      "cases": []
+    },
+    "verification": {
+      "value": "?",
+      "cases": []
+    },
+    "reuse": {
+      "value": "?",
+      "cases": []
+    },
+    "execution": {
+      "value": "?",
+      "cases": []
+    }
+  },
+  "assessment": {
+    "level": "unknown",
+    "type": "????"
+  }
+}

@@ -1,5 +1,5 @@
 import { createSchema } from "./contract.ts";
-import { toReport, validateSubmission } from "./assessment.ts";
+import { toReport, toCardObservation, validateSubmission, type Report } from "./assessment.ts";
 
 export const TTL_MS = 30 * 60 * 1000;
 const MAX_BYTES = 24 * 1024;
@@ -89,7 +89,10 @@ export async function handleSession(db: D1Database, request: Request, id?: strin
       if (current?.payload_hash === payloadHash && current.idempotency_key === key) return json({ accepted: true, duplicate: true });
       failure(409, "此會話已收到一份結果；相同內容請使用原重試識別碼。");
     }
-    if (request.method === "GET") return json({ id, expiresAt: row.expires_at, status: row.report ? "complete" : "pending", report: row.report ? JSON.parse(row.report) : null });
+    if (request.method === "GET") {
+      const report: Report | null = row.report ? JSON.parse(row.report) : null;
+      return json({ id, expiresAt: row.expires_at, status: report ? "complete" : "pending", card: report ? toCardObservation(report) : null, report: row.email ? report : null, reportAccess: row.email ? "email" : "card_only", delivery: row.email ? "not_configured" : "not_requested" });
+    }
     if (request.method === "DELETE") { await db.prepare("DELETE FROM sessions WHERE id = ?1").bind(id).run(); return json({ deleted: true }); }
     return failure(405, "此操作不支援。");
   } catch (error) {

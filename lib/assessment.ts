@@ -30,3 +30,7 @@ export function toReport(data: Submission) {
   return { ...data, assessment: deriveAssessment(data), framework: FRAMEWORK, caveat: "分型是風格，不是分數。未觀察到不等於不會；這份報告不是心理測驗。" };
 }
 export type Report = ReturnType<typeof toReport>;
+export type CardObservation = Pick<Report, "nickname" | "kind" | "assessment"> & { modelFamily: Report["metrics"]["mostUsedModelFamily"] };
+export function toCardObservation(report: Report): CardObservation {
+  return { nickname: report.nickname, kind: report.kind, assessment: report.assessment, modelFamily: report.metrics.mostUsedModelFamily };
+}

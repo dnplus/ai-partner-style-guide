@@ -1,0 +1,40 @@
+
+> ai-persona-card@0.1.0 test
+> node --test tests/*.test.ts
+
+✔ fixture preserves pinned PVSE LV4+ and unknown tokens (3.134958ms)
+✔ missing evidence remains unknown, never LV0 (0.506417ms)
+✔ token volume does not affect level (0.063584ms)
+✔ LV4 requires real testing, reuse and handoff signals (0.061916ms)
+✔ LV4+ requires self-test evidence, not simply a plus by missing data (0.042042ms)
+✔ LV5 needs sustained independent workflows, maintenance and actual multiple entrypoints (0.058542ms)
+✔ local-only LLM workflows do not require two clients (0.043166ms)
+✔ model family is separate from client and must match model aggregates (0.399292ms)
+✔ ties and unavailable model metadata stay unknown (0.19325ms)
+✔ raw content, paths, extra fields, invented unavailable tokens and unknown references are rejected (1.0605ms)
+✔ cannot force a target grade or type, and unknown axes persist (0.24ms)
+✔ invalid dates, future period, negative counts and missing consent fail (0.755625ms)
+✔ complete extensible catalog has twelve ready PVSE art variants (0.097292ms)
+✔ the next UTC date is future even when it is less than 24 hours away (0.183125ms)
+✔ local review recalculates assessment and never grants upload consent (4.246667ms)
+✔ review refuses missing local permission, already-approved data and extra raw fields (0.849791ms)
+✔ zero available evidence remains unknown, not provisional LV4+ or PVSE (2.084792ms)
+✔ create → submit → read persists aggregates, not email or bearer tokens in report (227.614167ms)
+✔ email gates the full report on the server; nickname-only session receives only card fields (56.701542ms)
+✔ separate authorities and cross-session capabilities (26.153ms)
+✔ dispatch owner binds reading without requiring callback caller identity (35.391958ms)
+✔ one submission and exact canonical idempotent retry (87.244375ms)
+✔ concurrent independent payloads cannot overwrite each other (41.942542ms)
+✔ expired pending and submitted sessions reject callback and read, then purge (89.992042ms)
+✔ revoke deletes profile and report; old authority no longer works (63.592667ms)
+✔ invalid, oversized, unknown fields, wrong nickname and missing approval reject (104.800958ms)
+✔ origin and PII purpose restrictions (21.640542ms)
+✔ D1 survives runtime restart and preserves authority and report (121.970667ms)
+ℹ tests 28
+ℹ suites 0
+ℹ pass 28
+ℹ fail 0
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 1106.10525

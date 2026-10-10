@@ -25,7 +25,7 @@
 
 ## JSON
 
-用 /collector-template.json 為完整欄位範本，用 /collector-schema.json 檢查欄位。所有物件拒絕未知欄位；最多 24 KiB。只有暱稱是自由文字（1–24 字，中英文／數字／空格／連字號／中點）。禁止 Email、網址或其他 PII 出現在摘要。選填 Email 只由建立會話的表單處理，不提供給 collector。
+用 /collector-template.json 為完整欄位範本，用 /collector-schema.json 檢查欄位。所有物件拒絕未知欄位；最多 24 KiB。只有暱稱是自由文字（1–24 字，中英文／數字／空格／連字號／中點）。禁止 Email、網址或其他 PII 出現在摘要。選填 Email 只由建立會話的表單處理，不提供給 collector。不填只提供卡片；填 Email 且同意結果用途才開放完整報告。本機版本無寄信服務，不能宣稱已寄出。
 
 - version 固定 1.0；真實本機觀察 kind = observed。虛構樣本永遠 fixture。
 - observedPeriod 是實際讀到的 YYYY-MM-DD 範圍，不得倒置、填未來或把預計期間当成實際。

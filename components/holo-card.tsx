@@ -2,9 +2,9 @@
 
 import { useRef, useEffect, type PointerEvent, type KeyboardEvent, type CSSProperties } from "react";
 import { artFor, artTitle, families, personaFor, type ArtStyle, type Family } from "../lib/catalog.ts";
-import type { Report } from "../lib/assessment.ts";
+import type { CardObservation } from "../lib/assessment.ts";
 
-export function HoloCard({ report, style, family, nicknameOnly = false }: { report: Report; style: ArtStyle; family: Family; nicknameOnly?: boolean }) {
+export function HoloCard({ report, style, family, nicknameOnly = false, teaser = false }: { report: CardObservation; style: ArtStyle; family: Family; nicknameOnly?: boolean; teaser?: boolean }) {
   const card = useRef<HTMLDivElement>(null);
   const motion = useRef(true);
   const dragging = useRef(false);
@@ -49,15 +49,15 @@ export function HoloCard({ report, style, family, nicknameOnly = false }: { repo
   }
   return <div className="card-stage">
     <div className="orbit orbit-one" aria-hidden="true" /><div className="orbit-star star-one" aria-hidden="true">✦</div><div className="orbit-star star-two" aria-hidden="true">✦</div>
-    <div ref={card} className="holo-card" data-testid="holo-card" style={{ "--family-color": theme.color } as CSSProperties} tabIndex={0} role="group" aria-roledescription="可旋轉角色卡" aria-label={`${report.nickname}的${nicknameOnly ? "暱稱收藏" : persona.name}卡片，${style === "regular" ? "一般" : "Q 版"}，使用方向鍵或拖曳旋轉`}
+    <div ref={card} className="holo-card" data-testid="holo-card" style={{ "--family-color": theme.color } as CSSProperties} tabIndex={0} role="group" aria-roledescription="可旋轉角色卡" aria-label={`${teaser ? "Codex 主題預覽" : `${report.nickname}的${nicknameOnly ? "暱稱收藏" : persona.name}`}卡片，${style === "regular" ? "一般" : "Q 版"}，使用方向鍵或拖曳旋轉`}
       onPointerDown={(e) => { if (!motion.current) return; dragging.current = true; e.currentTarget.setPointerCapture(e.pointerId); move(e); }}
       onPointerMove={move} onPointerUp={(e) => { dragging.current = false; if (e.currentTarget.hasPointerCapture(e.pointerId)) e.currentTarget.releasePointerCapture(e.pointerId); }}
       onPointerCancel={() => { dragging.current = false; }} onPointerLeave={() => { if (!dragging.current && motion.current) setAngle(4, -10); }} onKeyDown={key}>
       <div className="card-thickness" aria-hidden="true" />
       <div className="card-surface"><div className="card-etch" aria-hidden="true" /><div className="card-rim" aria-hidden="true" /></div>
-      <div className="card-heading"><span><i aria-hidden="true">✧</i> {theme.label.toUpperCase()}</span><span>{report.kind === "fixture" ? "示範卡" : "觀察卡"}</span></div>
+      <div className="card-heading"><span><i aria-hidden="true">✧</i> {theme.label.toUpperCase()}</span><span>{teaser ? "" : report.kind === "fixture" ? "示範卡" : "觀察卡"}</span></div>
       {art ? <div className={`card-art ${style}`}><img src={art} alt={`${artTitle(family)}，${nicknameOnly ? "暱稱收藏卡" : "PVSE 系統建築師"}${style === "chibi" ? " Q 版" : "一般版"}`} draggable={false} /><div className="character-foil" aria-hidden="true" style={{ maskImage: `url(${art})`, WebkitMaskImage: `url(${art})` }} /></div> : <div className="art-pending"><span aria-hidden="true">✧</span><strong>角色正在顯影</strong><p>{theme.label}{!nicknameOnly && ` · ${report.assessment.type}`}</p><small>此組插圖尚未製作</small></div>}
-      <div className="card-copy"><div>{!nicknameOnly && <><span className="card-code">{report.assessment.type}</span><h2>{persona.name}</h2></>}<span className="card-nickname">{report.nickname}</span></div>{!nicknameOnly && <span className="card-level">{report.assessment.level === "unknown" ? "未定級" : report.assessment.level.replace("LV", "LV ")}</span>}</div>
+      <div className={`card-copy ${teaser ? "teaser-copy" : nicknameOnly ? "nickname-copy" : ""}`}><div>{teaser ? <><span className="teaser-family">{theme.label.toUpperCase()}</span><span className="teaser-caption">你的 AI 形態</span></> : <>{!nicknameOnly && <><span className="card-code">{report.assessment.type}</span><h2>{persona.name}</h2></>}<span className="card-nickname">{report.nickname}</span></>}</div>{!nicknameOnly && !teaser && <span className="card-level">{report.assessment.level === "unknown" ? "未定級" : report.assessment.level.replace("LV", "LV ")}</span>}</div>
       <div className="card-corner corner-left" aria-hidden="true">✦</div><div className="card-corner corner-right" aria-hidden="true">✦</div>
       <div className="surface-reflection" aria-hidden="true" />
     </div>

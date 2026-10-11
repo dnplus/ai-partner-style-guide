@@ -1,0 +1,27 @@
+{
+  "$schema": "node_modules/wrangler/config-schema.json",
+  "name": "agent-mbti",
+  "account_id": "7910ab8eac2e72cc2c36430f438df708",
+  "main": "vinext/server/fetch-handler",
+  "compatibility_date": "2026-05-22",
+  "compatibility_flags": ["nodejs_compat"],
+  "workers_dev": true,
+  "observability": {
+    "enabled": true,
+    "traces": { "enabled": true }
+  },
+  "assets": {
+    "directory": "dist/client",
+    "not_found_handling": "none",
+    "binding": "ASSETS"
+  },
+  "d1_databases": [
+    {
+      "binding": "DB",
+      "database_name": "agent-mbti",
+      // TODO(owner): run `npx wrangler d1 create agent-mbti` and paste the returned database_id here.
+      "database_id": "REPLACE_WITH_D1_DATABASE_ID",
+      "migrations_dir": "drizzle"
+    }
+  ]
+}

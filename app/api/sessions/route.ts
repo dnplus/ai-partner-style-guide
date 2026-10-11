@@ -1,5 +1,5 @@
 import { env } from "cloudflare:workers";
-import { handleSession, json } from "../../../lib/session-service.ts";
+import { handleSession } from "../../../lib/session-service.ts";
 export async function POST(request: Request) {
-  return env.DB ? handleSession(env.DB, request) : json({ error: "本機資料庫尚未準備完成。" }, 503);
+  return handleSession(env.DB, request);
 }

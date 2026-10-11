@@ -869,12 +869,6 @@
     "30분 후 읽기·쓰기가 차단되며 만료 데이터는 후속 요청에서 정리됩니다. 미리 종료하고 삭제할 수도 있습니다. 읽기와 전송 권한은 별도이며 공개 결과 URL은 없습니다. 새로고침 시 전송 토큰은 보관하지 않습니다.",
     "Read and write access ends after 30 minutes. Expired data is cleaned up on later requests; you can end and delete it earlier. Read and submission permissions are separate. There is no public result URL, and reloads do not retain the submission token."
   ],
-  "私人 Sites 外部 callback 尚未驗證。目前只在本機運作，不繞過存取閘門，也不分享整站通行權杖。": [
-    "私人 Sites 外部 callback 尚未验证。目前只在本地运行，不绕过访问网关，也不分享整站通行令牌。",
-    "非公開 Sites への外部 callback は未検証です。現在はローカルのみで動作し、アクセス制御の回避やサイト全体の通行トークンの共有はしません。",
-    "비공개 Sites 외부 callback은 검증되지 않았습니다. 현재 로컬에서만 동작하며 접근 제어를 우회하거나 사이트 전체 접근 토큰을 공유하지 않습니다.",
-    "External callbacks through private Sites are unverified. This currently runs locally, without bypassing access gates or sharing whole-site access tokens."
-  ],
   "示範搭檔": [
     "示范搭档",
     "サンプルのパートナー",
@@ -2284,12 +2278,6 @@
     "共有できなかったため、画像を保存しました。",
     "시스템 공유가 완료되지 않아 이미지를 다운로드했습니다.",
     "System sharing did not complete. The image was downloaded instead."
-  ],
-  "首頁目前僅擁有者可開啟；圖片可以自行分享。": [
-    "首页目前仅所有者可打开；图片可以自行分享。",
-    "トップページは現在所有者限定です。画像は自分で共有できます。",
-    "현재 홈페이지는 소유자만 열 수 있습니다. 이미지는 직접 공유할 수 있습니다.",
-    "The homepage is currently owner-only. You can share the image yourself."
   ],
   "打開上次的卡片": [
     "打开上次的卡片",

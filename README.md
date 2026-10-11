@@ -22,18 +22,18 @@ localhost 沒有 Sites 登入 dispatcher；因此匿名只能看首頁，原生�
 
 ## 判定與資料
 
-使用標準 16 個 MBTI 代碼作為 Agent 行為類比；合作風格規則、門檻、稱號及描述是本專案的定義，並非心理測驗。
+借用標準 16 個 MBTI 代碼，描述你帶 Agent 的方式（`agent-workstyle-v2`）。只看你的訊息，不看 Agent 自己的習慣；規則、門檻、稱號及描述是本專案的定義，並非心理測驗。
 
-- E/I：互動共創／整理後交付。
-- S/N：具體實例起步／模式與可能性起步。查核、測試、除錯本身不等於 S。
-- T/F：一致準則／受影響者情境決定取捨。
-- J/P：先定路線／以可逆實驗收斂。
+- E/I：途中掌舵（看中間結果、改方向或範圍）／開場定調（目標與限制先講清楚，之後少插手）。
+- S/N：給具體做法（檔案、步驟、指令、範例）／給目標與方向，路線交給 Agent。
+- T/F：以明確檢查驗收（測試、數字、規格、差異）／以感受、品味、受眾體驗驗收。沒有驗收就是 unclear。
+- J/P：當成有結構或會留下來的工作（計畫、流程、可重用資產）／開放式探索、一次性使用。
 
-同一獨立任務在每軸只算一次，主人要求與實際行為分開記錄。受限、可選性不明或要求不符的觀察不計入。方向需至少 3 個 task 支持、占有效 task（含 mixed）至少 2/3，且兩端差至少 2；不足或接近就保留未知。這些門檻不是準確率。tokens、模型家族與客戶端不參與分型。
+每個任務每軸強迫選一邊或 `unclear`。伺服器每軸只數非 unclear 的選擇：少於 3 個或打平為 `?`；多數勝出，勝方 ×3 ≥ 總數 ×2 且差至少 2 為 clear，其餘為 lean（卡面以淡色標示）。四個字母都有結果才成為 16 型代碼。使用者不會看到百分比或次數。tokens、模型家族與客戶端不參與分型。
 
 **獨立的使用等級 LV0–5**（`usage-level-v2`）分兩個面向。LV0–3 看 Agent 在授權紀錄中看到的人為證據：未查核就採用、出錯後重試、兩個獨立任務確認結果可用，以及同一任務先講清範圍與完成標準再驗證修正。LV4–5 只看 `collect.py` 計算並原樣帶入摘要的 `systemEvidence`：LV4 需至少一個工作階段寫下技能、規則或腳本等資產，且至少兩個工作階段用到其他階段寫下的資產；LV5 另需至少三個自動化工作階段、跨度 14 天以上、至少一種排程／CI／hook／heartbeat 機制，以及自動化開始後仍有資產更新。沒有證據就是未知，不能當 LV0。
 
-[觀察設計](docs/DESIGN-MBTI.md)、[collector 技能](public/collector/SKILL.md)、[空白模板](public/collector-template.json)、[JSON schema](public/collector-schema.json)、[第三方聲明](THIRD_PARTY_NOTICES.md)。schema 2.0 可選 `usageEvidence` 與 `systemEvidence`；缺少時對應的等級保持未知。更早的舊型別不會被偷偷轉成 MBTI。
+[觀察設計](docs/DESIGN-MBTI.md)、[collector 技能](public/collector/SKILL.md)、[空白模板](public/collector-template.json)、[JSON schema](public/collector-schema.json)、[第三方聲明](THIRD_PARTY_NOTICES.md)。schema 3.0 的每個 task 帶 `axes`，可選 `usageEvidence` 與 `systemEvidence`；缺少時對應的等級保持未知。更早的舊型別不會被偷偷轉成 MBTI。
 
 ## 已實作
 

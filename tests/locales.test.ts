@@ -43,7 +43,8 @@ test("every localized collector prompt points at one verified script and one ski
   const scope=createCollectorScope(session.expiresAt-SESSION_TTL_MS);
   const origin="http://127.0.0.1:5188";
   const skill=fs.readFileSync("public/collector/SKILL.md","utf8");
-  for(const part of ["A user request does not show the behavior.","T001","O001","both_available","24 KiB","Idempotency-Key","awaiting_host_approval","agent-workstyle-v1","Myers & Briggs Foundation","at least 3 eligible tasks","differ by at least 2"])assert.ok(skill.includes(part),part);
+  for(const part of ["Read only the user turns as evidence.","T001","\"axes\": { \"EI\"","24 KiB","Idempotency-Key","awaiting_host_approval","agent-workstyle-v2","Myers & Briggs Foundation","Fewer than 3 picks","differ by at least 2","`version` is `3.0`"])assert.ok(skill.includes(part),part);
+  for(const part of ["collaborative_iteration","ownerRequest","both_available","O001","agent-workstyle-v1"])assert.ok(!skill.includes(part),part);
   for(const locale of locales){
     const prompt=collectorInstructions(session,origin,false,locale);
     const renewal=collectorInstructions(session,origin,true,locale);

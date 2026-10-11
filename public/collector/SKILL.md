@@ -5,7 +5,7 @@ description: Scan local agent logs with the verified collect.py and submit one m
 
 # Submit one Agent MBTI observation
 
-This is a record of how the user directs a coding agent. The letters use the custom rubric `agent-workstyle-v1`. This is not an official MBTI assessment, not a psychological diagnosis, and not a claim that a model has a fixed personality. The site checks that the summary is internally consistent. It cannot check the logs that stay on this machine.
+This is a record of how the user leads a coding agent. The letters use the custom rubric `agent-workstyle-v2`, judged from the user's own turns. This is not an official MBTI assessment, not a psychological diagnosis, and not a claim that a model has a fixed personality. The site checks that the summary is internally consistent. It cannot check the logs that stay on this machine.
 
 You run `public/collector/collect.py`. You do not write a scanner, and you do not walk the disk looking for logs.
 
@@ -63,46 +63,40 @@ Token totals come only from Tokscale, grouped by client and model, for the local
 
 The script uses a `tokscale` binary that is already on `PATH` for `existing` and for `install`. Only `install`, and only when that binary is missing, runs `npm exec --yes @tokscale/cli@4.18.0` once. If that binary is missing, or Tokscale fails, the digest keeps `tokenSource` `unavailable`, null token counts, and gap `no_tokscale`. Do not install Tokscale yourself. Do not run its TUI, `login`, `usage`, `sync`, `submit`, or `autosubmit`. Do not pass `sudo`.
 
-## Classify from agent turns
+## Classify from user turns
 
 `candidates` holds at most 24 sessions, refs `C01` through `C24`. Each one has at least two human messages and one agent message. Tool calls alone do not qualify. A session whose first human message is an automation template is left out. The same first human message, compared on its first 120 characters, is kept once. Consecutive tool calls become one tool turn. That turn lists up to four tool names, then `(+N)` when more names remain, and `xN` when the turn covers more than one call. The script keeps the first human message and the agent message after it, plus the tool turn after that agent message when one is next. For each later human message it keeps the agent message before it, the human message, and the agent message after it, plus the tool turn after that later agent message when one is next. It also keeps the last agent message. Middle groups are spaced evenly inside a budget of 24 turns. A candidate keeps at most 28 turns. When the kept groups would pass 28 turns, the script keeps fewer middle groups, so the opening exchange and the last agent message always stay. Each turn has `n`, `role` of `user` or `agent`, `kind` of `message` or `tool`, and redacted `text` cut to about 200 characters.
 
-Build tasks `T001` through `T024`. One independent user goal is one task. Do not split turns, retries, or subtasks of that same goal into extra tasks. Each task has only `id`, `date`, `source`, and `context`. `context` is `research`, `build`, `writing`, `planning`, `support`, or `other`. `date` is inside `observedPeriod` and is not in the future. `source` is one of `coverage.sources`.
+Build tasks `T001` through `T024`. One independent user goal is one task. Most candidates are one task. Split only when the user started a clearly unrelated goal. Do not split turns, retries, or subtasks of that same goal into extra tasks. Each task has `id`, `date`, `source`, `context`, and `axes`. `context` is `research`, `build`, `writing`, `planning`, `support`, or `other`. `date` is inside `observedPeriod` and is not in the future. `source` is one of `coverage.sources`.
 
-Build observations `O001` through `O048`. Each one cites a task and records `behavior`, `ownerRequest`, and `opportunity`.
+Judge how the user led the agent. Read only the user turns as evidence. Agent turns are context for what the user reacted to. The agent's own habits never count.
 
-Record a behavior only when an agent turn shows that choice. A user request does not show the behavior. Name the turn `n` in your own notes, then leave the note out of the JSON. If you cannot point at an agent turn, do not add the observation. Do not infer hidden thinking.
+For each task and each axis, pick the letter whose description fits the user's turns better. Compare the two sides and pick the heavier one. The user does not have to say it outright. Answer `unclear` only when the user's turns give nothing to compare on that axis.
 
-`ownerRequest` uses a behavior code on the same axis, or `not_specified` when the user named no direction, or `unknown` when you cannot tell. `opportunity` is `both_available` when both ends were realistically open, `constrained` when the situation was forced, or `unclear` when you cannot tell. A required approval, a platform flow, a tool failure, or a blocked clarification is `constrained`.
-
-On one task, each axis gets at most one observation per direction. A repeated observation in the same direction adds no weight. You may record the two opposite directions when both actually happened.
-
-These pairs are the axes.
-
-| Axis | Code | What the agent turn shows |
+| Axis | Left | Right |
 | --- | --- | --- |
-| E | `collaborative_iteration` | Enough information was available to proceed alone, and the agent still worked the choice out with the user across visible turns. |
-| I | `consolidated_delivery` | Enough information was available, and the agent finished a visible organization before delivering one combined result. |
-| S | `concrete_evidence` | Facing a new problem, the agent started from an instance, the current state, a limit, or a concrete fact. |
-| N | `pattern_exploration` | Facing a new problem, the agent started from a pattern, an alternative hypothesis, or a possibility across situations. |
-| T | `consistent_criteria` | Two reasonable options conflicted, and a stable comparison rule made the call. |
-| F | `people_context` | Two reasonable options conflicted, and the situation, values, or needs of the people affected made the call. |
-| J | `early_commitment` | Options could still stay open, and the agent fixed a route and milestones before carrying them out. |
-| P | `reversible_experiments` | The route was still open, and the agent kept a reversible experiment before converging. |
+| `EI` | `E` The user shaped the result by steering during the work: reacting to intermediate output, changing direction, scope, or priority. | `I` The user shaped the result through the opening brief: goal, context, limits, or done criteria up front, then little steering. |
+| `SN` | `S` The user's instructions lean on the concrete how: specific files, steps, commands, tools, exact output, existing examples. | `N` The user's instructions lean on the goal, intent, or direction, and leave the route to the agent. |
+| `TF` | `T` When the user evaluated, corrected, or decided, they appealed to explicit checks: tests, numbers, specs, diffs, sources, rules. | `F` When the user evaluated, corrected, or decided, they appealed to feel, taste, audience, tone, or the experience of the people affected. |
+| `JP` | `J` The user treated the work as structured or lasting: a plan with milestones, a defined process, a reusable asset such as a skill, script, template, or automation, or invoked one. | `P` The user treated the work as open-ended: exploring, trying, adjusting as they go, one-off use with nothing kept. |
 
-A required approval is not `collaborative_iteration`. A short transcript is not `consolidated_delivery`. Tool use is not `concrete_evidence`. A wrong answer is not `pattern_exploration`. Checking a fact is not `consistent_criteria`. Politeness is not `people_context`. Following a required process is not `early_commitment`. An unreliable retry is not `reversible_experiments`.
+`TF` is `unclear` when the user never evaluated, corrected, or chose between options in that task.
 
-S and N describe how a new problem was opened. A test, a check, precision, or debugging does not by itself count as `concrete_evidence`.
+These are never evidence on any axis: prompt length, turn count, jargon, approvals, "continue" or "ok", pasted errors without a judgment, and injected system or tool text.
+
+```json
+{ "id": "T001", "date": "2026-10-04", "source": "codex", "context": "build", "axes": { "EI": "E", "SN": "S", "TF": "unclear", "JP": "P" } }
+```
+
+Keep your reasoning out of the JSON. No notes, no quotes, no extra keys.
 
 ## Let the server score
 
-For each axis, qualifying observations merge by task. One side counts as one task for that side. Both sides count as one mixed task. Mixed tasks sit in the eligible total and on neither side. An observation scores only when `opportunity` is `both_available`, the task source is known, and `ownerRequest` does not name the other behavior on that axis.
+For each axis the server counts the tasks that picked each side and ignores `unclear`. Fewer than 3 picks, or a tie, leaves the letter `?`. Otherwise the majority wins. The letter is `clear` when the winner times 3 is at least the picks times 2 and the sides differ by at least 2. Any other win is `lean`. Tasks from an `unknown` source do not count, and `coverage.scope` of `insufficient` leaves every axis `?`. These cuts are a heuristic. They are not an accuracy, a reliability coefficient, or a trait strength. Do not tell the user a percentage or a count.
 
-A side is decided only when the winner has at least 3 eligible tasks, the winner times 3 is at least the eligible total times 2, and the two sides differ by at least 2. `coverage.scope` of `insufficient` leaves every axis unknown. A 2 to 1 split, a 3 to 2 split, a tie, or too many mixed tasks stays unknown. These cuts are a conservative heuristic. They are not an accuracy, a reliability coefficient, or a trait strength. Do not tell the user a personality percentage.
+Omit `assessment`. The summary rejects it. The server derives `type`, `pattern`, `status`, and per-axis `value` and `strength`. Four decided letters, clear or lean, become one of `INTJ`, `INTP`, `ENTJ`, `ENTP`, `INFJ`, `INFP`, `ENFJ`, `ENFP`, `ISTJ`, `ISFJ`, `ESTJ`, `ESFJ`, `ISTP`, `ISFP`, `ESTP`, `ESFP`, with status `complete`. Any `?` yields `type` null, status `incomplete`, and a pattern such as `IN?J`. Do not convert an older type, a usage level, or a title. Card art does not enter the score.
 
-Omit `assessment`. The server derives `type`, `pattern`, and `status`. Four decided letters become one of `INTJ`, `INTP`, `ENTJ`, `ENTP`, `INFJ`, `INFP`, `ENFJ`, `ENFP`, `ISTJ`, `ISFJ`, `ESTJ`, `ESFJ`, `ISTP`, `ISFP`, `ESTP`, `ESFP`, with status `complete`. Any unknown letter yields `type` null, status `incomplete`, and a pattern such as `IN?J`. Do not convert an older type, a usage level, or a title. Card art does not enter the score.
-
-Letter names follow the Myers & Briggs Foundation pages [The MBTI preferences](https://www.myersbriggs.org/my-mbti-personality-type/the-mbti-preferences/) and [The 16 MBTI types](https://www.myersbriggs.org/my-mbti-personality-type/the-16-mbti-personality-types/). The axis rules, the cuts, and the descriptions belong to `agent-workstyle-v1`. They do not use an official instrument.
+Letter names follow the Myers & Briggs Foundation pages [The MBTI preferences](https://www.myersbriggs.org/my-mbti-personality-type/the-mbti-preferences/) and [The 16 MBTI types](https://www.myersbriggs.org/my-mbti-personality-type/the-16-mbti-personality-types/). The axis rules, the cuts, and the descriptions belong to `agent-workstyle-v2`. They do not use an official instrument.
 
 ## Usage level evidence
 
@@ -121,11 +115,11 @@ Levels 0 to 3 come from `usageEvidence`. Level 0 needs `unchecked_adoption`. Lev
 
 ## Build the summary
 
-Read `{origin}/collector-schema.json`. Keep only fields it allows. `version` is `2.0`. `kind` is `observed` for this grant. `fixture` is only for an example that is not a real submission. `nickname` matches the session nickname exactly.
+Read `{origin}/collector-schema.json`. Keep only fields it allows. `version` is `3.0`. `kind` is `observed` for this grant. `fixture` is only for an example that is not a real submission. `nickname` matches the session nickname exactly.
 
 The summary contains no transcript text, code, file paths, task titles, links, secrets, email addresses, or free-text notes. The site collects email. You do not send it. The body must be at most 24 KiB.
 
-Validate the JSON against the schema before you submit. A future `observedPeriod.to` is rejected. Task ids and observation ids are unique. Every observation points at a task. `ownerRequest`, when it is a behavior code, is on the same axis as `behavior`.
+Validate the JSON against the schema before you submit. A future `observedPeriod.to` is rejected. Task ids are unique. Every task has all four axes. Every `usageEvidence` observation points at a task.
 
 ## Submit with the write token
 

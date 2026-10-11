@@ -35,7 +35,7 @@ Use the scope line from the prompt. `TOKSCALE_MODE` is `off`, `existing`, or `in
 python3 collect.py scan --from FROM --to TO --tz TZ --sources SOURCES --tokscale TOKSCALE_MODE --out digest.json
 ```
 
-The window is whole local days. `from` is local midnight of the first day. `to` is now. A timestamp counts when `from <= timestamp < to`. The script lists candidate log files from each adapter root without reading them, keeps regular files whose modification time is inside that window, and skips symbolic links. It then reads a spread of those files until it has 24 candidates or the time budget runs out. The default budget is 20 seconds. Pass `--budget-seconds` to change it. Each text log is read only through the first 2 MB. SQLite logs use a bounded query. Do not add skipped files back, and do not treat modification time as a message timestamp. A Cursor transcript with no timestamps counts only when both its creation time and its modification time are inside the window.
+The window is whole local days. `from` is local midnight of the first day. `to` is now. A timestamp counts when `from <= timestamp < to`. The script lists candidate log files from each adapter root without reading them, keeps regular files whose modification time is inside that window, and skips symbolic links. It then reads the listed files in random order until it has 24 candidates or the time budget runs out. The default budget is 20 seconds. Pass `--budget-seconds` to change it. A text log of 2 MB or smaller is read whole. A larger text log is read from the first 1 MB and the last 1 MB, and a partial line at each cut is dropped. SQLite logs use a bounded query. Do not add skipped files back, and do not treat modification time as a message timestamp. A Cursor transcript with no timestamps counts only when both its creation time and its modification time are inside the window.
 
 The script writes `digest.json` with mode `0600` as soon as sampling finishes, then starts Tokscale. Tokscale keeps running after the scan exits. Read the digest. Do not paste it into the chat, and do not upload it. The terminal prints candidate counts, files read, digest size, timing, and whether Tokscale started.
 
@@ -52,7 +52,7 @@ Gaps you may see:
 - `no_tokscale`. Token totals were not available.
 - `partial_window`. A chat log had no per-line times, and the session was not fully inside the window.
 - `unattributed_runs`. A record had no usable timestamp. Cursor transcripts often have none.
-- `insufficient_records`. No sampled file had two human messages and an agent turn inside the window.
+- `insufficient_records`. No sampled file had two human messages and an agent message inside the window.
 - `other_sources_missing`. A requested source has no local adapter here, or its log root is missing. `antigravity` and `chatgpt` have no local adapter.
 
 Grok, OpenCode, and Hermes count as `other`. `sampledSessions` is the number of files the script actually read. It is not the candidate count. `humanSessions`, `automatedSessions`, `subagentSessions`, and `userMessages` stay null. Leave them null.
@@ -63,7 +63,7 @@ The script uses a `tokscale` binary that is already on `PATH` for `existing` and
 
 ## Classify from agent turns
 
-`candidates` holds at most 24 sessions, refs `C01` through `C24`. Each one has at least two human messages and both roles. Each turn has `n`, `role` of `user` or `agent`, `kind` of `message` or `tool`, and redacted `text` cut to about 200 characters.
+`candidates` holds at most 24 sessions, refs `C01` through `C24`. Each one has at least two human messages and one agent message. Tool calls alone do not qualify. A session whose first human message is an automation template is left out. The same first human message, compared on its first 120 characters, is kept once. Consecutive tool calls become one tool turn. That turn lists up to four tool names, then `(+N)` when more names remain, and `xN` when the turn covers more than one call. The script keeps the first human message and the agent message after it, plus the tool turn after that agent message when one is next. For each later human message it keeps the agent message before it, the human message, and the agent message after it, plus the tool turn after that later agent message when one is next. It also keeps the last agent message. Middle groups are spaced evenly inside a budget of 24 turns. A candidate keeps at most 28 turns. Each turn has `n`, `role` of `user` or `agent`, `kind` of `message` or `tool`, and redacted `text` cut to about 200 characters.
 
 Build tasks `T001` through `T024`. One independent user goal is one task. Do not split turns, retries, or subtasks of that same goal into extra tasks. Each task has only `id`, `date`, `source`, and `context`. `context` is `research`, `build`, `writing`, `planning`, `support`, or `other`. `date` is inside `observedPeriod` and is not in the future. `source` is one of `coverage.sources`.
 

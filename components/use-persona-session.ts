@@ -35,7 +35,7 @@ export function usePersonaSession(authenticated=true) {
 
   function parseResult(data:{id:string;expiresAt:number;card:CardObservation;report:Record<string,unknown>|null;reportAccess:"email"|"card_only";delivery:"not_configured"|"not_requested"}):SessionResult{
     let report:Report|null=null;
-    if(data.reportAccess==="email"&&data.report){const {rubric,axisFindings,caveat,usageLevel,...submission}=data.report;void rubric;void axisFindings;void caveat;void usageLevel;report=toReport(validateSubmission(submission));}
+    if(data.reportAccess==="email"&&data.report){const {rubric,assessment,caveat,usageLevel,...submission}=data.report;void rubric;void assessment;void caveat;void usageLevel;report=toReport(validateSubmission(submission));}
     return {id:data.id,expiresAt:data.expiresAt,card:data.card,report,reportAccess:data.reportAccess,delivery:data.delivery};
   }
   useEffect(()=>{

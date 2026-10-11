@@ -1,12 +1,12 @@
 {
-  "$ref": "#/definitions/AgentWorkstyleSummaryV2",
+  "$ref": "#/definitions/AgentWorkstyleSummaryV3",
   "definitions": {
-    "AgentWorkstyleSummaryV2": {
+    "AgentWorkstyleSummaryV3": {
       "type": "object",
       "properties": {
         "version": {
           "type": "string",
-          "const": "2.0"
+          "const": "3.0"
         },
         "kind": {
           "type": "string",
@@ -320,128 +320,62 @@
                   "support",
                   "other"
                 ]
+              },
+              "axes": {
+                "type": "object",
+                "properties": {
+                  "EI": {
+                    "type": "string",
+                    "enum": [
+                      "E",
+                      "I",
+                      "unclear"
+                    ]
+                  },
+                  "SN": {
+                    "type": "string",
+                    "enum": [
+                      "S",
+                      "N",
+                      "unclear"
+                    ]
+                  },
+                  "TF": {
+                    "type": "string",
+                    "enum": [
+                      "T",
+                      "F",
+                      "unclear"
+                    ]
+                  },
+                  "JP": {
+                    "type": "string",
+                    "enum": [
+                      "J",
+                      "P",
+                      "unclear"
+                    ]
+                  }
+                },
+                "required": [
+                  "EI",
+                  "SN",
+                  "TF",
+                  "JP"
+                ],
+                "additionalProperties": false
               }
             },
             "required": [
               "id",
               "date",
               "source",
-              "context"
+              "context",
+              "axes"
             ],
             "additionalProperties": false
           },
           "maxItems": 24
-        },
-        "observations": {
-          "type": "array",
-          "items": {
-            "type": "object",
-            "properties": {
-              "id": {
-                "type": "string",
-                "pattern": "^O(00[1-9]|0[1-3][0-9]|04[0-8])$"
-              },
-              "task": {
-                "type": "string",
-                "pattern": "^T(00[1-9]|01[0-9]|02[0-4])$"
-              },
-              "behavior": {
-                "type": "string",
-                "enum": [
-                  "collaborative_iteration",
-                  "consolidated_delivery",
-                  "concrete_evidence",
-                  "pattern_exploration",
-                  "consistent_criteria",
-                  "people_context",
-                  "early_commitment",
-                  "reversible_experiments"
-                ]
-              },
-              "ownerRequest": {
-                "type": "string",
-                "enum": [
-                  "collaborative_iteration",
-                  "consolidated_delivery",
-                  "concrete_evidence",
-                  "pattern_exploration",
-                  "consistent_criteria",
-                  "people_context",
-                  "early_commitment",
-                  "reversible_experiments",
-                  "not_specified",
-                  "unknown"
-                ]
-              },
-              "opportunity": {
-                "type": "string",
-                "enum": [
-                  "both_available",
-                  "constrained",
-                  "unclear"
-                ]
-              }
-            },
-            "required": [
-              "id",
-              "task",
-              "behavior",
-              "ownerRequest",
-              "opportunity"
-            ],
-            "additionalProperties": false
-          },
-          "maxItems": 48
-        },
-        "assessment": {
-          "type": "object",
-          "properties": {
-            "type": {
-              "anyOf": [
-                {
-                  "type": "string",
-                  "enum": [
-                    "INTJ",
-                    "INTP",
-                    "ENTJ",
-                    "ENTP",
-                    "INFJ",
-                    "INFP",
-                    "ENFJ",
-                    "ENFP",
-                    "ISTJ",
-                    "ISFJ",
-                    "ESTJ",
-                    "ESFJ",
-                    "ISTP",
-                    "ISFP",
-                    "ESTP",
-                    "ESFP"
-                  ]
-                },
-                {
-                  "type": "null"
-                }
-              ]
-            },
-            "pattern": {
-              "type": "string",
-              "pattern": "^[EI?][SN?][TF?][JP?]$"
-            },
-            "status": {
-              "type": "string",
-              "enum": [
-                "complete",
-                "incomplete"
-              ]
-            }
-          },
-          "required": [
-            "type",
-            "pattern",
-            "status"
-          ],
-          "additionalProperties": false
         },
         "usageEvidence": {
           "type": "object",
@@ -620,8 +554,7 @@
         "observedPeriod",
         "coverage",
         "metrics",
-        "tasks",
-        "observations"
+        "tasks"
       ],
       "additionalProperties": false
     }

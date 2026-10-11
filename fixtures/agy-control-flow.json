@@ -10,7 +10,7 @@
     "website_reveal"
   ],
   "summary": {
-    "version": "2.0",
+    "version": "3.0",
     "kind": "fixture",
     "nickname": "去識別流程範例",
     "consent": {
@@ -45,12 +45,6 @@
       "mostUsedModelFamily": "unknown",
       "mostUsedClient": "antigravity"
     },
-    "tasks": [],
-    "observations": [],
-    "assessment": {
-      "type": null,
-      "pattern": "????",
-      "status": "incomplete"
-    }
+    "tasks": []
   }
 }

@@ -1,5 +1,5 @@
 {
-  "version": "2.0",
+  "version": "3.0",
   "kind": "fixture",
   "nickname": "顯影中的搭檔",
   "consent": {
@@ -50,89 +50,37 @@
       "id": "T001",
       "date": "2026-10-01",
       "source": "codex",
-      "context": "build"
+      "context": "build",
+      "axes": {
+        "EI": "I",
+        "SN": "N",
+        "TF": "unclear",
+        "JP": "J"
+      }
     },
     {
       "id": "T002",
       "date": "2026-10-04",
       "source": "codex",
-      "context": "research"
+      "context": "research",
+      "axes": {
+        "EI": "I",
+        "SN": "N",
+        "TF": "unclear",
+        "JP": "J"
+      }
     },
     {
       "id": "T003",
       "date": "2026-10-09",
       "source": "codex",
-      "context": "planning"
+      "context": "planning",
+      "axes": {
+        "EI": "I",
+        "SN": "N",
+        "TF": "unclear",
+        "JP": "J"
+      }
     }
-  ],
-  "observations": [
-    {
-      "id": "O001",
-      "task": "T001",
-      "behavior": "consolidated_delivery",
-      "ownerRequest": "consolidated_delivery",
-      "opportunity": "both_available"
-    },
-    {
-      "id": "O002",
-      "task": "T001",
-      "behavior": "pattern_exploration",
-      "ownerRequest": "pattern_exploration",
-      "opportunity": "both_available"
-    },
-    {
-      "id": "O004",
-      "task": "T001",
-      "behavior": "early_commitment",
-      "ownerRequest": "early_commitment",
-      "opportunity": "both_available"
-    },
-    {
-      "id": "O005",
-      "task": "T002",
-      "behavior": "consolidated_delivery",
-      "ownerRequest": "not_specified",
-      "opportunity": "both_available"
-    },
-    {
-      "id": "O006",
-      "task": "T002",
-      "behavior": "pattern_exploration",
-      "ownerRequest": "not_specified",
-      "opportunity": "both_available"
-    },
-    {
-      "id": "O008",
-      "task": "T002",
-      "behavior": "early_commitment",
-      "ownerRequest": "not_specified",
-      "opportunity": "both_available"
-    },
-    {
-      "id": "O009",
-      "task": "T003",
-      "behavior": "consolidated_delivery",
-      "ownerRequest": "consolidated_delivery",
-      "opportunity": "both_available"
-    },
-    {
-      "id": "O010",
-      "task": "T003",
-      "behavior": "pattern_exploration",
-      "ownerRequest": "pattern_exploration",
-      "opportunity": "both_available"
-    },
-    {
-      "id": "O012",
-      "task": "T003",
-      "behavior": "early_commitment",
-      "ownerRequest": "early_commitment",
-      "opportunity": "both_available"
-    }
-  ],
-  "assessment": {
-    "type": null,
-    "pattern": "IN?J",
-    "status": "incomplete"
-  }
+  ]
 }

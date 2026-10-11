@@ -275,7 +275,7 @@ function run(args: string[], home: string, input = token + "\n", env: Record<str
 test("submit keeps the bearer token off disk and retries only a 503", async () => {
   const home = mkdtempSync(join(tmpdir(), "collector-submit-"));
   const summary = join(home, "summary.json");
-  writeFileSync(summary, JSON.stringify({ version: "2.0", kind: "observed" }));
+  writeFileSync(summary, JSON.stringify({ version: "3.0", kind: "observed" }));
   const endpoint = await listen([503, 503, 201, 200]);
   try {
     const args = ["submit", "--origin", `http://127.0.0.1:${endpoint.port}`, "--session", session, "--summary", summary];
@@ -621,7 +621,7 @@ test("scan leaves system evidence unknown when no log was listed", async () => {
 
 function tokenSummary() {
   return {
-    version: "2.0",
+    version: "3.0",
     kind: "observed",
     nickname: "Ada",
     consent: { localAnalysisApproved: true, aggregateUploadApproved: true },
@@ -646,7 +646,6 @@ function tokenSummary() {
       mostUsedClient: "chatgpt",
     },
     tasks: [],
-    observations: [],
   };
 }
 

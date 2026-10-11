@@ -2,6 +2,7 @@ import type {TrustedIdentity} from './identity.ts';
 import {json,readSessionReport,hashSecret,constantEqual,sameOriginRequest,readJsonBody} from './session-service.ts';
 import {toCardObservation,type Report} from './assessment.ts';
 import {deriveUsageLevel} from './usage-level.ts';
+import {PROTOCOL_VERSION} from './contract.ts';
 export const RESULT_TTL_MS=7*86400000;
 const COOKIE='agent_mbti_result';
 type Stored={id:string;token_hash:string;owner_hash:string|null;expires_at:number;report:string;report_access:'email'|'card_only'};
@@ -22,8 +23,9 @@ export async function handleRemembered(db:D1Database,request:Request,now=Date.no
   await db.prepare('DELETE FROM remembered_results WHERE expires_at<=?1').bind(now).run();
   const previous=await stored(db,request,now,identity);
   if(request.method==='GET'){
-   if(!previous)return response(request,{found:false},200,'',0);
-   const parsed=JSON.parse(previous.report) as Report;const report={...parsed,usageLevel:deriveUsageLevel(parsed)};
+   const parsed=previous?JSON.parse(previous.report) as Report:null;
+   if(!previous||parsed?.version!==PROTOCOL_VERSION)return response(request,{found:false},200,'',0);
+   const report={...parsed,usageLevel:deriveUsageLevel(parsed)};
    return response(request,{found:true,id:previous.id,expiresAt:previous.expires_at,card:toCardObservation(report),report:previous.report_access==='email'?report:null,reportAccess:previous.report_access,delivery:previous.report_access==='email'?'not_configured':'not_requested'});
   }
   if(request.method==='DELETE'){

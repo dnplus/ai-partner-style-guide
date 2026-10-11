@@ -1,21 +1,25 @@
 import { z } from "zod";
 import {systemEvidenceSchema,usageEvidenceSchema} from "./usage-level.ts";
 
-export const PROTOCOL_VERSION = "2.0" as const;
+export const PROTOCOL_VERSION = "3.0" as const;
 export const progressSchema = z.object({
   sequence: z.number().int().min(1).max(1000),
   phase: z.enum(["analyzing", "validating", "awaiting_host_approval", "submitting", "paused"]),
   approvalKind: z.enum(["local_read", "network", "command"]).nullable(),
 }).strict().refine(p => (p.phase === "awaiting_host_approval") === (p.approvalKind !== null), "Only observed pending host approvals identify a permission kind");
 export const typeCodes = ["INTJ", "INTP", "ENTJ", "ENTP", "INFJ", "INFP", "ENFJ", "ENFP", "ISTJ", "ISFJ", "ESTJ", "ESFJ", "ISTP", "ISFP", "ESTP", "ESFP"] as const;
-export const behaviorCodes = ["collaborative_iteration", "consolidated_delivery", "concrete_evidence", "pattern_exploration", "consistent_criteria", "people_context", "early_commitment", "reversible_experiments"] as const;
-export const behaviorAxis = { collaborative_iteration: "EI", consolidated_delivery: "EI", concrete_evidence: "SN", pattern_exploration: "SN", consistent_criteria: "TF", people_context: "TF", early_commitment: "JP", reversible_experiments: "JP" } as const;
+export const taskAxesSchema = z.object({ EI: z.enum(["E", "I", "unclear"]), SN: z.enum(["S", "N", "unclear"]), TF: z.enum(["T", "F", "unclear"]), JP: z.enum(["J", "P", "unclear"]) }).strict();
+const axisId = z.enum(["EI", "SN", "TF", "JP"]);
+export const axisResultSchema = z.union([
+  z.object({ axis: axisId, value: z.enum(["E", "I", "S", "N", "T", "F", "J", "P"]), strength: z.enum(["clear", "lean"]) }).strict(),
+  z.object({ axis: axisId, value: z.literal("?"), strength: z.null() }).strict(),
+]);
 export const nicknameSchema = z.string().trim().min(1).max(24).regex(/^[\p{L}\p{N}\p{M} _·-]+$/u);
 export const createSchema = z.object({
   protocolVersion: z.literal(PROTOCOL_VERSION), nickname: nicknameSchema,
   marketingOptIn: z.boolean().default(false),
 }).strict();
-export const assessmentSchema = z.object({ type: z.enum(typeCodes).nullable(), pattern: z.string().regex(/^[EI?][SN?][TF?][JP?]$/), status: z.enum(["complete", "incomplete"]) }).strict();
+export const assessmentSchema = z.object({ type: z.enum(typeCodes).nullable(), pattern: z.string().regex(/^[EI?][SN?][TF?][JP?]$/), status: z.enum(["complete", "incomplete"]), axes: z.array(axisResultSchema).length(4) }).strict();
 const count = z.number().int().min(0).max(Number.MAX_SAFE_INTEGER).nullable();
 export const client = z.enum(["codex", "claude-code", "antigravity", "cursor", "chatgpt", "other", "unknown"]);
 const model = z.enum(["openai", "anthropic", "google", "xai", "deepseek", "zai", "other", "unknown"]);
@@ -33,13 +37,7 @@ export const submissionSchema = z.object({
     modelUsage: z.array(z.object({ family: model, count: z.number().int().min(0).max(Number.MAX_SAFE_INTEGER) }).strict()).max(8),
     modelUsageUnit: z.enum(["reported_tokens", "sessions", "unknown"]), mostUsedModelFamily: model, mostUsedClient: client,
   }).strict(),
-  tasks: z.array(z.object({ id: taskId, date, source: client, context: z.enum(["research", "build", "writing", "planning", "support", "other"]) }).strict()).max(24),
-  observations: z.array(z.object({
-    id: z.string().regex(/^O(00[1-9]|0[1-3][0-9]|04[0-8])$/), task: taskId,
-    behavior: z.enum(behaviorCodes), ownerRequest: z.enum([...behaviorCodes, "not_specified", "unknown"]),
-    opportunity: z.enum(["both_available", "constrained", "unclear"]),
-  }).strict()).max(48),
-  assessment: assessmentSchema.optional(),
+  tasks: z.array(z.object({ id: taskId, date, source: client, context: z.enum(["research", "build", "writing", "planning", "support", "other"]), axes: taskAxesSchema }).strict()).max(24),
   usageEvidence: usageEvidenceSchema.optional(),
   systemEvidence: systemEvidenceSchema.optional(),
 }).strict().superRefine((data, ctx) => {
@@ -47,11 +45,6 @@ export const submissionSchema = z.object({
   if (data.observedPeriod.from > data.observedPeriod.to) issue("Period is reversed");
   const ids = new Set(data.tasks.map((t) => t.id));
   if (ids.size !== data.tasks.length) issue("Task IDs must be unique");
-  if (new Set(data.observations.map((o) => o.id)).size !== data.observations.length) issue("Observation IDs must be unique");
-  for (const o of data.observations) {
-    if (!ids.has(o.task)) issue("Invalid task reference");
-    if (o.ownerRequest !== "not_specified" && o.ownerRequest !== "unknown" && behaviorAxis[o.ownerRequest] !== behaviorAxis[o.behavior]) issue("Owner request must describe the same axis as the observed behavior");
-  }
   for (const o of data.usageEvidence?.observations ?? []) {
     if (!ids.has(o.task)) issue("Invalid usage task reference");
   }
@@ -70,4 +63,7 @@ export const submissionSchema = z.object({
 });
 export type Submission = z.infer<typeof submissionSchema>;
 export type TypeCode = typeof typeCodes[number];
-export type Behavior = typeof behaviorCodes[number];
+export type TaskAxes = z.infer<typeof taskAxesSchema>;
+export type Axis = keyof TaskAxes;
+export type Assessment = z.infer<typeof assessmentSchema>;
+export type AxisResult = z.infer<typeof axisResultSchema>;

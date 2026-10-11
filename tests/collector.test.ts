@@ -7,9 +7,10 @@ import {collectorInstructions} from "../lib/collector-instructions.ts";
 
 test("local review recalculates workstyle and never grants upload consent",()=>{
   const sample=makeFixture("測試搭檔");
-  const review=prepareCollectorReview({...sample,assessment:{type:"ENFP",pattern:"ENFP",status:"complete"},consent:{localAnalysisApproved:true,aggregateUploadApproved:false}});
-  assert.deepEqual(review.assessment,{type:"INTJ",pattern:"INTJ",status:"complete"});
+  const review=prepareCollectorReview({...sample,consent:{localAnalysisApproved:true,aggregateUploadApproved:false}});
+  assert.equal(review.assessment.type,"INTJ");assert.equal(review.assessment.pattern,"INTJ");
   assert.equal(review.consent.aggregateUploadApproved,false);assert.equal(review.kind,"fixture");
+  assert.throws(()=>prepareCollectorReview({...sample,assessment:{type:"ENFP",pattern:"ENFP",status:"complete"},consent:{localAnalysisApproved:true,aggregateUploadApproved:false}}));
 });
 test("review refuses missing local permission, already-approved data and extra raw fields",()=>{
   const sample=makeFixture();
@@ -21,7 +22,7 @@ test("zero available evidence stays untyped with null counts",async()=>{
   const input=JSON.parse(await readFile(new URL("../fixtures/insufficient-evidence.json",import.meta.url),"utf8"));
   input.consent={localAnalysisApproved:true,aggregateUploadApproved:false};
   const review=prepareCollectorReview(input);
-  assert.deepEqual(review.assessment,{type:null,pattern:"????",status:"incomplete"});
+  assert.equal(review.assessment.type,null);assert.equal(review.assessment.pattern,"????");assert.equal(review.assessment.status,"incomplete");
   assert.equal(review.metrics.inputTokens,null);assert.equal(review.metrics.mostUsedModelFamily,"unknown");
 });
 test("instructions use new protocol, single scope grant and write-only authority",()=>{

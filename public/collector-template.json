@@ -1,5 +1,5 @@
 {
-  "version": "2.0",
+  "version": "3.0",
   "kind": "observed",
   "nickname": "Agent 的名字",
   "consent": {
@@ -33,7 +33,6 @@
     "mostUsedClient": "unknown"
   },
   "tasks": [],
-  "observations": [],
   "usageEvidence": {
     "version": "usage-level-v2",
     "observations": []

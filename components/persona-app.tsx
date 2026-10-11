@@ -12,7 +12,7 @@ import {createCollectorScope,collectorScopeSchema,defaultScopeOptions,scopeOptio
 import { makeLevelFixture, demoReport } from "../lib/fixture.ts";
 import { toCardObservation, type Report } from "../lib/assessment.ts";
 import { families, personas, personaFor, modelLabels, clientLabels, artCredit, artFor, artCounts, type ArtStyle, type Family } from "../lib/catalog.ts";
-import { axisDefinitions, letterLabels, letterTips, behaviorLetters, contextLabels } from "../lib/workstyle.ts";
+import { axisDefinitions, letterLabels, letterTips, contextLabels } from "../lib/workstyle.ts";
 import { downloadCard } from "../lib/export-card.ts";
 import { describeProgress } from "../lib/collector-progress.ts";
 import {noticeText} from "../lib/i18n.ts";
@@ -29,16 +29,15 @@ function ReportSummary({report}:{report:Report}){
       <p className="report-period">{report.observedPeriod.from} — {report.observedPeriod.to}</p>
       <h2>{t("使用等級")} · LV {report.usageLevel.value??"?"}</h2><p>{t(report.usageLevel.basis?levelDescriptions[report.usageLevel.basis]:"使用等級尚待更多成果線索。")}</p>
       <h2>{t("你怎麼帶它，它怎麼做事。")}</h2>
-      {report.axisFindings.map((axis,i)=><section className="axis-finding" key={axis.axis}>
-        <h3>{t(axisDefinitions[i].name)} · {t(axis.value==="?"?(axis.reason==="near_boundary"?"證據分歧，暫不定向":"證據還不夠"):letterLabels[axis.value])}</h3>
-        <p>{t("{total} 個獨立有效任務：{left} {leftCount} 個、{right} {rightCount} 個、混合 {mixed} 個。",{total:count(axis.eligibleTasks),left:axisDefinitions[i].left,leftCount:count(axis.leftTasks.length),right:axisDefinitions[i].right,rightCount:count(axis.rightTasks.length),mixed:count(axis.mixedTasks.length)})} {axis.excludedTasks.length>0&&t("另有 {count} 個任務含受限、不明或不符合主人要求的觀察，這些觀察未計入。",{count:count(axis.excludedTasks.length)})}</p>
+      {report.assessment.axes.map((axis,i)=><section className="axis-finding" key={axis.axis}>
+        <h3>{t(axisDefinitions[i].name)} · {axis.value==="?"?t(letterLabels["?"]):axis.value+" "+t(letterLabels[axis.value])}{axis.strength==="lean"&&" · "+t("傾向")}</h3>
         <p>{t(axis.value==="?"?axisDefinitions[i].prompt:letterTips[axis.value])}</p>
       </section>)}
       <h2>{t("這次看到了多少？")}</h2><p>{t("證據覆蓋：{scope}。抽樣 {count} 個會話；來源：{sources}。",{scope:t(report.coverage.scope==="adequate"?"涵蓋授權範圍":report.coverage.scope==="partial"?"部分資料":"資料不足"),count:count(report.coverage.sampledSessions),sources:list(report.coverage.sources.map(s=>t(clientLabels[s])))||t("尚未取得")})}</p>
       <dl className="metrics-list">{[["本人會話",count(report.metrics.humanSessions)],["自動化 / 子代理",count(report.metrics.automatedSessions)+" / "+count(report.metrics.subagentSessions)],["本人訊息",count(report.metrics.userMessages)],["輸入 / 輸出 tokens",count(report.metrics.inputTokens)+" / "+count(report.metrics.outputTokens)],["最常用模型家族",t(modelLabels[report.metrics.mostUsedModelFamily])],["最常用客戶端",t(clientLabels[report.metrics.mostUsedClient])]].map(([label,value])=><div key={label}><dt>{t(label)}</dt><dd>{value}</dd></div>)}</dl>
-      <details className="evidence-details"><summary>{t("看任務脈絡與主人要求")}</summary>{report.tasks.map(task=><section className="task-evidence" key={task.id}><h3>{task.id} · {t(contextLabels[task.context])}</h3><p>{task.date} · {t(clientLabels[task.source])}</p><ul>{report.observations.filter(o=>o.task===task.id).map(o=><li key={o.id}><span>{t("主人：")}{t(o.ownerRequest==="unknown"?"要求未能確認":o.ownerRequest==="not_specified"?"未指定方向":letterLabels[behaviorLetters[o.ownerRequest]])}</span><span>{t("實際：")}{t(letterLabels[behaviorLetters[o.behavior]])} · {t(o.opportunity==="both_available"?"兩端可選":o.opportunity==="constrained"?"情境受限":"可選性不明")}</span></li>)}</ul></section>)}</details>
+      <details className="evidence-details"><summary>{t("看任務脈絡")}</summary>{report.tasks.map(task=><section className="task-evidence" key={task.id}><h3>{task.id} · {t(contextLabels[task.context])}</h3><p>{task.date} · {t(clientLabels[task.source])}</p></section>)}</details>
       <h2>{t("還沒看到的部分")}</h2><p>{list(report.coverage.gaps.map(g=>t(gaps[g])))||t("沒有回報額外缺口；不代表已讀取所有紀錄。")} {t("網站只檢查 Agent 摘要的一致性，沒有檢視原始紀錄。")}</p>
-      <p className="fineprint">{t(report.caveat)} {t("每軸至少三個獨立任務；方向不明或不足時保留未知。內部門檻不是準確率或性格強度，用量與模型家族不參與分型。")}</p>
+      <p className="fineprint">{t(report.caveat)} {t("每軸只看你的訊息，每個任務選一邊；少於三個任務或打平就保留問號。用量與模型家族不參與分型。")}</p>
     </div></details>
   </>;
 }
@@ -280,7 +279,7 @@ export function PersonaApp({authenticated=false,signInHref="/signin-with-chatgpt
       </section>}
       {stage === "fixture" && active && <section className="fixture-screen screen">
         <p className="eyebrow">{t("虛構資料 · 沒有讀取你的紀錄")}</p><h1 tabIndex={-1}>{t("一次同意，")}<br />{t("接著等它揭曉。")}</h1><p className="lead">{t("確認這次範圍，剩下的自動完成。")}</p>
-        <div className="scope-card"><p><b>{t("來源與期間")}</b><span>{t("網站內建的 3 個虛構任務，2026/10/01–10/09。沒有你的對話。")}</span></p><p><b>{t("傳送內容")}</b><span>{t("暱稱、日期、來源與缺口、用量彙總、抽象任務與行為列舉、衍生分型及階段狀態。")}</span></p><p><b>{t("目的地")}</b><span>{t("目前網站的這個收件連結，有效至 {time}。",{time:new Date(active.expiresAt).toLocaleTimeString(locale,{hour12:false})})}</span></p></div>
+        <div className="scope-card"><p><b>{t("來源與期間")}</b><span>{t("網站內建的 3 個虛構任務，2026/10/01–10/09。沒有你的對話。")}</span></p><p><b>{t("傳送內容")}</b><span>{t("暱稱、日期、來源與缺口、用量彙總、抽象任務與四軸判斷、階段狀態。")}</span></p><p><b>{t("目的地")}</b><span>{t("目前網站的這個收件連結，有效至 {time}。",{time:new Date(active.expiresAt).toLocaleTimeString(locale,{hour12:false})})}</span></p></div>
         <label className="check-field"><input type="checkbox" checked={fixtureConsent} onChange={e => setFixtureConsent(e.target.checked)}/>{t("我同意此範圍的虛構摘要自動驗證並傳送。")}</label>
         <button className="primary" disabled={!fixtureConsent || sending} onClick={sendFixture}>{sending ? t("處理中…") : t("同意並開始示範")}<ArrowRight size={20}/></button>
       </section>}
@@ -304,7 +303,7 @@ export function PersonaApp({authenticated=false,signInHref="/signin-with-chatgpt
     </main>
     <footer className="journey-footer"><LocaleSwitch /><button onClick={() => about.current?.showModal()}>{t("關於這份觀察")}</button></footer>
     <dialog ref={about} className="about-dialog" aria-labelledby="about-title"><button className="icon-button dialog-close" onClick={() => about.current?.close()} aria-label={t("關閉說明")}><X size={22}/></button><h2 id="about-title">{t("你怎麼帶它，")}<br />{t("它就怎麼做事。")}</h2><p>{t("這是一段以授權使用紀錄為依據的合作觀察。借用四組字母，以自訂規則描述合作風格，非官方 MBTI 評量。網站只接收你事前明確授權範圍內的最小摘要，授權後自動驗證與傳送。")}</p>
-      <details><summary>{t("觀察依據與 16 種風格")}</summary><p>{t("借用 E/I 互動節奏、S/N 理解起點、T/F 取捨依據、J/P 推進方式，以原創規則觀察主人帶領 Agent 的實際合作。這不是人的人格診斷，也不是模型的固定性格。")}</p><p>{t("每軸至少三個獨立任務；同一任務只算一次。受限情境不計入，接近或不足就保留未知。舊結果需要重新分析。")}<a href="/collector/SKILL.md" target="_blank" rel="noreferrer">{t("完整觀察方式 ↗")}</a></p><div className="about-types">{Object.entries(personas).map(([code, p]) => <div key={code}><b>{code}</b><span>{t(p.name)}</span></div>)}</div></details>
+      <details><summary>{t("觀察依據與 16 種風格")}</summary><p>{t("借用 E/I 推進節奏、S/N 指令焦點、T/F 驗收依據、J/P 工作框架，只看你帶 Agent 時說了什麼。這不是人格診斷，也不是模型的固定性格。")}</p><p>{t("每個任務每軸選一邊，看不出來就跳過。少於三個任務或打平保留問號，差距不大標成傾向。舊結果需要重新分析。")}<a href="/collector/SKILL.md" target="_blank" rel="noreferrer">{t("完整觀察方式 ↗")}</a></p><div className="about-types">{Object.entries(personas).map(([code, p]) => <div key={code}><b>{code}</b><span>{t(p.name)}</span></div>)}</div></details>
       <details><summary>{t("使用等級如何判斷")}</summary><p>{t("等級與 MBTI、用量和模型無關。LV0–3 看你帶 Agent 時怎麼查核與修正；LV4 看你寫下的技能、規則或腳本，是否被其他工作階段再次使用；LV5 再看自動化是否無人值守跑過兩週，且資產持續維護。沒有證據就保持未知，等級也不代表能力上限。")}</p></details>
       <details><summary>{t("角色來源與非商業授權")}</summary><p>{t("六個家族 × 16 型 × 一般／Q 版，共 192 格專屬插畫。目前")}{artCounts.ready}{t("張完成")}{artCounts.complete ? t("。") : t("，其餘製作中，缺圖不以其他型替代。")}{t("插畫依構圖選配，與分型計算獨立。Codex 使用 GPT 娘的同人改編，並非官方 Codex 角色。圖片改編參考")}<a href="https://github.com/Apprentice-Geo/AI-Fanworks/tree/main/ApprenTice/images" target="_blank" rel="noreferrer">ApprenTice</a>{t("；角色原作參考 ZipZipPipe，DeepSeek 另含上善無形。")}</p><p>{t("AI 輔助再創作，")}<a href="https://creativecommons.org/licenses/by-nc-sa/4.0/" target="_blank" rel="noreferrer">CC BY-NC-SA 4.0</a>{t("，限非商業、署名及相同方式分享。上游權利鏈尚未全面核實，沒有模型業者背書。")}</p><a href="/art-provenance.md" target="_blank" rel="noreferrer">{t("完整素材來源 ↗")}</a><br /><a href="/art-gallery">{t("瀏覽全部插畫圖庫 ↗")}</a></details>
       <details><summary>{t("資料與 Email 如何使用")}</summary><p>{t("Email 由 ChatGPT 登入提供，不出現在卡片。完整報告不以行銷同意為條件。目前只保存偏好，沒有寄信或加入外部行銷服務。")}</p><p>{t("提交連結 30 分鐘後失效。此裝置可用安全 Cookie 開啟最近結果，最長保留 7 天；可隨時清除。Email、原始紀錄與提交權杖不存入瀏覽器儲存空間，結果沒有公開網址。")}</p><p>{t("首頁可公開開啟；開始觀察、讀取結果及帳戶偏好均需本人登入。Agent 只能透過短效專屬連結提交一次摘要，不能讀取私人結果。")}</p></details>

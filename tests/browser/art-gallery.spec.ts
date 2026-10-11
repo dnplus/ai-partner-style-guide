@@ -1,9 +1,8 @@
 const evidenceDir=process.env.BROWSER_EVIDENCE_DIR??"evidence/final-card";
 import {test,expect} from "@playwright/test";
 import {artSlots,artFamilies,artStyles,artCounts} from "../../lib/art-catalog.ts";
-import {typeCodes,type TypeCode,type Behavior} from "../../lib/contract.ts";
+import {typeCodes,type TypeCode} from "../../lib/contract.ts";
 import {makeFixture} from "../../lib/fixture.ts";
-import {deriveAssessment} from "../../lib/assessment.ts";
 
 test("192-slot gallery loads exact art or honest pending states, inspector and mobile framing",async({page} )=>{
   test.setTimeout(120000);
@@ -43,9 +42,8 @@ test("192-slot gallery loads exact art or honest pending states, inspector and m
 
 function fixtureFor(type:TypeCode,nickname:string){
   const f=makeFixture(nickname);
-  const behavior:Record<string,Behavior>={E:"collaborative_iteration",I:"consolidated_delivery",S:"concrete_evidence",N:"pattern_exploration",T:"consistent_criteria",F:"people_context",J:"early_commitment",P:"reversible_experiments"};
-  f.observations=f.tasks.flatMap((t,i)=>[...type].map((letter,j)=>({id:"O"+String(i*4+j+1).padStart(3,"0"),task:t.id,behavior:behavior[letter],ownerRequest:"not_specified",opportunity:"both_available"})));
-  f.assessment=deriveAssessment(f);return f;
+  f.tasks=f.tasks.map(t=>({...t,axes:{EI:type[0] as "E"|"I",SN:type[1] as "S"|"N",TF:type[2] as "T"|"F",JP:type[3] as "J"|"P"}}));
+  return f;
 }
 test("every type reaches its own art through real callback; theme and style never change assessment",async({page,request})=>{
   test.setTimeout(180000);

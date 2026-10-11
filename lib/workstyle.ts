@@ -1,18 +1,15 @@
-import type { Behavior } from "./contract.ts";
-
-export const RUBRIC = { id: "agent-workstyle-v1", minimumTasks: 3, minimumMargin: 2, supportNumerator: 2, supportDenominator: 3 } as const;
+export const RUBRIC = { id: "agent-workstyle-v2", minimumPicks: 3, minimumMargin: 2, clearNumerator: 2, clearDenominator: 3 } as const;
 export const axisDefinitions = [
-  { id: "EI", name: "互動節奏", left: "E", right: "I", prompt: "下一次資訊齊全、可自行處理的任務，觀察它選擇途中共創，還是整理後一起回報。" },
-  { id: "SN", name: "理解起點", left: "S", right: "N", prompt: "下一次開放的新問題，觀察它先從具體實例展開，還是先連結模式與不同可能。" },
-  { id: "TF", name: "取捨依據", left: "T", right: "F", prompt: "下一次兩個合理方案有取捨時，觀察一致的比較準則與受影響者的處境，哪個先決定方向。" },
-  { id: "JP", name: "推進方式", left: "J", right: "P", prompt: "下一次路線尚未確定、又不受固定流程限制時，觀察它先定里程碑，還是先做可逆實驗。" },
+  { id: "EI", name: "推進節奏", left: "E", right: "I", prompt: "下次留意：你是開場就講清楚，還是邊看結果邊改方向？" },
+  { id: "SN", name: "指令焦點", left: "S", right: "N", prompt: "下次留意：你給的是具體做法，還是目標和方向？" },
+  { id: "TF", name: "驗收依據", left: "T", right: "F", prompt: "下次留意：你驗收時，看的是證據還是感受？" },
+  { id: "JP", name: "工作框架", left: "J", right: "P", prompt: "下次留意：這件事你當成固定流程，還是一次性的探索？" },
 ] as const;
-export const behaviorLetters: Record<Behavior, string> = { collaborative_iteration: "E", consolidated_delivery: "I", concrete_evidence: "S", pattern_exploration: "N", consistent_criteria: "T", people_context: "F", early_commitment: "J", reversible_experiments: "P" };
-export const letterLabels: Record<string, string> = { E: "互動共創", I: "整理後交付", S: "具體起步", N: "可能性起步", T: "準則取捨", F: "情境取捨", J: "路線先行", P: "試探收斂", "?": "還沒定向" };
+export const letterLabels: Record<string, string> = { E: "邊做邊帶", I: "開場定調", S: "給做法", N: "給方向", T: "看證據", F: "看感受", J: "有章法", P: "隨手試", "?": "還沒定向" };
 export const letterTips: Record<string, string> = {
-  E: "給它中途可以對焦的節點，讓來回討論推進成果。", I: "先說清楚目標與回報時機，留一段可以整理成形的空間。",
-  S: "附上一個真實範例和限制，讓它有具體起點。", N: "先交代想達成的改變，再讓它提出幾條不同路線。",
-  T: "事先寫下取捨標準，並補上標準容易漏掉的人。", F: "說明誰會受影響、在乎什麼，也一起約定能檢查的底線。",
-  J: "約好路線與里程碑，也明訂什麼新證據值得改道。", P: "給探索一個時間盒，約定何時把實驗收斂成決定。",
+  E: "你習慣中途掌舵。試著把幾個轉彎先寫進開場，省下來回。", I: "你靠開場定調。遇到長任務，留一個中途檢查點更穩。",
+  S: "你給得很具體。偶爾只給目標，看看它會不會找到更好的路。", N: "你給方向就放手。關鍵處補一個範例或限制，結果會更貼近。",
+  T: "你用證據驗收。別忘了問一句：用的人感覺如何？", F: "你用感受驗收。補一條能檢查的底線，品味更不會走樣。",
+  J: "你愛把事情做成流程。偶爾留一段時間盒，自由試試。", P: "你邊試邊調。好用的做法，記得收成能重用的技能或腳本。",
 };
 export const contextLabels: Record<string, string> = { research: "研究", build: "製作", writing: "寫作", planning: "規劃", support: "協助", other: "其他" };

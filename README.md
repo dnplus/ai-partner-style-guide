@@ -2,23 +2,42 @@
 
 以本人授權的使用紀錄，觀察你帶領 Agent 的合作方式。三個主步驟：命名與選填偏好 → 將專屬指令交給自己的 Agent → 同一屏揭曉完整卡片、簡短解讀與完整報告。一般／Q 版切換、下載、分享都留在第三步。
 
-首頁公開；開始觀察與讀取私人結果需 Sites 原生 ChatGPT 登入。Email 來自受信任的平台身份，不另填表單、不出現在 collector、卡片、網址或瀏覽器儲存空間。行銷勾選預設關閉，與完整報告無關，可於「關於這份觀察」撤回。目前只保存偏好，沒有寄信或外部行銷服務。
-
-註冊網站：https://agent-mbti-cards.dnplus.chatgpt.site/ 。實際發佈與遠端驗證狀態以 `docs/DELIVERY-PUBLIC.md` 為準。
+不需登入，也不收集 Email。每次觀察建立一組匿名會話：讀取權杖只留在建立連結的瀏覽器，寫入權杖只交給 Agent 提交一次摘要。部署在自己的 Cloudflare 帳號（Workers + D1 + 靜態資源），網址為 `agent-mbti.<子網域>.workers.dev`。
 
 ## 本機使用
 
-專案位於 `/Users/dnplus/Documents/Codex/2026-10-10/task-2/ai-usage-card`。此 Air 使用 Node 26.7.0，已安裝依賴並套用 0000–0005 本機 D1 migration。執行 `npm start -- --port 5188` 開啟已建置的 Worker；網址 `http://127.0.0.1:5188`。不要同時啟動同 port 的 dev server。
-
-全新 checkout 先執行 `npm run install:ci` 和 `npm run build`，再依序、僅一次套用尚未執行的 `drizzle/*.sql`：
+需要 Node 22.13 以上。
 
 ```sh
-node --import ./scripts/sites-env.mjs ./node_modules/wrangler/bin/wrangler.js d1 execute DB --local --config dist/server/wrangler.json --persist-to .wrangler/state --file drizzle/0000_quick_devos.sql
+npm ci
+cp .dev.vars.example .dev.vars   # Turnstile 測試用 secret，永遠通過
+npm run build
+npm run db:migrate:local         # 套用 drizzle/*.sql 到 .wrangler/state 的本機 D1
+npm run preview                  # 已建置的 Worker：http://127.0.0.1:5188
 ```
 
-將範例檔名替換為下一個 pending migration，勿重播已執行檔案。這些命令只修改本機預覽資料，不部署。Sites 官方入口見 [starter 記錄](docs/SITES-STARTER.md)。
+開發時可改用 `npm run dev`（Vite + HMR）。改了 `wrangler.jsonc` 後執行 `npm run cf-typegen` 更新 `worker-configuration.d.ts`。改了 `db/schema.ts` 後執行 `npm run db:generate` 產生新 migration。
 
-localhost 沒有 Sites 登入 dispatcher；因此匿名只能看首頁，原生登入只能在託管網址完成。自動測試以虛構 dispatch headers 模擬身份，不能視為真實 ChatGPT 登入驗證。登入後，頁尾「關於這份觀察」內可用虛構資料走同一條 callback 流程。
+本機用 Cloudflare 公開的 Turnstile 測試金鑰（`wrangler.jsonc` 的 `TURNSTILE_SITE_KEY` 預設值與 `.dev.vars.example`），不連線任何遠端資源。
+
+## 第一次部署
+
+先確認 `npx wrangler whoami` 是要部署的帳號。依序執行：
+
+1. 建立資料庫：`npx wrangler d1 create agent-mbti`，把輸出的 `database_id` 貼到 `wrangler.jsonc` 取代 `REPLACE_WITH_D1_DATABASE_ID`。
+2. 套用 migration：`npm run db:migrate:remote`。
+3. 在 Cloudflare 後台 Turnstile 建立 widget（Managed），主機名稱填 `agent-mbti.<子網域>.workers.dev`。把 site key 貼到 `wrangler.jsonc` 的 `vars.TURNSTILE_SITE_KEY`，然後 `npm run cf-typegen`。
+4. 設定 secret：`npx wrangler secret put TURNSTILE_SECRET_KEY`，貼上 widget 的 secret key。
+5. 部署：`npm run deploy`。
+6. 開啟網址建立一次連結，確認 Turnstile 顯示且能建立；再到 Workers 的 Observability 看有無錯誤。
+
+之後每次更新只需 `npm run deploy`；有新 migration 時先跑 `npm run db:migrate:remote`。若忘了換 site key，正式 secret 會拒絕測試權杖，建立連結會失敗而不是放行。
+
+## 濫用防護
+
+- 建立連結（人按下按鈕、會產生權杖的那一步）需要 Turnstile；伺服器以 siteverify 驗證 secret、action `create_session` 與主機名稱。
+- 每個 IP（`CF-Connecting-IP`）每分鐘最多建立 5 個連結；Agent 的提交與進度回報每分鐘 60 次。超過回 429 並在介面顯示當地語言的提示。Agent 端不需 Turnstile。
+- 沒有全站會話總量上限：任何固定上限都可能被分散來源灌滿，或在正常流量高峰擋下真人。會話 30 分鐘到期，過期資料在下次建立時清除。
 
 ## 判定與資料
 
@@ -37,26 +56,26 @@ localhost 沒有 Sites 登入 dispatcher；因此匿名只能看首頁，原生�
 
 ## 已實作
 
-- Sites 官方 Vite/Vinext、React、D1；會話有效 30 分鐘，讀寫分離的 256-bit 權杖，只存雜湊。所有私人讀取同時要求正確 ChatGPT 帳戶與讀取權限。
+- Vinext（Vite 上的 Next.js App Router）、React、Cloudflare Workers、D1；會話有效 30 分鐘，讀寫分離的 256-bit 權杖，只存雜湊。私人讀取只需讀取權杖。
 - 外部 Agent 的 callback 只需其短效寫入權杖，不能讀取結果。一次原子提交、相同 key／內容可重試；嚴格 JSON、24 KiB 上限、來源／日期／引用與結果一致性驗證。
 - 三步流程、真實進度、返回、斷線重試、到期換新目的地；寫入權杖不持久保存。30 分鐘不是掃描耗時保證。
-- 最近結果保存最多 7 天，以 HttpOnly、SameSite=Strict、HTTPS Secure 且限 `/api/remembered` 的 Cookie，加上同一登入帳戶讀取。可清除或開始新觀察。localStorage 只有語言偏好；sessionStorage 有短效讀取權限及介面偏好，不含 Email 或原始紀錄。
+- 最近結果保存最多 7 天，以 HttpOnly、SameSite=Strict、HTTPS Secure 且限 `/api/remembered` 的 Cookie 讀取。可清除或開始新觀察。localStorage 只有語言偏好；sessionStorage 有短效讀取權限及介面偏好，不含原始紀錄。
 - 同一套 SVG composition 驅動預覽和 PNG，預設顯示 Agent MBTI、四碼、等級、稱號、暱稱、短句。暱稱模式需明確選取。CSS 3D 厚度、柔影、角度虹彩、選擇性 foil、桌面拖曳／手機觸控／方向鍵；reduced-motion 靜態卡。
 - 六家族 × 16 型 × 一般／Q 版，共 192 張不同插畫。換造型不重新判定；未知使用中性卡面。`/art-gallery` 可檢視完整圖庫。
 - 繁中、簡中、日文、韓文、英文；流程、指令、報告、等級、分享與下載均隨語言切換。
-- 1080×1620 卡片、1080×1350 直式、1080×1920 限時、1080² 正方形、1200×630 橫式 PNG。QR 和文字僅指向測驗首頁，沒有私人結果或權杖。系統支援檔案分享時使用 Web Share，否則下載並提供文字；沒有自動發文。
+- 1080×1620 卡片、1080×1350 直式、1080×1920 限時、1080² 正方形、1200×630 橫式 PNG。QR 和文字指向目前網站的首頁（取自 `location.origin`），沒有私人結果或權杖。系統支援檔案分享時使用 Web Share，否則下載並提供文字；沒有自動發文。
 - Collector 指令預設最近 60 個本地日（當地 00:00 到現在）、IANA 時區、所有支援且本人所有／主機允許存取的本機來源、Tokscale。一次說明並取得範圍與傳送授權，仍遵守主機原生核准。缺少工具、拒絕或一次安裝失敗時繼續現有證據，不捏造用量。
 
 ## 驗證與限制
 
-執行 `npm run typecheck`、`npm test`、`npm run verify:art`、`npm run test:browser`、`node scripts/smoke-built.mjs http://127.0.0.1:5188`。測試只使用隔離 Chrome、專用虛構資料和本機 D1。HTTP smoke 限 loopback。
+執行 `npm run typecheck`、`npm test`、`npm run verify:art`、`npm run test:browser`、`node scripts/smoke-built.mjs http://127.0.0.1:5188`。`test:browser` 會沿用 5188 上已啟動的 preview，否則自行建置、套用本機 migration 後啟動。測試只使用隔離 Chrome、專用虛構資料、本機 D1 與 Turnstile 測試金鑰；每個模擬訪客帶不同的 `CF-Connecting-IP`。HTTP smoke 限 loopback。
 
-測試與驗證腳本的輸出寫到 `evidence/`，不納入版本控制。發佈與原生登入的實際觀察記在 `docs/DELIVERY-PUBLIC.md`。
+測試與驗證腳本的輸出寫到 `evidence/`，不納入版本控制。
 
 本專案交付的是 Agent 指令和最小摘要驗證／提交協定。網站本身不掃描紀錄。`collect.py` 在時間預算內抽樣本地日誌，供合作風格分類，並用 Tokscale 的 client／model 總量顯示 token。它不算完整會話數。24 個 task、48 個 MBTI observation、64 個成果 observation、24 KiB 是上傳限制，不是模型讀取紀錄的成本上限。
 
 圖片是 ApprenTice 同人衍生，角色參考 ZipZipPipe；DeepSeek 另含上善無形。CC BY-NC-SA 4.0：非商業、署名及相同方式分享。GPT 龍娘是 Codex 主題改編，並非官方角色；上游權利鏈未全面核實，沒有模型業者背書。[素材來源](public/art-provenance.md)。
 
-真人證據校準、動畫匯出、寄信尚未完成。資料過期後拒絕讀寫，於後續請求清理；沒有宣稱到期瞬間背景刪除。
+真人證據校準、動畫匯出尚未完成。資料過期後拒絕讀寫，於後續請求清理；沒有宣稱到期瞬間背景刪除。
 
-網站素材採原尺寸 WebP（品質 98、透明度一致），原始 PNG 全數保存在 `art-source/`。編碼、來源 hash 與 Sites 封裝限制說明見 [ART-DELIVERY](docs/ART-DELIVERY.md)。
+網站素材採原尺寸 WebP（品質 98、透明度一致），原始 PNG 全數保存在 `art-source/`。編碼、來源 hash 與素材大小的取捨見 [ART-DELIVERY](docs/ART-DELIVERY.md)。

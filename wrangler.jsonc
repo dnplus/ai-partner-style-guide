@@ -29,7 +29,9 @@
     { "name": "WRITE_LIMITER", "namespace_id": "1002", "simple": { "limit": 60, "period": 60 } }
   ],
   "vars": {
-    "TURNSTILE_SITE_KEY": "0x4AAAAAAFTsLRxtt_I7FWHz"
+    // Cloudflare's always-pass test key for local dev; `npm run deploy` passes the production key,
+    // which only renders on agent-mbti.dnplus.workers.dev.
+    "TURNSTILE_SITE_KEY": "1x00000000000000000000AA"
   },
   "secrets": {
     "required": ["TURNSTILE_SECRET_KEY"]

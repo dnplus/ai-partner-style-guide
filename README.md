@@ -20,18 +20,11 @@ npm run preview                  # 已建置的 Worker：http://127.0.0.1:5188
 
 本機用 Cloudflare 公開的 Turnstile 測試金鑰（`wrangler.jsonc` 的 `TURNSTILE_SITE_KEY` 預設值與 `.dev.vars.example`），不連線任何遠端資源。
 
-## 第一次部署
+## 部署
 
-先確認 `npx wrangler whoami` 是要部署的帳號。依序執行：
+正式站是 https://agent-mbti.dnplus.workers.dev。D1 `agent-mbti` 已綁在 `wrangler.jsonc`，Turnstile secret 已設在 Worker 上，正式 site key 由 `npm run deploy` 以 `--var` 帶入，所以本機一直用測試金鑰。
 
-1. 建立資料庫：`npx wrangler d1 create agent-mbti`，把輸出的 `database_id` 貼到 `wrangler.jsonc` 取代 `REPLACE_WITH_D1_DATABASE_ID`。
-2. 套用 migration：`npm run db:migrate:remote`。
-3. 在 Cloudflare 後台 Turnstile 建立 widget（Managed），主機名稱填 `agent-mbti.<子網域>.workers.dev`。把 site key 貼到 `wrangler.jsonc` 的 `vars.TURNSTILE_SITE_KEY`，然後 `npm run cf-typegen`。
-4. 設定 secret：`npx wrangler secret put TURNSTILE_SECRET_KEY`，貼上 widget 的 secret key。
-5. 部署：`npm run deploy`。
-6. 開啟網址建立一次連結，確認 Turnstile 顯示且能建立；再到 Workers 的 Observability 看有無錯誤。
-
-之後每次更新只需 `npm run deploy`；有新 migration 時先跑 `npm run db:migrate:remote`。若忘了換 site key，正式 secret 會拒絕測試權杖，建立連結會失敗而不是放行。
+每次更新只需 `npm run deploy`；有新 migration 時先跑 `npm run db:migrate:remote`。部署到別的帳號或網域時，要換掉 `wrangler.jsonc` 的 `database_id`、deploy 指令裡的 site key，並重設 `TURNSTILE_SECRET_KEY`。
 
 ## 濫用防護
 

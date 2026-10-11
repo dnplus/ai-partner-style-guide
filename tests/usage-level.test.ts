@@ -1,7 +1,7 @@
 import test from 'node:test';
 import assert from 'node:assert/strict';
 import {makeFixture,makeLevelFixture} from '../lib/fixture.ts';
-import {deriveUsageLevel} from '../lib/usage-level.ts';
+import {deriveUsageLevel,nextStepFor,nextSteps} from '../lib/usage-level.ts';
 import {validateSubmission} from '../lib/assessment.ts';
 import type {Submission} from '../lib/contract.ts';
 const now=Date.parse('2026-10-10T12:00:00Z');
@@ -44,4 +44,11 @@ test('the summary accepts system evidence only as bounded counts',()=>{
  assert.throws(()=>validateSubmission({...makeLevelFixture(),usageEvidence:{version:'usage-level-v1',observations:[]}},now));
  assert.throws(()=>validateSubmission({...makeLevelFixture(),usageEvidence:{version:'usage-level-v2',raw:'private',observations:[]}},now));
  assert.throws(()=>validateSubmission({...makeLevelFixture(),usageEvidence:{version:'usage-level-v2',observations:[{task:'T024',signal:'retry_after_error'}]}},now));
+});
+
+test('every level, and an unknown one, names a distinct next step',()=>{
+ const steps=[null,0,1,2,3,4,5].map(value=>nextStepFor({version:'usage-level-v2',value,basis:null}));
+ assert.equal(new Set(steps).size,7);
+ assert.equal(nextStepFor({version:'usage-level-v2',value:null,basis:null}),nextSteps.unknown);
+ assert.equal(nextStepFor({version:'usage-level-v2',value:3,basis:'scoped_correction'}),nextSteps[3]);
 });

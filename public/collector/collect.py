@@ -4,7 +4,7 @@
 import argparse
 import json
 import os
-import random
+import hashlib
 import re
 import shutil
 import signal
@@ -67,6 +67,9 @@ TURN_CAP = 600
 TURN_BUDGET = 24
 INJECT_RE = re.compile(r"^\s*(<[A-Za-z][\w\-]*[\s>/]|#\s*AGENTS\.md|# (Browser|Files)\b|\[Request interrupted)")
 TEMPLATE_RE = re.compile(r"\b(Task|Automation|Job|Run|Contract) ID:|kbctl work contract", re.I)
+# The Agent MBTI prompt itself opens a session that only pastes instructions and approves them.
+COLLECTOR_PROMPT_RE = re.compile(r"Agent MBTI.{0,80}?collect\.py", re.S)
+SAMPLE_SALT = "agent-mbti-sample-v1"
 SYSTEM_BUDGET = 6.0
 LINE_CAP = 4 * 1024
 USER_MARKERS = {"claude": b'"type":"user"', "codex": b'"role":"user"', "cursor": b'"role":"user"'}
@@ -252,7 +255,7 @@ def pack(client, day, turns):
     agent_message = any(role == "agent" and kind == "message" for role, kind, _text in turns)
     if len(users) < 2 or day is None or not agent_message:
         return None
-    if TEMPLATE_RE.search(users[0]):
+    if TEMPLATE_RE.search(users[0]) or COLLECTOR_PROMPT_RE.search(users[0]):
         return None
     chosen = choose_turns(turns)
     if not chosen:
@@ -810,19 +813,23 @@ def list_files(home, sources, start, stop, gaps, children):
     return files
 
 
-def sample_order(files):
-    order = sorted(files, key=lambda item: item["path"])
+def sample_order(files, home):
+    # Rank each file by a hash of its path under home: the order looks random across files,
+    # but a repeat scan of the same logs reads the same sessions, and a new log only takes
+    # the slots it outranks.
+    salt = SAMPLE_SALT
     raw = os.environ.get("COLLECTOR_SAMPLE_SEED", "").strip()
     if raw:
         try:
-            seed = int(raw)
+            salt = SAMPLE_SALT + ":" + str(int(raw))
         except ValueError:
             fail("invalid_sample_seed")
-        rng = random.Random(seed)
-    else:
-        rng = random.Random()
-    rng.shuffle(order)
-    return order
+
+    def rank(item):
+        relative = os.path.relpath(item["path"], home)
+        return hashlib.sha256((salt + "\0" + relative).encode("utf-8", "surrogateescape")).hexdigest(), relative
+
+    return sorted(files, key=rank)
 
 
 def budget_elapsed():
@@ -1366,7 +1373,8 @@ def apply_tokens(summary, tokens):
     metrics["modelUsage"] = tokens["usage"]
     metrics["modelUsageUnit"] = tokens["unit"]
     metrics["mostUsedModelFamily"] = tokens["family"]
-    metrics["mostUsedClient"] = tokens["client"]
+    if tokens["client"] != "unknown" or metrics.get("mostUsedClient") not in CLIENTS:
+        metrics["mostUsedClient"] = tokens["client"]
     align_token_rules(metrics, coverage["sources"])
 
 
@@ -1374,7 +1382,7 @@ def build_digest(home, sources, start, stop, zone, window_from, window_to, zone_
     gaps = {"web_history_unavailable", "no_artifact_inspection"}
     children = []
     files = list_files(home, sources, start, stop, gaps, children)
-    order = sample_order(files)
+    order = sample_order(files, home)
     samples, files_read, days, sample_gaps, short = sample_files(order, start, stop, zone, budget)
     sessions, listed = scan_system(order, start, stop)
     gaps.update(sample_gaps)
@@ -1390,6 +1398,12 @@ def build_digest(home, sources, start, stop, zone, window_from, window_to, zone_
     seen = {sample["client"] for sample in samples}
     seen.update(tokens["clients"])
     active = [client for client in CLIENTS if client in sources and client in seen]
+    # Without Tokscale, the client with the most session files in the window stands in as the most used.
+    session_files = defaultdict(int)
+    for item in files:
+        if item["client"] in active and item["kind"] in USER_MARKERS:
+            session_files[item["client"]] += 1
+    _usage, busiest_client, _unit = ranked_name(session_files)
     ordered_days = sorted(days)
     if ordered_days:
         period = {"from": ordered_days[0], "to": ordered_days[-1]}
@@ -1406,7 +1420,7 @@ def build_digest(home, sources, start, stop, zone, window_from, window_to, zone_
         "modelUsage": tokens["usage"],
         "modelUsageUnit": tokens["unit"],
         "mostUsedModelFamily": tokens["family"],
-        "mostUsedClient": tokens["client"],
+        "mostUsedClient": tokens["client"] if tokens["client"] != "unknown" else busiest_client,
     }
     digest = {
         "window": {"from": window_from, "to": window_to, "timeZone": zone_name},

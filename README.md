@@ -65,7 +65,7 @@ npm run preview                  # 已建置的 Worker：http://127.0.0.1:5188
 
 測試與驗證腳本的輸出寫到 `evidence/`，不納入版本控制。
 
-本專案交付的是 Agent 指令和最小摘要驗證／提交協定。網站本身不掃描紀錄。`collect.py` 在時間預算內抽樣本地日誌，供合作風格分類，並用 Tokscale 的 client／model 總量顯示 token。它不算完整會話數。24 個 task、48 個 MBTI observation、64 個成果 observation、24 KiB 是上傳限制，不是模型讀取紀錄的成本上限。
+本專案交付的是 Agent 指令和最小摘要驗證／提交協定。網站本身不掃描紀錄。`collect.py` 在時間預算內抽樣本地日誌，供合作風格分類。抽樣順序由每個檔案路徑的雜湊決定，同一批紀錄重跑會讀到同一批 session，新紀錄只會逐步替換，重測結果因此比較穩定（分類仍由 Agent 判讀，換模型仍可能有差異）。token 取自 Tokscale 的 client／model 總量。它不算完整會話數。24 個 task、48 個 MBTI observation、64 個成果 observation、24 KiB 是上傳限制，不是模型讀取紀錄的成本上限。
 
 圖片是 ApprenTice 同人衍生，角色參考 ZipZipPipe；DeepSeek 另含上善無形。CC BY-NC-SA 4.0：非商業、署名及相同方式分享。GPT 龍娘是 Codex 主題改編，並非官方角色；上游權利鏈未全面核實，沒有模型業者背書。[素材來源](public/art-provenance.md)。
 

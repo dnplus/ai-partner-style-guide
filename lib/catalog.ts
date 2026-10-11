@@ -30,6 +30,11 @@ export const families = [
 ] as const;
 export type Family = typeof families[number]["id"];
 export type ArtStyle = "regular" | "chibi";
+// Without a token-weighted model family, the most used client picks the theme it ships with.
+const clientFamilies: Partial<Record<string, Family>> = { codex: "codex", "claude-code": "claude", antigravity: "gemini" };
+export function defaultFamily(modelFamily: string, client?: string): Family {
+  return families.find((f) => f.model === modelFamily)?.id ?? clientFamilies[client ?? ""] ?? "codex";
+}
 export const modelLabels: Record<string, string> = { openai: "OpenAI / GPT", anthropic: "Anthropic / Claude", google: "Google / Gemini", xai: "xAI / Grok", deepseek: "DeepSeek", zai: "Z.ai / GLM", other: "其他模型", unknown: "尚未確認" };
 export const clientLabels: Record<string, string> = { codex: "Codex", "claude-code": "Claude Code", antigravity: "Antigravity", cursor: "Cursor", chatgpt: "ChatGPT", other: "其他工具", unknown: "尚未確認" };
 export {artFor,artSlot,artCounts} from "./art-catalog.ts";

@@ -2680,5 +2680,53 @@
     "ボット対策の確認を読み込めませんでした。ページを再読み込みしてください。",
     "사람 확인을 불러오지 못했습니다. 페이지를 새로고침해 주세요.",
     "The human check failed to load. Please refresh the page."
+  ],
+  "下一步": [
+    "下一步",
+    "次の一歩",
+    "다음 단계",
+    "Next step"
+  ],
+  "做完一件事後，親手確認結果真的能用，等級就有線索可看。": [
+    "做完一件事后，亲手确认结果真的能用，等级就有线索可看。",
+    "ひとつ終えたら、結果が本当に使えるか自分で確かめると、レベルの手がかりが残ります。",
+    "한 가지 일을 끝낸 뒤 결과가 정말 쓸 만한지 직접 확인하면, 레벨을 볼 단서가 생겨요.",
+    "After you finish something, check for yourself that the result really works. That gives the level something to go on."
+  ],
+  "發現結果不對時，指出哪裡錯，換個做法再試一次。": [
+    "发现结果不对时，指出哪里错，换个做法再试一次。",
+    "結果がおかしいと気づいたら、どこが違うかを伝えて、別のやり方でもう一度試しましょう。",
+    "결과가 틀렸다고 느끼면 어디가 잘못됐는지 짚고, 다른 방법으로 다시 시도해 보세요.",
+    "When a result looks wrong, point out what is off and try again another way."
+  ],
+  "在兩個不同任務裡，親自確認結果真的可用，例如跑測試或實際用一次。": [
+    "在两个不同任务里，亲自确认结果真的可用，例如跑测试或实际用一次。",
+    "2つの別々のタスクで、テストを走らせる・実際に一度使うなど、結果が使えることを自分で確かめましょう。",
+    "서로 다른 두 작업에서 테스트를 돌리거나 직접 한 번 써 보는 식으로, 결과가 쓸 만한지 확인해 보세요.",
+    "In two separate tasks, confirm the result really works, for example by running the tests or using it once."
+  ],
+  "同一個任務先講清楚範圍和完成標準，再驗證一處具體修正。": [
+    "同一个任务先讲清楚范围和完成标准，再验证一处具体修正。",
+    "ひとつのタスクで、範囲と完了の基準を先に伝え、具体的な修正を1つ検証しましょう。",
+    "한 작업에서 범위와 완료 기준을 먼저 분명히 하고, 구체적인 수정 하나를 검증해 보세요.",
+    "In one task, state the scope and what done means up front, then verify one specific fix."
+  ],
+  "把常用的做法寫成技能、規則或腳本，讓其他工作階段也能重用。": [
+    "把常用的做法写成技能、规则或脚本，让其他工作阶段也能复用。",
+    "よく使うやり方をスキル・ルール・スクリプトにして、ほかのセッションでも再利用しましょう。",
+    "자주 쓰는 방식을 스킬, 규칙, 스크립트로 만들어 다른 세션에서도 다시 쓰세요.",
+    "Turn what you do often into a skill, rule, or script that other sessions can reuse."
+  ],
+  "讓自動化靠排程、CI 或 hook 跑上兩週，期間持續維護那些資產。": [
+    "让自动化靠排程、CI 或 hook 跑上两周，期间持续维护那些资产。",
+    "スケジュール・CI・hook で自動化を2週間動かし、その間も資産を手入れし続けましょう。",
+    "예약 실행, CI, hook으로 자동화를 2주 동안 돌리고, 그동안 자산을 계속 관리하세요.",
+    "Let automation run on a schedule, CI, or a hook for two weeks, and keep maintaining those assets meanwhile."
+  ],
+  "已是最高等級。定期檢查自動化的產出，別讓它默默走樣。": [
+    "已是最高等级。定期检查自动化的产出，别让它默默走样。",
+    "最高レベルです。自動化の出力を定期的に確認し、知らないうちに崩れないようにしましょう。",
+    "이미 최고 레벨이에요. 자동화 결과를 정기적으로 점검해 조용히 어긋나지 않게 하세요.",
+    "You are at the top level. Review what the automation produces now and then so it does not drift unnoticed."
   ]
 }

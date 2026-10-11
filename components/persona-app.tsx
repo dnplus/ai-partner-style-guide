@@ -4,7 +4,7 @@ import { useEffect, useRef, useState, type FormEvent } from "react";
 import { ArrowLeft, ArrowRight, Copy, Download, X } from "lucide-react";
 import {CardShare} from "./card-share.tsx";
 import {Turnstile} from "./turnstile.tsx";
-import {levelNames,levelDescriptions} from "../lib/usage-level.ts";
+import {levelDescriptions,nextStepFor} from "../lib/usage-level.ts";
 import { HoloCard } from "./holo-card.tsx";
 import { usePersonaSession } from "./use-persona-session.ts";
 import { collectorInstructions } from "../lib/collector-instructions.ts";
@@ -12,7 +12,7 @@ import {CollectorScopeOptions} from "./collector-scope-options.tsx";
 import {createCollectorScope,collectorScopeSchema,defaultScopeOptions,scopeOptionsSchema,SESSION_TTL_MS,formatScopeWindow,type CollectorScope} from "../lib/collector-scope.ts";
 import { makeLevelFixture, demoReport } from "../lib/fixture.ts";
 import { toCardObservation, type Report } from "../lib/assessment.ts";
-import { families, personas, personaFor, modelLabels, clientLabels, artCredit, artFor, artCounts, type ArtStyle, type Family } from "../lib/catalog.ts";
+import { families, personas, personaFor, modelLabels, clientLabels, artFor, artCounts, defaultFamily, type ArtStyle, type Family } from "../lib/catalog.ts";
 import { axisDefinitions, letterLabels, letterTips, contextLabels } from "../lib/workstyle.ts";
 import { downloadCard } from "../lib/export-card.ts";
 import { selfContrast } from "../lib/card-composition.ts";
@@ -27,6 +27,14 @@ function ReportSummary({report}:{report:Report}){
   const {t,locale}=useLocale();
   const count=(value:number|null)=>value===null?t("未知"):value.toLocaleString(locale);
   const list=(values:string[])=>values.join(locale.startsWith("zh")||locale==="ja"?"、":", ");
+  const {metrics}=report;
+  // Counts the collector never fills, and families it could not settle, stay hidden instead of reading "unknown" on every report.
+  const counts:[string,(number|null)[]][]=[["本人會話",[metrics.humanSessions]],["自動化 / 子代理",[metrics.automatedSessions,metrics.subagentSessions]],["本人訊息",[metrics.userMessages]],["輸入 / 輸出 tokens",[metrics.inputTokens,metrics.outputTokens]]];
+  const names:[string,string,Record<string,string>][]=[["最常用模型家族",metrics.mostUsedModelFamily,modelLabels],["最常用客戶端",metrics.mostUsedClient,clientLabels]];
+  const rows=[
+    ...counts.filter(([,values])=>values.some(value=>value!==null)).map(([label,values])=>[label,values.map(count).join(" / ")]),
+    ...names.filter(([,key])=>key!=="unknown").map(([label,key,labels])=>[label,t(labels[key])]),
+  ];
   return <>
     <details className="report-details"><summary>{t("打開完整觀察報告")}</summary><div className="report-content">
       <p className="report-period">{report.observedPeriod.from} — {report.observedPeriod.to}</p>
@@ -37,9 +45,9 @@ function ReportSummary({report}:{report:Report}){
         <p>{t(axis.value==="?"?axisDefinitions[i].prompt:letterTips[axis.value])}</p>
       </section>)}
       <h2>{t("這次看到了多少？")}</h2><p>{t("證據覆蓋：{scope}。抽樣 {count} 個會話；來源：{sources}。",{scope:t(report.coverage.scope==="adequate"?"涵蓋授權範圍":report.coverage.scope==="partial"?"部分資料":"資料不足"),count:count(report.coverage.sampledSessions),sources:list(report.coverage.sources.map(s=>t(clientLabels[s])))||t("尚未取得")})}</p>
-      <dl className="metrics-list">{[["本人會話",count(report.metrics.humanSessions)],["自動化 / 子代理",count(report.metrics.automatedSessions)+" / "+count(report.metrics.subagentSessions)],["本人訊息",count(report.metrics.userMessages)],["輸入 / 輸出 tokens",count(report.metrics.inputTokens)+" / "+count(report.metrics.outputTokens)],["最常用模型家族",t(modelLabels[report.metrics.mostUsedModelFamily])],["最常用客戶端",t(clientLabels[report.metrics.mostUsedClient])]].map(([label,value])=><div key={label}><dt>{t(label)}</dt><dd>{value}</dd></div>)}</dl>
+      {rows.length>0&&<dl className="metrics-list">{rows.map(([label,value])=><div key={label}><dt>{t(label)}</dt><dd>{value}</dd></div>)}</dl>}
       <details className="evidence-details"><summary>{t("看任務脈絡")}</summary>{report.tasks.map(task=><section className="task-evidence" key={task.id}><h3>{task.id} · {t(contextLabels[task.context])}</h3><p>{task.date} · {t(clientLabels[task.source])}</p></section>)}</details>
-      <h2>{t("還沒看到的部分")}</h2><p>{list(report.coverage.gaps.map(g=>t(gaps[g])))||t("沒有回報額外缺口；不代表已讀取所有紀錄。")} {t("網站只檢查 Agent 摘要的一致性，沒有檢視原始紀錄。")}</p>
+      <h2>{t("還沒看到的部分")}</h2><p>{report.coverage.gaps.length?list(report.coverage.gaps.map(g=>t(gaps[g])))+(locale.startsWith("zh")||locale==="ja"?"。":"."):t("沒有回報額外缺口；不代表已讀取所有紀錄。")} {t("網站只檢查 Agent 摘要的一致性，沒有檢視原始紀錄。")}</p>
       <p className="fineprint">{t(report.caveat)} {t("每軸只看你的訊息，每個任務選一邊；少於三個任務或打平就保留問號。用量與模型家族不參與分型。")}</p>
     </div></details>
   </>;
@@ -117,7 +125,7 @@ export function PersonaApp({turnstileSiteKey}:{turnstileSiteKey:string}) {
             return;
         received.current = result.id;
         if (!restoreStage.current)
-            setFamily(families.find(f => f.model === result.card.modelFamily)?.id ?? "codex");
+            setFamily(defaultFamily(result.card.modelFamily, result.report?.metrics.mostUsedClient));
         setStage("reveal");
         restoreStage.current = null;
         setNotice("");
@@ -302,7 +310,7 @@ export function PersonaApp({turnstileSiteKey}:{turnstileSiteKey:string}) {
       </section>}
       {stage === "reveal" && result && <section className="reveal-screen screen final-screen">
         <div className="final-card-area"><div className="reveal-art"><HoloCard report={card} style={style} family={family} nicknameOnly={nicknameOnly}/></div><div className="style-switch" aria-label={t("卡片畫風")}><button aria-pressed={style==="regular"} onClick={()=>setStyle("regular")}>{t("一般")}</button><button aria-pressed={style==="chibi"} onClick={()=>setStyle("chibi")}>{t("Q 版")}</button></div><p className="drag-hint"><span className="motion-hint">{t("拖曳卡片，看看另一道光")}</span><span className="reduced-hint">{t("已依偏好使用靜態卡面")}</span></p></div>
-        <div className="final-copy">{card.kind==="fixture"&&<p className="eyebrow">{t("示範資料 · 非個人評估")}</p>}<h1 tabIndex={-1}>{card.nickname}</h1><p className="final-subtitle">{t(personaFor(card.assessment.type).name)}</p>{selfContrast(card,t)&&<p className="self-contrast">{selfContrast(card,t)}</p>}<div className="brief-reading">{card.brief.map(line=><p key={line}>{t(line)}</p>)}</div>
+        <div className="final-copy">{card.kind==="fixture"&&<p className="eyebrow">{t("示範資料 · 非個人評估")}</p>}<h1 tabIndex={-1}>{card.nickname}</h1><p className="final-subtitle">{t(personaFor(card.assessment.type).name)}</p>{selfContrast(card,t)&&<p className="self-contrast">{selfContrast(card,t)}</p>}<div className="brief-reading">{card.brief.map(line=><p key={line}>{t(line)}</p>)}</div><p className="next-step"><b>{t("下一步")}</b><span>{t(nextStepFor(card.usageLevel))}</span></p>
         <div className="final-actions"><button className="primary" onClick={exportPng} disabled={exporting||!!card.assessment.type&&!artFor(family,card.assessment.type,style)}>{exporting?t("製作圖片中…"):t("下載我的角色卡")}<Download size={20}/></button><CardShare card={card} style={style} family={family} nicknameOnly={nicknameOnly} home={origin+"/"}/></div>
         <details className="card-options"><summary>{t("卡片選項")}</summary><div><label htmlFor="card-family">{t("卡面主題")}</label><select id="card-family" value={family} onChange={e=>setFamily(e.target.value as Family)}>{families.map(f=><option key={f.id} value={f.id}>{f.label}</option>)}</select><label className="check-field"><input type="checkbox" checked={nicknameOnly} onChange={e=>setNicknameOnly(e.target.checked)}/>{t("只顯示暱稱，隱藏分型")}</label><p>{t("此選項也會隱藏等級與短句。")}</p></div></details>
         {result.report&&<div className="inline-report"><ReportSummary report={result.report}/></div>}

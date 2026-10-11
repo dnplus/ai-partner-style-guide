@@ -536,6 +536,25 @@ test("sampling drops injected parts, automated sessions, duplicate openings, and
   rmSync(home, { recursive: true, force: true });
 });
 
+test("a long thread drops middle groups and keeps the opening and the last agent message", async () => {
+  const home = mkdtempSync(join(tmpdir(), "collector-long-thread-"));
+  const root = join(home, ".claude/projects/demo");
+  mkdirSync(root, { recursive: true });
+  const path = join(root, "long-thread.jsonl");
+  cpSync(join(fixture, "sampling/long-thread.jsonl"), path);
+  utimesSync(path, insideStamp, insideStamp);
+  const out = join(home, "digest.json");
+  const result = await run([
+    "scan", ...scanWindow, "--sources", "claude-code", "--tokscale", "off", "--out", out,
+  ], home, "", { COLLECTOR_SAMPLE_SEED: "7" });
+  assert.equal(result.status, 0, result.stderr);
+  const digest = JSON.parse(readFileSync(out, "utf8"));
+  assert.deepEqual(digest.candidates[0].turns.map((turn: { text: string }) => turn.text), [
+    "U0", "A1", "A2", "U3", "A6", "Shell", "A10", "U16", "A19", "Shell", "A22", "U29", "A30", "A43", "U47", "A49", "A63", "U74", "A88", "Shell", "A91", "U96", "A106", "Shell", "LAST",
+  ]);
+  rmSync(home, { recursive: true, force: true });
+});
+
 function tokenSummary() {
   return {
     version: "2.0",

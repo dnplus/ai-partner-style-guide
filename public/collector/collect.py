@@ -296,17 +296,23 @@ def choose_turns(turns):
         middle.append(group)
     last = [agent_messages[-1]]
     budget = TURN_BUDGET - len(first) - len(last)
-    kept = []
+    slots = 0
     if middle:
         average = max(1, round(sum(len(group) for group in middle) / len(middle)))
         slots = max(1, budget // average)
-        if slots >= len(middle):
-            kept = middle
-        else:
-            step = len(middle) / slots
-            kept = [middle[int(slot * step)] for slot in range(slots)]
-    chosen = sorted({index for group in [first, *kept, last] for index in group})
-    return [turns[index] for index in chosen][:TURN_BUDGET + 4]
+    while True:
+        kept = spaced(middle, slots)
+        chosen = sorted({index for group in [first, *kept, last] for index in group})
+        if len(chosen) <= TURN_BUDGET + 4 or not kept:
+            return [turns[index] for index in chosen]
+        slots = len(kept) - 1
+
+
+def spaced(groups, slots):
+    if slots >= len(groups):
+        return groups
+    step = len(groups) / max(slots, 1)
+    return [groups[int(slot * step)] for slot in range(slots)]
 
 
 def extend_turns(turns, role, content):

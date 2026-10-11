@@ -108,3 +108,5 @@ html[lang="en"] .art-grid .card-copy h2,html[lang="ko"] .art-grid .card-copy h2{
 @media(prefers-reduced-motion:reduce){.final-screen .holo-card{transform:none}.result-character-foil{display:none}}
 
 .sign-in{text-decoration:none}.start-consent{margin:24px 0;font-size:12px;line-height:1.8;color:#8a7698}.start-consent>p{margin-bottom:16px}.start-consent .check-field{color:#6f587e}.journey-identity .identity-art{height:180px;width:190px}
+.self-type-pick{display:flex;flex-direction:column;align-items:center;gap:8px;margin:26px auto 0;font-size:14px;color:#65527f}.self-type-pick select{border:1px solid #d8cbe5;border-radius:12px;background:#fcfaff;color:#4b315e;padding:10px 14px;font-size:14px;min-width:220px}.self-type-pick p{font-size:11px;color:#9b8ba8}.fixture-screen .self-type-pick{margin:0 auto 22px}.self-contrast{font:600 17px/1.6 var(--display);color:#5b3f86;margin-top:14px}
+@media(max-width:760px){.self-contrast{font-size:15px;margin-top:10px}.self-type-pick{font-size:13px}.self-type-pick select{font-size:13px}}

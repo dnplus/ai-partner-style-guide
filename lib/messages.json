@@ -2782,5 +2782,41 @@
     "選択を保存できませんでした。もう一度選んでください。",
     "선택을 저장하지 못했어요. 다시 골라 주세요.",
     "Couldn't save your pick. Please choose again."
+  ],
+  "你帶 Agent 時也是 {type}": [
+    "你带 Agent 时也是 {type}",
+    "Agent を導くときも {type}",
+    "Agent를 이끌 때도 {type}",
+    "Leading your Agent, you're {type} too"
+  ],
+  "你以為你是 {self}，帶 Agent 時是 {measured}": [
+    "你以为你是 {self}，带 Agent 时是 {measured}",
+    "自分は {self} だと思ってたけど、Agent を導くときは {measured}",
+    "스스로는 {self}라고 생각했지만, Agent를 이끌 때는 {measured}",
+    "You thought you were {self}. Leading your Agent, you're {measured}"
+  ],
+  "淡色＝傾向": [
+    "淡色＝倾向",
+    "薄い文字＝傾向",
+    "옅은 글자 = 경향",
+    "Faded = leaning"
+  ],
+  "你覺得自己是哪一型？": [
+    "你觉得自己是哪一型？",
+    "自分はどのタイプだと思う？",
+    "스스로는 어떤 유형이라고 생각하나요?",
+    "Which type do you think you are?"
+  ],
+  "不確定": [
+    "不确定",
+    "わからない",
+    "잘 모르겠어요",
+    "Not sure"
+  ],
+  "只拿來對照，不影響結果。": [
+    "只拿来对照，不影响结果。",
+    "見比べるだけで、結果には影響しません。",
+    "비교용일 뿐, 결과에는 영향을 주지 않아요.",
+    "Just for comparison. It never changes your result."
   ]
 }

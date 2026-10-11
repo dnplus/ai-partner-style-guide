@@ -2,7 +2,7 @@ import QRCode from 'qrcode';
 import {translator,type Locale} from './i18n.ts';
 import type {ArtStyle,Family} from './catalog.ts';
 import type {CardObservation} from './assessment.ts';
-import {cardComposition,cardSvg} from './card-composition.ts';
+import {cardComposition,cardSvg,measuredCode,selfContrast} from './card-composition.ts';
 import {QUIZ_HOME} from './site-config.ts';
 export const exportFormats={card:{width:1080,height:1620,label:'收藏卡'},feed:{width:1080,height:1350,label:'直式貼文'},story:{width:1080,height:1920,label:'限時尺寸'},square:{width:1080,height:1080,label:'正方形'},landscape:{width:1200,height:630,label:'橫式貼文'}} as const;
 export type ExportFormat=keyof typeof exportFormats;
@@ -39,5 +39,5 @@ export async function downloadCard(report:CardObservation,style:ArtStyle,family:
  const result=await makeCardFile(report,style,family,nicknameOnly,locale,format);saveCardFile(result.file);return {width:result.width,height:result.height,bytes:result.file.size,locale,filename:result.file.name};
 }
 export function shareText(report:CardObservation,nicknameOnly:boolean,locale:Locale='zh-TW',includeBrief=true){
- const t=translator(locale);return [t('你的 Agent MBTI'),report.nickname,...(nicknameOnly?[]:[report.assessment.type??t('未定型'),'LV '+(report.usageLevel.value??'?'),...(includeBrief?report.brief.map(line=>t(line)):[])]),QUIZ_HOME].join('\n');
+ const t=translator(locale);return [t('你的 Agent MBTI'),report.nickname,...(nicknameOnly?[]:[selfContrast(report,t)||measuredCode(report,t),'LV '+(report.usageLevel.value??'?'),...(includeBrief?report.brief.map(line=>t(line)):[])]),QUIZ_HOME].join('\n');
 }

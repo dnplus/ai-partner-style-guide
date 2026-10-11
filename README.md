@@ -8,7 +8,7 @@
 
 ## 本機使用
 
-專案位於 `/Users/dnplus/Documents/Codex/2026-10-10/task-2/ai-usage-card`。此 Air 使用 Node 26.7.0，已安裝依賴並套用 0000–0004 本機 D1 migration。執行 `npm start -- --port 5188` 開啟已建置的 Worker；網址 `http://127.0.0.1:5188`。不要同時啟動同 port 的 dev server。
+專案位於 `/Users/dnplus/Documents/Codex/2026-10-10/task-2/ai-usage-card`。此 Air 使用 Node 26.7.0，已安裝依賴並套用 0000–0005 本機 D1 migration。執行 `npm start -- --port 5188` 開啟已建置的 Worker；網址 `http://127.0.0.1:5188`。不要同時啟動同 port 的 dev server。
 
 全新 checkout 先執行 `npm run install:ci` 和 `npm run build`，再依序、僅一次套用尚未執行的 `drizzle/*.sql`：
 

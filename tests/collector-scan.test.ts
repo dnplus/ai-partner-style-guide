@@ -66,7 +66,7 @@ test("scan digest counts fixture logs, keeps agent turns, and drops secrets and 
     "--sources", "codex,claude-code,antigravity,cursor,other",
     "--tokscale", "off",
     "--out", out,
-  ], home, "");
+  ], home, "", { COLLECTOR_SAMPLE_SEED: "7" });
   assert.equal(result.status, 0, result.stderr);
   assert.equal(result.stdout.includes("ada@example.com"), false);
   assert.match(result.stdout, /candidates=6\nfiles_read=8\ncandidates_by_client codex=1 claude-code=1 antigravity=0 cursor=1 other=3\n/);
@@ -94,8 +94,8 @@ test("scan digest counts fixture logs, keeps agent turns, and drops secrets and 
     mostUsedClient: "unknown",
   });
   assert.equal(digest.candidates.length, 6);
-  assert.deepEqual(digest.candidates[2], {
-    ref: "C03",
+  assert.deepEqual(digest.candidates[4], {
+    ref: "C05",
     client: "claude-code",
     date: "2026-10-03",
     turns: [
@@ -104,19 +104,19 @@ test("scan digest counts fixture logs, keeps agent turns, and drops secrets and 
       { n: 3, role: "agent", kind: "message", text: "Shipped the patch after checking the failing test." },
     ],
   });
-  assert.deepEqual(digest.candidates[0].turns[3], { n: 4, role: "agent", kind: "tool", text: "Shell" });
+  assert.deepEqual(digest.candidates[2].turns[3], { n: 4, role: "agent", kind: "tool", text: "Shell" });
   assert.deepEqual(digest.candidates.map((candidate: { ref: string; client: string }) => [candidate.ref, candidate.client]), [
-    ["C01", "cursor"],
+    ["C01", "other"],
     ["C02", "other"],
-    ["C03", "claude-code"],
+    ["C03", "cursor"],
     ["C04", "codex"],
-    ["C05", "other"],
+    ["C05", "claude-code"],
     ["C06", "other"],
   ]);
-  assert.equal(digest.candidates[1].turns[0].text, "Grok user one");
+  assert.equal(digest.candidates[0].turns[0].text, "Hermes user one");
+  assert.equal(digest.candidates[1].turns[0].text, "OpenCode user one");
   assert.equal(digest.candidates[3].turns[0].text, "Codex user one");
-  assert.equal(digest.candidates[4].turns[0].text, "Hermes user one");
-  assert.equal(digest.candidates[5].turns[0].text, "OpenCode user one");
+  assert.equal(digest.candidates[5].turns[0].text, "Grok user one");
   for (const candidate of digest.candidates) assert.equal(candidate.turns.some((turn: { role: string }) => turn.role === "agent"), true);
   const raw = readFileSync(out, "utf8");
   for (const secret of ["ada@example.com", "/Users/ada", "abcdefghijklmnop", "https://example.com", "This line is outside the window.", "Codex outside", "OpenCode outside", "Hermes outside", "Stale mtime", "Linked user", "Untimed cursor", "Subagent user"]) {
@@ -350,7 +350,7 @@ test("a spent budget stops before the remaining files are read", async () => {
   const out = join(home, "digest.json");
   const result = await run([
     "scan", ...scanWindow, "--sources", "claude-code", "--tokscale", "off", "--budget-seconds", "20", "--out", out,
-  ], home, "", { COLLECTOR_FAKE_ELAPSED: "0,100" });
+  ], home, "", { COLLECTOR_FAKE_ELAPSED: "0,100", COLLECTOR_SAMPLE_SEED: "7" });
   assert.equal(result.status, 0, result.stderr);
   assert.match(result.stdout, /candidates=1\nfiles_read=1\ncandidates_by_client claude-code=1\n/);
   const digest = JSON.parse(readFileSync(out, "utf8"));
@@ -358,49 +358,58 @@ test("a spent budget stops before the remaining files are read", async () => {
   assert.equal(digest.coverage.sampledSessions, 1);
   assert.equal(digest.metrics.humanSessions, null);
   assert.equal(digest.metrics.userMessages, null);
-  assert.equal(digest.candidates[0].turns[0].text, "Budget a one");
+  assert.equal(digest.candidates[0].turns[0].text, "Budget c one");
   const raw = readFileSync(out, "utf8");
+  assert.equal(raw.includes("Budget a"), false);
   assert.equal(raw.includes("Budget b"), false);
-  assert.equal(raw.includes("Budget c"), false);
   rmSync(home, { recursive: true, force: true });
 });
 
-test("a file read stops at 2 MB and leaves the tail out of the digest", async () => {
+test("a log larger than 2 MB keeps the tail agent message and drops the middle", async () => {
   const home = mkdtempSync(join(tmpdir(), "collector-cap-"));
   const root = join(home, ".claude/projects/demo");
   mkdirSync(root, { recursive: true });
-  const small = join(root, "small.jsonl");
-  claudeLog(small, "Small file user");
-  utimesSync(small, insideStamp, insideStamp);
-  const pad = '{"type":"user","timestamp":"2026-10-03T02:00:00Z","origin":{"kind":"human"},"message":{"role":"user","content":"pad"}}\n';
-  const tail = [
-    '{"type":"user","timestamp":"2026-10-04T02:00:00Z","origin":{"kind":"human"},"message":{"role":"user","content":"UNIQUE_TAIL_MARKER one"}}',
-    '{"type":"user","timestamp":"2026-10-04T03:00:00Z","origin":{"kind":"human"},"message":{"role":"user","content":"UNIQUE_TAIL_MARKER two"}}',
-    '{"type":"assistant","timestamp":"2026-10-04T03:05:00Z","message":{"role":"assistant","content":"UNIQUE_TAIL_MARKER agent"}}',
-    "",
-  ].join("\n");
+  const tail = readFileSync(join(fixture, "sampling/tail.jsonl"));
+  const pad = Buffer.from("x".repeat(1024) + "\n");
+  const middle = Buffer.from('{"type":"user","timestamp":"2026-10-03T02:00:00Z","origin":{"kind":"human"},"message":{"role":"user","content":"UNIQUE_MIDDLE_MARKER"}}\n');
+  const chunks: Buffer[] = [];
+  let size = 0;
+  while (size < 1_200_000) {
+    chunks.push(pad);
+    size += pad.length;
+  }
+  chunks.push(middle);
+  size += middle.length;
+  while (size < 2_500_000) {
+    chunks.push(pad);
+    size += pad.length;
+  }
+  chunks.push(tail);
   const big = join(root, "big.jsonl");
-  writeFileSync(big, pad.repeat(Math.ceil((2 * 1024 * 1024 + 1) / pad.length)) + tail);
+  writeFileSync(big, Buffer.concat(chunks));
   assert.equal(statSync(big).size > 2 * 1024 * 1024, true);
-  const later = new Date("2026-10-04T04:00:00Z");
-  utimesSync(big, later, later);
+  utimesSync(big, insideStamp, insideStamp);
   const out = join(home, "digest.json");
   const result = await run([
     "scan", ...scanWindow, "--sources", "claude-code", "--tokscale", "off", "--out", out,
-  ], home, "");
+  ], home, "", { COLLECTOR_SAMPLE_SEED: "7" });
   assert.equal(result.status, 0, result.stderr);
-  assert.match(result.stdout, /candidates=1\nfiles_read=2\ncandidates_by_client claude-code=1\n/);
+  assert.match(result.stdout, /candidates=1\nfiles_read=1\ncandidates_by_client claude-code=1\n/);
   const digest = JSON.parse(readFileSync(out, "utf8"));
-  assert.equal(digest.coverage.scope, "partial");
-  assert.equal(digest.coverage.sampledSessions, 2);
+  assert.equal(digest.coverage.sampledSessions, 1);
   assert.equal(digest.metrics.humanSessions, null);
-  assert.equal(digest.candidates.length, 1);
-  assert.equal(digest.candidates[0].turns[0].text, "Small file user one");
-  assert.equal(readFileSync(out, "utf8").includes("UNIQUE_TAIL_MARKER"), false);
+  assert.deepEqual(digest.candidates[0].turns, [
+    { n: 1, role: "user", kind: "message", text: "Tail user one" },
+    { n: 2, role: "user", kind: "message", text: "Tail user two" },
+    { n: 3, role: "agent", kind: "message", text: "Tail agent beyond the first megabyte" },
+  ]);
+  const raw = readFileSync(out, "utf8");
+  assert.equal(raw.includes("UNIQUE_MIDDLE_MARKER"), false);
+  assert.equal(raw.includes("Tail agent beyond the first megabyte"), true);
   rmSync(home, { recursive: true, force: true });
 });
 
-test("sampling spreads chosen files across more than one week and client", async () => {
+test("sampling reads the listed files in seeded random order", async () => {
   const home = mkdtempSync(join(tmpdir(), "collector-spread-"));
   const claudeRoot = join(home, ".claude/projects/demo");
   const codexRoot = join(home, ".codex/sessions/2026/10");
@@ -421,20 +430,109 @@ test("sampling spreads chosen files across more than one week and client", async
   const out = join(home, "digest.json");
   const result = await run([
     "scan", ...scanWindow, "--sources", "claude-code,codex", "--tokscale", "off", "--out", out,
-  ], home, "");
+  ], home, "", { COLLECTOR_SAMPLE_SEED: "7" });
   assert.equal(result.status, 0, result.stderr);
   const digest = JSON.parse(readFileSync(out, "utf8"));
   assert.deepEqual(digest.candidates.map((candidate: { client: string; turns: { text: string }[] }) => [candidate.client, candidate.turns[0].text]), [
-    ["claude-code", "Week forty claude one"],
-    ["claude-code", "Week forty one claude one"],
-    ["codex", "Week forty codex one"],
     ["codex", "Week forty one codex one"],
+    ["claude-code", "Week forty one claude one"],
+    ["claude-code", "Week forty claude one"],
+    ["codex", "Week forty codex one"],
   ]);
   assert.equal(digest.coverage.sampledSessions, 4);
   assert.equal(digest.metrics.humanSessions, null);
   assert.equal(digest.metrics.automatedSessions, null);
   assert.equal(digest.metrics.subagentSessions, null);
   assert.equal(digest.metrics.userMessages, null);
+  rmSync(home, { recursive: true, force: true });
+});
+
+test("sampling drops injected parts, automated sessions, duplicate openings, and tool-only sessions", async () => {
+  const home = mkdtempSync(join(tmpdir(), "collector-sample-rules-"));
+  const claudeRoot = join(home, ".claude/projects/demo");
+  const codexRoot = join(home, ".codex/sessions/2026/10/03");
+  mkdirSync(claudeRoot, { recursive: true });
+  mkdirSync(codexRoot, { recursive: true });
+  const sampling = join(fixture, "sampling");
+  for (const name of [
+    "automation.jsonl",
+    "contract-review.jsonl",
+    "dup-alpha.jsonl",
+    "dup-beta.jsonl",
+    "injected.jsonl",
+    "kbctl.jsonl",
+    "tool-run.jsonl",
+    "tools-only.jsonl",
+    "turning-points.jsonl",
+  ]) {
+    const path = join(claudeRoot, name);
+    cpSync(join(sampling, name), path);
+    utimesSync(path, insideStamp, insideStamp);
+  }
+  const codexPath = join(codexRoot, "tools.jsonl");
+  cpSync(join(sampling, "codex-tools.jsonl"), codexPath);
+  utimesSync(codexPath, insideStamp, insideStamp);
+  const out = join(home, "digest.json");
+  const result = await run([
+    "scan", ...scanWindow, "--sources", "claude-code,codex", "--tokscale", "off", "--out", out,
+  ], home, "", { COLLECTOR_SAMPLE_SEED: "7" });
+  assert.equal(result.status, 0, result.stderr);
+  assert.match(result.stdout, /candidates=6\nfiles_read=10\ncandidates_by_client claude-code=5 codex=1\n/);
+  const digest = JSON.parse(readFileSync(out, "utf8"));
+  const prefix = "Duplicate opening " + "A".repeat(102);
+  assert.deepEqual(digest.candidates.map((candidate: { client: string; turns: { text: string }[] }) => [candidate.client, candidate.turns[0].text]), [
+    ["claude-code", "U00"],
+    ["claude-code", prefix + " BETA"],
+    ["claude-code", "Please review the contract"],
+    ["claude-code", "Visible request one"],
+    ["codex", "Codex tools user one"],
+    ["claude-code", "Tool run user one"],
+  ]);
+  assert.deepEqual(digest.candidates[1].turns, [
+    { n: 1, role: "user", kind: "message", text: prefix + " BETA" },
+    { n: 2, role: "user", kind: "message", text: "Beta follow up" },
+    { n: 3, role: "agent", kind: "message", text: "Beta agent" },
+  ]);
+  assert.deepEqual(digest.candidates[3].turns, [
+    { n: 1, role: "user", kind: "message", text: "Visible request one" },
+    { n: 2, role: "user", kind: "message", text: "Visible request two" },
+    { n: 3, role: "agent", kind: "message", text: "Visible agent reply" },
+  ]);
+  assert.deepEqual(digest.candidates[4].turns, [
+    { n: 1, role: "user", kind: "message", text: "Codex tools user one" },
+    { n: 2, role: "agent", kind: "message", text: "Codex tools agent one" },
+    { n: 3, role: "agent", kind: "tool", text: "shell, apply_patch x2" },
+    { n: 4, role: "user", kind: "message", text: "Codex tools user two" },
+    { n: 5, role: "agent", kind: "message", text: "Codex tools agent two" },
+  ]);
+  assert.deepEqual(digest.candidates[5].turns, [
+    { n: 1, role: "user", kind: "message", text: "Tool run user one" },
+    { n: 2, role: "agent", kind: "message", text: "Tool run agent one" },
+    { n: 3, role: "agent", kind: "tool", text: "Shell, Read, Grep, Web (+1) x7" },
+    { n: 4, role: "user", kind: "message", text: "Tool run user two" },
+    { n: 5, role: "agent", kind: "message", text: "Tool run agent two" },
+  ]);
+  assert.deepEqual(digest.candidates[0].turns.map((turn: { text: string }) => turn.text), [
+    "U00", "A00", "U01", "A01", "A04", "U05", "A05", "A08", "U09", "A09", "A12", "U13", "A13", "A16", "U17", "A17", "A20", "U21", "A21", "A24", "U25", "A25", "A29",
+  ]);
+  const raw = readFileSync(out, "utf8");
+  for (const hidden of [
+    "hidden context",
+    "hidden reminder",
+    "hidden notice",
+    "hidden rules",
+    "hidden tabs",
+    "hidden list",
+    "Request interrupted",
+    "Automation follow up",
+    "Kbctl follow up",
+    "Alpha follow up",
+    "Tools only user one",
+    "U02",
+    "U29",
+  ]) {
+    assert.equal(raw.includes(hidden), false, hidden);
+  }
   rmSync(home, { recursive: true, force: true });
 });
 

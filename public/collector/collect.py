@@ -4,6 +4,7 @@
 import argparse
 import json
 import os
+import random
 import re
 import shutil
 import signal
@@ -58,10 +59,14 @@ PATH_RE = re.compile(r"/Users/\S+")
 SPACE_RE = re.compile(r"\s+")
 TOKEN_RE = re.compile(r"^[0-9a-f]{64}$")
 SESSION_RE = re.compile(r"^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$")
-BYTE_CAP = 2 * 1024 * 1024
+READ_HALF = 1024 * 1024
+BYTE_CAP = 2 * READ_HALF
 ROW_CAP = 4096
 CANDIDATE_CAP = 24
-TURN_CAP = 80
+TURN_CAP = 600
+TURN_BUDGET = 24
+INJECT_RE = re.compile(r"^\s*(<[A-Za-z][\w\-]*[\s>/]|#\s*AGENTS\.md|# (Browser|Files)\b|\[Request interrupted)")
+TEMPLATE_RE = re.compile(r"\b(Task|Automation|Job|Run|Contract) ID:|kbctl work contract", re.I)
 
 
 def fail(message):
@@ -84,11 +89,6 @@ def parse_time(value):
 
 def local_day(moment, zone):
     return moment.astimezone(zone).strftime("%Y-%m-%d")
-
-
-def iso_week(day):
-    year, week, _ = datetime.fromisoformat(day).isocalendar()
-    return f"{year}-W{week:02d}"
 
 
 def family(model):
@@ -119,7 +119,7 @@ def redact(text):
     return SPACE_RE.sub(" ", cleaned).strip()[:200]
 
 
-def blocks(content):
+def blocks(content, role=None):
     messages = []
     tools = []
     if isinstance(content, str):
@@ -135,6 +135,8 @@ def blocks(content):
                     messages.append(part["text"])
     elif isinstance(content, dict) and isinstance(content.get("text"), str):
         messages.append(content["text"])
+    if role == "user":
+        messages = [message for message in messages if not INJECT_RE.match(message)]
     turns = []
     message = redact("\n".join(messages))
     if message:
@@ -178,24 +180,25 @@ def blank(truncated=False):
 
 
 def capped_bytes(path, size):
-    truncated = size > BYTE_CAP
     try:
         handle = open_file(path)
     except OSError:
-        return None, truncated
-    blob = bytearray()
-    remaining = BYTE_CAP
+        return None
     with handle:
-        while remaining > 0:
-            block = handle.read(min(65536, remaining))
-            if not block:
-                break
-            blob.extend(block)
-            remaining -= len(block)
-    if truncated:
-        newline = blob.rfind(b"\n")
-        blob = blob[:newline] if newline >= 0 else bytearray()
-    return bytes(blob), truncated
+        if size <= BYTE_CAP:
+            return handle.read()
+        head = handle.read(READ_HALF)
+        handle.seek(size - READ_HALF)
+        tail = handle.read(READ_HALF)
+    if b"\n" in head:
+        head = head[:head.rfind(b"\n")]
+    else:
+        head = b""
+    if b"\n" in tail:
+        tail = tail[tail.find(b"\n") + 1:]
+    else:
+        tail = b""
+    return head + b"\n" + tail
 
 
 def objects_from(blob):
@@ -217,29 +220,99 @@ def note_user_day(day, moment, zone):
 
 
 def pack(client, day, turns):
-    human = sum(1 for role, kind, _text in turns if role == "user" and kind == "message")
-    if human < 2 or day is None or not any(role == "agent" for role, _kind, _text in turns):
+    users = [text for role, kind, text in turns if role == "user" and kind == "message"]
+    agent_message = any(role == "agent" and kind == "message" for role, kind, _text in turns)
+    if len(users) < 2 or day is None or not agent_message:
+        return None
+    if TEMPLATE_RE.search(users[0]):
         return None
     chosen = choose_turns(turns)
     if not chosen:
         return None
-    return {"client": client, "day": day, "turns": chosen}
+    return {"client": client, "day": day, "turns": chosen, "key": users[0][:120]}
+
+
+def collapse(turns):
+    grouped = []
+    for role, kind, text in turns:
+        if kind == "tool" and grouped and grouped[-1][1] == "tool" and grouped[-1][0] == role:
+            grouped[-1][3].append(text)
+        else:
+            grouped.append([role, kind, text, [text] if kind == "tool" else None])
+    result = []
+    for role, kind, text, names in grouped:
+        if kind == "tool":
+            unique = list(dict.fromkeys(names))
+            text = ", ".join(unique[:4])
+            if len(unique) > 4:
+                text += f" (+{len(unique) - 4})"
+            if len(names) > 1:
+                text += f" x{len(names)}"
+        result.append((role, kind, text))
+    return result
 
 
 def choose_turns(turns):
-    limited = turns[:TURN_CAP]
-    for index in range(len(limited)):
-        chunk = limited[index:index + 12]
-        roles = {turn[0] for turn in chunk}
-        if "user" in roles and "agent" in roles:
-            return chunk
-    return []
+    turns = collapse(turns)
+    count = len(turns)
+    users = [index for index, turn in enumerate(turns) if turn[0] == "user" and turn[1] == "message"]
+    agent_messages = [index for index, turn in enumerate(turns) if turn[0] == "agent" and turn[1] == "message"]
+    if not users or not agent_messages:
+        return []
+
+    def after(index):
+        for agent in agent_messages:
+            if agent > index:
+                return agent
+        return None
+
+    def before(index):
+        found = None
+        for agent in agent_messages:
+            if agent < index:
+                found = agent
+        return found
+
+    def with_tool(index):
+        picked = [index]
+        if index + 1 < count and turns[index + 1][1] == "tool":
+            picked.append(index + 1)
+        return picked
+
+    first = [users[0]]
+    opening = after(users[0])
+    if opening is not None:
+        first += with_tool(opening)
+    middle = []
+    for user in users[1:]:
+        group = []
+        earlier = before(user)
+        if earlier is not None:
+            group.append(earlier)
+        group.append(user)
+        later = after(user)
+        if later is not None:
+            group += with_tool(later)
+        middle.append(group)
+    last = [agent_messages[-1]]
+    budget = TURN_BUDGET - len(first) - len(last)
+    kept = []
+    if middle:
+        average = max(1, round(sum(len(group) for group in middle) / len(middle)))
+        slots = max(1, budget // average)
+        if slots >= len(middle):
+            kept = middle
+        else:
+            step = len(middle) / slots
+            kept = [middle[int(slot * step)] for slot in range(slots)]
+    chosen = sorted({index for group in [first, *kept, last] for index in group})
+    return [turns[index] for index in chosen][:TURN_BUDGET + 4]
 
 
 def extend_turns(turns, role, content):
     if len(turns) >= TURN_CAP:
         return False
-    for kind, text in blocks(content):
+    for kind, text in blocks(content, role):
         turns.append((role, kind, text))
         if len(turns) >= TURN_CAP:
             return False
@@ -268,8 +341,8 @@ def message_moment(obj):
 
 
 def read_claude(item, start, stop, zone):
-    blob, truncated = capped_bytes(item["path"], item["size"])
-    result = blank(truncated)
+    blob = capped_bytes(item["path"], item["size"])
+    result = blank()
     if blob is None:
         return result
     result["opened"] = True
@@ -306,8 +379,8 @@ def codex_subagent(payload):
 
 
 def read_codex(item, start, stop, zone):
-    blob, truncated = capped_bytes(item["path"], item["size"])
-    result = blank(truncated)
+    blob = capped_bytes(item["path"], item["size"])
+    result = blank()
     if blob is None:
         return result
     result["opened"] = True
@@ -338,6 +411,9 @@ def read_codex(item, start, stop, zone):
             extend_turns(turns, "user", payload.get("content"))
             if any(turn_role == "user" and kind == "message" for turn_role, kind, _text in turns[before:]):
                 day = note_user_day(day, moment, zone)
+        elif ptype in {"function_call", "custom_tool_call"}:
+            if len(turns) < TURN_CAP:
+                turns.append(("agent", "tool", redact(str(payload.get("name") or "tool"))))
         elif ptype == "agent_message" or (ptype == "message" and role == "assistant") or ptype in TOOL_TYPES:
             extend_turns(turns, "agent", payload.get("content"))
         if len(turns) >= TURN_CAP:
@@ -350,8 +426,8 @@ def read_codex(item, start, stop, zone):
 
 
 def read_cursor(item, start, stop, zone):
-    blob, truncated = capped_bytes(item["path"], item["size"])
-    result = blank(truncated)
+    blob = capped_bytes(item["path"], item["size"])
+    result = blank()
     if blob is None:
         return result
     result["opened"] = True
@@ -413,11 +489,10 @@ def grok_bounds(turns):
 
 def read_grok(item, start, stop, zone):
     result = blank()
-    blob, truncated = capped_bytes(item["path"], item["size"])
+    blob = capped_bytes(item["path"], item["size"])
     if blob is None:
         return result
     result["opened"] = True
-    result["truncated"] = truncated
     usage_path = os.path.join(os.path.dirname(item["path"]), "usage.json")
     try:
         with open_file(usage_path) as handle:
@@ -610,7 +685,7 @@ def directory_exists(path):
     return os.path.isdir(path) and not os.path.islink(path)
 
 
-def add_file(files, client, kind, path, start, stop, zone):
+def add_file(files, client, kind, path, start, stop):
     if os.path.islink(path):
         return
     try:
@@ -621,14 +696,12 @@ def add_file(files, client, kind, path, start, stop, zone):
         return
     if not (start.timestamp() <= info.st_mtime < stop.timestamp()):
         return
-    moment = datetime.fromtimestamp(info.st_mtime, timezone.utc)
     files.append({
         "client": client,
         "kind": kind,
         "path": path,
         "mtime": info.st_mtime,
         "birth": file_birth(info),
-        "week": iso_week(local_day(moment, zone)),
         "size": info.st_size,
     })
 
@@ -645,7 +718,7 @@ def walk_files(root):
             yield directory, name, path
 
 
-def list_jsonl(root, client, kind, start, stop, zone, files, marker=None):
+def list_jsonl(root, client, kind, start, stop, files, marker=None):
     if not directory_exists(root):
         return False
     for _directory, name, path in walk_files(root):
@@ -656,44 +729,44 @@ def list_jsonl(root, client, kind, start, stop, zone, files, marker=None):
             continue
         if marker is not None and marker not in parts:
             continue
-        add_file(files, client, kind, path, start, stop, zone)
+        add_file(files, client, kind, path, start, stop)
     return True
 
 
-def list_grok(home, start, stop, zone, files):
+def list_grok(home, start, stop, files):
     root = os.path.join(home, ".grok", "sessions")
     if not directory_exists(root):
         return False
     for _directory, name, path in walk_files(root):
         if name == "chat_history.jsonl":
-            add_file(files, "other", "grok", path, start, stop, zone)
+            add_file(files, "other", "grok", path, start, stop)
     return True
 
 
-def list_db(path, client, kind, start, stop, zone, files):
+def list_db(path, client, kind, start, stop, files):
     if not os.path.isfile(path) or os.path.islink(path):
         return False
-    add_file(files, client, kind, path, start, stop, zone)
+    add_file(files, client, kind, path, start, stop)
     return True
 
 
-def list_files(home, sources, start, stop, zone, gaps):
+def list_files(home, sources, start, stop, gaps):
     files = []
-    if "claude-code" in sources and not list_jsonl(os.path.join(home, ".claude", "projects"), "claude-code", "claude", start, stop, zone, files):
+    if "claude-code" in sources and not list_jsonl(os.path.join(home, ".claude", "projects"), "claude-code", "claude", start, stop, files):
         gaps.add("other_sources_missing")
     if "codex" in sources:
         roots = [os.path.join(home, ".codex", "sessions"), os.path.join(home, ".codex", "archived_sessions")]
         found = False
         for root in roots:
-            found = list_jsonl(root, "codex", "codex", start, stop, zone, files) or found
+            found = list_jsonl(root, "codex", "codex", start, stop, files) or found
         if not found:
             gaps.add("other_sources_missing")
-    if "cursor" in sources and not list_jsonl(os.path.join(home, ".cursor", "projects"), "cursor", "cursor", start, stop, zone, files, "agent-transcripts"):
+    if "cursor" in sources and not list_jsonl(os.path.join(home, ".cursor", "projects"), "cursor", "cursor", start, stop, files, "agent-transcripts"):
         gaps.add("other_sources_missing")
     if "other" in sources:
-        found = list_grok(home, start, stop, zone, files)
-        found = list_db(os.path.join(home, ".local", "share", "opencode", "opencode.db"), "other", "opencode", start, stop, zone, files) or found
-        found = list_db(os.path.join(home, ".hermes", "state.db"), "other", "hermes", start, stop, zone, files) or found
+        found = list_grok(home, start, stop, files)
+        found = list_db(os.path.join(home, ".local", "share", "opencode", "opencode.db"), "other", "opencode", start, stop, files) or found
+        found = list_db(os.path.join(home, ".hermes", "state.db"), "other", "hermes", start, stop, files) or found
         if not found:
             gaps.add("other_sources_missing")
     if "antigravity" in sources or "chatgpt" in sources:
@@ -701,25 +774,19 @@ def list_files(home, sources, start, stop, zone, gaps):
     return files
 
 
-def round_robin(files):
-    grouped = defaultdict(list)
-    for item in files:
-        grouped[(item["client"], item["week"])].append(item)
-    for bucket in grouped.values():
-        bucket.sort(key=lambda item: (item["mtime"], item["path"]))
-    keys = sorted(grouped)
-    cursors = {key: 0 for key in keys}
-    while True:
-        moved = False
-        for key in keys:
-            index = cursors[key]
-            if index >= len(grouped[key]):
-                continue
-            cursors[key] = index + 1
-            yield grouped[key][index]
-            moved = True
-        if not moved:
-            return
+def sample_order(files):
+    order = sorted(files, key=lambda item: item["path"])
+    raw = os.environ.get("COLLECTOR_SAMPLE_SEED", "").strip()
+    if raw:
+        try:
+            seed = int(raw)
+        except ValueError:
+            fail("invalid_sample_seed")
+        rng = random.Random(seed)
+    else:
+        rng = random.Random()
+    rng.shuffle(order)
+    return order
 
 
 def budget_elapsed():
@@ -752,7 +819,8 @@ def sample_files(files, start, stop, zone, budget):
     gaps = set()
     files_read = 0
     short = False
-    for item in round_robin(files):
+    seen = set()
+    for item in sample_order(files):
         if len(samples) >= CANDIDATE_CAP:
             break
         if elapsed() >= budget:
@@ -766,6 +834,9 @@ def sample_files(files, start, stop, zone, budget):
         days.update(result["days"])
         gaps.update(result["gaps"])
         for sample in result["samples"]:
+            if sample["key"] in seen:
+                continue
+            seen.add(sample["key"])
             samples.append(sample)
             if len(samples) >= CANDIDATE_CAP:
                 break
@@ -1101,7 +1172,7 @@ def apply_tokens(summary, tokens):
 
 def build_digest(home, sources, start, stop, zone, window_from, window_to, zone_name, budget):
     gaps = {"web_history_unavailable", "no_artifact_inspection"}
-    files = list_files(home, sources, start, stop, zone, gaps)
+    files = list_files(home, sources, start, stop, gaps)
     samples, files_read, days, sample_gaps, short = sample_files(files, start, stop, zone, budget)
     gaps.update(sample_gaps)
     tokens = tokscale_empty(0)

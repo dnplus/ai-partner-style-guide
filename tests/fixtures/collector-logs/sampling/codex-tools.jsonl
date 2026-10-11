@@ -1,0 +1,7 @@
+{"timestamp": "2026-10-03T02:00:00Z", "type": "session_meta", "payload": {"source": "vscode"}}
+{"timestamp": "2026-10-03T02:00:00Z", "type": "response_item", "payload": {"type": "message", "role": "user", "content": [{"type": "text", "text": "Codex tools user one"}]}}
+{"timestamp": "2026-10-03T02:05:00Z", "type": "response_item", "payload": {"type": "agent_message", "content": [{"type": "text", "text": "Codex tools agent one"}]}}
+{"timestamp": "2026-10-03T02:10:00Z", "type": "response_item", "payload": {"type": "function_call", "name": "shell", "arguments": "{}"}}
+{"timestamp": "2026-10-03T02:11:00Z", "type": "response_item", "payload": {"type": "custom_tool_call", "name": "apply_patch", "input": "patch"}}
+{"timestamp": "2026-10-03T03:00:00Z", "type": "response_item", "payload": {"type": "message", "role": "user", "content": [{"type": "text", "text": "Codex tools user two"}]}}
+{"timestamp": "2026-10-03T03:05:00Z", "type": "response_item", "payload": {"type": "agent_message", "content": [{"type": "text", "text": "Codex tools agent two"}]}}

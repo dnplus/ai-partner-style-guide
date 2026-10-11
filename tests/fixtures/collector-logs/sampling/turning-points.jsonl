@@ -1,0 +1,60 @@
+{"type": "user", "timestamp": "2026-10-03T02:00:00Z", "origin": {"kind": "human"}, "message": {"role": "user", "content": "U00"}}
+{"type": "assistant", "timestamp": "2026-10-03T02:00:30Z", "message": {"role": "assistant", "content": "A00"}}
+{"type": "user", "timestamp": "2026-10-03T02:01:00Z", "origin": {"kind": "human"}, "message": {"role": "user", "content": "U01"}}
+{"type": "assistant", "timestamp": "2026-10-03T02:01:30Z", "message": {"role": "assistant", "content": "A01"}}
+{"type": "user", "timestamp": "2026-10-03T02:02:00Z", "origin": {"kind": "human"}, "message": {"role": "user", "content": "U02"}}
+{"type": "assistant", "timestamp": "2026-10-03T02:02:30Z", "message": {"role": "assistant", "content": "A02"}}
+{"type": "user", "timestamp": "2026-10-03T02:03:00Z", "origin": {"kind": "human"}, "message": {"role": "user", "content": "U03"}}
+{"type": "assistant", "timestamp": "2026-10-03T02:03:30Z", "message": {"role": "assistant", "content": "A03"}}
+{"type": "user", "timestamp": "2026-10-03T02:04:00Z", "origin": {"kind": "human"}, "message": {"role": "user", "content": "U04"}}
+{"type": "assistant", "timestamp": "2026-10-03T02:04:30Z", "message": {"role": "assistant", "content": "A04"}}
+{"type": "user", "timestamp": "2026-10-03T02:05:00Z", "origin": {"kind": "human"}, "message": {"role": "user", "content": "U05"}}
+{"type": "assistant", "timestamp": "2026-10-03T02:05:30Z", "message": {"role": "assistant", "content": "A05"}}
+{"type": "user", "timestamp": "2026-10-03T02:06:00Z", "origin": {"kind": "human"}, "message": {"role": "user", "content": "U06"}}
+{"type": "assistant", "timestamp": "2026-10-03T02:06:30Z", "message": {"role": "assistant", "content": "A06"}}
+{"type": "user", "timestamp": "2026-10-03T02:07:00Z", "origin": {"kind": "human"}, "message": {"role": "user", "content": "U07"}}
+{"type": "assistant", "timestamp": "2026-10-03T02:07:30Z", "message": {"role": "assistant", "content": "A07"}}
+{"type": "user", "timestamp": "2026-10-03T02:08:00Z", "origin": {"kind": "human"}, "message": {"role": "user", "content": "U08"}}
+{"type": "assistant", "timestamp": "2026-10-03T02:08:30Z", "message": {"role": "assistant", "content": "A08"}}
+{"type": "user", "timestamp": "2026-10-03T02:09:00Z", "origin": {"kind": "human"}, "message": {"role": "user", "content": "U09"}}
+{"type": "assistant", "timestamp": "2026-10-03T02:09:30Z", "message": {"role": "assistant", "content": "A09"}}
+{"type": "user", "timestamp": "2026-10-03T02:10:00Z", "origin": {"kind": "human"}, "message": {"role": "user", "content": "U10"}}
+{"type": "assistant", "timestamp": "2026-10-03T02:10:30Z", "message": {"role": "assistant", "content": "A10"}}
+{"type": "user", "timestamp": "2026-10-03T02:11:00Z", "origin": {"kind": "human"}, "message": {"role": "user", "content": "U11"}}
+{"type": "assistant", "timestamp": "2026-10-03T02:11:30Z", "message": {"role": "assistant", "content": "A11"}}
+{"type": "user", "timestamp": "2026-10-03T02:12:00Z", "origin": {"kind": "human"}, "message": {"role": "user", "content": "U12"}}
+{"type": "assistant", "timestamp": "2026-10-03T02:12:30Z", "message": {"role": "assistant", "content": "A12"}}
+{"type": "user", "timestamp": "2026-10-03T02:13:00Z", "origin": {"kind": "human"}, "message": {"role": "user", "content": "U13"}}
+{"type": "assistant", "timestamp": "2026-10-03T02:13:30Z", "message": {"role": "assistant", "content": "A13"}}
+{"type": "user", "timestamp": "2026-10-03T02:14:00Z", "origin": {"kind": "human"}, "message": {"role": "user", "content": "U14"}}
+{"type": "assistant", "timestamp": "2026-10-03T02:14:30Z", "message": {"role": "assistant", "content": "A14"}}
+{"type": "user", "timestamp": "2026-10-03T02:15:00Z", "origin": {"kind": "human"}, "message": {"role": "user", "content": "U15"}}
+{"type": "assistant", "timestamp": "2026-10-03T02:15:30Z", "message": {"role": "assistant", "content": "A15"}}
+{"type": "user", "timestamp": "2026-10-03T02:16:00Z", "origin": {"kind": "human"}, "message": {"role": "user", "content": "U16"}}
+{"type": "assistant", "timestamp": "2026-10-03T02:16:30Z", "message": {"role": "assistant", "content": "A16"}}
+{"type": "user", "timestamp": "2026-10-03T02:17:00Z", "origin": {"kind": "human"}, "message": {"role": "user", "content": "U17"}}
+{"type": "assistant", "timestamp": "2026-10-03T02:17:30Z", "message": {"role": "assistant", "content": "A17"}}
+{"type": "user", "timestamp": "2026-10-03T02:18:00Z", "origin": {"kind": "human"}, "message": {"role": "user", "content": "U18"}}
+{"type": "assistant", "timestamp": "2026-10-03T02:18:30Z", "message": {"role": "assistant", "content": "A18"}}
+{"type": "user", "timestamp": "2026-10-03T02:19:00Z", "origin": {"kind": "human"}, "message": {"role": "user", "content": "U19"}}
+{"type": "assistant", "timestamp": "2026-10-03T02:19:30Z", "message": {"role": "assistant", "content": "A19"}}
+{"type": "user", "timestamp": "2026-10-03T02:20:00Z", "origin": {"kind": "human"}, "message": {"role": "user", "content": "U20"}}
+{"type": "assistant", "timestamp": "2026-10-03T02:20:30Z", "message": {"role": "assistant", "content": "A20"}}
+{"type": "user", "timestamp": "2026-10-03T02:21:00Z", "origin": {"kind": "human"}, "message": {"role": "user", "content": "U21"}}
+{"type": "assistant", "timestamp": "2026-10-03T02:21:30Z", "message": {"role": "assistant", "content": "A21"}}
+{"type": "user", "timestamp": "2026-10-03T02:22:00Z", "origin": {"kind": "human"}, "message": {"role": "user", "content": "U22"}}
+{"type": "assistant", "timestamp": "2026-10-03T02:22:30Z", "message": {"role": "assistant", "content": "A22"}}
+{"type": "user", "timestamp": "2026-10-03T02:23:00Z", "origin": {"kind": "human"}, "message": {"role": "user", "content": "U23"}}
+{"type": "assistant", "timestamp": "2026-10-03T02:23:30Z", "message": {"role": "assistant", "content": "A23"}}
+{"type": "user", "timestamp": "2026-10-03T02:24:00Z", "origin": {"kind": "human"}, "message": {"role": "user", "content": "U24"}}
+{"type": "assistant", "timestamp": "2026-10-03T02:24:30Z", "message": {"role": "assistant", "content": "A24"}}
+{"type": "user", "timestamp": "2026-10-03T02:25:00Z", "origin": {"kind": "human"}, "message": {"role": "user", "content": "U25"}}
+{"type": "assistant", "timestamp": "2026-10-03T02:25:30Z", "message": {"role": "assistant", "content": "A25"}}
+{"type": "user", "timestamp": "2026-10-03T02:26:00Z", "origin": {"kind": "human"}, "message": {"role": "user", "content": "U26"}}
+{"type": "assistant", "timestamp": "2026-10-03T02:26:30Z", "message": {"role": "assistant", "content": "A26"}}
+{"type": "user", "timestamp": "2026-10-03T02:27:00Z", "origin": {"kind": "human"}, "message": {"role": "user", "content": "U27"}}
+{"type": "assistant", "timestamp": "2026-10-03T02:27:30Z", "message": {"role": "assistant", "content": "A27"}}
+{"type": "user", "timestamp": "2026-10-03T02:28:00Z", "origin": {"kind": "human"}, "message": {"role": "user", "content": "U28"}}
+{"type": "assistant", "timestamp": "2026-10-03T02:28:30Z", "message": {"role": "assistant", "content": "A28"}}
+{"type": "user", "timestamp": "2026-10-03T02:29:00Z", "origin": {"kind": "human"}, "message": {"role": "user", "content": "U29"}}
+{"type": "assistant", "timestamp": "2026-10-03T02:29:30Z", "message": {"role": "assistant", "content": "A29"}}

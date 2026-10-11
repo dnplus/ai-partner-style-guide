@@ -27,7 +27,7 @@ export function usePersonaSession() {
   const [remaining,setRemaining] = useState(1800);
   const [lastChecked,setLastChecked] = useState<number | null>(null);
   const [agentProgress,setAgentProgress] = useState<ReceivedProgress>(emptyProgress);
-  const [clock,setClock] = useState(Date.now());
+  const [clock,setClock] = useState(()=>Date.now());
   const [retry,setRetry] = useState(0);
   const generation = useRef(0);
   const working = useRef(false);
@@ -90,6 +90,8 @@ export function usePersonaSession() {
       finally { clearTimeout(timeout); }
       if(!stopped) timer=setTimeout(poll,Math.min(10000,2500*Math.max(1,failures)));
     }
+    // Each new poll loop starts by showing that the status is being checked again.
+    // eslint-disable-next-line react-hooks/set-state-in-effect
     setConnection("checking");void poll();
     return ()=>{stopped=true;controller?.abort();clearTimeout(timer);};
   },[session,expired,result,retry]);

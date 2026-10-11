@@ -3,13 +3,15 @@
 import { createContext, useContext, useEffect, useMemo, useState } from "react";
 import { locales, localeNames, LOCALE_KEY, resolveLocale, translator, bodyFonts, type Locale } from "../lib/i18n.ts";
 
-const LocaleContext = createContext({locale:"zh-TW" as Locale,ready:false,t:translator("zh-TW"),setLocale:(_locale:Locale)=>{}});
+const LocaleContext = createContext({locale:"zh-TW" as Locale,ready:false,t:translator("zh-TW"),setLocale:(()=>{}) as (locale:Locale)=>void});
 export function LocaleProvider({children}:{children:React.ReactNode}) {
   const [locale,setCurrent] = useState<Locale>("zh-TW");
   const [ready,setReady] = useState(false);
   useEffect(()=>{
     let saved:string|null=null;
     try { saved=localStorage.getItem(LOCALE_KEY); } catch {}
+    // The saved and browser languages exist only on the client; the app stays inert until this runs.
+    // eslint-disable-next-line react-hooks/set-state-in-effect
     setCurrent(locales.includes(saved as Locale) ? saved as Locale : resolveLocale(navigator.languages));
     setReady(true);
   },[]);

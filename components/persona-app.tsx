@@ -1,6 +1,6 @@
 "use client";
 import { useLocale, LocaleSwitch } from "./locale-provider.tsx";
-import { useEffect, useRef, useState, type FormEvent } from "react";
+import { useEffect, useRef, useState, useSyncExternalStore, type FormEvent } from "react";
 import { ArrowLeft, ArrowRight, Copy, Download, X } from "lucide-react";
 import {CardShare} from "./card-share.tsx";
 import {Turnstile} from "./turnstile.tsx";
@@ -21,6 +21,10 @@ import { describeProgress } from "../lib/collector-progress.ts";
 import {noticeText} from "../lib/i18n.ts";
 import { reportCollectorProgress, submitAuthorizedSummary } from "../lib/collector-runner.ts";
 type Stage = "cover" | "identity" | "instructions" | "fixture" | "waiting" | "reveal";
+// Origin and time zone never change while the page is open; the server renders the fallbacks.
+const unchanging = () => () => {};
+const browserOrigin = () => location.origin;
+const browserTimeZone = () => Intl.DateTimeFormat().resolvedOptions().timeZone || "UTC";
 const UI_KEY = "agent-mbti-view-v3";
 const gaps: Record<string, string> = { web_history_unavailable: "未涵蓋網頁版對話", partial_window: "觀察期間不完整", no_artifact_inspection: "未檢視實作成果", no_tokscale: "沒有 Tokscale 彙總", unattributed_runs: "部分執行無法歸屬", insufficient_records: "紀錄不足", other_sources_missing: "其他工具尚未涵蓋" };
 function ReportSummary({report}:{report:Report}){
@@ -73,8 +77,8 @@ export function PersonaApp({turnstileSiteKey}:{turnstileSiteKey:string}) {
     const [resumeMode, setResumeMode] = useState(false);
     const [fixtureConsent, setFixtureConsent] = useState(false);
     const [sending, setSending] = useState(false);
-    const [origin, setOrigin] = useState("");
-    const [timeZone,setTimeZone]=useState("UTC");
+    const origin = useSyncExternalStore(unchanging, browserOrigin, () => "");
+    const timeZone = useSyncExternalStore(unchanging, browserTimeZone, () => "UTC");
     const [scopeOptions,setScopeOptions]=useState(defaultScopeOptions);
     const [collectionScope,setCollectionScope]=useState<CollectorScope|null>(null);
     const [selfType,setSelfType]=useState<TypeCode|null>(null);
@@ -93,12 +97,13 @@ export function PersonaApp({turnstileSiteKey}:{turnstileSiteKey:string}) {
     const instructions = active ? collectorInstructions(active, origin, resumeMode, locale,effectiveScope!) : "";
     const agentState = describeProgress(flow.agentProgress, flow.clock, locale);
     const countdown = `${Math.floor(flow.remaining / 60).toString().padStart(2, "0")}:${(flow.remaining % 60).toString().padStart(2, "0")}`;
-    useEffect(() => { setOrigin(location.origin);setTimeZone(Intl.DateTimeFormat().resolvedOptions().timeZone||"UTC"); }, []);
     useEffect(() => {
         if (!flow.ready || initialized.current)
             return;
         initialized.current = true;
         if (active) {
+            // Resume the tab's own view of this session once the stored session has loaded.
+            // eslint-disable-next-line react-hooks/set-state-in-effect
             setNickname(active.nickname);
             setStage("waiting");
             try {

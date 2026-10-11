@@ -21,6 +21,6 @@
 
 v2 移除舊等級、四軸與訊號。新樣本為三個獨立任務的原創 INTJ 工作風格示範，不是舊分型轉換。資料庫保留舊列，以 protocol_version 區分；舊會話需要重新觀察，授權讀寫回傳 410，授權刪除仍可用。不將舊結果靜默轉換。客戶端使用新的 sessionStorage 命名空間。
 
-現有十二張圖片改以中性 portrait 檔名使用，保留來源與授權。任何分型都能選任意主題與畫風；造型不決定分型，也不暗示存在每型專屬畫。MIT 法律聲明保留於 THIRD_PARTY_NOTICES.md 與 vendor，不在前台介紹舊產品。
+現有十二張圖片改以中性 portrait 檔名使用，保留來源與授權。任何分型都能選任意主題與畫風；造型不決定分型，也不暗示存在每型專屬畫。
 
 字母來源僅參照 [Myers & Briggs Foundation 四組偏好](https://www.myersbriggs.org/my-mbti-personality-type/the-mbti-preferences/) 與 [16 個標準代碼](https://www.myersbriggs.org/my-mbti-personality-type/the-16-mbti-personality-types/) 的命名。上述 Agent 行為類比、評估方式、門檻與中文描述均為本專案自訂，未使用官方量表、題目或計分。

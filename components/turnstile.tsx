@@ -2,7 +2,7 @@
 import {useEffect,useRef} from 'react';
 
 type TurnstileApi={
- render(container:HTMLElement,options:{sitekey:string;action:string;language:string;callback:(token:string)=>void;'expired-callback':()=>void;'error-callback':()=>void}):string;
+ render(container:HTMLElement,options:{sitekey:string;action:string;language:string;appearance:'always'|'execute'|'interaction-only';callback:(token:string)=>void;'expired-callback':()=>void;'error-callback':()=>void}):string;
  remove(widgetId:string):void;
 };
 declare global{interface Window{turnstile?:TurnstileApi}}
@@ -28,7 +28,7 @@ export function Turnstile({siteKey,action,language,onToken,onError}:{siteKey:str
   let active=true,widgetId:string|null=null;
   loadTurnstile().then(api=>{
    if(!active||!box.current)return;
-   widgetId=api.render(box.current,{sitekey:siteKey,action,language,callback:token=>handlers.current.onToken(token),'expired-callback':()=>handlers.current.onToken(''),'error-callback':()=>{handlers.current.onToken('');handlers.current.onError();}});
+   widgetId=api.render(box.current,{sitekey:siteKey,action,language,appearance:'interaction-only',callback:token=>handlers.current.onToken(token),'expired-callback':()=>handlers.current.onToken(''),'error-callback':()=>{handlers.current.onToken('');handlers.current.onError();}});
   }).catch(()=>{if(active)handlers.current.onError();});
   return ()=>{active=false;if(widgetId)window.turnstile?.remove(widgetId);};
  },[siteKey,action,language]);

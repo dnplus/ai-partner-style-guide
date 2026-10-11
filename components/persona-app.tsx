@@ -9,7 +9,7 @@ import { HoloCard } from "./holo-card.tsx";
 import { usePersonaSession } from "./use-persona-session.ts";
 import { collectorInstructions } from "../lib/collector-instructions.ts";
 import {CollectorScopeOptions} from "./collector-scope-options.tsx";
-import {createCollectorScope,collectorScopeSchema,defaultScopeOptions,scopeOptionsSchema,SESSION_TTL_MS,formatScopeWindow,type CollectorScope} from "../lib/collector-scope.ts";
+import {createCollectorScope,collectorScopeSchema,defaultScopeOptions,scopeOptionsSchema,SESSION_TTL_MS,type CollectorScope} from "../lib/collector-scope.ts";
 import { makeLevelFixture, demoReport } from "../lib/fixture.ts";
 import { toCardObservation, type Report } from "../lib/assessment.ts";
 import { families, personas, personaFor, modelLabels, clientLabels, artFor, artCounts, defaultFamily, type ArtStyle, type Family } from "../lib/catalog.ts";
@@ -290,13 +290,12 @@ export function PersonaApp({turnstileSiteKey}:{turnstileSiteKey:string}) {
       {stage === "instructions" && active && <section className="instructions-screen screen">
         <div className="sealed-card small" aria-hidden="true"><span>✧</span></div>
         <h1 tabIndex={-1}>{demo ? <>{t("先選好，")}<br />{t("這次觀察的範圍。")}</> : <>{t("把這段指令，")}<br />{t("交給你的 Agent。")}</>}</h1>
-        <p className="lead">{demo ? t("使用虛構資料，走過同一個收件流程。") : <>{t("範圍已替你填好，只需同意一次。")}<br />{t("同意後自動完成，回來這裡看結果。")}</>}</p>
-        {!demo&&effectiveScope&&<details className="scope-window"><summary>{t("查看這次範圍")}</summary><p>{formatScopeWindow(effectiveScope,locale)}</p><p>{t(effectiveScope.options.sourceMode==="all_supported_local"?"所有支援本機來源":"已選來源")}{effectiveScope.options.sourceMode==="selected"?" · "+effectiveScope.options.sources.join(", "):""} · {effectiveScope.options.includeTokscale?"Tokscale":t("不含 Tokscale")}</p></details>}
+        {demo ? <p className="lead">{t("使用虛構資料，走過同一個收件流程。")}</p> : <ol className="handoff-steps">{["複製專屬指令","貼到 Claude Code、Codex 或 Cursor","它問你時，回覆「同意」"].map((step,i)=><li key={step}><b aria-hidden="true">{i+1}</b>{t(step)}</li>)}</ol>}
         {active.writeToken ? <>
           <button className="primary" onClick={demo ? () => go("fixture") : copy}>{demo ? t("查看示範範圍") : t("複製專屬指令")}{demo ? <ArrowRight size={20}/> : <Copy size={19}/>}</button>
           {!demo && <details className="instruction-disclosure" open={manual} onToggle={e => setManual(e.currentTarget.open)}><summary>{t("查看／手動複製指令")}</summary><textarea className="instruction-box" aria-label={t("貼給 Agent 的指令")} value={instructions} readOnly onFocus={e => e.currentTarget.select()}/><button className="quiet-button" onClick={() => go("waiting")}>{t("我已複製，開始等待")}<ArrowRight size={16}/></button></details>}
         </> : <><p className="small-note">{t("重整後不保留提交權杖。已複製的指令仍可使用。")}</p><button className="primary" onClick={() => go("waiting")}>{t("繼續等待")}<ArrowRight size={20}/></button><button className="quiet-button" disabled={flow.busy} onClick={renew}>{t("沒複製到？換新連結")}</button></>}
-        <p className="small-note">{t("連結剩餘 {time}",{time:countdown})} {t(origin.startsWith("http://127.0.0.1")?"· 目前僅限同一台電腦使用":" · 可在已授權的 Agent 使用")}</p>
+        <p className="small-note">{!demo&&<>{t("完成後，這頁會自動揭曉。")} </>}{t("連結剩餘 {time}",{time:countdown})} {t(origin.startsWith("http://127.0.0.1")?"· 目前僅限同一台電腦使用":" · 可在已授權的 Agent 使用")}</p>
       </section>}
       {stage === "fixture" && active && <section className="fixture-screen screen">
         <p className="eyebrow">{t("虛構資料 · 沒有讀取你的紀錄")}</p><h1 tabIndex={-1}>{t("一次同意，")}<br />{t("接著等它揭曉。")}</h1><p className="lead">{t("確認這次範圍，剩下的自動完成。")}</p>
@@ -306,7 +305,7 @@ export function PersonaApp({turnstileSiteKey}:{turnstileSiteKey:string}) {
         <button className="primary" disabled={!fixtureConsent || sending} onClick={sendFixture}>{sending ? t("處理中…") : t("同意並開始示範")}<ArrowRight size={20}/></button>
       </section>}
       {stage === "waiting" && <section className="waiting-screen screen">
-        <div className="sealed-card" aria-hidden="true"><span>✧</span></div>
+        <div className="sealed-card" aria-hidden="true"><span>✧</span><i className="card-scan"/></div>
         <h1 tabIndex={-1}>{flow.connection === "retrying" ? <>{t("正在重新連上，")}<br />{t("請稍等一下。")}</> : <>{t("等它帶回，")}<br />{t("你們的合作線索。")}</>}</h1>
         <div className={"waiting-status " + flow.connection} role="status"><i />{flow.connection === "retrying" ? t("網站暫時連不上收件服務") : flow.connection === "checking" ? t("正在確認收件狀態") : agentState.title}</div>
         {(flow.connection==="retrying"||agentState.stale||["awaiting_host_approval","paused"].includes(flow.agentProgress.phase))&&<p className="lead waiting-explanation">{flow.connection==="retrying"?t("這不代表 Agent 中斷。網站會自動重試，請保留這個分頁。"):agentState.details}</p>}
@@ -314,7 +313,7 @@ export function PersonaApp({turnstileSiteKey}:{turnstileSiteKey:string}) {
         <details className="waiting-help"><summary>{t("查看進度與協助")}</summary><p>{t("連結剩餘 {time}",{time:countdown})}</p>{flow.agentProgress.updatedAt&&<p>{t("最後訊號：")}{agentState.lastPhase} · {new Date(flow.agentProgress.updatedAt).toLocaleTimeString(locale,{hour12:false})}</p>}<button className="quiet-button" onClick={()=>go("instructions")}>{t("重看指令")}</button>{flow.connection==="retrying"&&<button className="quiet-button" onClick={flow.retry}>{t("立即重試")}</button>}<p>{t("只需在 Agent 確認一次來源、期間與摘要傳送範圍。若主機另外要求讀取或連線核准，請在原生提示處處理；網站不會代替核准。")}</p><p>{t("超過 90 秒沒有新階段訊號時，我們會明確標示未知。若分析已完成，請 Agent 保留最小摘要；換連結後明確核准新目的地，不用重掃資料。")}</p>{flow.lastChecked && <p>{t("網站上次連上收件服務：")}{new Date(flow.lastChecked).toLocaleTimeString(locale, { hour12: false })}</p>}<button className="quiet-button" disabled={flow.busy} onClick={renew}>{t("沿用分析，換新連結")}</button></details>
       </section>}
       {stage === "reveal" && result && <section className="reveal-screen screen final-screen">
-        <div className="final-card-area"><div className="reveal-art"><HoloCard report={card} style={style} family={family} nicknameOnly={nicknameOnly}/></div><div className="style-switch" aria-label={t("卡片畫風")}><button aria-pressed={style==="regular"} onClick={()=>setStyle("regular")}>{t("一般")}</button><button aria-pressed={style==="chibi"} onClick={()=>setStyle("chibi")}>{t("Q 版")}</button></div><p className="drag-hint"><span className="motion-hint">{t("拖曳卡片，看看另一道光")}</span><span className="reduced-hint">{t("已依偏好使用靜態卡面")}</span></p></div>
+        <div className="final-card-area"><div className="reveal-art"><HoloCard report={card} style={style} family={family} nicknameOnly={nicknameOnly} reveal/></div><div className="style-switch" aria-label={t("卡片畫風")}><button aria-pressed={style==="regular"} onClick={()=>setStyle("regular")}>{t("一般")}</button><button aria-pressed={style==="chibi"} onClick={()=>setStyle("chibi")}>{t("Q 版")}</button></div><p className="drag-hint"><span className="motion-hint">{t("拖曳卡片，看看另一道光")}</span><span className="reduced-hint">{t("已依偏好使用靜態卡面")}</span></p></div>
         <div className="final-copy">{card.kind==="fixture"&&<p className="eyebrow">{t("示範資料 · 非個人評估")}</p>}<h1 tabIndex={-1}>{card.nickname}</h1><p className="final-subtitle">{t(personaFor(card.assessment.type).name)}</p>{selfContrast(card,t)&&<p className="self-contrast">{selfContrast(card,t)}</p>}<div className="brief-reading">{card.brief.map(line=><p key={line}>{t(line)}</p>)}</div><p className="next-step"><b>{t("下一步")}</b><span>{t(nextStepFor(card.usageLevel))}</span></p>
         <div className="final-actions"><button className="primary" onClick={exportPng} disabled={exporting||!!card.assessment.type&&!artFor(family,card.assessment.type,style)}>{exporting?t("製作圖片中…"):t("下載我的角色卡")}<Download size={20}/></button><CardShare card={card} style={style} family={family} nicknameOnly={nicknameOnly} home={origin+"/"}/></div>
         <details className="card-options"><summary>{t("卡片選項")}</summary><div><label htmlFor="card-family">{t("卡面主題")}</label><select id="card-family" value={family} onChange={e=>setFamily(e.target.value as Family)}>{families.map(f=><option key={f.id} value={f.id}>{f.label}</option>)}</select><label className="check-field"><input type="checkbox" checked={nicknameOnly} onChange={e=>setNicknameOnly(e.target.checked)}/>{t("只顯示暱稱，隱藏分型")}</label><p>{t("此選項也會隱藏等級與短句。")}</p></div></details>

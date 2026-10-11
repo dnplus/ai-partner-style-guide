@@ -395,12 +395,6 @@
     "출처, 기간, 최소 요약 전송을 한 번에 확인해요.",
     "Approve sources, dates and minimal-summary delivery once."
   ],
-  "同意後自動完成，回來這裡看結果。": [
-    "同意后自动完成，回来这里看结果。",
-    "同意後は自動で進みます。結果はここで。",
-    "동의 후 자동으로 진행됩니다. 결과는 여기서 확인하세요.",
-    "It completes automatically after consent. Return here for the result."
-  ],
   "查看示範範圍": [
     "查看示范范围",
     "サンプルの範囲を見る",
@@ -1967,12 +1961,6 @@
     "Tokscale 제외",
     "Without Tokscale"
   ],
-  "進階範圍（選填）": [
-    "高级范围（选填）",
-    "範囲を調整（任意）",
-    "범위 조정(선택)",
-    "Adjust scope (optional)"
-  ],
   "觀察天數": [
     "观察天数",
     "観察日数",
@@ -2026,18 +2014,6 @@
     "記録を1つ以上選び、日数を1〜365にしてください。",
     "기록을 하나 이상 선택하고 1~365일로 설정하세요.",
     "Choose at least one source and between 1 and 365 days."
-  ],
-  "範圍已替你填好，只需同意一次。": [
-    "范围已替你填好，只需同意一次。",
-    "範囲は設定済み。確認は一度だけです。",
-    "범위는 이미 설정되어 있어 한 번만 동의하면 됩니다.",
-    "Your scope is ready. Approve it once."
-  ],
-  "查看這次範圍": [
-    "查看本次范围",
-    "今回の範囲を見る",
-    "이번 범위 보기",
-    "View this scope"
   ],
   "使用等級": [
     "使用等级",
@@ -2728,5 +2704,29 @@
     "最高レベルです。自動化の出力を定期的に確認し、知らないうちに崩れないようにしましょう。",
     "이미 최고 레벨이에요. 자동화 결과를 정기적으로 점검해 조용히 어긋나지 않게 하세요.",
     "You are at the top level. Review what the automation produces now and then so it does not drift unnoticed."
+  ],
+  "調整": [
+    "调整",
+    "変更",
+    "조정",
+    "Adjust"
+  ],
+  "它問你時，回覆「同意」": [
+    "它问你时，回复「同意」",
+    "確認されたら「同意します」と返す",
+    "확인을 요청하면 「동의」라고 답하기",
+    "When it asks, reply “yes”"
+  ],
+  "完成後，這頁會自動揭曉。": [
+    "完成后，这页会自动揭晓。",
+    "終わるとこのページで自動的に結果が出ます。",
+    "끝나면 이 페이지에서 자동으로 공개돼요.",
+    "This page reveals the result on its own when it is done."
+  ],
+  "貼到 Claude Code、Codex 或 Cursor": [
+    "贴到 Claude Code、Codex 或 Cursor",
+    "Claude Code・Codex・Cursor に貼り付ける",
+    "Claude Code, Codex, Cursor에 붙여넣기",
+    "Paste it into Claude Code, Codex, or Cursor"
   ]
 }

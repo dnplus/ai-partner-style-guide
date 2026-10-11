@@ -110,3 +110,65 @@ html[lang="en"] .art-grid .card-copy h2,html[lang="ko"] .art-grid .card-copy h2{
 .journey-identity .identity-art{height:180px;width:190px}
 .self-type-pick{display:flex;flex-direction:column;align-items:center;gap:8px;margin:26px auto 0;font-size:14px;color:#65527f}.self-type-pick select{border:1px solid #d8cbe5;border-radius:12px;background:#fcfaff;color:#4b315e;padding:10px 14px;font-size:14px;min-width:220px}.self-type-pick p{font-size:11px;color:#9b8ba8}.fixture-screen .self-type-pick{margin:0 auto 22px}.self-contrast{font:600 17px/1.6 var(--display);color:#5b3f86;margin-top:14px}
 @media(max-width:760px){.self-contrast{font-size:15px;margin-top:10px}.self-type-pick{font-size:13px}.self-type-pick select{font-size:13px}}
+
+/* Motion and polish pass: custom curves, press feedback, the reveal flip, idle sway, and a quieter flow. */
+:root{--ease-out:cubic-bezier(.23,1,.32,1);--ease-in-out:cubic-bezier(.77,0,.175,1)}
+.screen{animation:screen-in .35s var(--ease-out)}
+.primary{transition:transform 160ms var(--ease-out),box-shadow 200ms ease}
+.primary:hover:enabled{transform:none;box-shadow:0 12px 26px #b4a5d215}
+@media(hover:hover) and (pointer:fine){.primary:hover:enabled{transform:translateY(-2px);box-shadow:0 10px 28px #a5a07228}}
+.primary:active:enabled{transform:scale(.97)}
+.secondary-action{transition:transform 160ms var(--ease-out),background-color 200ms ease}
+.secondary-action:active{transform:scale(.97)}
+.about-dialog[open],.share-dialog[open]{animation:dialog-in 220ms var(--ease-out)}
+.about-dialog[open]::backdrop,.share-dialog[open]::backdrop{animation:backdrop-in 220ms ease}
+@keyframes dialog-in{from{opacity:0;transform:scale(.96)}}
+@keyframes backdrop-in{from{opacity:0}}
+
+/* Step 1: Turnstile only takes space when it needs the visitor; the scope is one quiet line. */
+.turnstile-box{min-height:0;margin:2px 0 12px}
+.collector-scope-options summary{display:flex;justify-content:center;align-items:baseline;flex-wrap:wrap;gap:4px 10px}
+.collector-scope-options .scope-defaults{margin:0}
+.scope-edit{color:#79628e;text-decoration:underline;text-underline-offset:4px}
+.collector-scope-options details[open] .scope-edit{text-decoration:none;opacity:.6}
+
+/* Step 2: three numbered moves instead of a paragraph. */
+.handoff-steps{list-style:none;display:grid;gap:12px;width:min(380px,100%);margin:26px 0 30px;padding:0;text-align:left}
+.handoff-steps li{display:flex;align-items:center;gap:13px;font-size:15px;line-height:1.5;color:#4e435e}
+.handoff-steps b{flex:none;display:grid;place-items:center;width:27px;height:27px;border-radius:50%;background:#ece3f9;color:var(--violet);font-size:13px;font-weight:650}
+@media(max-width:640px){.handoff-steps{gap:10px;margin:20px 0 24px}.handoff-steps li{font-size:13px;gap:11px}.handoff-steps b{width:24px;height:24px;font-size:12px}}
+
+/* Waiting: a light keeps passing over the sealed card while the agent works. */
+.sealed-card .card-scan{position:absolute;inset:3px;border-radius:12px;overflow:hidden;pointer-events:none}
+.sealed-card .card-scan:before{content:"";position:absolute;top:-20%;bottom:-20%;left:-60%;width:60%;background:linear-gradient(100deg,transparent,#d8c4ff2e 42%,#f6efff59 50%,#d8c4ff2e 58%,transparent);animation:card-scan 2.6s var(--ease-in-out) infinite}
+@keyframes card-scan{from{transform:translateX(0)}to{transform:translateX(330%)}}
+
+/* Reveal: the sealed card flips to the result, a glint crosses it, then the copy follows. */
+@property --rx{syntax:"<angle>";inherits:true;initial-value:4deg}
+@property --ry{syntax:"<angle>";inherits:true;initial-value:-10deg}
+@property --mx{syntax:"<percentage>";inherits:true;initial-value:38%}
+@property --my{syntax:"<percentage>";inherits:true;initial-value:38%}
+@property --shine{syntax:"<angle>";inherits:true;initial-value:135deg}
+.final-screen .reveal-art{animation:backdrop-in .15s ease-out}
+.final-screen .holo-card.revealing{animation:card-flip 1.4s var(--ease-in-out) backwards,card-idle 9s ease-in-out 1.6s infinite backwards}
+.final-screen .holo-card.revealing[data-touched]{animation:card-flip 1.4s var(--ease-in-out) backwards}
+@keyframes card-flip{0%{transform:rotateX(6deg) rotateY(-180deg) rotateZ(-3deg) scale(.9)}18%{transform:rotateX(6deg) rotateY(-180deg) rotateZ(-3deg) scale(.94)}100%{transform:rotateX(var(--rx)) rotateY(var(--ry)) rotateZ(3deg)}}
+.card-back{position:absolute;inset:0;border-radius:25px;transform:rotateY(180deg) translateZ(10px);backface-visibility:hidden;background:radial-gradient(ellipse,#382843,#14111b 65%);border:3px solid #aaa0b8;display:grid;place-items:center;color:#e2cef9}
+.card-back:before{content:"";position:absolute;inset:9px;border:1px solid #b8a5c2;border-radius:16px}
+.card-back span{font:120px/1 Georgia,serif;text-shadow:0 0 22px #b898f9}
+.holo-card.revealing .card-front,.holo-card.revealing .result-character-foil,.holo-card.revealing .surface-reflection{backface-visibility:hidden}
+/* A blended child flattens the card's 3D context and hides the back, so the foil waits out the flip. */
+.holo-card.revealing .result-character-foil,.holo-card.revealing .surface-reflection{animation:foil-wait 1.25s linear,foil-in .45s ease-out 1.25s backwards}
+@keyframes foil-wait{from,to{opacity:0;mix-blend-mode:normal}}
+@keyframes foil-in{from{opacity:0}}
+.card-glint{position:absolute;inset:0;border-radius:25px;overflow:hidden;pointer-events:none;transform:translateZ(47px);backface-visibility:hidden}
+.card-glint:before{content:"";position:absolute;top:-10%;bottom:-10%;left:-70%;width:50%;background:linear-gradient(100deg,transparent,#ffffff1f 44%,#ffffff70 50%,#ffffff1f 56%,transparent);animation:card-glint .9s var(--ease-in-out) 1.3s both}
+@keyframes card-glint{from{transform:translateX(0) skewX(-12deg)}to{transform:translateX(420%) skewX(-12deg)}}
+.final-copy>*{animation:copy-in .5s var(--ease-out) backwards}
+.final-copy>:nth-child(1){animation-delay:.95s}.final-copy>:nth-child(2){animation-delay:1.01s}.final-copy>:nth-child(3){animation-delay:1.07s}.final-copy>:nth-child(4){animation-delay:1.13s}.final-copy>:nth-child(5){animation-delay:1.19s}.final-copy>:nth-child(6){animation-delay:1.25s}.final-copy>:nth-child(n+7){animation-delay:1.31s}
+@keyframes copy-in{from{opacity:0;transform:translateY(10px)}}
+
+/* Idle: the cover and result cards sway on their own so the foil shows without a drag. */
+@keyframes card-idle{0%,100%{--rx:4deg;--ry:-12deg;--mx:26%;--my:42%;--shine:75deg}50%{--rx:-3deg;--ry:12deg;--mx:74%;--my:56%;--shine:195deg}}
+.cover-art .holo-card:not([data-touched]){animation:card-idle 9s ease-in-out infinite backwards}
+@media(prefers-reduced-motion:reduce){.final-screen .holo-card.revealing,.cover-art .holo-card{animation:none!important}}

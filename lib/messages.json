@@ -2413,51 +2413,51 @@
   ],
   "重用實作": [
     "复用成果",
-    "検証と再利用",
-    "검증과 재사용",
-    "Tested reuse"
+    "資産の再利用",
+    "자산 재사용",
+    "Asset reuse"
   ],
   "維運系統": [
-    "维护系统",
-    "継続的な運用",
-    "지속적 운영",
-    "Maintained systems"
+    "维运系统",
+    "自動化の運用",
+    "자동화 운영",
+    "Running automation"
   ],
-  "曾在需要查核時直接採用答案。": [
-    "曾在需要核查时直接采用答案。",
-    "確認が必要な場面で回答をそのまま採用した記録があります。",
-    "확인이 필요한 상황에서 답을 그대로 채택한 기록이 있습니다.",
-    "The evidence includes adopting an answer when checking was needed."
+  "有結果未經必要查核就直接採用。": [
+    "有结果未经必要核查就直接采用。",
+    "確認が必要な結果を、確かめずにそのまま使いました。",
+    "확인이 필요한 결과를 확인 없이 그대로 썼습니다.",
+    "A result that needed checking was used as is."
   ],
-  "已看到辨認錯誤後重新嘗試。": [
-    "已看到识别错误后重新尝试。",
-    "誤りを認識し、再試行した記録があります。",
-    "오류를 알아차린 뒤 다시 시도한 기록이 있습니다.",
-    "The evidence includes recognizing an error and trying again."
+  "發現出錯後，換個做法再試一次。": [
+    "发现出错后，换个做法再试一次。",
+    "誤りに気づき、やり方を変えて試し直しました。",
+    "오류를 발견한 뒤 방법을 바꿔 다시 시도했습니다.",
+    "After spotting an error, you tried again another way."
   ],
-  "已在多個任務確認成果可用。": [
-    "已在多个任务确认成果可用。",
-    "複数の独立したタスクで成果の有用性を確認しています。",
-    "여러 독립 작업에서 결과가 유용함을 확인했습니다.",
-    "Useful outcomes were checked across independent tasks."
+  "至少兩個獨立任務的結果經確認可用。": [
+    "至少两个独立任务的结果经确认可用。",
+    "少なくとも2つの独立したタスクで、結果が使えると確かめました。",
+    "적어도 두 개의 독립 작업에서 결과가 쓸 만하다고 확인했습니다.",
+    "Results from at least two separate tasks were confirmed usable."
   ],
-  "已看到清楚界定任務並完成具體修正。": [
-    "已看到明确任务范围并完成具体修正。",
-    "タスクを明確に定義し、具体的な修正を完了しています。",
-    "작업 범위를 명확히 하고 구체적인 수정을 완료했습니다.",
-    "The task was scoped clearly and a specific correction was verified."
+  "同一任務先講清範圍與完成標準，再驗證一處具體修正。": [
+    "同一任务先讲清范围与完成标准，再验证一处具体修正。",
+    "同じタスクで範囲と完了条件を先に決め、具体的な修正を検証しました。",
+    "한 작업에서 범위와 완료 기준을 먼저 정하고 구체적인 수정을 검증했습니다.",
+    "One task set its scope and finish line first, then verified a specific fix."
   ],
-  "已看到成果經測試，並在不同任務重用。": [
-    "已看到成果经过测试，并在不同任务中复用。",
-    "成果をテストし、別のタスクで再利用した記録があります。",
-    "결과를 테스트하고 다른 작업에서 재사용한 기록이 있습니다.",
-    "An artifact was tested and reused in another task."
+  "寫下的技能、規則或腳本，被其他工作階段再次使用。": [
+    "写下的技能、规则或脚本，被其他会话再次使用。",
+    "書いたスキル、ルール、スクリプトが別のセッションで再び使われました。",
+    "작성한 스킬, 규칙, 스크립트가 다른 세션에서 다시 쓰였습니다.",
+    "Skills, rules, or scripts you wrote were picked up again by other sessions."
   ],
-  "已看到多條獨立工作流程持續運作與維護。": [
-    "已看到多条独立工作流持续运行与维护。",
-    "複数の独立したワークフローを継続運用・保守しています。",
-    "여러 독립 워크플로를 지속적으로 운영하고 유지했습니다.",
-    "Multiple independent workflows show sustained operation and maintenance."
+  "自動化無人值守跑了兩週以上，期間資產仍持續維護。": [
+    "自动化无人值守运行了两周以上，期间资产仍持续维护。",
+    "自動化が2週間以上無人で動き、その間も資産が保守されました。",
+    "자동화가 2주 이상 무인으로 돌아갔고, 그동안 자산도 계속 관리했습니다.",
+    "Automation ran unattended for two weeks or more while its assets kept being maintained."
   ],
   "使用等級尚待更多成果線索。": [
     "使用等级仍需更多成果线索。",

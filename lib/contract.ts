@@ -1,5 +1,5 @@
 import { z } from "zod";
-import {usageEvidenceSchema} from "./usage-level.ts";
+import {systemEvidenceSchema,usageEvidenceSchema} from "./usage-level.ts";
 
 export const PROTOCOL_VERSION = "2.0" as const;
 export const progressSchema = z.object({
@@ -41,6 +41,7 @@ export const submissionSchema = z.object({
   }).strict()).max(48),
   assessment: assessmentSchema.optional(),
   usageEvidence: usageEvidenceSchema.optional(),
+  systemEvidence: systemEvidenceSchema.optional(),
 }).strict().superRefine((data, ctx) => {
   const issue = (message: string) => ctx.addIssue({ code: z.ZodIssueCode.custom, message });
   if (data.observedPeriod.from > data.observedPeriod.to) issue("Period is reversed");
@@ -53,9 +54,9 @@ export const submissionSchema = z.object({
   }
   for (const o of data.usageEvidence?.observations ?? []) {
     if (!ids.has(o.task)) issue("Invalid usage task reference");
-    if (o.signal.startsWith("artifact_") && !o.artifact) issue("Artifact evidence requires an abstract artifact ID");
-    if (["workflow_operated", "roles_defined", "exceptions_handled", "maintenance_verified", "feedback_integrated"].includes(o.signal) && !o.workflow) issue("Workflow evidence requires an abstract workflow ID");
   }
+  const scanned = data.systemEvidence?.filesScanned ?? null, listed = data.systemEvidence?.filesListed ?? null;
+  if (scanned !== null && listed !== null && scanned > listed) issue("System evidence cannot scan more files than it listed");
   if (data.tasks.some((t) => !data.coverage.sources.includes(t.source))) issue("Task source is outside observed coverage");
   if (data.tasks.some((t) => t.date < data.observedPeriod.from || t.date > data.observedPeriod.to)) issue("Task date is outside observed period");
   if (new Set(data.coverage.sources).size !== data.coverage.sources.length) issue("Duplicate coverage source");

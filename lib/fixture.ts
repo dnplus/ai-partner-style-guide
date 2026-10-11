@@ -30,5 +30,5 @@ export function makePartialFixture(nickname = "顯影中的搭檔"): Submission 
   data.assessment = deriveAssessment(data);
   return data;
 }
-export function makeLevelFixture(nickname="示範搭檔"):Submission { const data=makeFixture(nickname);data.usageEvidence={version:"usage-level-v1",observations:[{task:"T001",signal:"artifact_inspected",artifact:"A01"},{task:"T001",signal:"artifact_tested",artifact:"A01"},{task:"T002",signal:"artifact_reused",artifact:"A01"}]};return data;}
+export function makeLevelFixture(nickname="示範搭檔"):Submission { const data=makeFixture(nickname);data.usageEvidence={version:"usage-level-v2",observations:[{task:"T001",signal:"useful_result_verified"},{task:"T002",signal:"useful_result_verified"}]};data.systemEvidence={automationSessions:2,subagentSessions:5,automationSpanDays:9,assetWriteSessions:1,assetReuseSessions:2,assetMaintainedAfterAutomation:1,gearKinds:1,filesScanned:40,filesListed:40};return data;}
 export const demoReport = toReport(makeLevelFixture());

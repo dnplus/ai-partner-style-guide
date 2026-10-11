@@ -448,7 +448,7 @@
           "properties": {
             "version": {
               "type": "string",
-              "const": "usage-level-v1"
+              "const": "usage-level-v2"
             },
             "observations": {
               "type": "array",
@@ -467,24 +467,8 @@
                       "useful_result_verified",
                       "context_scoped",
                       "acceptance_defined",
-                      "targeted_correction_verified",
-                      "artifact_inspected",
-                      "artifact_tested",
-                      "artifact_reused",
-                      "workflow_operated",
-                      "roles_defined",
-                      "exceptions_handled",
-                      "maintenance_verified",
-                      "feedback_integrated"
+                      "targeted_correction_verified"
                     ]
-                  },
-                  "artifact": {
-                    "type": "string",
-                    "pattern": "^A(0[1-9]|1[0-2])$"
-                  },
-                  "workflow": {
-                    "type": "string",
-                    "pattern": "^W0[1-8]$"
                   }
                 },
                 "required": [
@@ -499,6 +483,131 @@
           "required": [
             "version",
             "observations"
+          ],
+          "additionalProperties": false
+        },
+        "systemEvidence": {
+          "type": "object",
+          "properties": {
+            "automationSessions": {
+              "anyOf": [
+                {
+                  "type": "integer",
+                  "minimum": 0,
+                  "maximum": 9007199254740991
+                },
+                {
+                  "type": "null"
+                }
+              ]
+            },
+            "subagentSessions": {
+              "anyOf": [
+                {
+                  "type": "integer",
+                  "minimum": 0,
+                  "maximum": 9007199254740991
+                },
+                {
+                  "type": "null"
+                }
+              ]
+            },
+            "automationSpanDays": {
+              "anyOf": [
+                {
+                  "type": "integer",
+                  "minimum": 0,
+                  "maximum": 9007199254740991
+                },
+                {
+                  "type": "null"
+                }
+              ]
+            },
+            "assetWriteSessions": {
+              "anyOf": [
+                {
+                  "type": "integer",
+                  "minimum": 0,
+                  "maximum": 9007199254740991
+                },
+                {
+                  "type": "null"
+                }
+              ]
+            },
+            "assetReuseSessions": {
+              "anyOf": [
+                {
+                  "type": "integer",
+                  "minimum": 0,
+                  "maximum": 9007199254740991
+                },
+                {
+                  "type": "null"
+                }
+              ]
+            },
+            "assetMaintainedAfterAutomation": {
+              "anyOf": [
+                {
+                  "type": "integer",
+                  "minimum": 0,
+                  "maximum": 9007199254740991
+                },
+                {
+                  "type": "null"
+                }
+              ]
+            },
+            "gearKinds": {
+              "anyOf": [
+                {
+                  "type": "integer",
+                  "minimum": 0,
+                  "maximum": 4
+                },
+                {
+                  "type": "null"
+                }
+              ]
+            },
+            "filesScanned": {
+              "anyOf": [
+                {
+                  "type": "integer",
+                  "minimum": 0,
+                  "maximum": 9007199254740991
+                },
+                {
+                  "type": "null"
+                }
+              ]
+            },
+            "filesListed": {
+              "anyOf": [
+                {
+                  "type": "integer",
+                  "minimum": 0,
+                  "maximum": 9007199254740991
+                },
+                {
+                  "type": "null"
+                }
+              ]
+            }
+          },
+          "required": [
+            "automationSessions",
+            "subagentSessions",
+            "automationSpanDays",
+            "assetWriteSessions",
+            "assetReuseSessions",
+            "assetMaintainedAfterAutomation",
+            "gearKinds",
+            "filesScanned",
+            "filesListed"
           ],
           "additionalProperties": false
         }

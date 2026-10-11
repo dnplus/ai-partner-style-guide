@@ -41,7 +41,7 @@ After sampling, the script makes a second pass over the same Claude Code, Codex,
 
 The script writes `digest.json` with mode `0600` as soon as both passes finish, then starts Tokscale. Tokscale keeps running after the scan exits. Read the digest. Do not paste it into the chat, and do not upload it. The terminal prints candidate counts, files read, system files scanned against listed, digest size, timing, and whether Tokscale started.
 
-Copy `observedPeriod`, `coverage`, and `metrics` into the summary unchanged. The digest token fields are empty at this point. `tokenSource` is `unavailable`, both token counts are null, and `modelUsage` is empty. Leave those fields as copied. Do not fill token totals from the logs. Submit replaces them from the Tokscale output.
+Copy `observedPeriod`, `coverage`, `metrics`, and `systemEvidence` into the summary unchanged. The digest token fields are empty at this point. `tokenSource` is `unavailable`, both token counts are null, and `modelUsage` is empty. Leave those fields as copied. Do not fill token totals from the logs. Submit replaces them from the Tokscale output.
 
 `observedPeriod` is the local dates the script actually saw. It can be narrower than the granted window. Task dates have to fall inside it.
 
@@ -106,18 +106,18 @@ Letter names follow the Myers & Briggs Foundation pages [The MBTI preferences](h
 
 ## Usage level evidence
 
-`usageEvidence` is optional and separate from the letters, the tokens, the client, and the model. Send `version` `usage-level-v1` and at most 64 observations. Each observation has `task`, `signal`, and when needed an abstract `artifact` from `A01` to `A12` or `workflow` from `W01` to `W08`. Do not send real names, contents, or paths. Omit `usageEvidence` when you saw none of these facts. The server computes the level. Do not send a level number, and do not fill a high level because evidence is missing.
+The level has two sources. Both stay separate from the letters, the tokens, the client, and the model. The server computes the level. Do not send a level number, and do not raise a level because evidence is missing.
 
-Record only a fact you can see in the granted records. No inspection record is not `unchecked_adoption`. Do not open artifacts the grant did not already include.
+`usageEvidence` is what you saw the human do with the agent. It is optional. Send `version` `usage-level-v2` and at most 64 observations. Each observation has only `task` and `signal`. Omit `usageEvidence` when none of these facts is visible. Record a fact only when the granted records show it. A missing check record does not prove `unchecked_adoption`. Do not open project files the grant did not already include.
 
-- `unchecked_adoption`. A result needed a check, and it was adopted without that check.
-- `retry_after_error`. An error was recognized, and a retry followed.
-- `useful_result_verified`. The result of a task was confirmed usable.
-- `context_scoped`, `acceptance_defined`, and `targeted_correction_verified`. The same task bounded the context, stated what done means, and verified a specific correction.
-- `artifact_inspected`, `artifact_tested`, and `artifact_reused`. The same artifact id was inspected, tested, and reused on a different task, with inspect date, then test date, then reuse date.
-- `workflow_operated`, `roles_defined`, `acceptance_defined`, `exceptions_handled`, `maintenance_verified`, and `feedback_integrated`. These belong on a workflow id. `artifact_*` requires `artifact`. The workflow signals other than `acceptance_defined` require `workflow`.
+- `unchecked_adoption`. A result needed a check, and the user took it without one.
+- `retry_after_error`. Someone noticed an error, and a new attempt followed.
+- `useful_result_verified`. A task's result was confirmed to work.
+- `context_scoped`, `acceptance_defined`, and `targeted_correction_verified`. One task narrowed the context, said what done looks like, and confirmed a specific fix.
 
-The server can reach level 2 from `useful_result_verified` on two independent tasks. Level 3 needs `context_scoped`, `acceptance_defined`, and `targeted_correction_verified` on one task. Level 4 needs the artifact order above. Level 5 needs two workflows that share no tasks. Each of those workflows needs at least three `workflow_operated` tasks spanning at least 14 days, all five companion signals, and `maintenance_verified` after the first operated date. Anything short of a level stays empty.
+`systemEvidence` comes from the script, not from you. Copy it as it is. It counts automation sessions, subagent sessions, how many days the automation spans, sessions that wrote or reused an agent asset, asset writes after automation began, and the kinds of scheduling, CI, hook, or heartbeat gear seen. A null count stays null.
+
+Levels 0 to 3 come from `usageEvidence`. Level 0 needs `unchecked_adoption`. Level 1 needs `retry_after_error`. Level 2 needs `useful_result_verified` on two different tasks. Level 3 needs the three scoped-fix signals on the same task. Levels 4 and 5 come only from `systemEvidence`. Level 4 needs at least one session that wrote an asset and at least two sessions that used an asset another session wrote. Level 5 adds at least three automation sessions spread over at least 14 days, at least one kind of gear, and at least one asset write after the first automation session. Evidence short of every level leaves the level unknown.
 
 ## Build the summary
 

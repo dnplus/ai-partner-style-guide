@@ -35,7 +35,18 @@
   "tasks": [],
   "observations": [],
   "usageEvidence": {
-    "version": "usage-level-v1",
+    "version": "usage-level-v2",
     "observations": []
+  },
+  "systemEvidence": {
+    "automationSessions": null,
+    "subagentSessions": null,
+    "automationSpanDays": null,
+    "assetWriteSessions": null,
+    "assetReuseSessions": null,
+    "assetMaintainedAfterAutomation": null,
+    "gearKinds": null,
+    "filesScanned": null,
+    "filesListed": null
   }
 }

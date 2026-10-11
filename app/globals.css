@@ -150,7 +150,7 @@ html[lang="en"] .art-grid .card-copy h2,html[lang="ko"] .art-grid .card-copy h2{
 @property --my{syntax:"<percentage>";inherits:true;initial-value:38%}
 @property --shine{syntax:"<angle>";inherits:true;initial-value:135deg}
 .final-screen .reveal-art{animation:backdrop-in .15s ease-out}
-.final-screen .holo-card.revealing{animation:card-flip 1.4s var(--ease-in-out) backwards,card-idle 9s ease-in-out 1.6s infinite backwards}
+.final-screen .holo-card.revealing{animation:card-flip 1.4s var(--ease-in-out) backwards,card-idle 9s ease-in-out 1.6s 3 both}
 .final-screen .holo-card.revealing[data-touched]{animation:card-flip 1.4s var(--ease-in-out) backwards}
 @keyframes card-flip{0%{transform:rotateX(6deg) rotateY(-180deg) rotateZ(-3deg) scale(.9)}18%{transform:rotateX(6deg) rotateY(-180deg) rotateZ(-3deg) scale(.94)}100%{transform:rotateX(var(--rx)) rotateY(var(--ry)) rotateZ(3deg)}}
 .card-back{position:absolute;inset:0;border-radius:25px;transform:rotateY(180deg) translateZ(10px);backface-visibility:hidden;background:radial-gradient(ellipse,#382843,#14111b 65%);border:3px solid #aaa0b8;display:grid;place-items:center;color:#e2cef9}
@@ -168,9 +168,9 @@ html[lang="en"] .art-grid .card-copy h2,html[lang="ko"] .art-grid .card-copy h2{
 .final-copy>:nth-child(1){animation-delay:.95s}.final-copy>:nth-child(2){animation-delay:1.01s}.final-copy>:nth-child(3){animation-delay:1.07s}.final-copy>:nth-child(4){animation-delay:1.13s}.final-copy>:nth-child(5){animation-delay:1.19s}.final-copy>:nth-child(6){animation-delay:1.25s}.final-copy>:nth-child(n+7){animation-delay:1.31s}
 @keyframes copy-in{from{opacity:0;transform:translateY(10px)}}
 
-/* Idle: the cover and result cards sway on their own so the foil shows without a drag. */
+/* Idle: the cover and result cards sway three times on their own so the foil shows without a drag, then rest. */
 @keyframes card-idle{0%,100%{--rx:4deg;--ry:-12deg;--mx:26%;--my:42%;--shine:75deg}50%{--rx:-3deg;--ry:12deg;--mx:74%;--my:56%;--shine:195deg}}
-.cover-art .holo-card:not([data-touched]){animation:card-idle 9s ease-in-out infinite backwards}
+.cover-art .holo-card:not([data-touched]){animation:card-idle 9s ease-in-out 3 both}
 @media(prefers-reduced-motion:reduce){.final-screen .holo-card.revealing,.cover-art .holo-card{animation:none!important}}
 
 /* Rarity: epic and legendary cards keep a light travelling around the frame. */

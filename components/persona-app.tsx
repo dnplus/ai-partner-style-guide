@@ -47,13 +47,11 @@ function SelfTypePick({value,onChange}:{value:TypeCode|null;onChange:(value:Type
   const {t}=useLocale();
   return <div className="self-type-pick"><label htmlFor="self-type">{t("你覺得自己是哪一型？")}</label><select id="self-type" value={value??""} onChange={e=>onChange(typeCodes.find(code=>code===e.target.value)??null)}><option value="">{t("不確定")}</option>{typeCodes.map(code=><option key={code} value={code}>{code} · {t(personas[code].name)}</option>)}</select><p>{t("只拿來對照，不影響結果。")}</p></div>;
 }
-export function PersonaApp({authenticated=false,signInHref="/signin-with-chatgpt?return_to=%2F",signOutHref="/signout-with-chatgpt?return_to=%2F"}:{authenticated?:boolean;signInHref?:string;signOutHref?:string}) {
+export function PersonaApp() {
     const { t, locale, ready: localeReady } = useLocale();
-    const flow = usePersonaSession(authenticated);
+    const flow = usePersonaSession();
     const [stage, setStage] = useState<Stage>("cover");
     const [nickname, setNickname] = useState("");
-    const [marketingOptIn,setMarketingOptIn]=useState(false);
-    const [marketingSaved,setMarketingSaved]=useState(false);
     const [style, setStyle] = useState<ArtStyle>("chibi");
     const [family, setFamily] = useState<Family>("codex");
     const [nicknameOnly, setNicknameOnly] = useState(false);
@@ -89,7 +87,6 @@ export function PersonaApp({authenticated=false,signInHref="/signin-with-chatgpt
         if (!flow.ready || initialized.current)
             return;
         initialized.current = true;
-        if (!active&&authenticated&&new URLSearchParams(location.search).get("start")==="1"){setStage("identity");history.replaceState(null,"",location.pathname);}
         if (active) {
             setNickname(active.nickname);
             setStage("waiting");
@@ -138,8 +135,6 @@ export function PersonaApp({authenticated=false,signInHref="/signin-with-chatgpt
         const timer = setTimeout(() => focus.current?.querySelector<HTMLElement>("h1")?.focus({ preventScroll: true }), 50);
         return () => clearTimeout(timer);
     }, [stage, flow.ready]);
-    useEffect(()=>{if(!authenticated)return;let live=true;void fetch("/api/account",{cache:"no-store",redirect:"error"}).then(r=>r.json()).then(data=>{if(live)setMarketingSaved((data as {marketingOptIn?:boolean}).marketingOptIn===true);}).catch(()=>{});return ()=>{live=false;};},[authenticated,active?.id]);
-    async function withdrawMarketing(){try{const r=await fetch("/api/account",{method:"PUT",headers:{"Content-Type":"application/json"},body:JSON.stringify({marketingOptIn:false}),redirect:"error"});if(!r.ok)throw new Error();setMarketingSaved(false);setMarketingOptIn(false);}catch{setNotice("偏好暫時無法更新，請重試。");}}
     function pickSelfType(value:TypeCode|null){setSelfType(value);void flow.saveSelfType(value);}
     function go(next: Stage) { setNotice(""); flow.setError(""); setStage(next); }
     function back() {
@@ -155,7 +150,7 @@ export function PersonaApp({authenticated=false,signInHref="/signin-with-chatgpt
         else
             go("identity");
     }
-    async function startNew(){if(await flow.startFresh()){received.current=null;restoreStage.current=null;setNickname("");setMarketingOptIn(false);setResumeMode(false);setDemo(false);setNicknameOnly(false);setCollectionScope(null);setSelfType(null);sessionStorage.removeItem(UI_KEY);go("identity");}}
+    async function startNew(){if(await flow.startFresh()){received.current=null;restoreStage.current=null;setNickname("");setResumeMode(false);setDemo(false);setNicknameOnly(false);setCollectionScope(null);setSelfType(null);sessionStorage.removeItem(UI_KEY);go("identity");}}
     async function create(event: FormEvent) {
         event.preventDefault();
         setNotice("");
@@ -164,7 +159,7 @@ export function PersonaApp({authenticated=false,signInHref="/signin-with-chatgpt
             return;
         }
         if(!scopeOptionsSchema.safeParse(scopeOptions).success){setNotice("請選擇至少一個來源，觀察天數需為 1–365 天。");return;}
-        const next = await flow.create({nickname,marketingOptIn});
+        const next = await flow.create({nickname});
         if (next) {
             if(!resumeMode||!collectionScope)setCollectionScope(createCollectorScope(next.expiresAt-SESSION_TTL_MS,timeZone,scopeOptions));
             fixtureKey.current = crypto.randomUUID();
@@ -191,7 +186,6 @@ export function PersonaApp({authenticated=false,signInHref="/signin-with-chatgpt
             received.current = null;
             restoreStage.current = null;
             setFixtureConsent(false);
-            setMarketingOptIn(false);
             setManual(false);
             setNotice("");
             setStage(next);
@@ -199,7 +193,6 @@ export function PersonaApp({authenticated=false,signInHref="/signin-with-chatgpt
                 setDemo(false);
                 setResumeMode(false);
                 setNickname("");
-                setMarketingOptIn(false);
                 setScopeOptions(defaultScopeOptions());setCollectionScope(null);setSelfType(null);
             }
             about.current?.close();
@@ -262,7 +255,7 @@ export function PersonaApp({authenticated=false,signInHref="/signin-with-chatgpt
       {stage === "cover" && <section className="cover-screen screen" aria-labelledby="cover-title">
         <h1 id="cover-title" tabIndex={-1}>{t("你的 Agent，")}<br />{t("是哪一種 MBTI？")}</h1>
         <p className="cover-tagline">{t("你怎麼帶它做事，")}<br className="mobile-break"/>{t("它就長出怎樣的工作風格。")}</p><div className="cover-art"><HoloCard report={toCardObservation(demoReport)} style="chibi" family="codex" nicknameOnly teaser/></div>
-        {authenticated?<button className="primary" onClick={start}>{flow.lastResult ? t("打開上次的卡片") : active ? t("繼續這次觀察") : t("開始觀察")}<ArrowRight size={22}/></button>:<a className="primary sign-in" href={signInHref} target="_top">{t("使用 ChatGPT 登入開始")}<ArrowRight size={22}/></a>}{flow.lastResult&&<div className="remembered-actions"><button className="quiet-button" onClick={startNew}>{t("開始新的觀察")}</button><button className="quiet-button" onClick={()=>erase()}>{t("清除上次結果")}</button></div>}
+        <button className="primary" onClick={start}>{flow.lastResult ? t("打開上次的卡片") : active ? t("繼續這次觀察") : t("開始觀察")}<ArrowRight size={22}/></button>{flow.lastResult&&<div className="remembered-actions"><button className="quiet-button" onClick={startNew}>{t("開始新的觀察")}</button><button className="quiet-button" onClick={()=>erase()}>{t("清除上次結果")}</button></div>}
       </section>}
       {stage !== "cover" && expired ? <section className="screen recovery-screen"><div className="sealed-card" aria-hidden="true"><span>✧</span></div><h1 tabIndex={-1}>{t("這道光，")}<br />{t("暫時收起了。")}</h1><p className="lead">{t("連結已到期或失效。請讓 Agent 保留已整理的最小摘要，")}<br />{t("換新連結後，只需明確核准新的收件目的地。")}</p><button className="primary" disabled={flow.busy} onClick={renew}>{t("沿用分析，換新連結")}<ArrowRight size={20}/></button></section> : <>
       {stage === "identity" && <section className="identity-screen screen">
@@ -271,7 +264,6 @@ export function PersonaApp({authenticated=false,signInHref="/signin-with-chatgpt
         <form onSubmit={create} className="identity-form">
           <label className="sr-only" htmlFor="nickname">{t("Agent 的名字")}</label><input id="nickname" className="nickname-input" autoComplete="off" placeholder={t("Agent 的名字")} value={active?.nickname ?? nickname} onInvalid={e=>e.currentTarget.setCustomValidity(t("請填寫 Agent 的名字。"))} onInput={e=>e.currentTarget.setCustomValidity("")} onChange={e => setNickname(e.target.value)} required maxLength={24} readOnly={!!active}/>
           <p className="field-caption">{active ? t("返回不會建立第二個連結") : t("這個名字會出現在卡片上")}</p>
-          {!active&&<div className="start-consent"><p>{t("使用 ChatGPT 帳戶的 Email 提供這次完整報告，寄送功能尚未開放。")}</p><label className="check-field"><input type="checkbox" checked={marketingOptIn} onChange={e=>setMarketingOptIn(e.target.checked)}/>{t("我願意收到新功能與活動消息（選填，可隨時取消）。")}</label></div>}
           {!active&&!demo&&!resumeMode&&<CollectorScopeOptions value={scopeOptions} onChange={setScopeOptions} timeZone={timeZone}/>}
           <button className="primary wide" disabled={flow.busy}>{flow.busy ? t("建立中…") : active ? t("繼續這個連結") : t("建立我的連結")}<ArrowRight size={20}/></button>
         </form>
@@ -307,7 +299,7 @@ export function PersonaApp({authenticated=false,signInHref="/signin-with-chatgpt
         <div className="final-copy">{card.kind==="fixture"&&<p className="eyebrow">{t("示範資料 · 非個人評估")}</p>}<h1 tabIndex={-1}>{card.nickname}</h1><p className="final-subtitle">{t(personaFor(card.assessment.type).name)}</p>{selfContrast(card,t)&&<p className="self-contrast">{selfContrast(card,t)}</p>}<div className="brief-reading">{card.brief.map(line=><p key={line}>{t(line)}</p>)}</div>
         <div className="final-actions"><button className="primary" onClick={exportPng} disabled={exporting||!!card.assessment.type&&!artFor(family,card.assessment.type,style)}>{exporting?t("製作圖片中…"):t("下載我的角色卡")}<Download size={20}/></button><CardShare card={card} style={style} family={family} nicknameOnly={nicknameOnly}/></div>
         <details className="card-options"><summary>{t("卡片選項")}</summary><div><label htmlFor="card-family">{t("卡面主題")}</label><select id="card-family" value={family} onChange={e=>setFamily(e.target.value as Family)}>{families.map(f=><option key={f.id} value={f.id}>{f.label}</option>)}</select><label className="check-field"><input type="checkbox" checked={nicknameOnly} onChange={e=>setNicknameOnly(e.target.checked)}/>{t("只顯示暱稱，隱藏分型")}</label><p>{t("此選項也會隱藏等級與短句。")}</p></div></details>
-        {result.report&&<div className="inline-report"><ReportSummary report={result.report}/><details className="delivery-details"><summary>{t("報告與寄送狀態")}</summary><p>{t("Email 寄送尚未開放；完整報告可在這裡查看。")}</p></details></div>}
+        {result.report&&<div className="inline-report"><ReportSummary report={result.report}/></div>}
         <div className="result-management"><button className="quiet-button" onClick={startNew}>{t("開始新的觀察")}</button><button className="quiet-button" disabled={flow.busy} onClick={()=>erase()}>{t("清除這次結果")}</button></div>{flow.rememberError&&<p className="small-note">{t("此裝置暫時無法記住結果，請先下載卡片。")}</p>}</div>
       </section>}
       </>}
@@ -318,9 +310,8 @@ export function PersonaApp({authenticated=false,signInHref="/signin-with-chatgpt
       <details><summary>{t("觀察依據與 16 種風格")}</summary><p>{t("借用 E/I 推進節奏、S/N 指令焦點、T/F 驗收依據、J/P 工作框架，只看你帶 Agent 時說了什麼。這不是人格診斷，也不是模型的固定性格。")}</p><p>{t("每個任務每軸選一邊，看不出來就跳過。少於三個任務或打平保留問號，差距不大標成傾向。舊結果需要重新分析。")}<a href="/collector/SKILL.md" target="_blank" rel="noreferrer">{t("完整觀察方式 ↗")}</a></p><div className="about-types">{Object.entries(personas).map(([code, p]) => <div key={code}><b>{code}</b><span>{t(p.name)}</span></div>)}</div></details>
       <details><summary>{t("使用等級如何判斷")}</summary><p>{t("等級與 MBTI、用量和模型無關。LV0–3 看你帶 Agent 時怎麼查核與修正；LV4 看你寫下的技能、規則或腳本，是否被其他工作階段再次使用；LV5 再看自動化是否無人值守跑過兩週，且資產持續維護。沒有證據就保持未知，等級也不代表能力上限。")}</p></details>
       <details><summary>{t("角色來源與非商業授權")}</summary><p>{t("六個家族 × 16 型 × 一般／Q 版，共 192 格專屬插畫。目前")}{artCounts.ready}{t("張完成")}{artCounts.complete ? t("。") : t("，其餘製作中，缺圖不以其他型替代。")}{t("插畫依構圖選配，與分型計算獨立。Codex 使用 GPT 娘的同人改編，並非官方 Codex 角色。圖片改編參考")}<a href="https://github.com/Apprentice-Geo/AI-Fanworks/tree/main/ApprenTice/images" target="_blank" rel="noreferrer">ApprenTice</a>{t("；角色原作參考 ZipZipPipe，DeepSeek 另含上善無形。")}</p><p>{t("AI 輔助再創作，")}<a href="https://creativecommons.org/licenses/by-nc-sa/4.0/" target="_blank" rel="noreferrer">CC BY-NC-SA 4.0</a>{t("，限非商業、署名及相同方式分享。上游權利鏈尚未全面核實，沒有模型業者背書。")}</p><a href="/art-provenance.md" target="_blank" rel="noreferrer">{t("完整素材來源 ↗")}</a><br /><a href="/art-gallery">{t("瀏覽全部插畫圖庫 ↗")}</a></details>
-      <details><summary>{t("資料與 Email 如何使用")}</summary><p>{t("Email 由 ChatGPT 登入提供，不出現在卡片。完整報告不以行銷同意為條件。目前只保存偏好，沒有寄信或加入外部行銷服務。")}</p><p>{t("提交連結 30 分鐘後失效。此裝置可用安全 Cookie 開啟最近結果，最長保留 7 天；可隨時清除。Email、原始紀錄與提交權杖不存入瀏覽器儲存空間，結果沒有公開網址。")}</p><p>{t("首頁可公開開啟；開始觀察、讀取結果及帳戶偏好均需本人登入。Agent 只能透過短效專屬連結提交一次摘要，不能讀取私人結果。")}</p></details>
-      {authenticated&&<details><summary>{t("帳戶與行銷偏好")}</summary><p>{t(marketingSaved?"已同意接收新功能與活動消息。":"沒有訂閱行銷消息。")}</p>{marketingSaved&&<button className="quiet-button" onClick={withdrawMarketing}>{t("取消行銷同意")}</button>}<p><a href={signOutHref} target="_top">{t("登出 ChatGPT")}</a></p></details>}
-      {!active&&authenticated && <button className="quiet-button demo-entry" onClick={() => { setDemo(true); setNickname(t("示範搭檔")); about.current?.close(); go("identity"); }}>{t("使用虛構資料體驗")}<ArrowRight size={16}/></button>}
+      <details><summary>{t("資料如何使用")}</summary><p>{t("提交連結 30 分鐘後失效。此裝置可用安全 Cookie 開啟最近結果，最長保留 7 天；可隨時清除。原始紀錄與提交權杖不存入瀏覽器儲存空間，結果沒有公開網址。")}</p><p>{t("不需登入，也不收集 Email。結果只能由建立連結的這個瀏覽器讀取；Agent 只能透過短效專屬連結提交一次摘要，不能讀取結果。")}</p></details>
+      {!active && <button className="quiet-button demo-entry" onClick={() => { setDemo(true); setNickname(t("示範搭檔")); about.current?.close(); go("identity"); }}>{t("使用虛構資料體驗")}<ArrowRight size={16}/></button>}
       {(active||flow.lastResult) && <button className="quiet-button danger-action" disabled={flow.busy} onClick={() => erase()}>{t("結束觀察並刪除資料")}</button>}
       {flow.error && <p role="alert">{noticeText(locale,flow.error)}</p>}
     </dialog>

@@ -11,10 +11,10 @@ import { receivedProgressSchema, emptyProgress, type ReceivedProgress } from "..
 export const SESSION_KEY = "agent-mbti-session-v2";
 const sessionSchema = z.object({ id:z.string().uuid(), readToken:z.string().regex(/^[0-9a-f]{64}$/), writeToken:z.string().regex(/^[0-9a-f]{64}$/).optional(), expiresAt:z.number(), nickname:nicknameSchema });
 const cardSchema = z.object({ nickname:nicknameSchema, kind:z.enum(["fixture","observed"]), assessment:assessmentSchema, usageLevel:usageLevelSchema,brief:z.array(z.string()).max(3),modelFamily:z.enum(["openai","anthropic","google","xai","deepseek","zai","other","unknown"]),selfType:selfTypeSchema.shape.selfType }).strict();
-const resultSchema = z.object({ id:z.string().uuid(), expiresAt:z.number(), status:z.enum(["pending","complete"]), card:cardSchema.nullable(), report:z.record(z.unknown()).nullable(), reportAccess:z.enum(["email","card_only"]), delivery:z.enum(["not_configured","not_requested"]), progress:receivedProgressSchema });
-export type SessionResult = { id:string; expiresAt:number; card:CardObservation; report:Report | null; reportAccess:"email" | "card_only"; delivery:"not_configured" | "not_requested" };
+const resultSchema = z.object({ id:z.string().uuid(), expiresAt:z.number(), status:z.enum(["pending","complete"]), card:cardSchema.nullable(), report:z.record(z.unknown()).nullable(), progress:receivedProgressSchema });
+export type SessionResult = { id:string; expiresAt:number; card:CardObservation; report:Report | null };
 
-export function usePersonaSession(authenticated=true) {
+export function usePersonaSession() {
   const [ready,setReady] = useState(false);
   const [session,setSession] = useState<LocalSession | null>(null);
   const [result,setResult] = useState<SessionResult | null>(null);
@@ -33,23 +33,22 @@ export function usePersonaSession(authenticated=true) {
   const working = useRef(false);
   const remembering = useRef<Promise<void>|null>(null);
 
-  function parseResult(data:{id:string;expiresAt:number;card:CardObservation;report:Record<string,unknown>|null;reportAccess:"email"|"card_only";delivery:"not_configured"|"not_requested"}):SessionResult{
+  function parseResult(data:{id:string;expiresAt:number;card:CardObservation;report:Record<string,unknown>|null}):SessionResult{
     let report:Report|null=null;
-    if(data.reportAccess==="email"&&data.report){const {rubric,assessment,caveat,usageLevel,...submission}=data.report;void rubric;void assessment;void caveat;void usageLevel;report=toReport(validateSubmission(submission));}
-    return {id:data.id,expiresAt:data.expiresAt,card:data.card,report,reportAccess:data.reportAccess,delivery:data.delivery};
+    if(data.report){const {rubric,assessment,caveat,usageLevel,...submission}=data.report;void rubric;void assessment;void caveat;void usageLevel;report=toReport(validateSubmission(submission));}
+    return {id:data.id,expiresAt:data.expiresAt,card:data.card,report};
   }
   useEffect(()=>{
     let mounted=true;
     async function restore(){
       try{
         const saved=sessionSchema.safeParse(JSON.parse(sessionStorage.getItem(SESSION_KEY)??"null"));
-        if(saved.success&&authenticated){setSession(saved.data);setExpired(saved.data.expiresAt<=Date.now());}else sessionStorage.removeItem(SESSION_KEY);
+        if(saved.success){setSession(saved.data);setExpired(saved.data.expiresAt<=Date.now());}else sessionStorage.removeItem(SESSION_KEY);
       }catch{sessionStorage.removeItem(SESSION_KEY);}
       try{
-        if(!authenticated){setReady(true);return;}
         const r=await fetch("/api/remembered",{cache:"no-store",redirect:"error",signal:AbortSignal.timeout(5000)});
         const data=await r.json() as {found?:boolean};
-        if(r.ok&&data.found&&mounted){const valid=z.object({id:z.string().uuid(),expiresAt:z.number(),card:cardSchema,report:z.record(z.unknown()).nullable(),reportAccess:z.enum(["email","card_only"]),delivery:z.enum(["not_configured","not_requested"])}).parse(data);if(valid.expiresAt>Date.now())setLastResult(parseResult(valid));}
+        if(r.ok&&data.found&&mounted){const valid=z.object({id:z.string().uuid(),expiresAt:z.number(),card:cardSchema,report:z.record(z.unknown()).nullable()}).parse(data);if(valid.expiresAt>Date.now())setLastResult(parseResult(valid));}
       }catch{}
       if(mounted)setReady(true);
     }
@@ -95,7 +94,7 @@ export function usePersonaSession(authenticated=true) {
     return ()=>{stopped=true;controller?.abort();clearTimeout(timer);};
   },[session,expired,result,retry]);
 
-  async function create(profile:{nickname:string;marketingOptIn?:boolean}) {
+  async function create(profile:{nickname:string}) {
     if(working.current) return null;
     working.current=true;setBusy(true);setError("");
     const current=++generation.current;

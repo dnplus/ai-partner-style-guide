@@ -4,7 +4,7 @@ import { readFile, readdir, mkdtemp, rm } from 'node:fs/promises';
 import { tmpdir } from 'node:os';
 import { join } from 'node:path';
 import { Miniflare } from 'miniflare';
-import { handleSession as handleSessionImpl, TTL_MS } from '../lib/session-service.ts';
+import { handleSession, TTL_MS } from '../lib/session-service.ts';
 import { makeFixture } from '../lib/fixture.ts';
 
 let mf: Miniflare; let db: D1Database; let directory: string;
@@ -12,8 +12,6 @@ const now = Date.parse('2026-10-10T12:00:00Z');
 const origin = 'http://127.0.0.1:5188';
 const legacy={id:'00000000-0000-4000-8000-000000000001',readToken:'a'.repeat(64),writeToken:'b'.repeat(64),expiresAt:now+TTL_MS,nickname:'舊範例'};
 const hash=async(s:string)=>Array.from(new Uint8Array(await crypto.subtle.digest('SHA-256',new TextEncoder().encode(s))),b=>b.toString(16).padStart(2,'0')).join('');
-const fixtureUser={userId:'fixture-user',email:'fixture@example.test'};
-const handleSession=(database:D1Database,r:Request,id?:string,mode:'session'|'collect'|'progress'='session',at=now)=>handleSessionImpl(database,r,id,mode,at,{...fixtureUser,userId:r.headers.get('oai-authenticated-user-id')??fixtureUser.userId});
 type Session = { id:string;readToken:string;writeToken:string;expiresAt:number;nickname:string };
 function runtime(){return new Miniflare({modules:true,script:'export default {fetch(){return new Response("test")}}',d1Databases:{DB:'session-test'},d1Persist:directory,compatibilityDate:'2026-05-15',cf:false});}
 before(async()=>{directory=await mkdtemp(join(tmpdir(),'ai-persona-d1-'));mf=runtime();db=await mf.getD1Database('DB') as unknown as D1Database;for(const migration of (await readdir(new URL('../drizzle/',import.meta.url))).filter(p=>p.endsWith('.sql')).sort()){const sql=await readFile(new URL('../drizzle/'+migration,import.meta.url),'utf8');for(const q of sql.split('--> statement-breakpoint').map(s=>s.trim()).filter(Boolean))await db.prepare(q).run();if(migration.startsWith('0000_'))await db.prepare('INSERT INTO sessions (id,read_hash,write_hash,nickname,created_at,expires_at,report) VALUES (?1,?2,?3,?4,?5,?6,?7)').bind(legacy.id,await hash(legacy.readToken),await hash(legacy.writeToken),legacy.nickname,now,legacy.expiresAt,JSON.stringify({legacy:true})).run();}});
@@ -23,19 +21,19 @@ async function create(extra:Record<string,string>={},profile:unknown={nickname:'
 const get=(s:Session,token=s.readToken,at=now,extra:Record<string,string>={})=>handleSession(db,request(`/api/sessions/${s.id}`,'GET',token,undefined,extra),s.id,'session',at);
 const send=(s:Session,payload:unknown=makeFixture(s.nickname),key='same-safe-retry-key',token=s.writeToken,at=now)=>handleSession(db,request(`/api/collect/${s.id}`,'POST',token,payload,{'idempotency-key':key}),s.id,'collect',at);
 
-test('migration preserves an existing legacy row and requires reassessment; owner may delete',async()=>{
+test('migration preserves an existing legacy row and requires reassessment; the read holder may delete',async()=>{
   const row=await db.prepare("SELECT protocol_version,report FROM sessions WHERE id=?1").bind(legacy.id).first<{protocol_version:string;report:string}>();
   assert.equal(row!.protocol_version,'1.0');assert.equal(row!.report,JSON.stringify({legacy:true}));
-  const r=await get(legacy);assert.equal(r.status,404);
+  const r=await get(legacy);assert.equal(r.status,410);assert.equal((await r.json() as {code:string}).code,'reassessment_required');
   assert.equal((await send(legacy)).status,410);assert.equal((await get(legacy,legacy.writeToken)).status,404);
   const unchanged=await db.prepare("SELECT report FROM sessions WHERE id=?1").bind(legacy.id).first<{report:string}>();
   assert.equal(unchanged!.report,JSON.stringify({legacy:true}));
-  assert.equal((await handleSession(db,request('/api/sessions/'+legacy.id,'DELETE',legacy.readToken),legacy.id,'session',now)).status,404);
+  assert.equal((await handleSession(db,request('/api/sessions/'+legacy.id,'DELETE',legacy.readToken),legacy.id,'session',now)).status,200);
+  assert.equal((await get(legacy)).status,404);
 });
-test('create → submit → read persists aggregates, not email or bearer tokens in report',async()=>{const s=await create({}, {nickname:'測試旅人',marketingOptIn:false});assert.notEqual(s.readToken,s.writeToken);assert.equal(s.expiresAt,now+TTL_MS);assert.equal((await send(s)).status,201);const r=await get(s);assert.equal(r.status,200);assert.match(r.headers.get('cache-control')! ,/no-store/);const data=await r.text();assert.match(data,/INTJ/);assert.doesNotMatch(data,/fixture@example|readToken|writeToken/);const stored=await db.prepare('SELECT read_hash,write_hash FROM sessions WHERE id=?1').bind(s.id).first<{read_hash:string;write_hash:string}>();assert.notEqual(stored!.read_hash,s.readToken);assert.notEqual(stored!.write_hash,s.writeToken);});
-test('native identity grants full report even when marketing is declined',async()=>{const s=await create({}, {nickname:'報告旅人',marketingOptIn:false});await send(s);const data=await(await get(s)).json() as Record<string,unknown>;assert.ok(data.report);assert.equal(data.reportAccess,'email');assert.equal(data.delivery,'not_configured');assert.deepEqual(Object.keys(data.card as object).sort(),['assessment','brief','kind','modelFamily','nickname','selfType','usageLevel']);assert.doesNotMatch(JSON.stringify(data),/fixture@example|readToken|writeToken/);});
+test('create → submit → read persists aggregates, not bearer tokens in report',async()=>{const s=await create();assert.notEqual(s.readToken,s.writeToken);assert.equal(s.expiresAt,now+TTL_MS);assert.equal((await send(s)).status,201);const r=await get(s);assert.equal(r.status,200);assert.match(r.headers.get('cache-control')! ,/no-store/);const data=await r.text();assert.match(data,/INTJ/);assert.doesNotMatch(data,/readToken|writeToken/);const stored=await db.prepare('SELECT read_hash,write_hash FROM sessions WHERE id=?1').bind(s.id).first<{read_hash:string;write_hash:string}>();assert.notEqual(stored!.read_hash,s.readToken);assert.notEqual(stored!.write_hash,s.writeToken);});
+test('the read capability alone returns the full report and nothing account-shaped',async()=>{const s=await create({}, {nickname:'報告旅人'});await send(s);const data=await(await get(s)).json() as Record<string,unknown>;assert.deepEqual(Object.keys(data).sort(),['card','expiresAt','id','progress','report','status']);assert.equal((data.report as {assessment:{type:string}}).assessment.type,'INTJ');assert.deepEqual(Object.keys(data.card as object).sort(),['assessment','brief','kind','modelFamily','nickname','selfType','usageLevel']);assert.doesNotMatch(JSON.stringify(data),/readToken|writeToken/);});
 test('separate authorities and cross-session capabilities',async()=>{const a=await create(),b=await create();assert.equal((await get(a,a.writeToken)).status,404);assert.equal((await send(a,makeFixture(a.nickname),'same-safe-retry-key',a.readToken)).status,404);assert.equal((await get(a,b.readToken)).status,404);assert.equal((await send(a,makeFixture(a.nickname),'same-safe-retry-key',b.writeToken)).status,404);});
-test('dispatch owner binds reading without requiring callback caller identity',async()=>{const s=await create({'oai-authenticated-user-id':'owner-a'});assert.equal((await send(s)).status,201);assert.equal((await get(s)).status,404);assert.equal((await get(s,s.readToken,now,{'oai-authenticated-user-id':'owner-b'})).status,404);assert.equal((await get(s,s.readToken,now,{'oai-authenticated-user-id':'owner-a'})).status,200);});
 test('one submission and exact canonical idempotent retry',async()=>{const s=await create();const f=makeFixture(s.nickname);assert.equal((await send(s,f)).status,201);assert.deepEqual(await (await send(s,Object.fromEntries(Object.entries(f).reverse()))).json(),{accepted:true,duplicate:true});assert.equal((await send(s,f,'another-retry-key')).status,409);f.metrics.humanSessions=19;assert.equal((await send(s,f)).status,409);});
 test('concurrent independent payloads cannot overwrite each other',async()=>{const s=await create();const second=makeFixture(s.nickname);second.metrics.userMessages=87;const responses=await Promise.all([send(s),send(s,second,'another-retry-key')]);assert.deepEqual(responses.map(r=>r.status).sort(),[201,409]);});
 test('expired pending and submitted sessions reject callback and read, then purge',async()=>{const s=await create();assert.equal((await send(s,makeFixture(s.nickname),'same-safe-retry-key',s.writeToken,now+TTL_MS+1)).status,410);assert.equal((await get(s)).status,404);const t=await create();await send(t);assert.equal((await get(t,t.readToken,now+TTL_MS+1)).status,410);});
@@ -113,32 +111,30 @@ test('automatic runner tolerates a lost accepted response and renews only after 
   assert.equal((await get(fresh,fresh.readToken,s.expiresAt)).status,200);
 });
 
-test('public anonymous requests and forged request identity cannot create or read; only server identity counts',async()=>{
- const spoof=request('/api/sessions','POST',undefined,{protocolVersion:'3.0',nickname:'Spoof'},{'oai-authenticated-user-id':'fixture-user','oai-authenticated-user-email':'fixture@example.test'});
- assert.equal((await handleSessionImpl(db,spoof,undefined,'session',now,null)).status,401);
- const s=await create();assert.equal((await handleSessionImpl(db,request('/api/sessions/'+s.id,'GET',s.readToken),s.id,'session',now,null)).status,401);
- assert.equal((await handleSessionImpl(db,request('/api/sessions/'+s.id,'GET',s.readToken),s.id,'session',now,{userId:'other-user',email:'other@example.test'})).status,404);
- assert.equal((await handleSessionImpl(db,request('/api/collect/'+s.id,'POST',s.writeToken,makeFixture(s.nickname),{'idempotency-key':'public-scoped-callback'}),s.id,'collect',now,null)).status,201);
+test('an anonymous visitor creates and reads with capabilities alone; the agent submits with its write token',async()=>{
+ const s=await create();
+ assert.equal((await handleSession(db,request('/api/sessions/'+s.id,'GET'),s.id,'session',now)).status,404);
+ assert.equal((await handleSession(db,request('/api/collect/'+s.id,'POST',s.writeToken,makeFixture(s.nickname),{'idempotency-key':'public-scoped-callback'}),s.id,'collect',now)).status,201);
+ assert.equal((await get(s)).status,200);
 });
-test('marketing is opt-in, versioned and revocable; it never gates reports',async()=>{
- const {handleAccount}=await import('../lib/account-service.ts');const s=await create({}, {nickname:'Optional',marketingOptIn:true});await send(s);assert.equal((await get(s)).status,200);
- const first=await(await handleAccount(db,request('/api/account','GET'),fixtureUser,now)).json() as {marketingOptIn:boolean;version:string};assert.equal(first.marketingOptIn,true);assert.equal(first.version,'marketing-v1');
- const revoked=await handleAccount(db,request('/api/account','PUT',undefined,{marketingOptIn:false},{origin}),fixtureUser,now+1);assert.equal(revoked.status,200);
- const row=await db.prepare('SELECT * FROM marketing_preferences WHERE owner_hash=?1').bind(await hash(fixtureUser.userId)).first<{opted_in:number;contact_email:string|null;updated_at:number}>();assert.equal(row!.opted_in,0);assert.equal(row!.contact_email,null);assert.equal(row!.updated_at,now+1);assert.equal((await get(s)).status,200);
- assert.equal((await handleAccount(db,request('/api/account','PUT',undefined,{marketingOptIn:true},{origin}),null,now)).status,401);
+test('the account layer is gone from storage: no owner or email columns, no marketing table',async()=>{
+ const columns=async(table:string)=>(await db.prepare(`SELECT name FROM pragma_table_info('${table}')`).all<{name:string}>()).results.map(c=>c.name);
+ for(const column of ['owner_hash','email'])assert.ok(!(await columns('sessions')).includes(column),column);
+ for(const column of ['owner_hash','report_access'])assert.ok(!(await columns('remembered_results')).includes(column),column);
+ assert.equal(await db.prepare("SELECT name FROM sqlite_master WHERE type='table' AND name='marketing_preferences'").first(),null);
+ assert.equal((await handleSession(db,request('/api/sessions','POST',undefined,{protocolVersion:'3.0',nickname:'Optin',marketingOptIn:true}),undefined,'session',now)).status,400);
 });
-test('device recall uses HttpOnly scoped authority plus same signed-in owner, expires and can be cleared',async()=>{
+test('device recall uses HttpOnly scoped authority, expires and can be cleared',async()=>{
  const {handleRemembered,RESULT_TTL_MS}=await import('../lib/remembered-service.ts');const s=await create();await send(s);
- const remember=()=>handleRemembered(db,request('/api/remembered','POST',undefined,{sessionId:s.id,readToken:s.readToken},{origin}),now,fixtureUser);
+ const remember=()=>handleRemembered(db,request('/api/remembered','POST',undefined,{sessionId:s.id,readToken:s.readToken},{origin}),now);
  const saved=await remember();assert.equal(saved.status,201);const cookie=saved.headers.get('set-cookie')!;assert.match(cookie,/HttpOnly/);assert.match(cookie,/SameSite=Strict/);assert.match(cookie,/Path=\/api\/remembered/);assert.doesNotMatch(cookie,new RegExp(s.readToken+'|'+s.writeToken));
- const recall=(at=now,identity=fixtureUser)=>handleRemembered(db,request('/api/remembered','GET',undefined,undefined,{cookie:cookie.split(';')[0]}),at,identity);
+ const recall=(at=now)=>handleRemembered(db,request('/api/remembered','GET',undefined,undefined,{cookie:cookie.split(';')[0]}),at);
  assert.equal((await recall()).status,200);const result=await(await recall(now+TTL_MS+1)).json() as {found:boolean;report:unknown};assert.equal(result.found,true);assert.ok(result.report);
- assert.equal((await(await recall(now,{userId:'other-user',email:'other@example.test'})).json() as {found:boolean}).found,false);
- assert.equal((await handleRemembered(db,request('/api/remembered','GET',undefined,undefined,{cookie}),now,null)).status,401);
- const duplicate=await handleRemembered(db,request('/api/remembered','POST',undefined,{sessionId:s.id,readToken:s.readToken},{origin,cookie:cookie.split(';')[0]}),now,fixtureUser);assert.equal(duplicate.status,200);assert.equal(duplicate.headers.get('set-cookie'),null);
+ assert.equal((await(await handleRemembered(db,request('/api/remembered','GET'),now)).json() as {found:boolean}).found,false);
+ const duplicate=await handleRemembered(db,request('/api/remembered','POST',undefined,{sessionId:s.id,readToken:s.readToken},{origin,cookie:cookie.split(';')[0]}),now);assert.equal(duplicate.status,200);assert.equal(duplicate.headers.get('set-cookie'),null);
  assert.equal((await(await recall(now+RESULT_TTL_MS+1)).json() as {found:boolean}).found,false);
- const t=await create();await send(t);const second=await handleRemembered(db,request('/api/remembered','POST',undefined,{sessionId:t.id,readToken:t.readToken},{origin}),now,fixtureUser);const token=second.headers.get('set-cookie')!.split(';')[0];
- assert.equal((await handleRemembered(db,request('/api/remembered','DELETE',undefined,undefined,{origin,cookie:token}),now,fixtureUser)).status,200);assert.equal((await(await handleRemembered(db,request('/api/remembered','GET',undefined,undefined,{cookie:token}),now,fixtureUser)).json() as {found:boolean}).found,false);
+ const t=await create();await send(t);const second=await handleRemembered(db,request('/api/remembered','POST',undefined,{sessionId:t.id,readToken:t.readToken},{origin}),now);const token=second.headers.get('set-cookie')!.split(';')[0];
+ assert.equal((await handleRemembered(db,request('/api/remembered','DELETE',undefined,undefined,{origin,cookie:token}),now)).status,200);assert.equal((await(await handleRemembered(db,request('/api/remembered','GET',undefined,undefined,{cookie:token}),now)).json() as {found:boolean}).found,false);
 });
 
 test('self-type is stored beside the session, reaches the card and the remembered copy, and never changes the assessment',async()=>{
@@ -158,16 +154,16 @@ test('self-type is stored beside the session, reaches the card and the remembere
  assert.deepEqual(b.card.assessment,a.card.assessment);assert.deepEqual(b.report.assessment,a.report.assessment);
  assert.equal((b.card.assessment as {type:string}).type,'INTJ');
  assert.doesNotMatch(JSON.stringify(b.report),/ENFP/);
- const saved=await handleRemembered(db,request('/api/remembered','POST',undefined,{sessionId:guessed.id,readToken:guessed.readToken},{origin}),now,fixtureUser);const cookie=saved.headers.get('set-cookie')!.split(';')[0];
- const recalled=await(await handleRemembered(db,request('/api/remembered','GET',undefined,undefined,{cookie}),now,fixtureUser)).json() as Read;
+ const saved=await handleRemembered(db,request('/api/remembered','POST',undefined,{sessionId:guessed.id,readToken:guessed.readToken},{origin}),now);const cookie=saved.headers.get('set-cookie')!.split(';')[0];
+ const recalled=await(await handleRemembered(db,request('/api/remembered','GET',undefined,undefined,{cookie}),now)).json() as Read;
  assert.equal(recalled.card.selfType,'ENFP');assert.deepEqual(recalled.card.assessment,a.card.assessment);
  assert.deepEqual(await(await put(guessed,{selfType:null})).json(),{selfType:null});
  assert.equal((await(await get(guessed)).json() as Read).card.selfType,null);
 });
 test('a remembered result from the 2.0 rubric is not reopened',async()=>{
  const {handleRemembered}=await import('../lib/remembered-service.ts');const s=await create();await send(s);
- const saved=await handleRemembered(db,request('/api/remembered','POST',undefined,{sessionId:s.id,readToken:s.readToken},{origin}),now,fixtureUser);const cookie=saved.headers.get('set-cookie')!.split(';')[0];
- const recall=async()=>(await(await handleRemembered(db,request('/api/remembered','GET',undefined,undefined,{cookie}),now,fixtureUser)).json() as {found:boolean}).found;
+ const saved=await handleRemembered(db,request('/api/remembered','POST',undefined,{sessionId:s.id,readToken:s.readToken},{origin}),now);const cookie=saved.headers.get('set-cookie')!.split(';')[0];
+ const recall=async()=>(await(await handleRemembered(db,request('/api/remembered','GET',undefined,undefined,{cookie}),now)).json() as {found:boolean}).found;
  assert.equal(await recall(),true);
  await db.prepare("UPDATE remembered_results SET report=json_set(report,'$.version','2.0') WHERE id=?1").bind(s.id).run();
  assert.equal(await recall(),false);
@@ -175,8 +171,8 @@ test('a remembered result from the 2.0 rubric is not reopened',async()=>{
 test('clearing beats an in-flight remember insert; explicit new-observation retention keeps only the saved copy',async()=>{
  const {handleRemembered}=await import('../lib/remembered-service.ts');const s=await create();await send(s);
  const racingDb={prepare(sql:string){const statement=db.prepare(sql);if(!sql.startsWith('INSERT INTO remembered_results'))return statement;return {bind(...values:unknown[]){const bound=statement.bind(...values);return {async run(){assert.equal((await handleSession(db,request('/api/sessions/'+s.id,'DELETE',s.readToken,undefined,{origin}),s.id,'session',now)).status,200);return bound.run();}};}};}} as unknown as D1Database;
- const raced=await handleRemembered(racingDb,request('/api/remembered','POST',undefined,{sessionId:s.id,readToken:s.readToken},{origin}),now,fixtureUser);assert.equal(raced.status,410);assert.equal(await db.prepare('SELECT id FROM remembered_results WHERE id=?1').bind(s.id).first(),null);
- const t=await create();await send(t);const saved=await handleRemembered(db,request('/api/remembered','POST',undefined,{sessionId:t.id,readToken:t.readToken},{origin}),now,fixtureUser);const cookie=saved.headers.get('set-cookie')!.split(';')[0];
- assert.equal((await handleSession(db,request('/api/sessions/'+t.id+'?retainResult=1','DELETE',t.readToken,undefined,{origin}),t.id,'session',now)).status,200);assert.equal((await get(t)).status,404);assert.equal((await(await handleRemembered(db,request('/api/remembered','GET',undefined,undefined,{cookie}),now,fixtureUser)).json() as {found:boolean}).found,true);
- assert.equal((await handleRemembered(db,request('/api/remembered','DELETE',undefined,undefined,{origin,cookie}),now,fixtureUser)).status,200);assert.equal(await db.prepare('SELECT id FROM remembered_results WHERE id=?1').bind(t.id).first(),null);
+ const raced=await handleRemembered(racingDb,request('/api/remembered','POST',undefined,{sessionId:s.id,readToken:s.readToken},{origin}),now);assert.equal(raced.status,410);assert.equal(await db.prepare('SELECT id FROM remembered_results WHERE id=?1').bind(s.id).first(),null);
+ const t=await create();await send(t);const saved=await handleRemembered(db,request('/api/remembered','POST',undefined,{sessionId:t.id,readToken:t.readToken},{origin}),now);const cookie=saved.headers.get('set-cookie')!.split(';')[0];
+ assert.equal((await handleSession(db,request('/api/sessions/'+t.id+'?retainResult=1','DELETE',t.readToken,undefined,{origin}),t.id,'session',now)).status,200);assert.equal((await get(t)).status,404);assert.equal((await(await handleRemembered(db,request('/api/remembered','GET',undefined,undefined,{cookie}),now)).json() as {found:boolean}).found,true);
+ assert.equal((await handleRemembered(db,request('/api/remembered','DELETE',undefined,undefined,{origin,cookie}),now)).status,200);assert.equal(await db.prepare('SELECT id FROM remembered_results WHERE id=?1').bind(t.id).first(),null);
 });

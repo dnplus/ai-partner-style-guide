@@ -341,36 +341,6 @@
     "이 이름이 카드에 표시됩니다",
     "This name will appear on the card"
   ],
-  "想收到完整報告？加入 Email": [
-    "想收到完整报告？添加 Email",
-    "詳しいレポートには Email を追加",
-    "전체 보고서를 받으려면 Email 추가",
-    "Want the full report? Add Email"
-  ],
-  "不填 Email 只取得卡片。Email 僅用於這次結果。": [
-    "不填 Email 只获取卡片。Email 仅用于这次结果。",
-    "Email なしではカードのみ。Email は今回の結果にのみ使用します。",
-    "Email을 입력하지 않으면 카드만 제공됩니다. Email은 이번 결과에만 사용합니다.",
-    "Without Email, you get the card only. Email is used only for this result."
-  ],
-  "你的 Email": [
-    "你的 Email",
-    "あなたの Email",
-    "내 Email",
-    "Your Email"
-  ],
-  "我同意 Email 僅用於這次報告寄送，不用於行銷。": [
-    "我同意 Email 仅用于本次报告发送，不用于营销。",
-    "Email を今回のレポート送信にのみ使用し、宣伝には使用しないことに同意します。",
-    "Email을 이번 보고서 전송에만 사용하고 마케팅에는 사용하지 않는 데 동의합니다.",
-    "I agree to use my Email only to deliver this report, never for marketing."
-  ],
-  "本機預覽可查看完整報告；寄送尚未開放，不會寄信。": [
-    "本地预览可查看完整报告；发送尚未开放，不会发邮件。",
-    "ローカルプレビューでは全文を閲覧できます。メール送信は未対応で、送信されません。",
-    "로컬 미리보기에서 전체 보고서를 볼 수 있습니다. 이메일 전송은 아직 지원하지 않으며 발송되지 않습니다.",
-    "The local preview shows the full report. Email delivery is not available and no email will be sent."
-  ],
   "建立中…": [
     "创建中…",
     "作成中…",
@@ -388,12 +358,6 @@
     "リンクを作成",
     "내 링크 만들기",
     "Create my link"
-  ],
-  "不填 Email，也能拿到角色卡。": [
-    "不填 Email，也能拿到角色卡。",
-    "Email なしでもキャラクターカードを受け取れます。",
-    "Email 없이도 캐릭터 카드를 받을 수 있어요.",
-    "You can get a character card without Email."
   ],
   "先選好，": [
     "先选好，",
@@ -689,18 +653,6 @@
     "협업 스타일은 함께 하는 작업에 따라 달라집니다.",
     "Your collaboration style changes with your tasks."
   ],
-  "這次沒有填 Email，提供角色卡。": [
-    "本次没有填写 Email，提供角色卡。",
-    "Email の入力がないため、今回はカードのみです。",
-    "이번에는 Email을 입력하지 않아 카드만 제공됩니다.",
-    "No Email was provided, so this result includes the card only."
-  ],
-  "Email 寄送尚未開放；完整報告可在這裡查看。": [
-    "Email 发送尚未开放；完整报告可在这里查看。",
-    "Email 送信は未対応です。全文はここで閲覧できます。",
-    "Email 전송은 아직 지원하지 않습니다. 전체 보고서는 여기에서 볼 수 있습니다.",
-    "Email delivery is not yet available. View the full report here."
-  ],
   "關閉分頁或連結到期後，無法重新取得。": [
     "关闭标签页或链接到期后，无法重新获取。",
     "タブを閉じるかリンクが期限切れになると、再取得できません。",
@@ -796,12 +748,6 @@
     "キャラクターカードを保存",
     "내 캐릭터 카드 다운로드",
     "Download my character card"
-  ],
-  "圖片不含 Email、使用紀錄或會話連結。": [
-    "图片不含 Email、使用记录或会话链接。",
-    "画像に Email、使用記録、セッションのリンクは含みません。",
-    "이미지에는 Email, 사용 기록, 세션 링크가 포함되지 않습니다.",
-    "The image contains no Email, usage records or session link."
   ],
   "CC BY-NC-SA 4.0 · 非官方／非商業": [
     "CC BY-NC-SA 4.0 · 非官方／非商业",
@@ -916,18 +862,6 @@
     "全イラストを見る ↗",
     "전체 그림 갤러리 ↗",
     "Browse the full art gallery ↗"
-  ],
-  "資料與 Email 如何使用": [
-    "数据与 Email 如何使用",
-    "データと Email の使い方",
-    "데이터와 Email 사용 방식",
-    "How data and Email are used"
-  ],
-  "暱稱與核准摘要只供這次結果。Email 選填：不填只提供卡片，填寫並同意結果用途才可取得完整報告；不行銷，不出現在卡片上。本機預覽尚未連接寄信服務，沒有寄出 Email。": [
-    "昵称与批准的摘要仅用于本次结果。Email 选填：不填只提供卡片，填写并同意结果用途才能获取完整报告；不营销，不出现在卡片上。本地预览尚未连接邮件服务，没有发送 Email。",
-    "名前と許可済み要約は今回の結果にのみ使用します。Email は任意です。未入力ならカードのみ、入力して結果用途に同意すれば全文を閲覧できます。宣伝には使わず、カードにも表示しません。ローカルではメールサービス未接続で、Email は送信していません。",
-    "닉네임과 허용된 요약은 이번 결과에만 사용합니다. Email은 선택 사항이며 없으면 카드만 제공합니다. 입력하고 결과 용도에 동의하면 전체 보고서를 볼 수 있습니다. 마케팅에 쓰거나 카드에 표시하지 않습니다. 로컬은 메일 서비스에 연결되지 않아 Email을 보내지 않습니다.",
-    "Nickname and approved summary are only for this result. Email is optional: no Email means card only; providing it and consenting to result-only use unlocks the full report. No marketing or Email on cards. The local preview has no mail service and sends no Email."
   ],
   "連結 30 分鐘後禁止讀寫；到期資料於後續請求清理，也可提前結束並刪除。讀取與提交權限分開，沒有公開結果網址。重整不保存提交權杖。": [
     "链接 30 分钟后禁止读写；到期数据在后续请求中清理，也可提前结束并删除。读取与提交权限分开，没有公开结果网址。刷新不保存提交令牌。",
@@ -2003,12 +1937,6 @@
     "Agent 이름을 입력해 주세요.",
     "Please enter your Agent’s name."
   ],
-  "請填寫有效的 Email。": [
-    "请填写有效的 Email。",
-    "有効な Email を入力してください。",
-    "유효한 Email을 입력해 주세요.",
-    "Please enter a valid Email."
-  ],
   "以授權紀錄觀察合作風格，取得專屬角色卡。非官方 MBTI 評量。": [
     "用授权记录观察合作风格，获取专属角色卡。非官方 MBTI 评估。",
     "許可された記録から協働スタイルを観察し、専用カードを作成。公式の MBTI 検査ではありません。",
@@ -2405,12 +2333,6 @@
     "레벨과 짧은 문구도 숨깁니다.",
     "This also hides the level and tagline."
   ],
-  "報告與寄送狀態": [
-    "报告与发送状态",
-    "レポートと送信状況",
-    "보고서 및 전송 상태",
-    "Report and delivery status"
-  ],
   "使用等級如何判斷": [
     "使用等级如何判断",
     "活用レベルの判定方法",
@@ -2422,96 +2344,6 @@
     "レベルは MBTI・使用量・モデルとは関係ありません。LV0〜3 は Agent と進めるときの確認と修正、LV4 は書いたスキル・ルール・スクリプトが別のセッションで再利用されたか、LV5 はさらに自動化が2週間以上無人で動き、資産が保守され続けたかを見ます。根拠がなければ不明のままで、レベルは能力の上限ではありません。",
     "레벨은 MBTI, 사용량, 모델과 무관합니다. LV0–3은 Agent와 일할 때의 확인과 수정을, LV4는 작성한 스킬·규칙·스크립트가 다른 세션에서 다시 쓰였는지를, LV5는 여기에 더해 자동화가 2주 이상 무인으로 돌며 자산이 계속 관리되었는지를 봅니다. 근거가 없으면 미확인으로 남고, 레벨은 능력의 한계가 아닙니다.",
     "Levels are independent of MBTI, volume, and model. LV0–3 look at how you check and fix work with the agent. LV4 looks at whether skills, rules, or scripts you wrote get reused by other sessions. LV5 adds automation that runs unattended for two weeks while its assets keep being maintained. Missing evidence stays unknown, and a level is not a ceiling on ability."
-  ],
-  "提交連結 30 分鐘後失效。此裝置可用安全 Cookie 開啟最近結果，最長保留 7 天；可隨時清除。Email、原始紀錄與提交權杖不存入瀏覽器儲存空間，結果沒有公開網址。": [
-    "提交链接 30 分钟后失效。本设备可用安全 Cookie 打开最近结果，最多保留 7 天，可随时清除。Email、原始记录与提交令牌不存入浏览器存储，结果没有公开网址。",
-    "送信リンクは30分で失効します。この端末では安全な Cookie で最新の結果を最大7日間開けます。いつでも消去できます。メール、元の記録、送信トークンはブラウザーのストレージに保存せず、結果の公開URLもありません。",
-    "제출 링크는 30분 후 만료됩니다. 이 기기에서는 안전한 Cookie로 최근 결과를 최대 7일간 열 수 있으며 언제든 지울 수 있습니다. 이메일, 원본 기록, 제출 토큰은 브라우저 저장소에 보관하지 않으며 공개 결과 URL도 없습니다.",
-    "Submission links expire after 30 minutes. A secure cookie lets this device reopen its latest result for up to 7 days; clear it at any time. Email, raw records and upload tokens are not stored in browser storage. Results have no public URL."
-  ],
-  "網站維持私人存取。外部 Agent 若被登入閘門阻擋，需回報，不能繞過或分享整站通行權杖。": [
-    "网站保持私人访问。外部 Agent 若被登录网关阻挡，需报告，不能绕过或分享整站通行令牌。",
-    "サイトは非公開のままです。外部 Agent がログインゲートで止まった場合は報告し、回避やサイト全体のトークン共有をしてはいけません。",
-    "사이트는 비공개로 유지됩니다. 외부 Agent가 로그인 게이트에 막히면 보고해야 하며, 우회하거나 사이트 전체 토큰을 공유해서는 안 됩니다.",
-    "The site stays private. If an external Agent is blocked by the sign-in gate, report it; do not bypass the gate or share a site-wide token."
-  ],
-  "請先使用 ChatGPT 登入。": [
-    "请先使用 ChatGPT 登录。",
-    "先に ChatGPT でログインしてください。",
-    "먼저 ChatGPT로 로그인하세요.",
-    "Sign in with ChatGPT first."
-  ],
-  "請檢查暱稱與選填偏好。": [
-    "请检查昵称与可选偏好。",
-    "ニックネームと任意設定を確認してください。",
-    "닉네임과 선택 설정을 확인하세요.",
-    "Check your nickname and optional preferences."
-  ],
-  "使用 ChatGPT 登入開始": [
-    "使用 ChatGPT 登录开始",
-    "ChatGPT でログインして始める",
-    "ChatGPT로 로그인하고 시작",
-    "Sign in with ChatGPT to start"
-  ],
-  "使用 ChatGPT 帳戶的 Email 提供這次完整報告，寄送功能尚未開放。": [
-    "使用 ChatGPT 账户的 Email 提供本次完整报告，发送功能尚未开放。",
-    "ChatGPT アカウントのメールで今回の詳細レポートを利用できます。メール送信はまだ未対応です。",
-    "ChatGPT 계정 이메일로 이번 전체 보고서를 제공합니다. 이메일 발송은 아직 제공되지 않습니다.",
-    "Your ChatGPT account email enables this full report. Email delivery is not available yet."
-  ],
-  "我願意收到新功能與活動消息（選填，可隨時取消）。": [
-    "我愿意接收新功能与活动消息（选填，可随时取消）。",
-    "新機能やイベントのお知らせを受け取る（任意・いつでも解除可）。",
-    "새 기능 및 이벤트 소식을 받겠습니다(선택, 언제든 철회 가능).",
-    "Send me news about features and events (optional; withdraw anytime)."
-  ],
-  "Email 由 ChatGPT 登入提供，不出現在卡片。完整報告不以行銷同意為條件。目前只保存偏好，沒有寄信或加入外部行銷服務。": [
-    "Email 由 ChatGPT 登录提供，不显示在卡片上。完整报告不以营销同意为条件。目前仅保存偏好，不发送邮件或加入外部营销服务。",
-    "メールは ChatGPT ログインで提供され、カードには表示しません。詳細レポートに宣伝への同意は不要です。設定を保存するだけで、メール送信や外部サービスへの登録は行いません。",
-    "이메일은 ChatGPT 로그인에서 제공되며 카드에 표시되지 않습니다. 전체 보고서는 마케팅 동의와 무관합니다. 현재 설정만 저장하며 이메일 발송이나 외부 마케팅 서비스 등록은 하지 않습니다.",
-    "Email comes from ChatGPT sign-in and never appears on cards. The full report does not depend on marketing consent. We only store the preference; no email is sent and no external marketing service is connected."
-  ],
-  "首頁可公開開啟；開始觀察、讀取結果及帳戶偏好均需本人登入。Agent 只能透過短效專屬連結提交一次摘要，不能讀取私人結果。": [
-    "首页公开可访问；开始观察、读取结果和账户偏好均需本人登录。Agent 只能通过短时专属链接提交一次摘要，不能读取私人结果。",
-    "トップページは公開です。観察の開始、結果の閲覧、設定の変更には本人のログインが必要です。Agent は期限付き専用リンクで一度だけ要約を送信でき、非公開の結果は読めません。",
-    "홈페이지는 공개되지만 관찰 시작, 결과 조회, 계정 설정에는 본인 로그인이 필요합니다. Agent는 짧은 유효기간의 전용 링크로 요약을 한 번 제출할 수 있으며 개인 결과는 읽을 수 없습니다.",
-    "The homepage is public. Starting an observation, reading results and changing preferences require your sign-in. An Agent can submit one summary through its short-lived scoped link; it cannot read private results."
-  ],
-  "帳戶與行銷偏好": [
-    "账户与营销偏好",
-    "アカウントとお知らせ設定",
-    "계정 및 마케팅 설정",
-    "Account and marketing preferences"
-  ],
-  "已同意接收新功能與活動消息。": [
-    "已同意接收新功能与活动消息。",
-    "新機能やイベントのお知らせを受け取る設定です。",
-    "새 기능과 이벤트 소식 수신에 동의했습니다.",
-    "You opted in to feature and event news."
-  ],
-  "沒有訂閱行銷消息。": [
-    "没有订阅营销消息。",
-    "宣伝のお知らせは受け取りません。",
-    "마케팅 소식을 구독하지 않았습니다.",
-    "You have not opted in to marketing news."
-  ],
-  "取消行銷同意": [
-    "取消营销同意",
-    "お知らせの同意を取り消す",
-    "마케팅 동의 철회",
-    "Withdraw marketing consent"
-  ],
-  "登出 ChatGPT": [
-    "退出 ChatGPT",
-    "ChatGPT からログアウト",
-    "ChatGPT 로그아웃",
-    "Sign out of ChatGPT"
-  ],
-  "偏好暫時無法更新，請重試。": [
-    "偏好暂时无法更新，请重试。",
-    "設定を更新できません。再試行してください。",
-    "설정을 업데이트할 수 없습니다. 다시 시도하세요.",
-    "Preferences could not be updated. Try again."
   ],
   " · 上善無形": [
     " · 上善無形",
@@ -2818,5 +2650,29 @@
     "見比べるだけで、結果には影響しません。",
     "비교용일 뿐, 결과에는 영향을 주지 않아요.",
     "Just for comparison. It never changes your result."
+  ],
+  "請檢查暱稱。": [
+    "请检查昵称。",
+    "名前を確認してください。",
+    "닉네임을 확인해 주세요.",
+    "Check the nickname."
+  ],
+  "資料如何使用": [
+    "数据如何使用",
+    "データの使い方",
+    "데이터 사용 방식",
+    "How data is used"
+  ],
+  "提交連結 30 分鐘後失效。此裝置可用安全 Cookie 開啟最近結果，最長保留 7 天；可隨時清除。原始紀錄與提交權杖不存入瀏覽器儲存空間，結果沒有公開網址。": [
+    "提交链接 30 分钟后失效。本设备可用安全 Cookie 打开最近结果，最多保留 7 天，可随时清除。原始记录与提交令牌不存入浏览器存储，结果没有公开网址。",
+    "送信リンクは30分で失効します。この端末では安全な Cookie で最新の結果を最大7日間開けます。いつでも消去できます。元の記録と送信トークンはブラウザーのストレージに保存せず、結果の公開URLもありません。",
+    "제출 링크는 30분 후 만료됩니다. 이 기기에서는 안전한 Cookie로 최근 결과를 최대 7일간 열 수 있으며 언제든 지울 수 있습니다. 원본 기록과 제출 토큰은 브라우저 저장소에 보관하지 않으며 공개 결과 URL도 없습니다.",
+    "Submission links expire after 30 minutes. A secure cookie lets this device reopen its latest result for up to 7 days; clear it at any time. Raw records and upload tokens are not stored in browser storage. Results have no public URL."
+  ],
+  "不需登入，也不收集 Email。結果只能由建立連結的這個瀏覽器讀取；Agent 只能透過短效專屬連結提交一次摘要，不能讀取結果。": [
+    "无需登录，也不收集 Email。结果只能由创建链接的这个浏览器读取；Agent 只能通过短时专属链接提交一次摘要，不能读取结果。",
+    "ログインは不要で、メールアドレスも集めません。結果はリンクを作成したこのブラウザーだけが読めます。Agent は期限付き専用リンクで一度だけ要約を送信でき、結果は読めません。",
+    "로그인이 필요 없고 이메일도 수집하지 않습니다. 결과는 링크를 만든 이 브라우저에서만 읽을 수 있습니다. Agent는 짧은 유효기간의 전용 링크로 요약을 한 번 제출할 수 있으며 결과는 읽을 수 없습니다.",
+    "No sign-in and no Email. Only the browser that created the link can read the result. An Agent can submit one summary through its short-lived scoped link; it cannot read results."
   ]
 }

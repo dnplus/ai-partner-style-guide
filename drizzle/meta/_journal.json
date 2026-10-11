@@ -43,6 +43,13 @@
       "when": 1791706874288,
       "tag": "0005_nice_thunderbird",
       "breakpoints": true
+    },
+    {
+      "idx": 6,
+      "version": "6",
+      "when": 1791707888707,
+      "tag": "0006_drop_account_identity",
+      "breakpoints": true
     }
   ]
 }

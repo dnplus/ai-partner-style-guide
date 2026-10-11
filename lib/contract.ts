@@ -18,7 +18,6 @@ export const axisResultSchema = z.union([
 export const nicknameSchema = z.string().trim().min(1).max(24).regex(/^[\p{L}\p{N}\p{M} _·-]+$/u);
 export const createSchema = z.object({
   protocolVersion: z.literal(PROTOCOL_VERSION), nickname: nicknameSchema,
-  marketingOptIn: z.boolean().default(false),
 }).strict();
 export const assessmentSchema = z.object({ type: z.enum(typeCodes).nullable(), pattern: z.string().regex(/^[EI?][SN?][TF?][JP?]$/), status: z.enum(["complete", "incomplete"]), axes: z.array(axisResultSchema).length(4) }).strict();
 const count = z.number().int().min(0).max(Number.MAX_SAFE_INTEGER).nullable();

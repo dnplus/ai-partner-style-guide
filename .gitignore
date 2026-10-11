@@ -44,6 +44,7 @@ next-env.d.ts
 # Checkout-local tool state; never publish it.
 /.agents/
 /.codex/
+/.eval/
 /outputs/
 /work/
 /.test-results/

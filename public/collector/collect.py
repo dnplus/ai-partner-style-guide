@@ -579,6 +579,7 @@ def read_opencode(item, start, stop, zone):
     result["opened"] = True
     start_ms = int(start.timestamp() * 1000)
     stop_ms = int(stop.timestamp() * 1000)
+    only = item.get("session")
     try:
         sessions = connection.execute(
             "SELECT id, parent_id, time_created FROM session WHERE time_updated >= ? AND time_created < ? ORDER BY id",
@@ -586,13 +587,16 @@ def read_opencode(item, start, stop, zone):
         ).fetchall()
         parents = {}
         for sid, parent, created in sessions:
+            if only is not None and sid != only:
+                continue
             if created is not None:
                 remember(result["days"], datetime.fromtimestamp(created / 1000, timezone.utc), zone)
             if not parent:
                 parents[sid] = {"turns": [], "day": None}
         rows = connection.execute(
-            "SELECT id, session_id, time_created, data FROM message WHERE time_created >= ? AND time_created < ? ORDER BY time_created ASC LIMIT ?",
-            (start_ms, stop_ms, ROW_CAP + 1),
+            "SELECT id, session_id, time_created, data FROM message WHERE time_created >= ? AND time_created < ?"
+            + (" AND session_id = ?" if only is not None else "") + " ORDER BY time_created ASC LIMIT ?",
+            (start_ms, stop_ms) + ((only,) if only is not None else ()) + (ROW_CAP + 1,),
         ).fetchall()
         if len(rows) > ROW_CAP:
             result["truncated"] = True
@@ -660,6 +664,7 @@ def read_hermes(item, start, stop, zone):
         scale = hermes_scale(connection)
         start_n = start.timestamp() * scale
         stop_n = stop.timestamp() * scale
+        only = item.get("session")
         sessions = connection.execute(
             "SELECT id, parent_session_id, started_at, source, created_source FROM sessions "
             "WHERE COALESCE(last_activity_at, ended_at, started_at) >= ? AND started_at < ? ORDER BY id",
@@ -667,13 +672,16 @@ def read_hermes(item, start, stop, zone):
         ).fetchall()
         parents = {}
         for sid, parent, started, source, created in sessions:
+            if only is not None and sid != only:
+                continue
             if started is not None and start_n <= started < stop_n:
                 remember(result["days"], datetime.fromtimestamp(started / scale, timezone.utc), zone)
             if not parent and not hermes_auto(source, created):
                 parents[sid] = {"turns": [], "day": None}
         rows = connection.execute(
-            "SELECT session_id, role, content, tool_name, timestamp FROM messages WHERE timestamp >= ? AND timestamp < ? ORDER BY timestamp ASC LIMIT ?",
-            (start_n, stop_n, ROW_CAP + 1),
+            "SELECT session_id, role, content, tool_name, timestamp FROM messages WHERE timestamp >= ? AND timestamp < ?"
+            + (" AND session_id = ?" if only is not None else "") + " ORDER BY timestamp ASC LIMIT ?",
+            (start_n, stop_n) + ((only,) if only is not None else ()) + (ROW_CAP + 1,),
         ).fetchall()
         if len(rows) > ROW_CAP:
             result["truncated"] = True
@@ -782,22 +790,76 @@ def list_grok(home, start, stop, files):
     return True
 
 
+def db_sessions(connection, kind, start, stop):
+    if kind == "opencode":
+        rows = connection.execute(
+            "SELECT id, parent_id FROM session WHERE time_updated >= ? AND time_created < ? ORDER BY id",
+            (int(start.timestamp() * 1000), int(stop.timestamp() * 1000)),
+        ).fetchall()
+        return [sid for sid, parent in rows if not parent]
+    scale = hermes_scale(connection)
+    rows = connection.execute(
+        "SELECT id, parent_session_id, source, created_source FROM sessions "
+        "WHERE COALESCE(last_activity_at, ended_at, started_at) >= ? AND started_at < ? ORDER BY id",
+        (start.timestamp() * scale, stop.timestamp() * scale),
+    ).fetchall()
+    return [sid for sid, parent, source, created in rows if not parent and not hermes_auto(source, created)]
+
+
 def list_db(path, client, kind, start, stop, files):
     if not os.path.isfile(path) or os.path.islink(path):
         return False
-    add_file(files, client, kind, path, start, stop)
+    # Each top-level session is its own item, so one database cannot fill every candidate slot with its oldest sessions.
+    found = []
+    add_file(found, client, kind, path, start, stop)
+    if not found:
+        return True
+    connection = connect_db(path)
+    try:
+        sessions = db_sessions(connection, kind, start, stop)
+    except sqlite3.Error:
+        files.append(found[0])
+        return True
+    finally:
+        connection.close()
+    for sid in sessions:
+        files.append(dict(found[0], session=sid))
     return True
+
+
+def agent_homes(home, name, variable):
+    # The default home, sibling profiles such as ~/.codex-work, and the directory the variable names, each once.
+    paths = [os.path.join(home, name)]
+    try:
+        paths += sorted(os.path.join(home, entry) for entry in os.listdir(home) if entry.startswith(name + "-"))
+    except OSError:
+        pass
+    named = os.environ.get(variable, "").strip()
+    if named:
+        paths.append(os.path.expanduser(named))
+    homes = []
+    seen = set()
+    for path in paths:
+        real = os.path.realpath(path)
+        if directory_exists(path) and real not in seen:
+            seen.add(real)
+            homes.append(path)
+    return homes
 
 
 def list_files(home, sources, start, stop, gaps, children):
     files = []
-    if "claude-code" in sources and not list_jsonl(os.path.join(home, ".claude", "projects"), "claude-code", "claude", start, stop, files, children=children):
-        gaps.add("other_sources_missing")
-    if "codex" in sources:
-        roots = [os.path.join(home, ".codex", "sessions"), os.path.join(home, ".codex", "archived_sessions")]
+    if "claude-code" in sources:
         found = False
-        for root in roots:
-            found = list_jsonl(root, "codex", "codex", start, stop, files) or found
+        for root in agent_homes(home, ".claude", "CLAUDE_CONFIG_DIR"):
+            found = list_jsonl(os.path.join(root, "projects"), "claude-code", "claude", start, stop, files, children=children) or found
+        if not found:
+            gaps.add("other_sources_missing")
+    if "codex" in sources:
+        found = False
+        for root in agent_homes(home, ".codex", "CODEX_HOME"):
+            for folder in ("sessions", "archived_sessions"):
+                found = list_jsonl(os.path.join(root, folder), "codex", "codex", start, stop, files) or found
         if not found:
             gaps.add("other_sources_missing")
     if "cursor" in sources and not list_jsonl(os.path.join(home, ".cursor", "projects"), "cursor", "cursor", start, stop, files, "agent-transcripts"):
@@ -827,6 +889,8 @@ def sample_order(files, home):
 
     def rank(item):
         relative = os.path.relpath(item["path"], home)
+        if "session" in item:
+            relative += "#" + str(item["session"])
         return hashlib.sha256((salt + "\0" + relative).encode("utf-8", "surrogateescape")).hexdigest(), relative
 
     return sorted(files, key=rank)

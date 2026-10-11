@@ -116,16 +116,16 @@ test("scan digest counts fixture logs, keeps agent turns, and drops secrets and 
       { n: 3, role: "agent", kind: "message", text: "Shipped the patch after checking the failing test." },
     ],
   });
-  assert.deepEqual(digest.candidates[5].turns[3], { n: 4, role: "agent", kind: "tool", text: "Shell" });
+  assert.deepEqual(digest.candidates[4].turns[3], { n: 4, role: "agent", kind: "tool", text: "Shell" });
   assert.deepEqual(digest.candidates.map((candidate: { ref: string; client: string }) => [candidate.ref, candidate.client]), [
     ["C01", "codex"],
     ["C02", "other"],
     ["C03", "claude-code"],
     ["C04", "other"],
-    ["C05", "other"],
-    ["C06", "cursor"],
+    ["C05", "cursor"],
+    ["C06", "other"],
   ]);
-  assert.equal(digest.candidates[4].turns[0].text, "Hermes user one");
+  assert.equal(digest.candidates[5].turns[0].text, "Hermes user one");
   assert.equal(digest.candidates[3].turns[0].text, "OpenCode user one");
   assert.equal(digest.candidates[0].turns[0].text, "Codex user one");
   assert.equal(digest.candidates[1].turns[0].text, "Grok user one");
@@ -266,7 +266,7 @@ function run(args: string[], home: string, input = token + "\n", env: Record<str
     `, {
       eval: true,
       execArgv: ["--input-type=module"],
-      workerData: { args: [script, ...args], cwd: process.cwd(), env: { ...process.env, HOME: home, ...env }, input },
+      workerData: { args: [script, ...args], cwd: process.cwd(), env: { ...process.env, HOME: home, CODEX_HOME: "", CLAUDE_CONFIG_DIR: "", ...env }, input },
     });
     worker.on("message", (message) => resolve(message));
     worker.on("error", reject);
@@ -484,6 +484,67 @@ test("a repeat scan reads the same sessions, and new logs only take the slots th
   const later = await picks();
   assert.equal(later.length, 24);
   assert.ok(first.filter((text) => later.includes(text)).length >= 19);
+  rmSync(home, { recursive: true, force: true });
+});
+
+test("every Codex and Claude profile under home is scanned once", async () => {
+  const home = mkdtempSync(join(tmpdir(), "collector-profiles-"));
+  const named = mkdtempSync(join(tmpdir(), "collector-named-"));
+  const logs: [string, "claude" | "codex", string][] = [
+    [join(home, ".codex/sessions/2026/10/a.jsonl"), "codex", "Default codex"],
+    [join(home, ".codex-work/sessions/2026/10/a.jsonl"), "codex", "Work codex"],
+    [join(home, ".claude-alt/projects/demo/a.jsonl"), "claude", "Alt claude"],
+    [join(named, "sessions/2026/10/a.jsonl"), "codex", "Named codex"],
+  ];
+  for (const [path, kind, marker] of logs) {
+    mkdirSync(join(path, ".."), { recursive: true });
+    if (kind === "claude") claudeLog(path, marker);
+    else codexLog(path, marker);
+    utimesSync(path, insideStamp, insideStamp);
+  }
+  symlinkSync(join(home, ".codex"), join(home, ".codex-same"));
+  const out = join(home, "digest.json");
+  const result = await run(["scan", ...scanWindow, "--sources", "claude-code,codex", "--tokscale", "off", "--out", out], home, "", { CODEX_HOME: named });
+  assert.equal(result.status, 0, result.stderr);
+  const digest = JSON.parse(readFileSync(out, "utf8"));
+  assert.deepEqual(digest.candidates.map((candidate: { turns: { text: string }[] }) => candidate.turns[0].text).sort(), ["Alt claude one", "Default codex one", "Named codex one", "Work codex one"]);
+  rmSync(home, { recursive: true, force: true });
+  rmSync(named, { recursive: true, force: true });
+});
+
+test("each database session ranks on its own, so one database cannot fill every slot", async () => {
+  const home = mkdtempSync(join(tmpdir(), "collector-db-"));
+  const root = join(home, ".claude/projects/demo");
+  mkdirSync(root, { recursive: true });
+  mkdirSync(join(home, ".hermes"));
+  for (let i = 0; i < 30; i++) {
+    const path = join(root, `c${i}.jsonl`);
+    claudeLog(path, `Claude ${i}`);
+    utimesSync(path, insideStamp, insideStamp);
+  }
+  const stamp = insideStamp.getTime() / 1000 - 7200;
+  const rows = Array.from({ length: 40 }, (_, i) => [`h${i}`, stamp + i]);
+  execFileSync("python3", ["-B", "-c", `
+import json, sqlite3, sys
+db = sqlite3.connect(sys.argv[1])
+db.execute("CREATE TABLE sessions (id TEXT, parent_session_id TEXT, started_at REAL, ended_at REAL, last_activity_at REAL, model TEXT, input_tokens INT, output_tokens INT, source TEXT, created_source TEXT)")
+db.execute("CREATE TABLE messages (id INTEGER PRIMARY KEY, session_id TEXT, role TEXT, content TEXT, tool_name TEXT, timestamp REAL)")
+for sid, at in json.loads(sys.argv[2]):
+    db.execute("INSERT INTO sessions VALUES (?, NULL, ?, NULL, ?, NULL, NULL, NULL, 'cli', 'user')", (sid, at, at + 60))
+    for n, (role, text) in enumerate([("user", sid + " one"), ("user", sid + " two"), ("assistant", sid + " agent")]):
+        db.execute("INSERT INTO messages (session_id, role, content, tool_name, timestamp) VALUES (?, ?, ?, NULL, ?)", (sid, role, text, at + n))
+db.commit()
+`, join(home, ".hermes/state.db"), JSON.stringify(rows)]);
+  utimesSync(join(home, ".hermes/state.db"), insideStamp, insideStamp);
+  const out = join(home, "digest.json");
+  // Seed 3 ranks the database file first when it is one item, which used to fill all 24 slots with its oldest sessions.
+  const result = await run(["scan", ...scanWindow, "--sources", "claude-code,other", "--tokscale", "off", "--out", out], home, "", { COLLECTOR_SAMPLE_SEED: "3" });
+  assert.equal(result.status, 0, result.stderr);
+  const digest = JSON.parse(readFileSync(out, "utf8"));
+  const clients = digest.candidates.map((candidate: { client: string }) => candidate.client);
+  assert.equal(clients.length, 24);
+  assert.ok(clients.filter((client: string) => client === "claude-code").length >= 6, clients.join(","));
+  assert.ok(clients.filter((client: string) => client === "other").length >= 6, clients.join(","));
   rmSync(home, { recursive: true, force: true });
 });
 

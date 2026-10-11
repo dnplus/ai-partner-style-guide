@@ -1,10 +1,23 @@
 const evidenceDir=process.env.BROWSER_EVIDENCE_DIR??"evidence/final-card";
 import {test,expect} from '@playwright/test';
 import {makeLevelFixture} from '../../lib/fixture.ts';
-import {base,ready,create,submit,remove} from './support.ts';
+import {base,ready,create,submit,remove,asNewClient,dummyTurnstileToken,type Session} from './support.ts';
+import {translator} from '../../lib/i18n.ts';
+import {PROTOCOL_VERSION} from '../../lib/contract.ts';
 
 test('an anonymous visitor starts from the cover; there is no sign-in or account surface',async({browser})=>{
  const context=await browser.newContext({baseURL:base,locale:'zh-TW'}),page=await context.newPage();await ready(page);await expect(page.getByRole('button',{name:'開始觀察',exact:true})).toBeVisible();await expect(page.getByRole('link',{name:'使用 ChatGPT 登入開始',exact:true})).toHaveCount(0);expect(await page.content()).not.toMatch(/signin-with-chatgpt|ChatGPT 登入/);expect((await context.request.get('/api/account')).status()).toBe(404);expect(await(await context.request.get('/api/remembered')).json()).toEqual({found:false});await page.screenshot({path:evidenceDir+'/public-start.png'});await context.close();
+});
+test('a sixth link from one IP within a minute gets a localized 429 and stays on the form',async({browser})=>{
+ const t=translator('en'),context=await browser.newContext({baseURL:base,locale:'en'}),page=await context.newPage();await ready(page);const ip=await asNewClient(page),made:Session[]=[];
+ try{
+  for(let i=0;i<5;i++){const r=await context.request.post('/api/sessions',{headers:{Origin:base,'CF-Connecting-IP':ip,'CF-Turnstile-Response':dummyTurnstileToken},data:{protocolVersion:PROTOCOL_VERSION,nickname:'Limit Fixture'}});expect(r.status()).toBe(201);made.push(await r.json());}
+  await page.getByRole('button',{name:t('開始觀察'),exact:true}).click();await page.locator('#nickname').fill('Limit Fixture');
+  const next=page.waitForResponse(r=>r.url()===base+'/api/sessions'&&r.request().method()==='POST');await page.getByRole('button',{name:t('建立我的連結'),exact:true}).click();const response=await next;
+  expect(response.status()).toBe(429);expect(response.headers()['retry-after']).toBe('60');
+  await expect(page.locator('.inline-notice')).toHaveText('Too many attempts. Please wait a minute and try again.');await expect(page.locator('.app-root')).toHaveAttribute('data-stage','identity');
+  await expect(page.getByRole('button',{name:t('建立我的連結'),exact:true})).toBeEnabled();
+ }finally{for(const s of made)await context.request.delete('/api/sessions/'+s.id,{headers:{Authorization:'Bearer '+s.readToken,Origin:base}});await context.close();}
 });
 test('the browser that created the link opens the full report without any Email or marketing step',async({page,request})=>{
  await ready(page);const s=await create(page,'Report Fixture');await submit(page,request,s);await expect(page.locator('.report-details')).toBeVisible();await expect(page.locator('.delivery-details')).toHaveCount(0);await page.getByRole('button',{name:'關於這份觀察',exact:true}).click();await expect(page.getByText('帳戶與行銷偏好',{exact:true})).toHaveCount(0);await page.getByRole('button',{name:'關閉說明',exact:true}).click();await remove(page);

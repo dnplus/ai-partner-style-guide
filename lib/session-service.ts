@@ -57,8 +57,6 @@ export async function handleSession(db: D1Database, request: Request, id?: strin
       if (!parsed.success) return failure(400, "請檢查暱稱。");
       phase = "create_session";
       await db.prepare("DELETE FROM sessions WHERE expires_at <= ?1").bind(now).run();
-      const total = await db.prepare("SELECT COUNT(*) AS count FROM sessions").first<{ count: number }>();
-      if ((total?.count ?? 0) >= 2000) failure(429, "目前會話額度已滿，請稍後再試。");
       const readToken = randomToken();
       const writeToken = randomToken();
       const newId = crypto.randomUUID();

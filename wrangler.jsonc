@@ -23,5 +23,18 @@
       "database_id": "REPLACE_WITH_D1_DATABASE_ID",
       "migrations_dir": "drizzle"
     }
-  ]
+  ],
+  // Per-IP limits keyed by CF-Connecting-IP. namespace_id is any account-unique integer string.
+  "ratelimits": [
+    { "name": "SESSION_CREATE_LIMITER", "namespace_id": "1001", "simple": { "limit": 5, "period": 60 } },
+    { "name": "WRITE_LIMITER", "namespace_id": "1002", "simple": { "limit": 60, "period": 60 } }
+  ],
+  "vars": {
+    // TODO(owner): replace with the site key of the Turnstile widget created for the workers.dev hostname.
+    // This default is Cloudflare's always-pass test key; a real secret rejects its tokens, so a forgotten swap fails closed.
+    "TURNSTILE_SITE_KEY": "1x00000000000000000000AA"
+  },
+  "secrets": {
+    "required": ["TURNSTILE_SECRET_KEY"]
+  }
 }

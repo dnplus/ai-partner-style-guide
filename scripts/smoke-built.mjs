@@ -8,11 +8,14 @@ assert.equal(target.protocol,'http:');assert.ok(['127.0.0.1','localhost'].includ
 const checks=[];
 const call=(path,init={})=>fetch(origin+path,{redirect:'error',...init});
 const check=(name,expected,status)=>{assert.equal(status,expected);checks.push({step:name,status});};
+const visitor=subnet=>({'CF-Connecting-IP':'198.18.'+subnet+'.'+(1+Math.floor(Math.random()*254))});
+const createHeaders={...visitor(255),Origin:origin,'Content-Type':'application/json','CF-Turnstile-Response':'XXXX.DUMMY.TOKEN.XXXX'};
 check('public SSR homepage',200,(await call('/')).status);
 check('no account endpoint',404,(await call('/api/account')).status);
 check('anonymous recall without cookie finds nothing',200,(await call('/api/remembered')).status);
-check('unknown field rejected at creation',400,(await call('/api/sessions',{method:'POST',headers:{Origin:origin,'Content-Type':'application/json'},body:JSON.stringify({protocolVersion:'3.0',nickname:'Rejected Fixture',email:'untrusted@example.test'})})).status);
-const created=await call('/api/sessions',{method:'POST',headers:{Origin:origin,'Content-Type':'application/json'},body:JSON.stringify({protocolVersion:'3.0',nickname:'HTTP Fixture'})});check('anonymous visitor creates a durable session',201,created.status);const s=await created.json();
+check('creation without a Turnstile token rejected',403,(await call('/api/sessions',{method:'POST',headers:{...createHeaders,'CF-Turnstile-Response':''},body:JSON.stringify({protocolVersion:'3.0',nickname:'Rejected Fixture'})})).status);
+check('unknown field rejected at creation',400,(await call('/api/sessions',{method:'POST',headers:createHeaders,body:JSON.stringify({protocolVersion:'3.0',nickname:'Rejected Fixture',email:'untrusted@example.test'})})).status);
+const created=await call('/api/sessions',{method:'POST',headers:createHeaders,body:JSON.stringify({protocolVersion:'3.0',nickname:'HTTP Fixture'})});check('anonymous visitor with a Turnstile token creates a durable session',201,created.status);const s=await created.json();
 const readHeaders={Authorization:'Bearer '+s.readToken},writeHeaders={Authorization:'Bearer '+s.writeToken,'Content-Type':'application/json','Idempotency-Key':crypto.randomUUID()},payload=JSON.stringify(makeLevelFixture(s.nickname));let cookie;
 try{
  check('no capability cannot read',404,(await call('/api/sessions/'+s.id)).status);
@@ -32,5 +35,8 @@ try{
  if(cookie)check('clear remembered fixture cookie',200,(await call('/api/remembered',{method:'DELETE',headers:{Origin:origin,Cookie:cookie}})).status);
 }
 check('deleted read capability invalid',404,(await call('/api/sessions/'+s.id,{headers:readHeaders})).status);
+const burst={...createHeaders,...visitor(254)},statuses=[];
+for(let i=0;i<6;i++)statuses.push((await call('/api/sessions',{method:'POST',headers:burst,body:'{}'})).status);
+assert.deepEqual(statuses,[400,400,400,400,400,429]);checks.push({step:'sixth create from one IP within a minute is rate limited',statuses});
 await writeFile(new URL('../'+(process.env.SMOKE_OUTPUT??'evidence/final-card/built-worker-smoke.json'),import.meta.url),JSON.stringify({runtime:'built Worker / local Wrangler + D1',kind:'fixture',checks},null,2)+'\n');
 console.log('Built Worker smoke passed: '+checks.length+' checks; no capabilities logged; dedicated fixtures cleared.');

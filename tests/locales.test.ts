@@ -21,7 +21,7 @@ test("all authored UI, report, art and error strings have four complete translat
     assert.equal(values.length,4,key);
     for(const text of values){assert.ok(text.trim(),key);assert.deepEqual(params(text),params(key),key);}
   }
-  for(const file of ["components/persona-app.tsx","components/collector-scope-options.tsx","components/holo-card.tsx","components/art-gallery.tsx","components/locale-provider.tsx","lib/catalog.ts","lib/workstyle.ts","lib/collector-progress.ts","lib/session-service.ts","lib/assessment.ts","lib/export-card.ts","lib/card-composition.ts","lib/usage-level.ts","components/card-share.tsx"]){
+  for(const file of ["components/persona-app.tsx","components/collector-scope-options.tsx","components/holo-card.tsx","components/art-gallery.tsx","components/locale-provider.tsx","lib/catalog.ts","lib/workstyle.ts","lib/collector-progress.ts","lib/session-service.ts","lib/abuse-guard.ts","lib/assessment.ts","lib/export-card.ts","lib/card-composition.ts","lib/usage-level.ts","components/card-share.tsx"]){
     const sf=ts.createSourceFile(file,fs.readFileSync(file,"utf8"),ts.ScriptTarget.Latest,true,ts.ScriptKind.TSX);
     const visit=(node:ts.Node)=>{
       if((ts.isStringLiteral(node)||ts.isJsxText(node))&&/[\u3400-\u9fff]/.test(node.text)){

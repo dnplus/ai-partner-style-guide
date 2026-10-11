@@ -3,6 +3,7 @@ import {test,expect} from "@playwright/test";
 import {artSlots,artFamilies,artStyles,artCounts} from "../../lib/art-catalog.ts";
 import {typeCodes,type TypeCode} from "../../lib/contract.ts";
 import {makeFixture} from "../../lib/fixture.ts";
+import {asNewClient} from "./support.ts";
 
 test("192-slot gallery loads exact art or honest pending states, inspector and mobile framing",async({page} )=>{
   test.setTimeout(120000);
@@ -50,7 +51,7 @@ test("every type reaches its own art through real callback; theme and style neve
   const used=new Set<string>();
   for(const type of typeCodes){
     await page.goto("/");await expect(page.locator(".app-root")).toHaveAttribute("data-ready","true");
-    await page.getByRole("button",{name:"開始觀察",exact:true}).click();await page.getByLabel("Agent 的名字").fill("圖庫驗收 "+type);
+    await page.getByRole("button",{name:"開始觀察",exact:true}).click();await page.getByLabel("Agent 的名字").fill("圖庫驗收 "+type);await asNewClient(page);
     const pending=page.waitForResponse(r=>r.url().endsWith("/api/sessions")&&r.request().method()==="POST");
     await page.getByRole("button",{name:"建立我的連結",exact:true}).click();const session=await(await pending).json();
     try{

@@ -2,6 +2,8 @@ import { z } from "zod";
 import {systemEvidenceSchema,usageEvidenceSchema} from "./usage-level.ts";
 
 export const PROTOCOL_VERSION = "3.0" as const;
+export const TURNSTILE_HEADER = "CF-Turnstile-Response";
+export const TURNSTILE_ACTION = "create_session";
 export const progressSchema = z.object({
   sequence: z.number().int().min(1).max(1000),
   phase: z.enum(["analyzing", "validating", "awaiting_host_approval", "submitting", "paused"]),

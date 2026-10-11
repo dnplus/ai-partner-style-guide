@@ -1565,12 +1565,6 @@
     "닉네임, Email, 결과 용도 동의를 확인해 주세요.",
     "Check the nickname, Email and result-only consent."
   ],
-  "目前會話額度已滿，請稍後再試。": [
-    "当前会话额度已满，请稍后再试。",
-    "現在セッションが上限に達しています。後ほどお試しください。",
-    "현재 세션 한도에 도달했습니다. 나중에 다시 시도해 주세요.",
-    "The current session limit has been reached. Please try later."
-  ],
   "觀察規則已更新。舊結果需要重新分析，請建立新連結。": [
     "观察规则已更新。旧结果需要重新分析，请创建新链接。",
     "観察ルールが更新されました。旧結果は再分析が必要です。新しいリンクを作成してください。",
@@ -2662,5 +2656,29 @@
     "ログインは不要で、メールアドレスも集めません。結果はリンクを作成したこのブラウザーだけが読めます。Agent は期限付き専用リンクで一度だけ要約を送信でき、結果は読めません。",
     "로그인이 필요 없고 이메일도 수집하지 않습니다. 결과는 링크를 만든 이 브라우저에서만 읽을 수 있습니다. Agent는 짧은 유효기간의 전용 링크로 요약을 한 번 제출할 수 있으며 결과는 읽을 수 없습니다.",
     "No sign-in and no Email. Only the browser that created the link can read the result. An Agent can submit one summary through its short-lived scoped link; it cannot read results."
+  ],
+  "嘗試太頻繁了，請稍候一分鐘再試。": [
+    "尝试太频繁了，请稍候一分钟再试。",
+    "試行回数が多すぎます。1 分ほど待ってからもう一度お試しください。",
+    "요청이 너무 잦습니다. 1분 정도 기다린 뒤 다시 시도해 주세요.",
+    "Too many attempts. Please wait a minute and try again."
+  ],
+  "人機驗證未通過，請重新驗證後再試。": [
+    "人机验证未通过，请重新验证后再试。",
+    "ボット対策の確認を通過できませんでした。もう一度確認してからお試しください。",
+    "사람 확인을 통과하지 못했습니다. 다시 확인한 뒤 시도해 주세요.",
+    "The human check didn't pass. Please verify again and retry."
+  ],
+  "人機驗證暫時無法使用，請稍後再試。": [
+    "人机验证暂时无法使用，请稍后再试。",
+    "ボット対策の確認が一時的に利用できません。しばらくしてからお試しください。",
+    "사람 확인을 일시적으로 사용할 수 없습니다. 잠시 후 다시 시도해 주세요.",
+    "The human check is temporarily unavailable. Please try again later."
+  ],
+  "人機驗證載入失敗，請重新整理頁面。": [
+    "人机验证加载失败，请刷新页面。",
+    "ボット対策の確認を読み込めませんでした。ページを再読み込みしてください。",
+    "사람 확인을 불러오지 못했습니다. 페이지를 새로고침해 주세요.",
+    "The human check failed to load. Please refresh the page."
   ]
 }

@@ -3,6 +3,7 @@ import { useLocale, LocaleSwitch } from "./locale-provider.tsx";
 import { useEffect, useRef, useState, type FormEvent } from "react";
 import { ArrowLeft, ArrowRight, Copy, Download, X } from "lucide-react";
 import {CardShare} from "./card-share.tsx";
+import {Turnstile} from "./turnstile.tsx";
 import {levelNames,levelDescriptions} from "../lib/usage-level.ts";
 import { HoloCard } from "./holo-card.tsx";
 import { usePersonaSession } from "./use-persona-session.ts";
@@ -15,7 +16,7 @@ import { families, personas, personaFor, modelLabels, clientLabels, artCredit, a
 import { axisDefinitions, letterLabels, letterTips, contextLabels } from "../lib/workstyle.ts";
 import { downloadCard } from "../lib/export-card.ts";
 import { selfContrast } from "../lib/card-composition.ts";
-import { typeCodes, type TypeCode } from "../lib/contract.ts";
+import { typeCodes, TURNSTILE_ACTION, type TypeCode } from "../lib/contract.ts";
 import { describeProgress } from "../lib/collector-progress.ts";
 import {noticeText} from "../lib/i18n.ts";
 import { reportCollectorProgress, submitAuthorizedSummary } from "../lib/collector-runner.ts";
@@ -47,7 +48,7 @@ function SelfTypePick({value,onChange}:{value:TypeCode|null;onChange:(value:Type
   const {t}=useLocale();
   return <div className="self-type-pick"><label htmlFor="self-type">{t("你覺得自己是哪一型？")}</label><select id="self-type" value={value??""} onChange={e=>onChange(typeCodes.find(code=>code===e.target.value)??null)}><option value="">{t("不確定")}</option>{typeCodes.map(code=><option key={code} value={code}>{code} · {t(personas[code].name)}</option>)}</select><p>{t("只拿來對照，不影響結果。")}</p></div>;
 }
-export function PersonaApp() {
+export function PersonaApp({turnstileSiteKey}:{turnstileSiteKey:string}) {
     const { t, locale, ready: localeReady } = useLocale();
     const flow = usePersonaSession();
     const [stage, setStage] = useState<Stage>("cover");
@@ -57,6 +58,8 @@ export function PersonaApp() {
     const [nicknameOnly, setNicknameOnly] = useState(false);
     const [manual, setManual] = useState(false);
     const [notice, setNotice] = useState("");
+    const [turnstileToken, setTurnstileToken] = useState("");
+    const [turnstileMount, setTurnstileMount] = useState(0);
     const [exporting, setExporting] = useState(false);
     const [demo, setDemo] = useState(false);
     const [resumeMode, setResumeMode] = useState(false);
@@ -159,7 +162,9 @@ export function PersonaApp() {
             return;
         }
         if(!scopeOptionsSchema.safeParse(scopeOptions).success){setNotice("請選擇至少一個來源，觀察天數需為 1–365 天。");return;}
-        const next = await flow.create({nickname});
+        const next = await flow.create({nickname}, turnstileToken);
+        setTurnstileToken("");
+        setTurnstileMount(n => n + 1);
         if (next) {
             if(!resumeMode||!collectionScope)setCollectionScope(createCollectorScope(next.expiresAt-SESSION_TTL_MS,timeZone,scopeOptions));
             fixtureKey.current = crypto.randomUUID();
@@ -265,7 +270,8 @@ export function PersonaApp() {
           <label className="sr-only" htmlFor="nickname">{t("Agent 的名字")}</label><input id="nickname" className="nickname-input" autoComplete="off" placeholder={t("Agent 的名字")} value={active?.nickname ?? nickname} onInvalid={e=>e.currentTarget.setCustomValidity(t("請填寫 Agent 的名字。"))} onInput={e=>e.currentTarget.setCustomValidity("")} onChange={e => setNickname(e.target.value)} required maxLength={24} readOnly={!!active}/>
           <p className="field-caption">{active ? t("返回不會建立第二個連結") : t("這個名字會出現在卡片上")}</p>
           {!active&&!demo&&!resumeMode&&<CollectorScopeOptions value={scopeOptions} onChange={setScopeOptions} timeZone={timeZone}/>}
-          <button className="primary wide" disabled={flow.busy}>{flow.busy ? t("建立中…") : active ? t("繼續這個連結") : t("建立我的連結")}<ArrowRight size={20}/></button>
+          {!active&&<Turnstile key={turnstileMount} siteKey={turnstileSiteKey} action={TURNSTILE_ACTION} language={locale.toLowerCase()} onToken={setTurnstileToken} onError={()=>setNotice("人機驗證載入失敗，請重新整理頁面。")}/>}
+          <button className="primary wide" disabled={flow.busy||!active&&!turnstileToken}>{flow.busy ? t("建立中…") : active ? t("繼續這個連結") : t("建立我的連結")}<ArrowRight size={20}/></button>
         </form>
       </section>}
       {stage === "instructions" && active && <section className="instructions-screen screen">

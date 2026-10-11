@@ -19,8 +19,7 @@
     {
       "binding": "DB",
       "database_name": "agent-mbti",
-      // TODO(owner): run `npx wrangler d1 create agent-mbti` and paste the returned database_id here.
-      "database_id": "REPLACE_WITH_D1_DATABASE_ID",
+      "database_id": "cbabbf9b-bae0-4d38-b1e7-543d13b4790e",
       "migrations_dir": "drizzle"
     }
   ],
@@ -30,9 +29,7 @@
     { "name": "WRITE_LIMITER", "namespace_id": "1002", "simple": { "limit": 60, "period": 60 } }
   ],
   "vars": {
-    // TODO(owner): replace with the site key of the Turnstile widget created for the workers.dev hostname.
-    // This default is Cloudflare's always-pass test key; a real secret rejects its tokens, so a forgotten swap fails closed.
-    "TURNSTILE_SITE_KEY": "1x00000000000000000000AA"
+    "TURNSTILE_SITE_KEY": "0x4AAAAAAFTsLRxtt_I7FWHz"
   },
   "secrets": {
     "required": ["TURNSTILE_SECRET_KEY"]

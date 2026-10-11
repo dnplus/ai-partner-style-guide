@@ -59,6 +59,10 @@ npm run preview                  # 已建置的 Worker：http://127.0.0.1:5188
 - 1080×1620 卡片、1080×1350 直式、1080×1920 限時、1080² 正方形、1200×630 橫式 PNG。QR 和文字指向目前網站的首頁（取自 `location.origin`），沒有私人結果或權杖。系統支援檔案分享時使用 Web Share，否則下載並提供文字；沒有自動發文。
 - Collector 指令預設最近 60 個本地日（當地 00:00 到現在）、IANA 時區、所有支援且本人所有／主機允許存取的本機來源、Tokscale。一次說明並取得範圍與傳送授權，仍遵守主機原生核准。缺少工具、拒絕或一次安裝失敗時繼續現有證據，不捏造用量。
 
+## 卡面稀有度
+
+等級決定外框：未知與 LV0–1 一般、LV2–3 稀有（虹彩外框、四角星芒）、LV4 史詩（再加星點與虹彩徽章）、LV5 傳說（金框）。下載的 PNG 與預覽一致；預覽時史詩與傳說卡另有一道光沿邊框繞行。選擇只顯示暱稱時，等級與稀有度一起隱藏。
+
 ## 驗證與限制
 
 執行 `npm run typecheck`、`npm test`、`npm run verify:art`、`npm run test:browser`、`node scripts/smoke-built.mjs http://127.0.0.1:5188`。`test:browser` 會沿用 5188 上已啟動的 preview，否則自行建置、套用本機 migration 後啟動。測試只使用隔離 Chrome、專用虛構資料、本機 D1 與 Turnstile 測試金鑰；每個模擬訪客帶不同的 `CF-Connecting-IP`。HTTP smoke 限 loopback。

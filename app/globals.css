@@ -172,3 +172,12 @@ html[lang="en"] .art-grid .card-copy h2,html[lang="ko"] .art-grid .card-copy h2{
 @keyframes card-idle{0%,100%{--rx:4deg;--ry:-12deg;--mx:26%;--my:42%;--shine:75deg}50%{--rx:-3deg;--ry:12deg;--mx:74%;--my:56%;--shine:195deg}}
 .cover-art .holo-card:not([data-touched]){animation:card-idle 9s ease-in-out infinite backwards}
 @media(prefers-reduced-motion:reduce){.final-screen .holo-card.revealing,.cover-art .holo-card{animation:none!important}}
+
+/* Rarity: epic and legendary cards keep a light travelling around the frame. */
+@property --ring{syntax:"<angle>";inherits:false;initial-value:0deg}
+.rarity-ring{position:absolute;inset:0;border-radius:25px;padding:3px;pointer-events:none;transform:translateZ(48px);backface-visibility:hidden;background:conic-gradient(from var(--ring),transparent 0 62%,var(--ring-color) 72%,#fff 75%,var(--ring-color) 78%,transparent 88%);-webkit-mask:linear-gradient(#000 0 0) content-box,linear-gradient(#000 0 0);-webkit-mask-composite:xor;mask:linear-gradient(#000 0 0) content-box exclude,linear-gradient(#000 0 0);animation:ring-spin 5s linear infinite}
+.holo-card[data-rarity="epic"]{--ring-color:#c9a6ff}
+.holo-card[data-rarity="legendary"]{--ring-color:#ffd77a}
+.holo-card[data-rarity="legendary"] .card-thickness{box-shadow:2px 2px 0 #f3dfa8,4px 4px 0 #6b5223,5px 5px 0 #e8c879,7px 7px 0 #2e2210,2px 40px 36px #8a6a2a40}
+@keyframes ring-spin{to{--ring:360deg}}
+@media(prefers-reduced-motion:reduce){.rarity-ring{display:none}}

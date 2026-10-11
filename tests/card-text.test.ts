@@ -1,8 +1,8 @@
 import test from "node:test";
 import assert from "node:assert/strict";
-import { validateSubmission, toReport, toCardObservation } from "../lib/assessment.ts";
+import { validateSubmission, toReport, toCardObservation, decidedAssessment } from "../lib/assessment.ts";
 import { makeFixture, makePartialFixture } from "../lib/fixture.ts";
-import { cardComposition, cardSvg } from "../lib/card-composition.ts";
+import { cardComposition, cardSvg, rarityFor } from "../lib/card-composition.ts";
 import { shareText } from "../lib/export-card.ts";
 import type { Submission, TaskAxes, TypeCode } from "../lib/contract.ts";
 
@@ -60,4 +60,15 @@ test("a partial result contrasts against its pattern, an empty one never contras
   assert.deepEqual([blank.type,blank.tagline,blank.legend,blank.leans],["未定型","輪廓還在形成","",[]]);
   assert.equal(shareText(estp("INTJ"),true,home),"你的 Agent MBTI\n阿星\nhttps://agent-mbti.example.workers.dev/");
   assert.equal(cardComposition(estp("INTJ"),"chibi","codex",true).tagline,"");
+});
+
+test("usage level picks the card rarity, and hiding the level hides it too",()=>{
+  assert.deepEqual([null,0,1,2,3,4,5].map(rarityFor),["common","common","common","rare","rare","epic","legendary"]);
+  const card=(value:number|null)=>({nickname:"阿星",kind:"observed" as const,assessment:decidedAssessment("ESTP"),modelFamily:"xai" as const,usageLevel:{version:"usage-level-v2" as const,value,basis:null},brief:[],selfType:null});
+  const legendary=cardSvg(cardComposition(card(5),"chibi","grok"));
+  assert.match(legendary,/stroke="url\(#gold\)"/);
+  assert.match(legendary,/class="rarity-star"/);
+  const common=cardSvg(cardComposition(card(1),"chibi","grok"));
+  assert.doesNotMatch(common,/stroke="url\(#gold\)"|class="rarity-star"/);
+  assert.equal(cardComposition(card(5),"chibi","grok",true).rarity,"common");
 });

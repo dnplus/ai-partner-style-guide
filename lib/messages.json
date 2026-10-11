@@ -2717,11 +2717,11 @@
     "활용 레벨 판단 방식",
     "How usage levels work"
   ],
-  "等級只看授權範圍內已觀察到的成果，與 MBTI、用量和模型無關。LV4 需實際測試並跨任務重用；LV5 需多條獨立流程持續運作、處理例外及維護。缺少證據就保持未知，已確認等級不代表能力上限。": [
-    "等级仅看授权范围内观察到的成果，与 MBTI、用量和模型无关。LV4 需要实际测试并跨任务复用；LV5 需要多条独立流程持续运行、处理异常及维护。缺少证据则保持未知，确认等级不代表能力上限。",
-    "レベルは許可範囲内で確認できた成果だけで判定し、MBTI・使用量・モデルとは独立しています。LV4 はテストと別タスクでの再利用、LV5 は複数の独立したフローの継続運用・例外対応・保守が必要です。不明な部分は不明のままとし、確認済みレベルは能力の上限ではありません。",
-    "레벨은 허용 범위 안에서 확인된 결과만으로 판단하며 MBTI, 사용량, 모델과 무관합니다. LV4는 테스트와 다른 작업에서의 재사용, LV5는 여러 독립 흐름의 지속 운영, 예외 처리, 유지 보수가 필요합니다. 근거가 없으면 미확인으로 남기며 확인된 레벨은 능력의 한계가 아닙니다.",
-    "Levels use observed outcomes within the approved scope, independently of MBTI, volume or model. LV4 requires testing and reuse across tasks; LV5 requires sustained independent workflows, exception handling and maintenance. Missing evidence stays unknown. A confirmed level is not a ceiling on ability."
+  "等級與 MBTI、用量和模型無關。LV0–3 看你帶 Agent 時怎麼查核與修正；LV4 看你寫下的技能、規則或腳本，是否被其他工作階段再次使用；LV5 再看自動化是否無人值守跑過兩週，且資產持續維護。沒有證據就保持未知，等級也不代表能力上限。": [
+    "等级与 MBTI、用量和模型无关。LV0–3 看你带 Agent 时怎么核查与修正；LV4 看你写下的技能、规则或脚本，是否被其他会话再次使用；LV5 再看自动化是否无人值守运行过两周，且资产持续维护。没有证据就保持未知，等级也不代表能力上限。",
+    "レベルは MBTI・使用量・モデルとは関係ありません。LV0〜3 は Agent と進めるときの確認と修正、LV4 は書いたスキル・ルール・スクリプトが別のセッションで再利用されたか、LV5 はさらに自動化が2週間以上無人で動き、資産が保守され続けたかを見ます。根拠がなければ不明のままで、レベルは能力の上限ではありません。",
+    "레벨은 MBTI, 사용량, 모델과 무관합니다. LV0–3은 Agent와 일할 때의 확인과 수정을, LV4는 작성한 스킬·규칙·스크립트가 다른 세션에서 다시 쓰였는지를, LV5는 여기에 더해 자동화가 2주 이상 무인으로 돌며 자산이 계속 관리되었는지를 봅니다. 근거가 없으면 미확인으로 남고, 레벨은 능력의 한계가 아닙니다.",
+    "Levels are independent of MBTI, volume, and model. LV0–3 look at how you check and fix work with the agent. LV4 looks at whether skills, rules, or scripts you wrote get reused by other sessions. LV5 adds automation that runs unattended for two weeks while its assets keep being maintained. Missing evidence stays unknown, and a level is not a ceiling on ability."
   ],
   "提交連結 30 分鐘後失效。此裝置可用安全 Cookie 開啟最近結果，最長保留 7 天；可隨時清除。Email、原始紀錄與提交權杖不存入瀏覽器儲存空間，結果沒有公開網址。": [
     "提交链接 30 分钟后失效。本设备可用安全 Cookie 打开最近结果，最多保留 7 天，可随时清除。Email、原始记录与提交令牌不存入浏览器存储，结果没有公开网址。",

@@ -31,9 +31,9 @@ localhost 沒有 Sites 登入 dispatcher；因此匿名只能看首頁，原生�
 
 同一獨立任務在每軸只算一次，主人要求與實際行為分開記錄。受限、可選性不明或要求不符的觀察不計入。方向需至少 3 個 task 支持、占有效 task（含 mixed）至少 2/3，且兩端差至少 2；不足或接近就保留未知。這些門檻不是準確率。tokens、模型家族與客戶端不參與分型。
 
-**獨立的使用等級 LV0–5** 只根據最小成果證據衍生。沒有證據是未知，不能當 LV0。LV4 需已檢視、測試並於不同任務重用的同一成果；LV5 另外需至少兩條任務互不重疊、持續 14 天以上的流程，以及角色、驗收、例外處理、維護與回饋。等級基於 ai-level-check v0.4.6 的成果觀念，版本固定於 `d262ca67a6efa59ffb0e0a2a2843978a149e047d`，本專案將其實作為保守的 `usage-level-v1` 證據門檻，保留 MIT 署名；不是上游官方認證。
+**獨立的使用等級 LV0–5**（`usage-level-v2`）分兩個面向。LV0–3 看 Agent 在授權紀錄中看到的人為證據：未查核就採用、出錯後重試、兩個獨立任務確認結果可用，以及同一任務先講清範圍與完成標準再驗證修正。LV4–5 只看 `collect.py` 計算並原樣帶入摘要的 `systemEvidence`：LV4 需至少一個工作階段寫下技能、規則或腳本等資產，且至少兩個工作階段用到其他階段寫下的資產；LV5 另需至少三個自動化工作階段、跨度 14 天以上、至少一種排程／CI／hook／heartbeat 機制，以及自動化開始後仍有資產更新。沒有證據就是未知，不能當 LV0。
 
-[觀察設計](docs/DESIGN-MBTI.md)、[collector 技能](public/collector/SKILL.md)、[空白模板](public/collector-template.json)、[JSON schema](public/collector-schema.json)、[第三方聲明](THIRD_PARTY_NOTICES.md)。schema 2.0 可選 `usageEvidence`；舊 2.0 摘要缺少此欄位時等級保持未知。更早的舊型別不會被偷偷轉成 MBTI。
+[觀察設計](docs/DESIGN-MBTI.md)、[collector 技能](public/collector/SKILL.md)、[空白模板](public/collector-template.json)、[JSON schema](public/collector-schema.json)、[第三方聲明](THIRD_PARTY_NOTICES.md)。schema 2.0 可選 `usageEvidence` 與 `systemEvidence`；缺少時對應的等級保持未知。更早的舊型別不會被偷偷轉成 MBTI。
 
 ## 已實作
 

@@ -33,7 +33,7 @@ test('migration preserves an existing legacy row and requires reassessment; owne
   assert.equal((await handleSession(db,request('/api/sessions/'+legacy.id,'DELETE',legacy.readToken),legacy.id,'session',now)).status,404);
 });
 test('create → submit → read persists aggregates, not email or bearer tokens in report',async()=>{const s=await create({}, {nickname:'測試旅人',marketingOptIn:false});assert.notEqual(s.readToken,s.writeToken);assert.equal(s.expiresAt,now+TTL_MS);assert.equal((await send(s)).status,201);const r=await get(s);assert.equal(r.status,200);assert.match(r.headers.get('cache-control')! ,/no-store/);const data=await r.text();assert.match(data,/INTJ/);assert.doesNotMatch(data,/fixture@example|readToken|writeToken/);const stored=await db.prepare('SELECT read_hash,write_hash FROM sessions WHERE id=?1').bind(s.id).first<{read_hash:string;write_hash:string}>();assert.notEqual(stored!.read_hash,s.readToken);assert.notEqual(stored!.write_hash,s.writeToken);});
-test('native identity grants full report even when marketing is declined',async()=>{const s=await create({}, {nickname:'報告旅人',marketingOptIn:false});await send(s);const data=await(await get(s)).json() as Record<string,unknown>;assert.ok(data.report);assert.equal(data.reportAccess,'email');assert.equal(data.delivery,'not_configured');assert.deepEqual(Object.keys(data.card as object).sort(),['assessment','brief','kind','modelFamily','nickname','usageLevel']);assert.doesNotMatch(JSON.stringify(data),/fixture@example|readToken|writeToken/);});
+test('native identity grants full report even when marketing is declined',async()=>{const s=await create({}, {nickname:'報告旅人',marketingOptIn:false});await send(s);const data=await(await get(s)).json() as Record<string,unknown>;assert.ok(data.report);assert.equal(data.reportAccess,'email');assert.equal(data.delivery,'not_configured');assert.deepEqual(Object.keys(data.card as object).sort(),['assessment','brief','kind','modelFamily','nickname','selfType','usageLevel']);assert.doesNotMatch(JSON.stringify(data),/fixture@example|readToken|writeToken/);});
 test('separate authorities and cross-session capabilities',async()=>{const a=await create(),b=await create();assert.equal((await get(a,a.writeToken)).status,404);assert.equal((await send(a,makeFixture(a.nickname),'same-safe-retry-key',a.readToken)).status,404);assert.equal((await get(a,b.readToken)).status,404);assert.equal((await send(a,makeFixture(a.nickname),'same-safe-retry-key',b.writeToken)).status,404);});
 test('dispatch owner binds reading without requiring callback caller identity',async()=>{const s=await create({'oai-authenticated-user-id':'owner-a'});assert.equal((await send(s)).status,201);assert.equal((await get(s)).status,404);assert.equal((await get(s,s.readToken,now,{'oai-authenticated-user-id':'owner-b'})).status,404);assert.equal((await get(s,s.readToken,now,{'oai-authenticated-user-id':'owner-a'})).status,200);});
 test('one submission and exact canonical idempotent retry',async()=>{const s=await create();const f=makeFixture(s.nickname);assert.equal((await send(s,f)).status,201);assert.deepEqual(await (await send(s,Object.fromEntries(Object.entries(f).reverse()))).json(),{accepted:true,duplicate:true});assert.equal((await send(s,f,'another-retry-key')).status,409);f.metrics.humanSessions=19;assert.equal((await send(s,f)).status,409);});
@@ -141,6 +141,29 @@ test('device recall uses HttpOnly scoped authority plus same signed-in owner, ex
  assert.equal((await handleRemembered(db,request('/api/remembered','DELETE',undefined,undefined,{origin,cookie:token}),now,fixtureUser)).status,200);assert.equal((await(await handleRemembered(db,request('/api/remembered','GET',undefined,undefined,{cookie:token}),now,fixtureUser)).json() as {found:boolean}).found,false);
 });
 
+test('self-type is stored beside the session, reaches the card and the remembered copy, and never changes the assessment',async()=>{
+ const {handleRemembered}=await import('../lib/remembered-service.ts');
+ const put=(s:Session,payload:unknown,token=s.readToken,extra:Record<string,string>={origin})=>handleSession(db,request('/api/sessions/'+s.id,'PUT',token,payload,extra),s.id,'session',now);
+ type Read={card:{selfType:string|null;assessment:unknown};report:{assessment:unknown}};
+ const plain=await create();await send(plain);
+ const guessed=await create();
+ assert.deepEqual(await(await put(guessed,{selfType:'ENFP'})).json(),{selfType:'ENFP'});
+ assert.equal((await put(guessed,{selfType:'XXXX'})).status,422);
+ assert.equal((await put(guessed,{selfType:'ENFP',weight:1})).status,422);
+ assert.equal((await put(guessed,{selfType:'ENFP'},guessed.writeToken)).status,404);
+ assert.equal((await put(guessed,{selfType:'ENFP'},guessed.readToken,{origin:'https://other.test'})).status,403);
+ assert.equal((await send(guessed)).status,201);
+ const a=await(await get(plain)).json() as Read,b=await(await get(guessed)).json() as Read;
+ assert.equal(a.card.selfType,null);assert.equal(b.card.selfType,'ENFP');
+ assert.deepEqual(b.card.assessment,a.card.assessment);assert.deepEqual(b.report.assessment,a.report.assessment);
+ assert.equal((b.card.assessment as {type:string}).type,'INTJ');
+ assert.doesNotMatch(JSON.stringify(b.report),/ENFP/);
+ const saved=await handleRemembered(db,request('/api/remembered','POST',undefined,{sessionId:guessed.id,readToken:guessed.readToken},{origin}),now,fixtureUser);const cookie=saved.headers.get('set-cookie')!.split(';')[0];
+ const recalled=await(await handleRemembered(db,request('/api/remembered','GET',undefined,undefined,{cookie}),now,fixtureUser)).json() as Read;
+ assert.equal(recalled.card.selfType,'ENFP');assert.deepEqual(recalled.card.assessment,a.card.assessment);
+ assert.deepEqual(await(await put(guessed,{selfType:null})).json(),{selfType:null});
+ assert.equal((await(await get(guessed)).json() as Read).card.selfType,null);
+});
 test('a remembered result from the 2.0 rubric is not reopened',async()=>{
  const {handleRemembered}=await import('../lib/remembered-service.ts');const s=await create();await send(s);
  const saved=await handleRemembered(db,request('/api/remembered','POST',undefined,{sessionId:s.id,readToken:s.readToken},{origin}),now,fixtureUser);const cookie=saved.headers.get('set-cookie')!.split(';')[0];

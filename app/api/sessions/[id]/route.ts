@@ -7,3 +7,4 @@ export async function GET(request: Request, context: Context) {
   return env.DB ? handleSession(env.DB, request, id,"session",Date.now(),await getChatGPTUser()) : json({ error: "資料庫無法使用。" }, 503);
 }
 export const DELETE = GET;
+export const PUT = GET;

@@ -8,6 +8,7 @@ export const progressSchema = z.object({
   approvalKind: z.enum(["local_read", "network", "command"]).nullable(),
 }).strict().refine(p => (p.phase === "awaiting_host_approval") === (p.approvalKind !== null), "Only observed pending host approvals identify a permission kind");
 export const typeCodes = ["INTJ", "INTP", "ENTJ", "ENTP", "INFJ", "INFP", "ENFJ", "ENFP", "ISTJ", "ISFJ", "ESTJ", "ESFJ", "ISTP", "ISFP", "ESTP", "ESFP"] as const;
+export const selfTypeSchema = z.object({ selfType: z.enum(typeCodes).nullable() }).strict();
 export const taskAxesSchema = z.object({ EI: z.enum(["E", "I", "unclear"]), SN: z.enum(["S", "N", "unclear"]), TF: z.enum(["T", "F", "unclear"]), JP: z.enum(["J", "P", "unclear"]) }).strict();
 const axisId = z.enum(["EI", "SN", "TF", "JP"]);
 export const axisResultSchema = z.union([

@@ -18,10 +18,11 @@ export const sessions = sqliteTable("sessions", {
   idempotencyKey: text("idempotency_key"),
   payloadHash: text("payload_hash"),
   report: text("report"),
+  selfType: text("self_type"),
 }, (table) => [index("sessions_expiry").on(table.expiresAt)]);
 
 export const rememberedResults=sqliteTable('remembered_results',{
- id:text('id').primaryKey(),tokenHash:text('token_hash').notNull(),ownerHash:text('owner_hash'),expiresAt:integer('expires_at').notNull(),report:text('report').notNull(),reportAccess:text('report_access').notNull(),
+ id:text('id').primaryKey(),tokenHash:text('token_hash').notNull(),ownerHash:text('owner_hash'),expiresAt:integer('expires_at').notNull(),report:text('report').notNull(),reportAccess:text('report_access').notNull(),selfType:text('self_type'),
 },table=>[index('remembered_expiry').on(table.expiresAt)]);
 
 export const marketingPreferences=sqliteTable('marketing_preferences',{

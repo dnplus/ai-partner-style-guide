@@ -4,13 +4,13 @@ import { useEffect, useRef, useState } from "react";
 import { z } from "zod";
 import { toReport, validateSubmission, type CardObservation, type Report } from "../lib/assessment.ts";
 import {usageLevelSchema} from "../lib/usage-level.ts";
-import { nicknameSchema, assessmentSchema, PROTOCOL_VERSION } from "../lib/contract.ts";
+import { nicknameSchema, assessmentSchema, selfTypeSchema, PROTOCOL_VERSION, type TypeCode } from "../lib/contract.ts";
 import type { LocalSession } from "../lib/collector-instructions.ts";
 import { receivedProgressSchema, emptyProgress, type ReceivedProgress } from "../lib/collector-progress.ts";
 
 export const SESSION_KEY = "agent-mbti-session-v2";
 const sessionSchema = z.object({ id:z.string().uuid(), readToken:z.string().regex(/^[0-9a-f]{64}$/), writeToken:z.string().regex(/^[0-9a-f]{64}$/).optional(), expiresAt:z.number(), nickname:nicknameSchema });
-const cardSchema = z.object({ nickname:nicknameSchema, kind:z.enum(["fixture","observed"]), assessment:assessmentSchema, usageLevel:usageLevelSchema,brief:z.array(z.string()).max(3),modelFamily:z.enum(["openai","anthropic","google","xai","deepseek","zai","other","unknown"]) }).strict();
+const cardSchema = z.object({ nickname:nicknameSchema, kind:z.enum(["fixture","observed"]), assessment:assessmentSchema, usageLevel:usageLevelSchema,brief:z.array(z.string()).max(3),modelFamily:z.enum(["openai","anthropic","google","xai","deepseek","zai","other","unknown"]),selfType:selfTypeSchema.shape.selfType }).strict();
 const resultSchema = z.object({ id:z.string().uuid(), expiresAt:z.number(), status:z.enum(["pending","complete"]), card:cardSchema.nullable(), report:z.record(z.unknown()).nullable(), reportAccess:z.enum(["email","card_only"]), delivery:z.enum(["not_configured","not_requested"]), progress:receivedProgressSchema });
 export type SessionResult = { id:string; expiresAt:number; card:CardObservation; report:Report | null; reportAccess:"email" | "card_only"; delivery:"not_configured" | "not_requested" };
 
@@ -114,6 +114,15 @@ export function usePersonaSession(authenticated=true) {
     finally{working.current=false;setBusy(false);}
   }
 
+  async function saveSelfType(selfType:TypeCode|null){
+    if(!session) return false;
+    try{
+      const response=await fetch(`/api/sessions/${session.id}`,{method:"PUT",headers:{"Content-Type":"application/json",Authorization:`Bearer ${session.readToken}`},body:JSON.stringify({selfType}),redirect:"error"});
+      if(!response.ok) throw new Error();
+      return true;
+    }catch{setError("暫時存不了你的選擇，請再選一次。");return false;}
+  }
+
   async function erase(preserveRemembered=false){
     if(working.current) return false;
     working.current=true;setBusy(true);setError("");
@@ -128,5 +137,5 @@ export function usePersonaSession(authenticated=true) {
     } catch(e){setError((e as Error).message);return false;}
     finally{working.current=false;setBusy(false);}
   }
-  return {ready,session,result,lastResult,rememberError,openLast:()=>{if(lastResult&&lastResult.expiresAt>Date.now())setResult(lastResult);},startFresh:()=>erase(true),busy,error,setError,connection,expired,remaining,lastChecked,agentProgress,clock,create,erase,retry:()=>setRetry(n=>n+1)};
+  return {ready,session,result,lastResult,rememberError,openLast:()=>{if(lastResult&&lastResult.expiresAt>Date.now())setResult(lastResult);},startFresh:()=>erase(true),busy,error,setError,connection,expired,remaining,lastChecked,agentProgress,clock,create,erase,saveSelfType,retry:()=>setRetry(n=>n+1)};
 }

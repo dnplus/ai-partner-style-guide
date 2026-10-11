@@ -14,7 +14,7 @@ export function ArtGallery() {
     const [selected, setSelected] = useState<TypeCode>("INTJ");
     const dialog = useRef<HTMLDialogElement>(null);
     const slots = artSlots.filter(s => s.family === family && s.style === style);
-    const observation = (type: TypeCode) => ({ usageLevel:{version:"usage-level-v2" as const,value:null,basis:null},brief:[],nickname: t("插畫展示"), kind: "fixture" as const, modelFamily: families.find(f => f.id === family)!.model, assessment: decidedAssessment(type) });
+    const observation = (type: TypeCode) => ({ usageLevel:{version:"usage-level-v2" as const,value:null,basis:null},brief:[],nickname: t("插畫展示"), kind: "fixture" as const, modelFamily: families.find(f => f.id === family)!.model, assessment: decidedAssessment(type), selfType: null });
     return <div className="gallery-page">
     <header className="gallery-header"><a href="/"><ArrowLeft size={17}/>{t("回到觀察")}</a><span>{t("你的 Agent MBTI · 插畫圖庫")}</span><span className={artCounts.complete ? "art-ready" : "art-pending"}>{t("{ready} / {total} 張",{ready:artCounts.ready,total:artCounts.total})}</span></header>
     <main><p className="eyebrow">{t("六個家族 · 十六種風格 · 兩種筆觸")}</p><h1>{t("每一型，")}<br />{t("都有自己的故事。")}</h1><p className="gallery-intro">{t("插畫依構圖選配，與分型計算獨立。這裡的代碼是目錄，不是你的評估結果。")}{!artCounts.complete && <>{t("尚有")}{192 - artCounts.ready}{t("張製作中，缺圖不以其他插畫替代。")}</>}</p>

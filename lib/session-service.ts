@@ -1,12 +1,12 @@
 import type {TrustedIdentity} from "./identity.ts";
 import {saveMarketingPreference} from "./account-service.ts";
-import { createSchema, progressSchema, PROTOCOL_VERSION } from "./contract.ts";
-import { toReport, toCardObservation, validateSubmission, type Report } from "./assessment.ts";
+import { createSchema, progressSchema, selfTypeSchema, PROTOCOL_VERSION } from "./contract.ts";
+import { toReport, toCardObservation, storedSelfType, validateSubmission, type Report } from "./assessment.ts";
 
 export const TTL_MS = 30 * 60 * 1000;
 const MAX_BYTES = 24 * 1024;
 const secureHeaders = { "Content-Type": "application/json; charset=utf-8", "Cache-Control": "no-store, private", "Referrer-Policy": "no-referrer", "X-Content-Type-Options": "nosniff", "Cross-Origin-Resource-Policy": "same-origin", "Vary": "Origin" };
-type Row = { id: string; protocol_version: string; progress_phase: string; progress_sequence: number; progress_at: number | null; approval_kind: string | null; read_hash: string; write_hash: string; owner_hash: string | null; nickname: string; email: string | null; expires_at: number; report: string | null; payload_hash: string | null; idempotency_key: string | null; submitted_at: number | null };
+type Row = { id: string; protocol_version: string; progress_phase: string; progress_sequence: number; progress_at: number | null; approval_kind: string | null; read_hash: string; write_hash: string; owner_hash: string | null; nickname: string; email: string | null; expires_at: number; report: string | null; payload_hash: string | null; idempotency_key: string | null; submitted_at: number | null; self_type: string | null };
 class HttpError extends Error {
   status: number;
   constructor(status: number, message: string) { super(message); this.status = status; }
@@ -54,7 +54,7 @@ async function authorize(db: D1Database, request: Request, id: string, access: "
 export async function handleSession(db: D1Database, request: Request, id?: string, mode: "session" | "collect" | "progress" = "session", now = Date.now(), identity:TrustedIdentity|null=null): Promise<Response> {
   let phase = "access";
   try {
-    sameOrigin(request, !id || request.method === "DELETE");
+    sameOrigin(request, !id || request.method === "DELETE" || request.method === "PUT");
     if(mode==="session"&&!identity)return json({error:"請先使用 ChatGPT 登入。"},401);
     if (!id) {
       if (request.method !== "POST") failure(405, "此操作不支援。");
@@ -82,6 +82,12 @@ export async function handleSession(db: D1Database, request: Request, id?: strin
     }
     if (row.protocol_version !== PROTOCOL_VERSION) return json({ error: "觀察規則已更新。舊結果需要重新分析，請建立新連結。", code: "reassessment_required" }, 410);
     await db.prepare("DELETE FROM sessions WHERE expires_at <= ?1 AND id != ?2").bind(now, id).run();
+    if (mode === "session" && request.method === "PUT") {
+      const parsed = selfTypeSchema.safeParse(await body(request));
+      if (!parsed.success) return failure(422, "請從 16 型中選一個，或選不確定。");
+      await db.prepare("UPDATE sessions SET self_type=?1 WHERE id=?2").bind(parsed.data.selfType, id).run();
+      return json(parsed.data);
+    }
     if (mode === "progress") {
       if (request.method !== "POST") failure(405, "此操作不支援。");
       const parsed = progressSchema.safeParse(await body(request));
@@ -116,7 +122,7 @@ export async function handleSession(db: D1Database, request: Request, id?: strin
     if (request.method === "GET") {
       phase = "read_result";
       const report: Report | null = row.report ? JSON.parse(row.report) : null;
-      return json({ id, expiresAt: row.expires_at, status: report ? "complete" : "pending", progress: { phase: report ? "complete" : row.progress_phase, sequence: row.progress_sequence, updatedAt: report ? row.submitted_at : row.progress_at, approvalKind: report ? null : row.approval_kind }, card: report ? toCardObservation(report) : null, report: row.email ? report : null, reportAccess: row.email ? "email" : "card_only", delivery: row.email ? "not_configured" : "not_requested" });
+      return json({ id, expiresAt: row.expires_at, status: report ? "complete" : "pending", progress: { phase: report ? "complete" : row.progress_phase, sequence: row.progress_sequence, updatedAt: report ? row.submitted_at : row.progress_at, approvalKind: report ? null : row.approval_kind }, card: report ? toCardObservation(report, storedSelfType(row.self_type)) : null, report: row.email ? report : null, reportAccess: row.email ? "email" : "card_only", delivery: row.email ? "not_configured" : "not_requested" });
     }
     return failure(405, "此操作不支援。");
   } catch (error) {

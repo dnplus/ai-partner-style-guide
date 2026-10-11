@@ -2770,5 +2770,17 @@
     "ニックネーム、日付、ソースと欠落、使用量の集計、抽象化したタスクと4軸の判定、段階の状態。",
     "닉네임, 날짜, 출처와 공백, 사용량 집계, 추상화한 작업과 네 축 판단, 단계 상태.",
     "Nickname, dates, sources and gaps, usage totals, abstract tasks with their four-axis picks, and stage status."
+  ],
+  "請從 16 型中選一個，或選不確定。": [
+    "请从 16 型中选一个，或选不确定。",
+    "16タイプから一つ選ぶか、「わからない」を選んでください。",
+    "16가지 유형 중 하나를 고르거나 '잘 모르겠어요'를 선택하세요.",
+    "Pick one of the 16 types, or Not sure."
+  ],
+  "暫時存不了你的選擇，請再選一次。": [
+    "暂时存不了你的选择，请再选一次。",
+    "選択を保存できませんでした。もう一度選んでください。",
+    "선택을 저장하지 못했어요. 다시 골라 주세요.",
+    "Couldn't save your pick. Please choose again."
   ]
 }

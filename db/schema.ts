@@ -1,4 +1,4 @@
-import { sqliteTable, text, integer, index } from "drizzle-orm/sqlite-core";
+import { sqliteTable, text, integer, index, uniqueIndex } from "drizzle-orm/sqlite-core";
 
 export const sessions = sqliteTable("sessions", {
   id: text("id").primaryKey(),
@@ -22,3 +22,12 @@ export const sessions = sqliteTable("sessions", {
 export const rememberedResults=sqliteTable('remembered_results',{
  id:text('id').primaryKey(),tokenHash:text('token_hash').notNull(),expiresAt:integer('expires_at').notNull(),report:text('report').notNull(),selfType:text('self_type'),
 },table=>[index('remembered_expiry').on(table.expiresAt)]);
+
+// A team board: the owner reads it with a view token; members post snapshots through the join code.
+export const teams=sqliteTable('teams',{
+ id:text('id').primaryKey(),name:text('name').notNull(),viewHash:text('view_hash').notNull(),joinCode:text('join_code').notNull().unique(),createdAt:integer('created_at').notNull(),expiresAt:integer('expires_at').notNull(),
+},table=>[index('teams_expiry').on(table.expiresAt)]);
+
+export const teamEntries=sqliteTable('team_entries',{
+ id:text('id').primaryKey(),teamId:text('team_id').notNull(),sessionId:text('session_id').notNull(),member:text('member').notNull(),snapshot:text('snapshot').notNull(),withdrawHash:text('withdraw_hash').notNull(),createdAt:integer('created_at').notNull(),
+},table=>[index('team_entries_team').on(table.teamId,table.createdAt),uniqueIndex('team_entries_session').on(table.teamId,table.sessionId)]);

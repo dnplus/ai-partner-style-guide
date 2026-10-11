@@ -5,12 +5,12 @@ export const TTL_MS = 30 * 60 * 1000;
 const MAX_BYTES = 24 * 1024;
 const secureHeaders = { "Content-Type": "application/json; charset=utf-8", "Cache-Control": "no-store, private", "Referrer-Policy": "no-referrer", "X-Content-Type-Options": "nosniff", "Cross-Origin-Resource-Policy": "same-origin", "Vary": "Origin" };
 type Row = { id: string; protocol_version: string; progress_phase: string; progress_sequence: number; progress_at: number | null; approval_kind: string | null; read_hash: string; write_hash: string; nickname: string; expires_at: number; report: string | null; payload_hash: string | null; idempotency_key: string | null; submitted_at: number | null; self_type: string | null };
-class HttpError extends Error {
+export class HttpError extends Error {
   status: number;
   constructor(status: number, message: string) { super(message); this.status = status; }
 }
 export const json = (value: unknown, status = 200) => new Response(JSON.stringify(value), { status, headers: secureHeaders });
-const failure = (status: number, message: string): never => { throw new HttpError(status, message); };
+export const failure = (status: number, message: string): never => { throw new HttpError(status, message); };
 const randomToken = () => Array.from(crypto.getRandomValues(new Uint8Array(32)), (b) => b.toString(16).padStart(2, "0")).join("");
 const digest = async (value: string) => Array.from(new Uint8Array(await crypto.subtle.digest("SHA-256", new TextEncoder().encode(value))), (b) => b.toString(16).padStart(2, "0")).join("");
 const canonical = (value: unknown): string => Array.isArray(value) ? `[${value.map(canonical).join(",")}]` : value && typeof value === "object" ? `{${Object.entries(value).sort(([a], [b]) => a.localeCompare(b)).map(([key, val]) => `${JSON.stringify(key)}:${canonical(val)}`).join(",")}}` : JSON.stringify(value);

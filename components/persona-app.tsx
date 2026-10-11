@@ -19,6 +19,8 @@ import { selfContrast } from "../lib/card-composition.ts";
 import { typeCodes, TURNSTILE_ACTION, type TypeCode } from "../lib/contract.ts";
 import { describeProgress } from "../lib/collector-progress.ts";
 import {noticeText} from "../lib/i18n.ts";
+import {objectiveStats,compactNumber} from "../lib/objective-stats.ts";
+import {useTeamInvite,type TeamInvite} from "./team-invite.ts";
 import { reportCollectorProgress, submitAuthorizedSummary } from "../lib/collector-runner.ts";
 type Stage = "cover" | "identity" | "instructions" | "fixture" | "waiting" | "reveal";
 // Origin and time zone never change while the page is open; the server renders the fallbacks.
@@ -31,14 +33,18 @@ function ReportSummary({report}:{report:Report}){
   const {t,locale}=useLocale();
   const count=(value:number|null)=>value===null?t("未知"):value.toLocaleString(locale);
   const list=(values:string[])=>values.join(locale.startsWith("zh")||locale==="ja"?"、":", ");
-  const {metrics}=report;
-  // Counts the collector never fills, and families it could not settle, stay hidden instead of reading "unknown" on every report.
-  const counts:[string,(number|null)[]][]=[["本人會話",[metrics.humanSessions]],["自動化 / 子代理",[metrics.automatedSessions,metrics.subagentSessions]],["本人訊息",[metrics.userMessages]],["輸入 / 輸出 tokens",[metrics.inputTokens,metrics.outputTokens]]];
+  const {metrics}=report,stats=objectiveStats(report);
+  // Counts from a system pass cut short by its budget are lower bounds; unknown counts and unsettled families stay hidden.
+  const shown=(value:number|null,bound=false)=>value===null?null:(bound&&stats.partial?"≥ ":"")+compactNumber(value,locale);
+  const pair=(a:string|null,b:string|null)=>a===null&&b===null?null:(a??t("未知"))+" / "+(b??t("未知"));
   const names:[string,string,Record<string,string>][]=[["最常用模型家族",metrics.mostUsedModelFamily,modelLabels],["最常用客戶端",metrics.mostUsedClient,clientLabels]];
-  const rows=[
-    ...counts.filter(([,values])=>values.some(value=>value!==null)).map(([label,values])=>[label,values.map(count).join(" / ")]),
+  const rows=([
+    ["期間內工作階段",shown(stats.sessions)],
+    ["輸入 / 輸出 tokens",pair(shown(stats.inputTokens),shown(stats.outputTokens))],
+    ["自動化 / 子代理",pair(shown(stats.automation,true),shown(stats.subagents,true))],
+    ["寫下 / 重用資產",pair(shown(stats.assetWrites,true),shown(stats.assetReuse,true))],
     ...names.filter(([,key])=>key!=="unknown").map(([label,key,labels])=>[label,t(labels[key])]),
-  ];
+  ] as [string,string|null][]).filter((row):row is [string,string]=>row[1]!==null);
   return <>
     <details className="report-details"><summary>{t("打開完整觀察報告")}</summary><div className="report-content">
       <p className="report-period">{report.observedPeriod.from} — {report.observedPeriod.to}</p>
@@ -48,7 +54,7 @@ function ReportSummary({report}:{report:Report}){
         <h3>{t(axisDefinitions[i].name)} · {axis.value==="?"?t(letterLabels["?"]):axis.value+" "+t(letterLabels[axis.value])}{axis.strength==="lean"&&" · "+t("傾向")}</h3>
         <p>{t(axis.value==="?"?axisDefinitions[i].prompt:letterTips[axis.value])}</p>
       </section>)}
-      <h2>{t("這次看到了多少？")}</h2><p>{t("證據覆蓋：{scope}。抽樣 {count} 個會話；來源：{sources}。",{scope:t(report.coverage.scope==="adequate"?"涵蓋授權範圍":report.coverage.scope==="partial"?"部分資料":"資料不足"),count:count(report.coverage.sampledSessions),sources:list(report.coverage.sources.map(s=>t(clientLabels[s])))||t("尚未取得")})}</p>
+      <h2>{t("這次看到了多少？")}</h2><p>{t("證據覆蓋：{scope}。判讀 {judged} 段對話，掃過 {read} 個紀錄；來源：{sources}。",{scope:t(report.coverage.scope==="adequate"?"涵蓋授權範圍":report.coverage.scope==="partial"?"部分資料":"資料不足"),judged:stats.judged,read:count(stats.read),sources:list(report.coverage.sources.map(s=>t(clientLabels[s])))||t("尚未取得")})}</p>
       {rows.length>0&&<dl className="metrics-list">{rows.map(([label,value])=><div key={label}><dt>{t(label)}</dt><dd>{value}</dd></div>)}</dl>}
       <details className="evidence-details"><summary>{t("看任務脈絡")}</summary>{report.tasks.map(task=><section className="task-evidence" key={task.id}><h3>{task.id} · {t(contextLabels[task.context])}</h3><p>{task.date} · {t(clientLabels[task.source])}</p></section>)}</details>
       <h2>{t("還沒看到的部分")}</h2><p>{report.coverage.gaps.length?list(report.coverage.gaps.map(g=>t(gaps[g])))+(locale.startsWith("zh")||locale==="ja"?"。":"."):t("沒有回報額外缺口；不代表已讀取所有紀錄。")} {t("網站只檢查 Agent 摘要的一致性，沒有檢視原始紀錄。")}</p>
@@ -60,9 +66,23 @@ function SelfTypePick({value,onChange}:{value:TypeCode|null;onChange:(value:Type
   const {t}=useLocale();
   return <div className="self-type-pick"><label htmlFor="self-type">{t("你覺得自己是哪一型？")}</label><select id="self-type" value={value??""} onChange={e=>onChange(typeCodes.find(code=>code===e.target.value)??null)}><option value="">{t("不確定")}</option>{typeCodes.map(code=><option key={code} value={code}>{code} · {t(personas[code].name)}</option>)}</select><p>{t("只拿來對照，不影響結果。")}</p></div>;
 }
+function TeamShare({invite,sessionId,onShare,onWithdraw}:{invite:TeamInvite;sessionId:string;onShare:(member:string)=>Promise<string>;onWithdraw:()=>Promise<string>}){
+  const {t,locale}=useLocale();
+  const [member,setMember]=useState(""),[busy,setBusy]=useState(false),[error,setError]=useState("");
+  const shared=invite.shared?.sessionId===sessionId?invite.shared:null;
+  async function run(action:()=>Promise<string>){setBusy(true);setError(await action());setBusy(false);}
+  return <section className="team-share" aria-live="polite">
+    <p className="team-share-title">{t(shared?"已分享到「{team}」看板":"分享到「{team}」看板",{team:invite.name})}</p>
+    {shared?<div className="team-share-row"><span>{t("顯示名稱：{member}",{member:shared.member})}</span><button className="quiet-button" disabled={busy} onClick={()=>run(onWithdraw)}>{t("撤回分享")}</button></div>
+    :<><p className="team-share-note">{t("會分享卡片、等級，以及工作階段、token、自動化等統計，不含任何對話內容，可隨時撤回。")}</p>
+      <form className="team-share-row" onSubmit={e=>{e.preventDefault();void run(()=>onShare(member.trim()));}}><input aria-label={t("你在團隊中的名字")} placeholder={t("你在團隊中的名字")} value={member} maxLength={24} required onChange={e=>setMember(e.target.value)}/><button className="primary" disabled={busy||!member.trim()}>{t("分享")}</button></form></>}
+    {error&&<p className="small-note" role="status">{noticeText(locale,error)}</p>}
+  </section>;
+}
 export function PersonaApp({turnstileSiteKey}:{turnstileSiteKey:string}) {
     const { t, locale, ready: localeReady } = useLocale();
     const flow = usePersonaSession();
+    const team = useTeamInvite();
     const [stage, setStage] = useState<Stage>("cover");
     const [nickname, setNickname] = useState("");
     const [style, setStyle] = useState<ArtStyle>("chibi");
@@ -270,6 +290,7 @@ export function PersonaApp({turnstileSiteKey}:{turnstileSiteKey:string}) {
     </header>
     {stage !== "cover" && <div className="journey-progress" aria-label={t("第 {step} 個階段，共 3 個階段",{step:progress})}><div><i style={{ width: `${progress / 3 * 100}%` }}/></div><span>{progress} / 3</span></div>}
     <main ref={focus} className={`journey journey-${stage}`}>
+      {team.invite&&(stage==="cover"||stage==="identity")&&<p className="team-pill"><span>{t("團隊觀察 · {team}",{team:team.invite.name})}</span><button className="quiet-button" onClick={team.leave}>{t("不參加")}</button></p>}
       {stage === "cover" && <section className="cover-screen screen" aria-labelledby="cover-title">
         <h1 id="cover-title" tabIndex={-1}>{t("你的 Agent，")}<br />{t("是哪一種 MBTI？")}</h1>
         <p className="cover-tagline">{t("你怎麼帶它做事，")}<br className="mobile-break"/>{t("它就長出怎樣的工作風格。")}</p><div className="cover-art"><HoloCard report={toCardObservation(demoReport)} style="chibi" family="codex" nicknameOnly teaser/></div>
@@ -314,7 +335,7 @@ export function PersonaApp({turnstileSiteKey}:{turnstileSiteKey:string}) {
       </section>}
       {stage === "reveal" && result && <section className="reveal-screen screen final-screen">
         <div className="final-card-area"><div className="reveal-art"><HoloCard report={card} style={style} family={family} nicknameOnly={nicknameOnly} reveal/></div><div className="style-switch" aria-label={t("卡片畫風")}><button aria-pressed={style==="regular"} onClick={()=>setStyle("regular")}>{t("一般")}</button><button aria-pressed={style==="chibi"} onClick={()=>setStyle("chibi")}>{t("Q 版")}</button></div><p className="drag-hint"><span className="motion-hint">{t("拖曳卡片，看看另一道光")}</span><span className="reduced-hint">{t("已依偏好使用靜態卡面")}</span></p></div>
-        <div className="final-copy">{card.kind==="fixture"&&<p className="eyebrow">{t("示範資料 · 非個人評估")}</p>}<h1 tabIndex={-1}>{card.nickname}</h1><p className="final-subtitle">{t(personaFor(card.assessment.type).name)}</p>{selfContrast(card,t)&&<p className="self-contrast">{selfContrast(card,t)}</p>}<div className="brief-reading">{card.brief.map(line=><p key={line}>{t(line)}</p>)}</div><p className="next-step"><b>{t("下一步")}</b><span>{t(nextStepFor(card.usageLevel))}</span></p>
+        <div className="final-copy">{card.kind==="fixture"&&<p className="eyebrow">{t("示範資料 · 非個人評估")}</p>}<h1 tabIndex={-1}>{card.nickname}</h1><p className="final-subtitle">{t(personaFor(card.assessment.type).name)}</p>{selfContrast(card,t)&&<p className="self-contrast">{selfContrast(card,t)}</p>}<div className="brief-reading">{card.brief.map(line=><p key={line}>{t(line)}</p>)}</div><p className="next-step"><b>{t("下一步")}</b><span>{t(nextStepFor(card.usageLevel))}</span></p>{team.invite&&card.kind==="observed"&&active&&<TeamShare invite={team.invite} sessionId={active.id} onShare={member=>team.share(active.id,active.readToken,member)} onWithdraw={team.withdraw}/>}
         <div className="final-actions"><button className="primary" onClick={exportPng} disabled={exporting||!!card.assessment.type&&!artFor(family,card.assessment.type,style)}>{exporting?t("製作圖片中…"):t("下載我的角色卡")}<Download size={20}/></button><CardShare card={card} style={style} family={family} nicknameOnly={nicknameOnly} home={origin+"/"}/></div>
         <details className="card-options"><summary>{t("卡片選項")}</summary><div><label htmlFor="card-family">{t("卡面主題")}</label><select id="card-family" value={family} onChange={e=>setFamily(e.target.value as Family)}>{families.map(f=><option key={f.id} value={f.id}>{f.label}</option>)}</select><label className="check-field"><input type="checkbox" checked={nicknameOnly} onChange={e=>setNicknameOnly(e.target.checked)}/>{t("只顯示暱稱，隱藏分型")}</label><p>{t("此選項也會隱藏等級與短句。")}</p></div></details>
         {result.report&&<div className="inline-report"><ReportSummary report={result.report}/></div>}
@@ -328,7 +349,7 @@ export function PersonaApp({turnstileSiteKey}:{turnstileSiteKey:string}) {
       <details><summary>{t("觀察依據與 16 種風格")}</summary><p>{t("借用 E/I 推進節奏、S/N 指令焦點、T/F 驗收依據、J/P 工作框架，只看你帶 Agent 時說了什麼。這不是人格診斷，也不是模型的固定性格。")}</p><p>{t("每個任務每軸選一邊，看不出來就跳過。少於三個任務或打平保留問號，差距不大標成傾向。舊結果需要重新分析。")}<a href="/collector/SKILL.md" target="_blank" rel="noreferrer">{t("完整觀察方式 ↗")}</a></p><div className="about-types">{Object.entries(personas).map(([code, p]) => <div key={code}><b>{code}</b><span>{t(p.name)}</span></div>)}</div></details>
       <details><summary>{t("使用等級如何判斷")}</summary><p>{t("等級與 MBTI、用量和模型無關。LV0–3 看你帶 Agent 時怎麼查核與修正；LV4 看你寫下的技能、規則或腳本，是否被其他工作階段再次使用；LV5 再看自動化是否無人值守跑過兩週，且資產持續維護。沒有證據就保持未知，等級也不代表能力上限。")}</p></details>
       <details><summary>{t("角色來源與非商業授權")}</summary><p>{t("六個家族 × 16 型 × 一般／Q 版，共 192 格專屬插畫。目前")}{artCounts.ready}{t("張完成")}{artCounts.complete ? t("。") : t("，其餘製作中，缺圖不以其他型替代。")}{t("插畫依構圖選配，與分型計算獨立。Codex 使用 GPT 娘的同人改編，並非官方 Codex 角色。圖片改編參考")}<a href="https://github.com/Apprentice-Geo/AI-Fanworks/tree/main/ApprenTice/images" target="_blank" rel="noreferrer">ApprenTice</a>{t("；角色原作參考 ZipZipPipe，DeepSeek 另含上善無形。")}</p><p>{t("AI 輔助再創作，")}<a href="https://creativecommons.org/licenses/by-nc-sa/4.0/" target="_blank" rel="noreferrer">CC BY-NC-SA 4.0</a>{t("，限非商業、署名及相同方式分享。上游權利鏈尚未全面核實，沒有模型業者背書。")}</p><a href="/art-provenance.md" target="_blank" rel="noreferrer">{t("完整素材來源 ↗")}</a><br /><a href="/art-gallery">{t("瀏覽全部插畫圖庫 ↗")}</a></details>
-      <details><summary>{t("資料如何使用")}</summary><p>{t("提交連結 30 分鐘後失效。此裝置可用安全 Cookie 開啟最近結果，最長保留 7 天；可隨時清除。原始紀錄與提交權杖不存入瀏覽器儲存空間，結果沒有公開網址。")}</p><p>{t("不需登入，也不收集 Email。結果只能由建立連結的這個瀏覽器讀取；Agent 只能透過短效專屬連結提交一次摘要，不能讀取結果。")}</p></details>
+      <details><summary>{t("資料如何使用")}</summary><p>{t("提交連結 30 分鐘後失效。此裝置可用安全 Cookie 開啟最近結果，最長保留 7 天；可隨時清除。原始紀錄與提交權杖不存入瀏覽器儲存空間，結果沒有公開網址。")}</p><p>{t("不需登入，也不收集 Email。結果只能由建立連結的這個瀏覽器讀取，除非你主動分享到團隊看板；分享的只有卡片與統計，可隨時撤回。Agent 只能透過短效專屬連結提交一次摘要，不能讀取結果。")}</p></details>
       {!active && <button className="quiet-button demo-entry" onClick={() => { setDemo(true); setNickname(t("示範搭檔")); about.current?.close(); go("identity"); }}>{t("使用虛構資料體驗")}<ArrowRight size={16}/></button>}
       {(active||flow.lastResult) && <button className="quiet-button danger-action" disabled={flow.busy} onClick={() => erase()}>{t("結束觀察並刪除資料")}</button>}
       {flow.error && <p role="alert">{noticeText(locale,flow.error)}</p>}

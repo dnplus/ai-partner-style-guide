@@ -131,23 +131,11 @@
     "아직 확보되지 않음",
     "Not available yet"
   ],
-  "本人會話": [
-    "本人会话",
-    "本人のセッション",
-    "본인 세션",
-    "Your sessions"
-  ],
   "自動化 / 子代理": [
     "自动化 / 子代理",
     "自動実行 / サブエージェント",
     "자동화 / 하위 에이전트",
     "Automation / subagents"
-  ],
-  "本人訊息": [
-    "本人消息",
-    "本人のメッセージ",
-    "본인 메시지",
-    "Your messages"
   ],
   "輸入 / 輸出 tokens": [
     "输入 / 输出 tokens",
@@ -1667,12 +1655,6 @@
     "이번에는 {type}에 가까워요.",
     "This time, leaning toward {type}."
   ],
-  "證據覆蓋：{scope}。抽樣 {count} 個會話；來源：{sources}。": [
-    "证据覆盖：{scope}。抽样 {count} 个会话；来源：{sources}。",
-    "証拠の範囲：{scope}。抽出セッション数：{count}。情報源：{sources}。",
-    "근거 범위: {scope}. 표본 세션 {count}개. 출처: {sources}.",
-    "Evidence coverage: {scope}. {count} sessions sampled. Sources: {sources}."
-  ],
   "網站只檢查 Agent 摘要的一致性，沒有檢視原始紀錄。": [
     "网站只检查 Agent 摘要的一致性，没有查看原始记录。",
     "サイトは Agent の要約の整合性のみを確認し、元の記録は読みません。",
@@ -2627,12 +2609,6 @@
     "제출 링크는 30분 후 만료됩니다. 이 기기에서는 안전한 Cookie로 최근 결과를 최대 7일간 열 수 있으며 언제든 지울 수 있습니다. 원본 기록과 제출 토큰은 브라우저 저장소에 보관하지 않으며 공개 결과 URL도 없습니다.",
     "Submission links expire after 30 minutes. A secure cookie lets this device reopen its latest result for up to 7 days; clear it at any time. Raw records and upload tokens are not stored in browser storage. Results have no public URL."
   ],
-  "不需登入，也不收集 Email。結果只能由建立連結的這個瀏覽器讀取；Agent 只能透過短效專屬連結提交一次摘要，不能讀取結果。": [
-    "无需登录，也不收集 Email。结果只能由创建链接的这个浏览器读取；Agent 只能通过短时专属链接提交一次摘要，不能读取结果。",
-    "ログインは不要で、メールアドレスも集めません。結果はリンクを作成したこのブラウザーだけが読めます。Agent は期限付き専用リンクで一度だけ要約を送信でき、結果は読めません。",
-    "로그인이 필요 없고 이메일도 수집하지 않습니다. 결과는 링크를 만든 이 브라우저에서만 읽을 수 있습니다. Agent는 짧은 유효기간의 전용 링크로 요약을 한 번 제출할 수 있으며 결과는 읽을 수 없습니다.",
-    "No sign-in and no Email. Only the browser that created the link can read the result. An Agent can submit one summary through its short-lived scoped link; it cannot read results."
-  ],
   "嘗試太頻繁了，請稍候一分鐘再試。": [
     "尝试太频繁了，请稍候一分钟再试。",
     "試行回数が多すぎます。1 分ほど待ってからもう一度お試しください。",
@@ -2728,5 +2704,323 @@
     "Claude Code・Codex・Cursor に貼り付ける",
     "Claude Code, Codex, Cursor에 붙여넣기",
     "Paste it into Claude Code, Codex, or Cursor"
+  ],
+  "工作階段": [
+    "工作阶段",
+    "セッション",
+    "세션",
+    "Sessions"
+  ],
+  "自動化": [
+    "自动化",
+    "自動化",
+    "자동화",
+    "Automation"
+  ],
+  "重用資產": [
+    "复用资产",
+    "資産の再利用",
+    "자산 재사용",
+    "Asset reuse"
+  ],
+  "過去的分享": [
+    "过去的分享",
+    "過去の共有",
+    "이전 공유",
+    "Earlier shares"
+  ],
+  "分享於 {date}": [
+    "分享于 {date}",
+    "{date} に共有",
+    "{date} 공유",
+    "Shared {date}"
+  ],
+  "確定移除": [
+    "确定移除",
+    "削除する",
+    "삭제 확인",
+    "Confirm remove"
+  ],
+  "移除": [
+    "移除",
+    "削除",
+    "삭제",
+    "Remove"
+  ],
+  "看板不存在或已失效。": [
+    "看板不存在或已失效。",
+    "ボードが存在しないか、無効になっています。",
+    "보드가 없거나 만료되었어요.",
+    "This board does not exist or has expired."
+  ],
+  "看板已刪除。": [
+    "看板已删除。",
+    "ボードを削除しました。",
+    "보드를 삭제했어요.",
+    "The board was deleted."
+  ],
+  "自動複製未成功，請選取下方文字手動複製。": [
+    "自动复制未成功，请选取下方文字手动复制。",
+    "自動コピーできませんでした。下の文字を選んで手動でコピーしてください。",
+    "자동 복사에 실패했어요. 아래 텍스트를 선택해 직접 복사해 주세요.",
+    "Copying failed. Select the text below and copy it yourself."
+  ],
+  "團隊看板": [
+    "团队看板",
+    "チームボード",
+    "팀 보드",
+    "Team board"
+  ],
+  "建立團隊看板": [
+    "建立团队看板",
+    "チームボードを作成",
+    "팀 보드 만들기",
+    "Create a team board"
+  ],
+  "成員用邀請連結測完後，可以自己選擇分享到這裡。看板只顯示卡片與統計，不含任何對話內容。": [
+    "成员用邀请链接测完后，可以自己选择分享到这里。看板只显示卡片与统计，不含任何对话内容。",
+    "メンバーは招待リンクで観察を終えたあと、ここに共有するかを自分で選べます。ボードにはカードと統計だけが表示され、会話の内容は含まれません。",
+    "멤버는 초대 링크로 관찰을 마친 뒤 여기에 공유할지 직접 정할 수 있어요. 보드에는 카드와 통계만 보이고 대화 내용은 없어요.",
+    "Members finish an observation through the invite link and choose whether to share it here. The board shows cards and counts only, never conversation text."
+  ],
+  "看板名稱": [
+    "看板名称",
+    "ボード名",
+    "보드 이름",
+    "Board name"
+  ],
+  "建立看板": [
+    "建立看板",
+    "ボードを作成",
+    "보드 만들기",
+    "Create board"
+  ],
+  "看板保留 180 天。數字由成員本機的 collect.py 自動計算，網站無法驗證原始紀錄。": [
+    "看板保留 180 天。数字由成员本机的 collect.py 自动计算，网站无法验证原始记录。",
+    "ボードは 180 日間保存されます。数値はメンバーのローカルの collect.py が自動で計算し、サイトは元の記録を検証できません。",
+    "보드는 180일 동안 보관돼요. 숫자는 멤버 로컬의 collect.py가 자동으로 계산하며, 사이트는 원본 기록을 검증할 수 없어요.",
+    "Boards are kept for 180 days. The numbers come from collect.py on each member's machine; the site cannot verify the original logs."
+  ],
+  "{count} 位成員 · 保留到 {date}": [
+    "{count} 位成员 · 保留到 {date}",
+    "メンバー {count} 人 · {date} まで保存",
+    "멤버 {count}명 · {date}까지 보관",
+    "{count} members · kept until {date}"
+  ],
+  "重新整理": [
+    "刷新",
+    "再読み込み",
+    "새로고침",
+    "Refresh"
+  ],
+  "邀請成員": [
+    "邀请成员",
+    "メンバーを招待",
+    "멤버 초대",
+    "Invite members"
+  ],
+  "把這個連結傳給成員，測完後由他們自己決定要不要分享。": [
+    "把这个链接发给成员，测完后由他们自己决定要不要分享。",
+    "このリンクをメンバーに送ってください。観察後、共有するかは本人が決めます。",
+    "이 링크를 멤버에게 보내 주세요. 관찰 후 공유 여부는 본인이 정해요.",
+    "Send this link to members. After their observation, they decide whether to share."
+  ],
+  "邀請連結已複製。": [
+    "邀请链接已复制。",
+    "招待リンクをコピーしました。",
+    "초대 링크를 복사했어요.",
+    "Invite link copied."
+  ],
+  "複製邀請連結": [
+    "复制邀请链接",
+    "招待リンクをコピー",
+    "초대 링크 복사",
+    "Copy invite link"
+  ],
+  "看板網址": [
+    "看板网址",
+    "ボードの URL",
+    "보드 주소",
+    "Board address"
+  ],
+  "這個網址就是看板的鑰匙，請收藏，只分享給管理者。": [
+    "这个网址就是看板的钥匙，请收藏，只分享给管理者。",
+    "この URL がボードの鍵です。ブックマークして、管理者にだけ共有してください。",
+    "이 주소가 보드의 열쇠예요. 북마크해 두고 관리자에게만 공유하세요.",
+    "This address is the board's key. Bookmark it and share it only with admins."
+  ],
+  "看板網址已複製。": [
+    "看板网址已复制。",
+    "ボードの URL をコピーしました。",
+    "보드 주소를 복사했어요.",
+    "Board address copied."
+  ],
+  "複製看板網址": [
+    "复制看板网址",
+    "ボードの URL をコピー",
+    "보드 주소 복사",
+    "Copy board address"
+  ],
+  "還沒有人分享。把邀請連結傳給成員吧。": [
+    "还没有人分享。把邀请链接发给成员吧。",
+    "まだ誰も共有していません。招待リンクをメンバーに送りましょう。",
+    "아직 공유한 사람이 없어요. 초대 링크를 멤버에게 보내 보세요.",
+    "No one has shared yet. Send the invite link to your members."
+  ],
+  "數字由成員本機的 collect.py 自動計算，網站無法驗證原始紀錄；看趨勢比看單次更有意義。": [
+    "数字由成员本机的 collect.py 自动计算，网站无法验证原始记录；看趋势比看单次更有意义。",
+    "数値はメンバーのローカルの collect.py が自動で計算し、サイトは元の記録を検証できません。1 回の結果より推移を見るほうが意味があります。",
+    "숫자는 멤버 로컬의 collect.py가 자동으로 계산하며, 사이트는 원본 기록을 검증할 수 없어요. 한 번의 결과보다 추이를 보는 편이 의미 있어요.",
+    "The numbers come from collect.py on each member's machine, and the site cannot verify the original logs. Trends say more than a single result."
+  ],
+  "刪除後所有分享都會消失，無法復原。": [
+    "删除后所有分享都会消失，无法恢复。",
+    "削除するとすべての共有が消え、元に戻せません。",
+    "삭제하면 모든 공유가 사라지고 되돌릴 수 없어요.",
+    "Deleting removes every share and cannot be undone."
+  ],
+  "確定刪除看板": [
+    "确定删除看板",
+    "ボードを削除する",
+    "보드 삭제 확인",
+    "Delete board"
+  ],
+  "取消": [
+    "取消",
+    "キャンセル",
+    "취소",
+    "Cancel"
+  ],
+  "刪除看板": [
+    "删除看板",
+    "ボードを削除",
+    "보드 삭제",
+    "Delete board"
+  ],
+  "期間內工作階段": [
+    "期间内工作阶段",
+    "期間内のセッション",
+    "기간 내 세션",
+    "Sessions in the window"
+  ],
+  "寫下 / 重用資產": [
+    "写下 / 复用资产",
+    "作成 / 再利用した資産",
+    "작성 / 재사용 자산",
+    "Assets written / reused"
+  ],
+  "證據覆蓋：{scope}。判讀 {judged} 段對話，掃過 {read} 個紀錄；來源：{sources}。": [
+    "证据覆盖：{scope}。判读 {judged} 段对话，扫过 {read} 个记录；来源：{sources}。",
+    "証拠の範囲：{scope}。{judged} 件の会話を判定し、{read} 件の記録を走査。ソース：{sources}。",
+    "근거 범위: {scope}. 대화 {judged}개를 판독하고 기록 {read}개를 훑었어요. 출처: {sources}.",
+    "Evidence coverage: {scope}. Judged {judged} conversations after scanning {read} records. Sources: {sources}."
+  ],
+  "已分享到「{team}」看板": [
+    "已分享到「{team}」看板",
+    "「{team}」ボードに共有しました",
+    "「{team}」 보드에 공유했어요",
+    "Shared to the {team} board"
+  ],
+  "分享到「{team}」看板": [
+    "分享到「{team}」看板",
+    "「{team}」ボードに共有",
+    "「{team}」 보드에 공유",
+    "Share to the {team} board"
+  ],
+  "顯示名稱：{member}": [
+    "显示名称：{member}",
+    "表示名：{member}",
+    "표시 이름: {member}",
+    "Shown as {member}"
+  ],
+  "撤回分享": [
+    "撤回分享",
+    "共有を取り消す",
+    "공유 취소",
+    "Withdraw"
+  ],
+  "會分享卡片、等級，以及工作階段、token、自動化等統計，不含任何對話內容，可隨時撤回。": [
+    "会分享卡片、等级，以及工作阶段、token、自动化等统计，不含任何对话内容，可随时撤回。",
+    "カード、レベル、セッション・token・自動化などの統計を共有します。会話の内容は含まれず、いつでも取り消せます。",
+    "카드, 레벨, 그리고 세션·token·자동화 같은 통계를 공유해요. 대화 내용은 포함되지 않고 언제든 취소할 수 있어요.",
+    "Shares your card, level, and counts such as sessions, tokens, and automation. No conversation text. You can withdraw any time."
+  ],
+  "你在團隊中的名字": [
+    "你在团队中的名字",
+    "チームでの表示名",
+    "팀에서 쓸 이름",
+    "Your name on the team"
+  ],
+  "分享": [
+    "分享",
+    "共有",
+    "공유",
+    "Share"
+  ],
+  "團隊觀察 · {team}": [
+    "团队观察 · {team}",
+    "チーム観察 · {team}",
+    "팀 관찰 · {team}",
+    "Team observation · {team}"
+  ],
+  "不參加": [
+    "不参加",
+    "参加しない",
+    "참여 안 함",
+    "Leave"
+  ],
+  "邀請連結無效或已失效。": [
+    "邀请链接无效或已失效。",
+    "招待リンクが無効か、期限切れです。",
+    "초대 링크가 유효하지 않거나 만료되었어요.",
+    "This invite link is invalid or has expired."
+  ],
+  "請檢查看板名稱。": [
+    "请检查看板名称。",
+    "ボード名を確認してください。",
+    "보드 이름을 확인해 주세요.",
+    "Please check the board name."
+  ],
+  "找不到這筆分享。": [
+    "找不到这笔分享。",
+    "この共有は見つかりません。",
+    "이 공유를 찾을 수 없어요.",
+    "This share was not found."
+  ],
+  "請檢查你在團隊中的名字。": [
+    "请检查你在团队中的名字。",
+    "チームでの表示名を確認してください。",
+    "팀에서 쓸 이름을 확인해 주세요.",
+    "Please check your name on the team."
+  ],
+  "結果還沒送達，揭曉後再分享。": [
+    "结果还没送达，揭晓后再分享。",
+    "結果がまだ届いていません。公開されてから共有してください。",
+    "결과가 아직 도착하지 않았어요. 공개된 뒤에 공유하세요.",
+    "The result has not arrived yet. Share it after the reveal."
+  ],
+  "觀察規則已更新，請重新觀察後再分享。": [
+    "观察规则已更新，请重新观察后再分享。",
+    "観察ルールが更新されました。もう一度観察してから共有してください。",
+    "관찰 규칙이 업데이트됐어요. 다시 관찰한 뒤 공유하세요.",
+    "The observation rules changed. Run a new observation before sharing."
+  ],
+  "示範資料不能分享到團隊。": [
+    "示范数据不能分享到团队。",
+    "サンプルデータはチームに共有できません。",
+    "예시 데이터는 팀에 공유할 수 없어요.",
+    "Sample data cannot be shared to a team."
+  ],
+  "這個看板已滿。": [
+    "这个看板已满。",
+    "このボードは満員です。",
+    "이 보드는 가득 찼어요.",
+    "This board is full."
+  ],
+  "不需登入，也不收集 Email。結果只能由建立連結的這個瀏覽器讀取，除非你主動分享到團隊看板；分享的只有卡片與統計，可隨時撤回。Agent 只能透過短效專屬連結提交一次摘要，不能讀取結果。": [
+    "不需登录，也不收集 Email。结果只能由建立链接的这个浏览器读取，除非你主动分享到团队看板；分享的只有卡片与统计，可随时撤回。Agent 只能通过短效专属链接提交一次摘要，不能读取结果。",
+    "ログインもメールアドレスも不要です。結果はリンクを作ったこのブラウザだけが読めます。チームボードに自分で共有した場合を除きます。共有されるのはカードと統計だけで、いつでも取り消せます。Agent は短期間の専用リンクで要約を一度送るだけで、結果は読めません。",
+    "로그인이나 이메일은 필요 없어요. 결과는 링크를 만든 이 브라우저에서만 볼 수 있어요. 직접 팀 보드에 공유한 경우는 예외이며, 공유되는 것은 카드와 통계뿐이고 언제든 취소할 수 있어요. Agent는 짧게 유효한 전용 링크로 요약을 한 번 보낼 뿐, 결과를 읽을 수 없어요.",
+    "No sign-in and no email. Only the browser that created the link can read the result, unless you share it to a team board yourself; a share holds only the card and counts, and you can withdraw it any time. The agent submits one summary through a short-lived link and cannot read the result."
   ]
 }

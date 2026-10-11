@@ -234,7 +234,7 @@ export function PersonaApp() {
         setExporting(true);
         setNotice("");
         try {
-            await downloadCard(result.card, style, family, nicknameOnly, locale);
+            await downloadCard(result.card, style, family, nicknameOnly, origin + "/", locale);
             setNotice("圖片已準備下載，含角色署名與授權。");
         }
         catch (e) {
@@ -297,7 +297,7 @@ export function PersonaApp() {
       {stage === "reveal" && result && <section className="reveal-screen screen final-screen">
         <div className="final-card-area"><div className="reveal-art"><HoloCard report={card} style={style} family={family} nicknameOnly={nicknameOnly}/></div><div className="style-switch" aria-label={t("卡片畫風")}><button aria-pressed={style==="regular"} onClick={()=>setStyle("regular")}>{t("一般")}</button><button aria-pressed={style==="chibi"} onClick={()=>setStyle("chibi")}>{t("Q 版")}</button></div><p className="drag-hint"><span className="motion-hint">{t("拖曳卡片，看看另一道光")}</span><span className="reduced-hint">{t("已依偏好使用靜態卡面")}</span></p></div>
         <div className="final-copy">{card.kind==="fixture"&&<p className="eyebrow">{t("示範資料 · 非個人評估")}</p>}<h1 tabIndex={-1}>{card.nickname}</h1><p className="final-subtitle">{t(personaFor(card.assessment.type).name)}</p>{selfContrast(card,t)&&<p className="self-contrast">{selfContrast(card,t)}</p>}<div className="brief-reading">{card.brief.map(line=><p key={line}>{t(line)}</p>)}</div>
-        <div className="final-actions"><button className="primary" onClick={exportPng} disabled={exporting||!!card.assessment.type&&!artFor(family,card.assessment.type,style)}>{exporting?t("製作圖片中…"):t("下載我的角色卡")}<Download size={20}/></button><CardShare card={card} style={style} family={family} nicknameOnly={nicknameOnly}/></div>
+        <div className="final-actions"><button className="primary" onClick={exportPng} disabled={exporting||!!card.assessment.type&&!artFor(family,card.assessment.type,style)}>{exporting?t("製作圖片中…"):t("下載我的角色卡")}<Download size={20}/></button><CardShare card={card} style={style} family={family} nicknameOnly={nicknameOnly} home={origin+"/"}/></div>
         <details className="card-options"><summary>{t("卡片選項")}</summary><div><label htmlFor="card-family">{t("卡面主題")}</label><select id="card-family" value={family} onChange={e=>setFamily(e.target.value as Family)}>{families.map(f=><option key={f.id} value={f.id}>{f.label}</option>)}</select><label className="check-field"><input type="checkbox" checked={nicknameOnly} onChange={e=>setNicknameOnly(e.target.checked)}/>{t("只顯示暱稱，隱藏分型")}</label><p>{t("此選項也會隱藏等級與短句。")}</p></div></details>
         {result.report&&<div className="inline-report"><ReportSummary report={result.report}/></div>}
         <div className="result-management"><button className="quiet-button" onClick={startNew}>{t("開始新的觀察")}</button><button className="quiet-button" disabled={flow.busy} onClick={()=>erase()}>{t("清除這次結果")}</button></div>{flow.rememberError&&<p className="small-note">{t("此裝置暫時無法記住結果，請先下載卡片。")}</p>}</div>

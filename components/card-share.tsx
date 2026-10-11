@@ -5,14 +5,14 @@ import {useLocale} from './locale-provider.tsx';
 import {makeCardFile,saveCardFile,shareText,exportFormats,type ExportFormat} from '../lib/export-card.ts';
 import type {CardObservation} from '../lib/assessment.ts';
 import type {ArtStyle,Family} from '../lib/catalog.ts';
-export function CardShare({card,style,family,nicknameOnly}:{card:CardObservation;style:ArtStyle;family:Family;nicknameOnly:boolean}){
+export function CardShare({card,style,family,nicknameOnly,home}:{card:CardObservation;style:ArtStyle;family:Family;nicknameOnly:boolean;home:string}){
  const {t,locale}=useLocale(),dialog=useRef<HTMLDialogElement>(null),busy=useRef(false);
  const [open,setOpen]=useState(false),[format,setFormat]=useState<ExportFormat>('feed'),[prepared,setPrepared]=useState<{key:string;file:File}|null>(null),[notice,setNotice]=useState(''),[sharing,setSharing]=useState(false),[brief,setBrief]=useState(true);
- const text=shareText(card,nicknameOnly,locale,brief);
- const key=JSON.stringify([card,style,family,nicknameOnly,locale,format]),file=prepared?.key===key?prepared.file:null;
+ const text=shareText(card,nicknameOnly,home,locale,brief);
+ const key=JSON.stringify([card,style,family,nicknameOnly,home,locale,format]),file=prepared?.key===key?prepared.file:null;
  useEffect(()=>{
-  if(!open)return;let active=true;setNotice('');void makeCardFile(card,style,family,nicknameOnly,locale,format).then(r=>{if(active)setPrepared({key,file:r.file});}).catch(()=>{if(active)setNotice('圖片匯出失敗');});return ()=>{active=false;};
- },[open,format,card,style,family,nicknameOnly,locale,key]);
+  if(!open)return;let active=true;setNotice('');void makeCardFile(card,style,family,nicknameOnly,home,locale,format).then(r=>{if(active)setPrepared({key,file:r.file});}).catch(()=>{if(active)setNotice('圖片匯出失敗');});return ()=>{active=false;};
+ },[open,format,card,style,family,nicknameOnly,home,locale,key]);
  function close(){dialog.current?.close();setOpen(false);}
  async function copy(){try{await navigator.clipboard.writeText(text);setNotice('分享文字與首頁連結已複製。');}catch{setNotice('無法自動複製，請選取下方文字。');}}
  async function share(){

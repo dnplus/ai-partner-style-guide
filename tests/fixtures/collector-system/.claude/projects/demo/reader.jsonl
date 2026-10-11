@@ -1,0 +1,2 @@
+{"type":"user","message":{"role":"user","content":"Ship the release with the ship skill."},"promptSource":"typed","timestamp":"2026-10-05T02:00:00Z"}
+{"type":"assistant","message":{"role":"assistant","content":[{"type":"tool_use","id":"toolu_06","name":"Read","input":{"file_path":"/Users/ada/proj/skills/ship/SKILL.md"}}]},"timestamp":"2026-10-05T02:01:00Z"}

@@ -67,6 +67,34 @@ TURN_CAP = 600
 TURN_BUDGET = 24
 INJECT_RE = re.compile(r"^\s*(<[A-Za-z][\w\-]*[\s>/]|#\s*AGENTS\.md|# (Browser|Files)\b|\[Request interrupted)")
 TEMPLATE_RE = re.compile(r"\b(Task|Automation|Job|Run|Contract) ID:|kbctl work contract", re.I)
+SYSTEM_BUDGET = 6.0
+LINE_CAP = 4 * 1024
+USER_MARKERS = {"claude": b'"type":"user"', "codex": b'"role":"user"', "cursor": b'"role":"user"'}
+TOOL_MARKERS = (b'"tool_use"', b'"function_call"', b'"custom_tool_call"', b'"local_shell_call"')
+STAMP_RE = re.compile(rb'"(?:timestamp|createdAt)"\s*:\s*"([^"]{10,40})"')
+PROMPT_SOURCE_RE = re.compile(rb'"promptSource"\s*:\s*"([a-z]+)"')
+CODEX_CHILD_RE = re.compile(rb'"parent_thread_id"\s*:\s*"[^"]|"source"\s*:\s*\{\s*"subagent"')
+PROMPT_TEXT_RE = re.compile(r'"(?:text|content)"\s*:\s*"((?:[^"\\]|\\.){1,1024})')
+ESCAPE_RE = re.compile(r'\\+[nrt"]')
+ASSET_RE = re.compile(
+    r"(?:([\w.\-]+)/)?\b(SKILL\.md|AGENTS\.md|CLAUDE\.md)\b"
+    r"|(\.cursor/rules/[\w.\-/]*[\w\-]"
+    r"|scripts/[\w.\-/]*?\.(?:py|sh|js|mjs|ts)\b"
+    r"|\.github/workflows/[\w.\-]+\.ya?ml\b"
+    r"|\.git/hooks/[\w.\-]+|\.husky/[\w.\-]+|\.claude/hooks/[\w.\-]+|hooks\.json\b"
+    r"|(?<![\w.\-])[\w.\-]+\.plist\b)"
+)
+WRITE_RE = re.compile(
+    r'"name"\s*:\s*"(?:Write|Edit|MultiEdit|NotebookEdit|StrReplace|EditNotebook)"\s*,\s*"input"\s*:\s*\{[^{}]*?'
+    r'"(?:file_path|path|notebook_path|target_notebook)"\s*:\s*"([^"]+)"'
+)
+PATCH_RE = re.compile(r"\*\*\* (?:Add|Update) File: (\S+)")
+GEARS = (
+    ("schedule", re.compile(r"\bcrontab\b|\blaunchctl\b|LaunchAgents/|\bschtasks\b|systemd-run|\.timer\b")),
+    ("ci", re.compile(r"\.github/workflows/|\bgh (?:workflow|run)\b")),
+    ("hook", re.compile(r"\.git/hooks/|\.husky/|\.claude/hooks/|hooks\.json|\bpre-commit\b|\bpre-push\b")),
+    ("heartbeat", re.compile(r"heartbeat|watchdog|keepalive", re.I)),
+)
 
 
 def fail(message):
@@ -724,7 +752,7 @@ def walk_files(root):
             yield directory, name, path
 
 
-def list_jsonl(root, client, kind, start, stop, files, marker=None):
+def list_jsonl(root, client, kind, start, stop, files, marker=None, children=None):
     if not directory_exists(root):
         return False
     for _directory, name, path in walk_files(root):
@@ -732,6 +760,8 @@ def list_jsonl(root, client, kind, start, stop, files, marker=None):
             continue
         parts = path.split(os.sep)
         if "subagents" in parts:
+            if children is not None:
+                add_file(children, client, kind, path, start, stop)
             continue
         if marker is not None and marker not in parts:
             continue
@@ -756,9 +786,9 @@ def list_db(path, client, kind, start, stop, files):
     return True
 
 
-def list_files(home, sources, start, stop, gaps):
+def list_files(home, sources, start, stop, gaps, children):
     files = []
-    if "claude-code" in sources and not list_jsonl(os.path.join(home, ".claude", "projects"), "claude-code", "claude", start, stop, files):
+    if "claude-code" in sources and not list_jsonl(os.path.join(home, ".claude", "projects"), "claude-code", "claude", start, stop, files, children=children):
         gaps.add("other_sources_missing")
     if "codex" in sources:
         roots = [os.path.join(home, ".codex", "sessions"), os.path.join(home, ".codex", "archived_sessions")]
@@ -818,7 +848,7 @@ def budget_elapsed():
     return elapsed
 
 
-def sample_files(files, start, stop, zone, budget):
+def sample_files(order, start, stop, zone, budget):
     elapsed = budget_elapsed()
     samples = []
     days = set()
@@ -826,7 +856,7 @@ def sample_files(files, start, stop, zone, budget):
     files_read = 0
     short = False
     seen = set()
-    for item in sample_order(files):
+    for item in order:
         if len(samples) >= CANDIDATE_CAP:
             break
         if elapsed() >= budget:
@@ -847,6 +877,170 @@ def sample_files(files, start, stop, zone, budget):
             if len(samples) >= CANDIDATE_CAP:
                 break
     return samples[:CANDIDATE_CAP], files_read, days, gaps, short
+
+
+def asset_key(match):
+    if match.group(2):
+        return (match.group(1) + "/" if match.group(1) else "") + match.group(2)
+    return match.group(3)
+
+
+def written_asset(path):
+    found = None
+    for match in ASSET_RE.finditer(path):
+        found = match
+    if found is None or found.end() != len(path):
+        return None
+    return asset_key(found)
+
+
+def line_moment(line):
+    match = STAMP_RE.search(line[-1024:]) or STAMP_RE.search(line[:1024])
+    if match is None:
+        return None
+    return parse_time(match.group(1).decode("ascii", "ignore"))
+
+
+def opening_prompt(line, facts):
+    if b'"isMeta":true' in line:
+        return False
+    anchor = line.find(b'"message"')
+    window = line[max(anchor, 0):max(anchor, 0) + LINE_CAP].decode("utf-8", "ignore")
+    match = PROMPT_TEXT_RE.search(window)
+    if match is None:
+        return False
+    text = match.group(1).replace("\\n", "\n")
+    if text.startswith("<user_query>"):
+        text = text[len("<user_query>"):]
+    if INJECT_RE.match(text):
+        return False
+    source = PROMPT_SOURCE_RE.search(line)
+    if TEMPLATE_RE.search(text) or (source and source.group(1) in (b"sdk", b"system")):
+        facts["automation"] = True
+    return True
+
+
+def inspect_tool(raw, moment, facts):
+    written = set()
+    for match in WRITE_RE.finditer(raw):
+        key = written_asset(match.group(1))
+        if key:
+            written.add(key)
+    text = ESCAPE_RE.sub(" ", raw)
+    for match in PATCH_RE.finditer(text):
+        key = written_asset(match.group(1))
+        if key:
+            written.add(key)
+    for match in ASSET_RE.finditer(text):
+        key = asset_key(match)
+        if key not in written:
+            facts["touches"].add(key)
+    for key in written:
+        if key not in facts["writes"] or moment < facts["writes"][key]:
+            facts["writes"][key] = moment
+    for name, pattern in GEARS:
+        if pattern.search(text):
+            facts["gears"].add(name)
+
+
+def codex_child(path):
+    try:
+        with open_file(path) as handle:
+            head = handle.read(LINE_CAP)
+    except OSError:
+        return None
+    return b'"session_meta"' in head[:256] and CODEX_CHILD_RE.search(head) is not None
+
+
+def system_facts(item, start, stop):
+    kind = item["kind"]
+    facts = {"moment": None, "automation": False, "subagent": False, "writes": {}, "touches": set(), "gears": set()}
+    if kind == "codex":
+        child = codex_child(item["path"])
+        if child is None:
+            return None
+        if child:
+            facts["subagent"] = True
+            return facts
+    blob = capped_bytes(item["path"], item["size"])
+    if blob is None:
+        return None
+    born = item["birth"]
+    modified = datetime.fromtimestamp(item["mtime"], timezone.utc)
+    fallback = born if born is not None and start <= born < stop and start <= modified < stop else None
+    opened = False
+    for line in blob.split(b"\n"):
+        tool = -1
+        for marker in TOOL_MARKERS:
+            tool = line.find(marker)
+            if tool >= 0:
+                break
+        user = not opened and USER_MARKERS[kind] in line
+        if tool < 0 and not user:
+            continue
+        moment = line_moment(line) or fallback
+        if moment is None or not (start <= moment < stop):
+            continue
+        if facts["moment"] is None or moment < facts["moment"]:
+            facts["moment"] = moment
+        if user:
+            if b'"isSidechain":true' in line:
+                facts["subagent"] = True
+            opened = opening_prompt(line, facts)
+        if tool >= 0:
+            inspect_tool(line[tool:tool + LINE_CAP].decode("utf-8", "ignore"), moment, facts)
+    return facts
+
+
+def scan_system(order, start, stop):
+    elapsed = budget_elapsed()
+    listed = [item for item in order if item["kind"] in USER_MARKERS]
+    sessions = []
+    for item in listed:
+        if elapsed() >= SYSTEM_BUDGET:
+            break
+        facts = system_facts(item, start, stop)
+        if facts is not None:
+            sessions.append(facts)
+    return sessions, len(listed)
+
+
+def system_evidence(sessions, listed, children, zone):
+    evidence = {
+        "automationSessions": None,
+        "subagentSessions": None,
+        "automationSpanDays": None,
+        "assetWriteSessions": None,
+        "assetReuseSessions": None,
+        "assetMaintainedAfterAutomation": None,
+        "gearKinds": None,
+        "filesScanned": len(sessions),
+        "filesListed": listed,
+    }
+    if not sessions:
+        return evidence
+    owners = [facts for facts in sessions if not facts["subagent"]]
+    automated = sorted(facts["moment"] for facts in owners if facts["automation"] and facts["moment"])
+    writers = defaultdict(set)
+    for number, facts in enumerate(owners):
+        for key in facts["writes"]:
+            writers[key].add(number)
+    evidence["automationSessions"] = sum(1 for facts in owners if facts["automation"])
+    evidence["subagentSessions"] = len(sessions) - len(owners) + children
+    evidence["assetWriteSessions"] = sum(1 for facts in owners if facts["writes"])
+    evidence["assetReuseSessions"] = sum(
+        1 for number, facts in enumerate(owners)
+        if any(writers[key] - {number} for key in facts["touches"] | set(facts["writes"]) if key in writers)
+    )
+    evidence["gearKinds"] = len(set().union(*(facts["gears"] for facts in sessions)))
+    if automated:
+        first = automated[0]
+        days = datetime.fromisoformat(local_day(automated[-1], zone)) - datetime.fromisoformat(local_day(first, zone))
+        evidence["automationSpanDays"] = days.days
+        evidence["assetMaintainedAfterAutomation"] = sum(
+            1 for facts in owners for moment in facts["writes"].values() if moment > first
+        )
+    return evidence
 
 
 def candidates_from(samples):
@@ -1178,8 +1372,11 @@ def apply_tokens(summary, tokens):
 
 def build_digest(home, sources, start, stop, zone, window_from, window_to, zone_name, budget):
     gaps = {"web_history_unavailable", "no_artifact_inspection"}
-    files = list_files(home, sources, start, stop, gaps)
-    samples, files_read, days, sample_gaps, short = sample_files(files, start, stop, zone, budget)
+    children = []
+    files = list_files(home, sources, start, stop, gaps, children)
+    order = sample_order(files)
+    samples, files_read, days, sample_gaps, short = sample_files(order, start, stop, zone, budget)
+    sessions, listed = scan_system(order, start, stop)
     gaps.update(sample_gaps)
     tokens = tokscale_empty(0)
     gaps.update(tokens["gaps"])
@@ -1221,6 +1418,7 @@ def build_digest(home, sources, start, stop, zone, window_from, window_to, zone_
             "sampledSessions": files_read,
         },
         "metrics": metrics,
+        "systemEvidence": system_evidence(sessions, listed, len(children), zone),
         "candidates": candidates_from(samples),
     }
     counts = {client: 0 for client in sources}
@@ -1272,6 +1470,8 @@ def command_scan(args):
     print(f"candidates={len(digest['candidates'])}")
     print(f"files_read={digest['coverage']['sampledSessions']}")
     print(f"candidates_by_client {client_counts}")
+    system = digest["systemEvidence"]
+    print(f"system_files={system['filesScanned']}/{system['filesListed']}")
     print(f"digest_bytes={os.path.getsize(args.out)}")
     print(f"seconds={elapsed:.2f}")
     print(f"tokscale={'started' if launched else 'skipped'}")

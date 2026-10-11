@@ -1,0 +1,2 @@
+{"type":"user","message":{"role":"user","content":"Run the board sync."},"promptSource":"sdk","timestamp":"2026-09-25T01:00:00Z"}
+{"type":"assistant","message":{"role":"assistant","content":[{"type":"tool_use","id":"toolu_05","name":"Bash","input":{"command":"bash scripts/sync.sh"}}]},"timestamp":"2026-09-25T01:01:00Z"}

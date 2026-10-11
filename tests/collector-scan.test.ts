@@ -93,6 +93,17 @@ test("scan digest counts fixture logs, keeps agent turns, and drops secrets and 
     mostUsedModelFamily: "unknown",
     mostUsedClient: "unknown",
   });
+  assert.deepEqual(digest.systemEvidence, {
+    automationSessions: 0,
+    subagentSessions: 2,
+    automationSpanDays: null,
+    assetWriteSessions: 0,
+    assetReuseSessions: 0,
+    assetMaintainedAfterAutomation: null,
+    gearKinds: 0,
+    filesScanned: 5,
+    filesListed: 5,
+  });
   assert.equal(digest.candidates.length, 6);
   assert.deepEqual(digest.candidates[4], {
     ref: "C05",
@@ -552,6 +563,59 @@ test("a long thread drops middle groups and keeps the opening and the last agent
   assert.deepEqual(digest.candidates[0].turns.map((turn: { text: string }) => turn.text), [
     "U0", "A1", "A2", "U3", "A6", "Shell", "A10", "U16", "A19", "Shell", "A22", "U29", "A30", "A43", "U47", "A49", "A63", "U74", "A88", "Shell", "A91", "U96", "A106", "Shell", "LAST",
   ]);
+  rmSync(home, { recursive: true, force: true });
+});
+
+test("scan counts automation, subagents, and reused assets without writing paths", async () => {
+  const home = mkdtempSync(join(tmpdir(), "collector-system-"));
+  cpSync("tests/fixtures/collector-system", home, { recursive: true });
+  touchTree(home, new Date("2026-10-05T04:00:00Z"), new Set());
+  const id = "ffffffff-ffff-4fff-8fff-ffffffffffff";
+  setFileTimes(join(home, ".cursor/projects/demo/agent-transcripts", id, `${id}.jsonl`), "2026-10-03T02:00:00Z", "2026-10-03T04:00:00Z");
+  const out = join(home, "digest.json");
+  const result = await run([
+    "scan", "--from", "2026-08-31T16:00:00Z", "--to", "2026-10-10T16:00:00Z", "--tz", "Asia/Taipei",
+    "--sources", "codex,claude-code,cursor", "--tokscale", "off", "--out", out,
+  ], home, "", { COLLECTOR_SAMPLE_SEED: "7" });
+  assert.equal(result.status, 0, result.stderr);
+  assert.match(result.stdout, /system_files=8\/8\n/);
+  const digest = JSON.parse(readFileSync(out, "utf8"));
+  assert.deepEqual(digest.systemEvidence, {
+    automationSessions: 3,
+    subagentSessions: 2,
+    automationSpanDays: 21,
+    assetWriteSessions: 4,
+    assetReuseSessions: 6,
+    assetMaintainedAfterAutomation: 3,
+    gearKinds: 2,
+    filesScanned: 8,
+    filesListed: 8,
+  });
+  const raw = readFileSync(out, "utf8");
+  for (const hidden of ["/Users/ada", "sync.sh", "SKILL.md", "solo.mdc", "pre-push", "nightly-sync"]) {
+    assert.equal(raw.includes(hidden), false, hidden);
+  }
+  rmSync(home, { recursive: true, force: true });
+});
+
+test("scan leaves system evidence unknown when no log was listed", async () => {
+  const home = mkdtempSync(join(tmpdir(), "collector-system-empty-"));
+  const out = join(home, "digest.json");
+  const result = await run([
+    "scan", ...scanWindow, "--sources", "codex,claude-code,cursor", "--tokscale", "off", "--out", out,
+  ], home, "");
+  assert.equal(result.status, 0, result.stderr);
+  assert.deepEqual(JSON.parse(readFileSync(out, "utf8")).systemEvidence, {
+    automationSessions: null,
+    subagentSessions: null,
+    automationSpanDays: null,
+    assetWriteSessions: null,
+    assetReuseSessions: null,
+    assetMaintainedAfterAutomation: null,
+    gearKinds: null,
+    filesScanned: 0,
+    filesListed: 0,
+  });
   rmSync(home, { recursive: true, force: true });
 });
 

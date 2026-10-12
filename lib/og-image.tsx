@@ -40,7 +40,7 @@ export async function ogImage(request:Request,card:OgCard){
    <div style={{display:'flex',fontFamily:'Noto Serif',fontSize:168,lineHeight:1.05,marginTop:18,color:accent}}>{letters.map((l,i)=><span key={i} style={{opacity:l.lean?0.38:1}}>{l.letter}</span>)}</div>
    <div style={{display:'flex',fontSize:56,marginTop:8}}>{card.type?t(personaFor(card.type).name):t('未定型')}</div>
    {showLevel&&<div style={{display:'flex',marginTop:30}}><div style={{display:'flex',alignItems:'center',gap:14,padding:'12px 26px',borderRadius:22,border:`3px solid ${rarity==='common'?'#c1a2e6':accent}`,fontSize:34}}><span>LV {card.level??'?'}</span><span style={{fontSize:28,color:'#c9b7de'}}>{t(card.level==null?'待觀察':levelNames[card.level])}</span></div></div>}
-   <div style={{display:'flex',marginTop:'auto',paddingTop:40,fontSize:26,color:'#a893bd'}}>{t('你的 Agent，會是哪一型？')} · {new URL(request.url).host}</div>
+   <div style={{display:'flex',flexDirection:'column',marginTop:'auto',paddingTop:32,fontSize:26,color:'#a893bd'}}><span>{t('你的 Agent，會是哪一型？')}</span><span style={{fontSize:22,marginTop:6,whiteSpace:'nowrap'}}>{new URL(request.url).host}</span></div>
   </div>
  </div>;
  return new ImageResponse(element,{width:1200,height:630,fonts,headers:{'Cache-Control':'public, max-age=3600'}});

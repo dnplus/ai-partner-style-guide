@@ -3178,5 +3178,233 @@
     "プラットフォームに合わせて口調や長さを調整してかまいません（X は 280 文字以内）。ただしタイプ、レベル、リンクは変えないでください。投稿前に最終的な内容を見せ、私の同意を得てから送信してください。私のパソコンのほかのファイルは読み取ったりアップロードしたりしないでください。",
     "플랫폼에 맞게 말투와 길이를 조정해도 돼요(X는 280자 이내). 단, 유형·레벨·링크는 바꾸지 마세요. 올리기 전에 최종 내용을 보여 주고 제 동의를 받은 뒤 보내 주세요. 제 컴퓨터의 다른 파일은 읽거나 올리지 마세요.",
     "Adjust the tone and length for the platform (X stays under 280 characters), but keep the type, level and link unchanged. Show me the final text and post only after I approve. Do not read or upload any other files from my computer."
+  ],
+  "16 種類型": [
+    "16 种类型",
+    "16 タイプ",
+    "16가지 유형",
+    "The 16 types"
+  ],
+  "怎麼判斷": [
+    "怎么判断",
+    "判定の仕組み",
+    "판단 방법",
+    "How it works"
+  ],
+  "網站導覽": [
+    "网站导览",
+    "サイトナビゲーション",
+    "사이트 메뉴",
+    "Site navigation"
+  ],
+  "非官方 MBTI 評量。MBTI 是 The Myers-Briggs Company 的註冊商標，本站與其無關；類型、規則與文案皆為本專案自訂。": [
+    "非官方 MBTI 评量。MBTI 是 The Myers-Briggs Company 的注册商标，本站与其无关；类型、规则与文案均为本项目自定。",
+    "公式の MBTI 診断ではありません。MBTI は The Myers-Briggs Company の登録商標で、本サイトとは関係ありません。タイプ・ルール・文章はすべて本プロジェクト独自のものです。",
+    "공식 MBTI 검사가 아니에요. MBTI는 The Myers-Briggs Company의 등록 상표이며 이 사이트와 관련이 없어요. 유형, 규칙, 문구는 모두 이 프로젝트가 직접 정했어요.",
+    "Not an official MBTI assessment. MBTI is a registered trademark of The Myers-Briggs Company, which is not affiliated with this site; the types, rules and copy are this project's own."
+  ],
+  "這是官方 MBTI 嗎？": [
+    "这是官方 MBTI 吗？",
+    "公式の MBTI ですか？",
+    "공식 MBTI인가요?",
+    "Is this the official MBTI?"
+  ],
+  "不是。只借用四組字母與 16 個代碼的命名，用本專案自訂的規則描述你帶 Agent 的方式；不是心理測驗，也不推斷人格。MBTI 是 The Myers-Briggs Company 的註冊商標，本站與其無關。": [
+    "不是。只借用四组字母与 16 个代码的命名，用本项目自定的规则描述你带 Agent 的方式；不是心理测验，也不推断人格。MBTI 是 The Myers-Briggs Company 的注册商标，本站与其无关。",
+    "いいえ。4 組の文字と 16 個のコードの名前だけを借り、本プロジェクト独自のルールで Agent の導き方を表しています。心理テストではなく、性格も推定しません。MBTI は The Myers-Briggs Company の登録商標で、本サイトとは関係ありません。",
+    "아니요. 네 쌍의 글자와 16개 코드의 이름만 빌려, 이 프로젝트가 정한 규칙으로 Agent를 이끄는 방식을 설명해요. 심리 검사가 아니며 성격을 추정하지도 않아요. MBTI는 The Myers-Briggs Company의 등록 상표이며 이 사이트와 관련이 없어요.",
+    "No. It borrows only the four letter pairs and the names of the 16 codes, and uses this project's own rules to describe how you lead an agent. It is not a psychological test and does not infer personality. MBTI is a registered trademark of The Myers-Briggs Company, which is not affiliated with this site."
+  ],
+  "怎麼判斷我的類型？": [
+    "怎么判断我的类型？",
+    "タイプはどう判定されますか？",
+    "유형은 어떻게 판단하나요?",
+    "How is my type decided?"
+  ],
+  "你的 Agent 用 collect.py 在本機抽樣最近 60 天的對話，每段對話只看你說了什麼，四軸各選一邊。伺服器統計後，至少 3 票且多數勝出才給字母，差距小時標成傾向。": [
+    "你的 Agent 用 collect.py 在本机抽样最近 60 天的对话，每段对话只看你说了什么，四轴各选一边。服务器统计后，至少 3 票且多数胜出才给字母，差距小时标成倾向。",
+    "あなたの Agent が collect.py でローカルの直近 60 日の会話を抽出し、各会話ではあなたの発言だけを見て 4 つの軸それぞれでどちらかを選びます。サーバーが集計し、3 票以上で多数側が勝ったときだけ文字を付け、差が小さいときは「傾向」とします。",
+    "당신의 Agent가 collect.py로 로컬의 최근 60일 대화를 표본 추출하고, 각 대화에서 당신이 한 말만 보고 네 축마다 한쪽을 골라요. 서버가 집계해 3표 이상이고 다수가 이겼을 때만 글자를 주며, 차이가 작으면 '경향'으로 표시해요.",
+    "Your agent samples the last 60 days of local conversations with collect.py and, judging only what you said, picks a side on each of the four axes per conversation. The server counts the picks: a letter needs at least 3 votes and a majority, and a narrow win is marked as a lean."
+  ],
+  "會上傳我的對話嗎？": [
+    "会上传我的对话吗？",
+    "会話はアップロードされますか？",
+    "대화가 업로드되나요?",
+    "Are my conversations uploaded?"
+  ],
+  "不會。只上傳暱稱、日期、來源、用量彙總和每段對話的四軸判斷；對話原文、程式碼與檔案路徑都留在你的電腦。": [
+    "不会。只上传昵称、日期、来源、用量汇总和每段对话的四轴判断；对话原文、代码与文件路径都留在你的电脑。",
+    "いいえ。送られるのはニックネーム、日付、ソース、使用量の集計、各会話の 4 軸の判定だけです。会話の本文、コード、ファイルパスはあなたのパソコンに残ります。",
+    "아니요. 닉네임, 날짜, 출처, 사용량 집계, 대화별 네 축 판단만 올라가요. 대화 원문, 코드, 파일 경로는 당신의 컴퓨터에 남아요.",
+    "No. Only the nickname, dates, sources, usage totals and each conversation's four-axis picks are sent; transcripts, code and file paths stay on your computer."
+  ],
+  "使用等級怎麼算？": [
+    "使用等级怎么算？",
+    "活用レベルはどう決まりますか？",
+    "활용 레벨은 어떻게 정하나요?",
+    "How is the usage level worked out?"
+  ],
+  "LV0–3 看你如何查核與修正 Agent 的結果；LV4–5 看你寫下的技能、規則或腳本是否被其他工作階段重用，以及自動化是否穩定運作兩週以上。沒有證據時保持未知。": [
+    "LV0–3 看你如何查核与修正 Agent 的结果；LV4–5 看你写下的技能、规则或脚本是否被其他工作阶段复用，以及自动化是否稳定运行两周以上。没有证据时保持未知。",
+    "LV0–3 は Agent の結果をどう確認・修正するかを見ます。LV4–5 は書いたスキル・ルール・スクリプトがほかのセッションで再利用されているか、自動化が 2 週間以上安定して動いているかを見ます。証拠がなければ不明のままです。",
+    "LV0–3은 Agent의 결과를 어떻게 확인하고 고치는지를 봐요. LV4–5는 직접 쓴 스킬·규칙·스크립트가 다른 세션에서 재사용되는지, 자동화가 2주 이상 안정적으로 돌아가는지를 봐요. 근거가 없으면 알 수 없음으로 남아요.",
+    "LV0–3 look at how you check and correct the agent's results; LV4–5 look at whether skills, rules or scripts you wrote are reused by other sessions, and whether automation has run steadily for two weeks or more. Without evidence the level stays unknown."
+  ],
+  "需要哪些工具？": [
+    "需要哪些工具？",
+    "何が必要ですか？",
+    "무엇이 필요한가요?",
+    "What do I need?"
+  ],
+  "一個能執行指令的 Agent，例如 Claude Code、Codex 或 Cursor。支援讀取 Claude Code、Codex、Cursor、OpenCode、Hermes 等本機紀錄，並用 Tokscale 彙總 token。": [
+    "一个能执行指令的 Agent，例如 Claude Code、Codex 或 Cursor。支持读取 Claude Code、Codex、Cursor、OpenCode、Hermes 等本机记录，并用 Tokscale 汇总 token。",
+    "コマンドを実行できる Agent（Claude Code、Codex、Cursor など）が必要です。Claude Code、Codex、Cursor、OpenCode、Hermes などのローカル記録に対応し、token は Tokscale で集計します。",
+    "명령을 실행할 수 있는 Agent(Claude Code, Codex, Cursor 등)가 필요해요. Claude Code, Codex, Cursor, OpenCode, Hermes 등의 로컬 기록을 읽을 수 있고, token은 Tokscale로 집계해요.",
+    "An agent that can run commands, such as Claude Code, Codex or Cursor. It reads local logs from Claude Code, Codex, Cursor, OpenCode, Hermes and more, and totals tokens with Tokscale."
+  ],
+  "結果可以拿來評估員工或應徵者嗎？": [
+    "结果可以拿来评估员工或应聘者吗？",
+    "結果を社員や応募者の評価に使えますか？",
+    "결과로 직원이나 지원자를 평가할 수 있나요?",
+    "Can the results be used to evaluate employees or candidates?"
+  ],
+  "不建議。結果由本人電腦計算，網站無法驗證原始紀錄，四軸也不代表能力；適合拿來聊聊彼此怎麼用 AI。": [
+    "不建议。结果由本人电脑计算，网站无法验证原始记录，四轴也不代表能力；适合拿来聊聊彼此怎么用 AI。",
+    "おすすめしません。結果は本人のパソコンで計算され、サイトは元の記録を検証できません。4 つの軸は能力も表しません。お互いの AI の使い方を話すきっかけに向いています。",
+    "권하지 않아요. 결과는 본인 컴퓨터에서 계산되고 사이트는 원본 기록을 검증할 수 없으며, 네 축은 능력을 나타내지도 않아요. 서로 AI를 어떻게 쓰는지 이야기하는 데 알맞아요.",
+    "Not recommended. Results are computed on the person's own computer, the site cannot verify the original logs, and the axes do not measure ability. They work best as a way to talk about how each of you uses AI."
+  ],
+  "替你的 Agent 命名，建立專屬連結。": [
+    "给你的 Agent 命名，建立专属链接。",
+    "Agent に名前を付けて、専用リンクを作ります。",
+    "Agent에게 이름을 붙이고 전용 링크를 만들어요.",
+    "Name your agent and create a private link."
+  ],
+  "把指令交給你的 Agent，它在本機分析並送回最小摘要。": [
+    "把指令交给你的 Agent，它在本机分析并送回最小摘要。",
+    "指示を Agent に渡すと、ローカルで分析して最小限の要約を送り返します。",
+    "지시를 Agent에게 넘기면 로컬에서 분석해 최소한의 요약을 보내요.",
+    "Hand the instructions to your agent; it analyzes locally and sends back a minimal summary."
+  ],
+  "揭曉角色卡、使用等級與下一步建議。": [
+    "揭晓角色卡、使用等级与下一步建议。",
+    "キャラクターカード、活用レベル、次の一歩が公開されます。",
+    "캐릭터 카드, 활용 레벨, 다음 단계가 공개돼요.",
+    "Reveal your character card, usage level and a next step."
+  ],
+  "結果由本人的 Agent 在本機計算，網站只檢查摘要的一致性，無法檢視原始紀錄。": [
+    "结果由本人的 Agent 在本机计算，网站只检查摘要的一致性，无法查看原始记录。",
+    "結果は本人の Agent がローカルで計算します。サイトは要約の整合性だけを確認し、元の記録は見られません。",
+    "결과는 본인의 Agent가 로컬에서 계산해요. 사이트는 요약의 일관성만 확인하며 원본 기록은 볼 수 없어요.",
+    "Results are computed by the person's agent on their machine; the site only checks the summary is consistent and cannot see the original logs."
+  ],
+  "判讀由語言模型完成；換模型時，接近平手的軸可能翻轉。": [
+    "判读由语言模型完成；换模型时，接近平手的轴可能翻转。",
+    "判定は言語モデルが行います。モデルを変えると、拮抗している軸は入れ替わることがあります。",
+    "판독은 언어 모델이 해요. 모델을 바꾸면 거의 동률인 축은 뒤바뀔 수 있어요.",
+    "A language model makes the judgements; with a different model, an axis close to a tie may flip."
+  ],
+  "涵蓋範圍取決於本機有哪些紀錄，網頁版對話不在其中。": [
+    "覆盖范围取决于本机有哪些记录，网页版对话不在其中。",
+    "対象範囲はローカルにある記録しだいで、Web 版の会話は含まれません。",
+    "범위는 로컬에 어떤 기록이 있는지에 달려 있고, 웹 대화는 포함되지 않아요.",
+    "Coverage depends on which logs exist locally; web chats are not included."
+  ],
+  "用你本機的 Agent 對話紀錄，看你帶 Agent 的方式屬於 16 型中的哪一型，並得到 LV0–5 使用等級與角色卡。非官方 MBTI 評量。": [
+    "用你本机的 Agent 对话记录，看你带 Agent 的方式属于 16 型中的哪一型，并得到 LV0–5 使用等级与角色卡。非官方 MBTI 评量。",
+    "ローカルの Agent との会話記録から、あなたの Agent の導き方が 16 タイプのどれかを調べ、LV0–5 の活用レベルとキャラクターカードを受け取れます。公式の MBTI 診断ではありません。",
+    "로컬의 Agent 대화 기록으로 당신이 Agent를 이끄는 방식이 16가지 유형 중 무엇인지 알아보고, LV0–5 활용 레벨과 캐릭터 카드를 받아요. 공식 MBTI 검사가 아니에요.",
+    "Uses your local agent conversation logs to find which of 16 types describes how you lead your agent, plus an LV0–5 usage level and a character card. Not an official MBTI assessment."
+  ],
+  "16 種帶 Agent 的方式": [
+    "16 种带 Agent 的方式",
+    "Agent の導き方 16 タイプ",
+    "Agent를 이끄는 16가지 방식",
+    "16 ways to lead an agent"
+  ],
+  "每一型描述的是你帶 Agent 的方式，不是你的人格，也不是模型的性格。": [
+    "每一型描述的是你带 Agent 的方式，不是你的人格，也不是模型的性格。",
+    "各タイプが表すのは Agent の導き方で、あなたの性格でもモデルの性格でもありません。",
+    "각 유형은 Agent를 이끄는 방식을 설명할 뿐, 당신의 성격도 모델의 성격도 아니에요.",
+    "Each type describes how you lead an agent, not your personality and not the model's character."
+  ],
+  "四個面向": [
+    "四个面向",
+    "4 つの軸",
+    "네 가지 축",
+    "The four axes"
+  ],
+  "這一型怎麼帶 Agent": [
+    "这一型怎么带 Agent",
+    "このタイプの導き方",
+    "이 유형이 Agent를 이끄는 방식",
+    "How this type leads an agent"
+  ],
+  "六種角色造型": [
+    "六种角色造型",
+    "6 つのキャラクター",
+    "여섯 가지 캐릭터",
+    "Six character styles"
+  ],
+  "其他類型": [
+    "其他类型",
+    "ほかのタイプ",
+    "다른 유형",
+    "Other types"
+  ],
+  "使用等級 LV0–5": [
+    "使用等级 LV0–5",
+    "活用レベル LV0–5",
+    "활용 레벨 LV0–5",
+    "Usage levels LV0–5"
+  ],
+  "等級和類型無關，也不看用量或模型；沒有證據時保持未知，不會當成 LV0。": [
+    "等级和类型无关，也不看用量或模型；没有证据时保持未知，不会当成 LV0。",
+    "レベルはタイプと無関係で、使用量やモデルも見ません。証拠がなければ不明のままで、LV0 にはなりません。",
+    "레벨은 유형과 무관하고 사용량이나 모델도 보지 않아요. 근거가 없으면 알 수 없음으로 남고 LV0이 되지 않아요.",
+    "The level is independent of the type and ignores usage volume and models; without evidence it stays unknown rather than becoming LV0."
+  ],
+  "怎麼判斷的": [
+    "怎么判断的",
+    "判定の仕組み",
+    "어떻게 판단하나요",
+    "How it works"
+  ],
+  "三個步驟": [
+    "三个步骤",
+    "3 つのステップ",
+    "세 단계",
+    "Three steps"
+  ],
+  "四軸怎麼計分": [
+    "四轴怎么计分",
+    "4 軸の数え方",
+    "네 축의 계산 방법",
+    "How the axes are scored"
+  ],
+  "每段對話每軸選一邊，看不出來就略過。少於 3 票或打平保留問號；勝方佔三分之二以上且差距至少 2 為明確，其餘標成傾向。": [
+    "每段对话每轴选一边，看不出来就略过。少于 3 票或打平保留问号；胜方占三分之二以上且差距至少 2 为明确，其余标成倾向。",
+    "会話ごとに各軸でどちらかを選び、判断できなければ飛ばします。3 票未満か同数なら「?」のまま。勝った側が 3 分の 2 以上で差が 2 以上なら明確、それ以外は傾向です。",
+    "대화마다 각 축에서 한쪽을 고르고, 판단할 수 없으면 건너뛰어요. 3표 미만이거나 동률이면 물음표로 남겨요. 이긴 쪽이 3분의 2 이상이고 차이가 2 이상이면 뚜렷함, 나머지는 경향이에요.",
+    "Each conversation picks a side on each axis or skips it. Fewer than 3 votes or a tie leaves a question mark; a winner with at least two thirds of the votes and a margin of 2 or more is clear, anything else is a lean."
+  ],
+  "限制": [
+    "限制",
+    "制限",
+    "한계",
+    "Limits"
+  ],
+  "給 Agent 的完整規則（SKILL.md）": [
+    "给 Agent 的完整规则（SKILL.md）",
+    "Agent 向けの完全なルール（SKILL.md）",
+    "Agent용 전체 규칙(SKILL.md)",
+    "Full rules for agents (SKILL.md)"
+  ],
+  "常見問題": [
+    "常见问题",
+    "よくある質問",
+    "자주 묻는 질문",
+    "FAQ"
   ]
 }

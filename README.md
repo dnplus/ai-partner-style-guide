@@ -41,7 +41,7 @@ npm run preview                  # 已建置的 Worker：http://127.0.0.1:5188
 - T/F：以明確檢查驗收（測試、數字、規格、差異）／以感受、品味、受眾體驗驗收。沒有驗收就是 unclear。
 - J/P：當成有結構或會留下來的工作（計畫、流程、可重用資產）／開放式探索、一次性使用。
 
-每個任務每軸強迫選一邊或 `unclear`。伺服器每軸只數非 unclear 的選擇：少於 3 個或打平為 `?`；多數勝出，勝方 ×3 ≥ 總數 ×2 且差至少 2 為 clear，其餘為 lean（卡面以淡色標示）。四個字母都有結果才成為 16 型代碼。使用者不會看到百分比或次數。tokens、模型家族與客戶端不參與分型。
+每個任務每軸強迫選一邊或 `unclear`。伺服器每軸只數非 unclear 的選擇：少於 3 個或打平為 `?`；多數勝出，勝方 ×3 ≥ 總數 ×2 且差至少 2 為 clear，其餘為 lean（卡面以淡色標示）。四個字母都有結果才成為 16 型代碼。使用者不會看到百分比或次數。tokens、模型家族與客戶端不參與分型。伺服器另外拒收 collect.py 不可能產生的數字（例如自動化工作階段多於掃描的檔案、任務多於讀過的紀錄），能擋下隨手改過的摘要，擋不住刻意的偽造。
 
 **獨立的使用等級 LV0–5**（`usage-level-v2`）分兩個面向。LV0–3 看 Agent 在授權紀錄中看到的人為證據：未查核就採用、出錯後重試、兩個獨立任務確認結果可用，以及同一任務先講清範圍與完成標準再驗證修正。LV4–5 只看 `collect.py` 計算並原樣帶入摘要的 `systemEvidence`：LV4 需至少一個工作階段寫下技能、規則或腳本等資產，且至少兩個工作階段用到其他階段寫下的資產；LV5 另需至少三個自動化工作階段、跨度 14 天以上、至少一種排程／CI／hook／heartbeat 機制，以及自動化開始後仍有資產更新。沒有證據就是未知，不能當 LV0。
 
@@ -68,6 +68,10 @@ npm run preview                  # 已建置的 Worker：http://127.0.0.1:5188
 揭曉後在分享視窗可建立「可驗證連結」`/c/<隨機ID>`：伺服器依存下來的結果畫出卡片（可轉動的全息卡），下載的 PNG 上的 QR 與分享文字都改指向這頁，修過的圖對不上紀錄。連結貼到社群會展開成伺服器產生的 1200×630 預覽圖（`/c/<id>/og`，`next/og` 的 satori + resvg），圖上只有類型、型名、等級與稀有度，不畫暱稱；暱稱在 `og:title`。同一份結果只有一張公開卡片，重建保留網址並換新撤回權杖；可隨時撤回，清除結果時一併刪除，最長保留 365 天，示範資料不能建立。個人卡片頁 `noindex`。「交給 Agent 分享」複製一段指令給你的 Agent：帶連結與建議文案，要求發文前先給你確認；網站本身從不代發。
 
 預覽用的插畫 JPEG 在 `npm run build` 時由 `scripts/build-og-assets.mjs` 產生（satori 不支援 WebP），不進版本控制。預覽字型是固定字串的子集，存在 `public/og/fonts/`；改了型名、等級名或預覽文案後執行 `npm run og:fonts`，`tests/og.test.ts` 會檢查涵蓋範圍。
+
+## 公開頁面與 AEO
+
+首頁、`/types`（16 型總覽）、`/types/<代碼>`、`/levels`、`/method`（流程、計分、限制與常見問答）與 `/art-gallery` 開放索引；結果、`/team` 與個人卡片頁維持 `noindex`。內容頁由伺服器依 `catalog`、`workstyle`、`usage-level` 與 `lib/site-content.ts` 產生，五種語言各有網址（`?lang=zh-CN|ja|ko|en`，預設繁中），附 canonical、hreflang、各型的 OG 預覽（`/og?type=…`）與 JSON-LD（WebApplication、DefinedTermSet／DefinedTerm、BreadcrumbList、FAQPage）。`/sitemap.xml`、`/robots.txt`（`Content-Signal: search=yes, ai-input=yes`）與 `/llms.txt` 由同一份資料產生，不會和頁面脫節。每頁頁尾標明非官方，以及 MBTI 為 The Myers-Briggs Company 的註冊商標。
 
 ## 卡面稀有度
 

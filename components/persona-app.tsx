@@ -1,5 +1,7 @@
 "use client";
 import { useLocale, LocaleSwitch } from "./locale-provider.tsx";
+import Link from "next/link";
+import {localized} from "../lib/site-content.ts";
 import { useEffect, useRef, useState, useSyncExternalStore, type FormEvent } from "react";
 import { ArrowLeft, ArrowRight, Copy, Download, X } from "lucide-react";
 import {CardShare} from "./card-share.tsx";
@@ -346,7 +348,7 @@ export function PersonaApp({turnstileSiteKey}:{turnstileSiteKey:string}) {
       </>}
       {(flow.error || notice) && <p className="inline-notice" role="status">{noticeText(locale,flow.error || notice)}</p>}
     </main>
-    <footer className="journey-footer"><LocaleSwitch /><button onClick={() => about.current?.showModal()}>{t("關於這份觀察")}</button></footer>
+    <footer className="journey-footer"><LocaleSwitch /><button onClick={() => about.current?.showModal()}>{t("關於這份觀察")}</button><nav className="journey-links" aria-label={t("網站導覽")}>{([["/types","16 種類型"],["/levels","使用等級"],["/method","怎麼判斷"]] as const).map(([href,label])=><Link key={href} href={localized(href,locale)}>{t(label)}</Link>)}</nav></footer>
     <dialog ref={about} className="about-dialog" aria-labelledby="about-title"><button className="icon-button dialog-close" onClick={() => about.current?.close()} aria-label={t("關閉說明")}><X size={22}/></button><h2 id="about-title">{t("你怎麼帶它，")}<br />{t("它就怎麼做事。")}</h2><p>{t("這是一段以授權使用紀錄為依據的合作觀察。借用四組字母，以自訂規則描述合作風格，非官方 MBTI 評量。網站只接收你事前明確授權範圍內的最小摘要，授權後自動驗證與傳送。")}</p>
       <details><summary>{t("觀察依據與 16 種風格")}</summary><p>{t("借用 E/I 推進節奏、S/N 指令焦點、T/F 驗收依據、J/P 工作框架，只看你帶 Agent 時說了什麼。這不是人格診斷，也不是模型的固定性格。")}</p><p>{t("每個任務每軸選一邊，看不出來就跳過。少於三個任務或打平保留問號，差距不大標成傾向。舊結果需要重新分析。")}<a href="/collector/SKILL.md" target="_blank" rel="noreferrer">{t("完整觀察方式 ↗")}</a></p><div className="about-types">{Object.entries(personas).map(([code, p]) => <div key={code}><b>{code}</b><span>{t(p.name)}</span></div>)}</div></details>
       <details><summary>{t("使用等級如何判斷")}</summary><p>{t("等級與 MBTI、用量和模型無關。LV0–3 看你帶 Agent 時怎麼查核與修正；LV4 看你寫下的技能、規則或腳本，是否被其他工作階段再次使用；LV5 再看自動化是否無人值守跑過兩週，且資產持續維護。沒有證據就保持未知，等級也不代表能力上限。")}</p></details>

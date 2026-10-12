@@ -52,6 +52,16 @@ export const submissionSchema = z.object({
   }
   const scanned = data.systemEvidence?.filesScanned ?? null, listed = data.systemEvidence?.filesListed ?? null;
   if (scanned !== null && listed !== null && scanned > listed) issue("System evidence cannot scan more files than it listed");
+  // Invariants of collect.py's own counting: a summary that breaks one was edited by hand.
+  const system = data.systemEvidence;
+  if (system) {
+    const perSession = [system.automationSessions, system.assetWriteSessions, system.assetReuseSessions];
+    if (scanned !== null && perSession.some((n) => n !== null && n > scanned)) issue("Session counts cannot exceed the files scanned");
+    if (scanned === 0 && [...perSession, system.subagentSessions, system.automationSpanDays, system.assetMaintainedAfterAutomation, system.gearKinds].some((n) => n !== null)) issue("Nothing scanned leaves every count unknown");
+    if (system.automationSessions === 0 && (system.automationSpanDays !== null || system.assetMaintainedAfterAutomation !== null)) issue("Without automation there is no automation span or upkeep");
+    if (system.automationSpanDays !== null && system.automationSpanDays > 366) issue("Automation cannot span more than the window");
+  }
+  if (data.coverage.sampledSessions !== null && data.tasks.length > data.coverage.sampledSessions) issue("Tasks cannot outnumber the sessions read");
   if (data.tasks.some((t) => !data.coverage.sources.includes(t.source))) issue("Task source is outside observed coverage");
   if (data.tasks.some((t) => t.date < data.observedPeriod.from || t.date > data.observedPeriod.to)) issue("Task date is outside observed period");
   if (new Set(data.coverage.sources).size !== data.coverage.sources.length) issue("Duplicate coverage source");

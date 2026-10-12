@@ -119,7 +119,7 @@ Read `{origin}/collector-schema.json`. Keep only fields it allows. `version` is 
 
 The summary contains no transcript text, code, file paths, task titles, links, secrets, email addresses, or free-text notes. The body must be at most 24 KiB.
 
-Validate the JSON against the schema before you submit. A future `observedPeriod.to` is rejected. Task ids are unique. Every task has all four axes. Every `usageEvidence` observation points at a task.
+Validate the JSON against the schema before you submit. The server also refuses counts that collect.py could not have produced, such as more automation sessions than files scanned, or more tasks than sessions read, so copy `systemEvidence` and `coverage` exactly as the digest has them. A future `observedPeriod.to` is rejected. Task ids are unique. Every task has all four axes. Every `usageEvidence` observation points at a task.
 
 ## Submit with the write token
 

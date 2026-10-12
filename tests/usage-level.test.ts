@@ -52,3 +52,10 @@ test('every level, and an unknown one, names a distinct next step',()=>{
  assert.equal(nextStepFor({version:'usage-level-v2',value:null,basis:null}),nextSteps.unknown);
  assert.equal(nextStepFor({version:'usage-level-v2',value:3,basis:'scoped_correction'}),nextSteps[3]);
 });
+
+test('summaries that break the collector\'s own counting are refused',()=>{
+ assert.doesNotThrow(()=>validateSubmission(withSystem({}),now));
+ for(const change of [{automationSessions:13},{assetReuseSessions:40},{filesScanned:0,filesListed:0},{automationSessions:0},{automationSpanDays:400}] as Partial<System>[])assert.throws(()=>validateSubmission(withSystem(change),now),JSON.stringify(change));
+ assert.doesNotThrow(()=>validateSubmission(withSystem({subagentSessions:345}),now));
+ const crowded=makeLevelFixture();crowded.coverage.sampledSessions=2;assert.throws(()=>validateSubmission(crowded,now));
+});

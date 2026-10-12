@@ -1,6 +1,6 @@
 import {test,expect} from '@playwright/test';
 import {makeLevelFixture} from '../../lib/fixture.ts';
-import {base,ready,create,asNewClient} from './support.ts';
+import {base,create,asNewClient} from './support.ts';
 
 test('an owner opens a board, a member joins by invite, shares, withdraws, and the owner deletes the board',async({browser})=>{
  const ownerContext=await browser.newContext({baseURL:base,locale:'zh-TW'}),owner=await ownerContext.newPage();await asNewClient(owner);

@@ -241,3 +241,17 @@ html[lang="en"] .art-grid .card-copy h2,html[lang="ko"] .art-grid .card-copy h2{
 .team-stats div{display:flex;justify-content:space-between;align-items:baseline;gap:8px;padding:6px 10px;text-align:left}
 .team-stats dd{white-space:nowrap;text-align:right}
 .team-meta span{white-space:nowrap}
+
+/* Public card: the shared, server-drawn mirror of one result. */
+.public-card-page{width:min(1000px,calc(100% - 32px));margin:0 auto;padding-block:10px 40px}
+.public-card .final-copy .public-verified{color:#6c8a2a}
+.public-card .public-cta{margin-top:22px;width:100%;min-width:0}
+.public-card .small-note{margin-top:14px;line-height:1.7}
+.verify-link{display:grid;gap:10px;margin:0 0 18px;padding:14px 16px;border:1px solid #d9e9a4;border-radius:14px;background:#f8fde8b3;font-size:12px;color:#5d6446}
+.verify-link p{display:grid;gap:4px;line-height:1.7}
+.verify-link b{font-size:13px;color:#43511d}
+.verify-link code{display:block;overflow-x:auto;white-space:nowrap;padding:6px 10px;border-radius:9px;background:#fff;font-size:12px;color:#3e4a1c}
+.verify-link .secondary-action{min-height:42px;font-size:13px}
+.verify-actions{display:flex;flex-wrap:wrap;gap:6px 16px}
+.verify-actions .quiet-button{font-size:12px;padding:2px 0;gap:6px}
+.public-card .public-cta,.recovery-screen a.primary{text-decoration:none}

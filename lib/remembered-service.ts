@@ -7,7 +7,7 @@ const COOKIE='agent_mbti_result';
 type Stored={id:string;token_hash:string;expires_at:number;report:string;self_type:string|null};
 const cookieOptions=(request:Request,age:number)=>`; Path=/api/remembered; Max-Age=${age}; HttpOnly; SameSite=Strict${new URL(request.url).protocol==='https:'?'; Secure':''}`;
 function response(request:Request,data:unknown,status=200,cookie?:string,age=RESULT_TTL_MS/1000){const r=json(data,status);if(cookie!==undefined)r.headers.set('Set-Cookie',COOKIE+'='+cookie+cookieOptions(request,age));return r;}
-async function stored(db:D1Database,request:Request,now:number){
+export async function rememberedResult(db:D1Database,request:Request,now:number){
  const token=request.headers.get('cookie')?.split(';').map(c=>c.trim()).find(c=>c.startsWith(COOKIE+'='))?.slice(COOKIE.length+1);
  if(!token||!/^[0-9a-f-]{36}\.[0-9a-f]{64}$/.test(token))return null;
  const [id,secret]=token.split('.');const row=await db.prepare('SELECT * FROM remembered_results WHERE id=?1').bind(id).first<Stored>();
@@ -18,7 +18,7 @@ export async function handleRemembered(db:D1Database,request:Request,now=Date.no
  try{
   sameOriginRequest(request,request.method!=='GET');
   await db.prepare('DELETE FROM remembered_results WHERE expires_at<=?1').bind(now).run();
-  const previous=await stored(db,request,now);
+  const previous=await rememberedResult(db,request,now);
   if(request.method==='GET'){
    const parsed=previous?JSON.parse(previous.report) as Report:null;
    if(!previous||parsed?.version!==PROTOCOL_VERSION)return response(request,{found:false},200,'',0);
@@ -26,7 +26,7 @@ export async function handleRemembered(db:D1Database,request:Request,now=Date.no
    return response(request,{found:true,id:previous.id,expiresAt:previous.expires_at,card:toCardObservation(report,storedSelfType(previous.self_type)),report});
   }
   if(request.method==='DELETE'){
-   if(previous)await db.batch([db.prepare('DELETE FROM remembered_results WHERE id=?1').bind(previous.id),db.prepare('DELETE FROM sessions WHERE id=?1').bind(previous.id)]);return response(request,{deleted:true},200,'',0);
+   if(previous)await db.batch([db.prepare('DELETE FROM remembered_results WHERE id=?1').bind(previous.id),db.prepare('DELETE FROM sessions WHERE id=?1').bind(previous.id),db.prepare('DELETE FROM public_cards WHERE session_id=?1').bind(previous.id)]);return response(request,{deleted:true},200,'',0);
   }
   if(request.method==='POST'){
    if(!request.headers.get('content-type')?.startsWith('application/json')||Number(request.headers.get('content-length'))>512)return response(request,{error:'Invalid request'},400);

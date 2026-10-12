@@ -7,9 +7,9 @@
   },
   "scripts": {
     "dev": "vinext dev",
-    "build": "vinext build",
+    "build": "node scripts/build-og-assets.mjs && vinext build",
     "preview": "wrangler dev --port 5188 --ip 127.0.0.1 --persist-to .wrangler/state",
-    "deploy": "vinext build && wrangler deploy --var TURNSTILE_SITE_KEY:0x4AAAAAAFTsLRxtt_I7FWHz",
+    "deploy": "npm run build && wrangler deploy --var TURNSTILE_SITE_KEY:0x4AAAAAAFTsLRxtt_I7FWHz",
     "db:migrate:local": "wrangler d1 migrations apply DB --local --config wrangler.jsonc --persist-to .wrangler/state",
     "db:migrate:remote": "wrangler d1 migrations apply DB --remote --config wrangler.jsonc",
     "db:generate": "drizzle-kit generate",
@@ -19,7 +19,8 @@
     "typecheck": "tsc --noEmit",
     "test:browser": "playwright test",
     "schema": "node scripts/export-schema.mjs",
-    "verify:art": "node scripts/verify-art.mjs"
+    "verify:art": "node scripts/verify-art.mjs",
+    "og:fonts": "node scripts/build-og-fonts.mjs"
   },
   "dependencies": {
     "drizzle-orm": "0.45.2",

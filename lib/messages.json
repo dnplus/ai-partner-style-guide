@@ -3022,5 +3022,161 @@
     "ログインもメールアドレスも不要です。結果はリンクを作ったこのブラウザだけが読めます。チームボードに自分で共有した場合を除きます。共有されるのはカードと統計だけで、いつでも取り消せます。Agent は短期間の専用リンクで要約を一度送るだけで、結果は読めません。",
     "로그인이나 이메일은 필요 없어요. 결과는 링크를 만든 이 브라우저에서만 볼 수 있어요. 직접 팀 보드에 공유한 경우는 예외이며, 공유되는 것은 카드와 통계뿐이고 언제든 취소할 수 있어요. Agent는 짧게 유효한 전용 링크로 요약을 한 번 보낼 뿐, 결과를 읽을 수 없어요.",
     "No sign-in and no email. Only the browser that created the link can read the result, unless you share it to a team board yourself; a share holds only the card and counts, and you can withdraw it any time. The agent submits one summary through a short-lived link and cannot read the result."
+  ],
+  "可驗證連結": [
+    "可验证链接",
+    "検証できるリンク",
+    "검증 가능한 링크",
+    "Verifiable link"
+  ],
+  "連結已複製。": [
+    "链接已复制。",
+    "リンクをコピーしました。",
+    "링크를 복사했어요.",
+    "Link copied."
+  ],
+  "複製連結": [
+    "复制链接",
+    "リンクをコピー",
+    "링크 복사",
+    "Copy link"
+  ],
+  "已複製給 Agent 的分享指令。": [
+    "已复制给 Agent 的分享指令。",
+    "Agent への共有指示をコピーしました。",
+    "Agent에게 줄 공유 지시를 복사했어요.",
+    "Copied the sharing instructions for your agent."
+  ],
+  "交給 Agent 分享": [
+    "交给 Agent 分享",
+    "Agent に共有を任せる",
+    "Agent에게 공유 맡기기",
+    "Let your agent share it"
+  ],
+  "更新公開卡面": [
+    "更新公开卡面",
+    "公開カードを更新",
+    "공개 카드 업데이트",
+    "Update public card"
+  ],
+  "撤回連結": [
+    "撤回链接",
+    "リンクを取り消す",
+    "링크 취소",
+    "Revoke link"
+  ],
+  "建立公開卡片頁：連結貼到社群會顯示卡片圖，收到的人也能點開確認這張卡是真的。可隨時撤回。": [
+    "建立公开卡片页：链接贴到社群会显示卡片图，收到的人也能点开确认这张卡是真的。可随时撤回。",
+    "公開カードページを作ります。リンクを SNS に貼るとカード画像が表示され、受け取った人は開いて本物か確かめられます。いつでも取り消せます。",
+    "공개 카드 페이지를 만들어요. 링크를 SNS에 붙이면 카드 이미지가 보이고, 받은 사람은 열어서 진짜인지 확인할 수 있어요. 언제든 취소할 수 있어요.",
+    "Creates a public card page. Posted links unfold into the card image, and anyone can open it to check the card is real. Revoke it any time."
+  ],
+  "建立可驗證連結": [
+    "建立可验证链接",
+    "検証できるリンクを作成",
+    "검증 가능한 링크 만들기",
+    "Create verifiable link"
+  ],
+  "公開卡片已更新。": [
+    "公开卡片已更新。",
+    "公開カードを更新しました。",
+    "공개 카드를 업데이트했어요.",
+    "Public card updated."
+  ],
+  "可驗證連結已建立。": [
+    "可验证链接已建立。",
+    "検証できるリンクを作成しました。",
+    "검증 가능한 링크를 만들었어요.",
+    "Verifiable link created."
+  ],
+  "連結已撤回。": [
+    "链接已撤回。",
+    "リンクを取り消しました。",
+    "링크를 취소했어요.",
+    "Link revoked."
+  ],
+  "由網站依提交紀錄產生 · {date}": [
+    "由网站依提交记录生成 · {date}",
+    "提出記録からサイトが生成 · {date}",
+    "제출 기록으로 사이트가 생성 · {date}",
+    "Drawn by the site from the submitted record · {date}"
+  ],
+  "這張卡由網站依當次提交的摘要畫出，和本人下載的圖片內容一致才是真的。摘要由本人的 Agent 在本機計算，網站無法檢視原始紀錄。": [
+    "这张卡由网站依当次提交的摘要画出，和本人下载的图片内容一致才是真的。摘要由本人的 Agent 在本机计算，网站无法查看原始记录。",
+    "このカードは提出された要約からサイトが描いたものです。本人がダウンロードした画像と内容が一致すれば本物です。要約は本人の Agent がローカルで計算し、サイトは元の記録を見られません。",
+    "이 카드는 제출된 요약으로 사이트가 그린 것이에요. 본인이 내려받은 이미지와 내용이 같아야 진짜예요. 요약은 본인의 Agent가 로컬에서 계산하며, 사이트는 원본 기록을 볼 수 없어요.",
+    "The site drew this card from the submitted summary; a downloaded image is genuine only if it matches. The summary was computed by the owner's agent on their machine, and the site cannot see the original logs."
+  ],
+  "測測你的 Agent 是哪一型": [
+    "测测你的 Agent 是哪一型",
+    "あなたの Agent は何タイプ？",
+    "내 Agent는 어떤 유형일까",
+    "Find your agent's type"
+  ],
+  "這張卡已撤回或過期。": [
+    "这张卡已撤回或过期。",
+    "このカードは取り消されたか、期限切れです。",
+    "이 카드는 취소되었거나 만료되었어요.",
+    "This card was revoked or has expired."
+  ],
+  "請檢查卡片選項。": [
+    "请检查卡片选项。",
+    "カードの設定を確認してください。",
+    "카드 옵션을 확인해 주세요.",
+    "Please check the card options."
+  ],
+  "找不到這份結果，請重新觀察。": [
+    "找不到这份结果，请重新观察。",
+    "この結果が見つかりません。もう一度観察してください。",
+    "이 결과를 찾을 수 없어요. 다시 관찰해 주세요.",
+    "This result was not found. Please run a new observation."
+  ],
+  "示範資料不能建立公開卡片。": [
+    "示范数据不能建立公开卡片。",
+    "サンプルデータでは公開カードを作れません。",
+    "예시 데이터로는 공개 카드를 만들 수 없어요.",
+    "Sample data cannot become a public card."
+  ],
+  "找不到這張公開卡片。": [
+    "找不到这张公开卡片。",
+    "この公開カードは見つかりません。",
+    "이 공개 카드를 찾을 수 없어요.",
+    "This public card was not found."
+  ],
+  "我的 Agent「{nickname}」拿到一張角色卡。你的 Agent 會是哪一型？ {url} #AgentMBTI": [
+    "我的 Agent「{nickname}」拿到一张角色卡。你的 Agent 会是哪一型？ {url} #AgentMBTI",
+    "私の Agent「{nickname}」がキャラクターカードを手に入れました。あなたの Agent は何タイプ？ {url} #AgentMBTI",
+    "내 Agent「{nickname}」가 캐릭터 카드를 받았어요. 당신의 Agent는 어떤 유형일까요? {url} #AgentMBTI",
+    "My agent “{nickname}” got a character card. What type is yours? {url} #AgentMBTI"
+  ],
+  "我的 Agent「{nickname}」是 {code} {persona}，LV {level}。你的 Agent 會是哪一型？ {url} #AgentMBTI": [
+    "我的 Agent「{nickname}」是 {code} {persona}，LV {level}。你的 Agent 会是哪一型？ {url} #AgentMBTI",
+    "私の Agent「{nickname}」は {code} {persona}、LV {level}。あなたの Agent は何タイプ？ {url} #AgentMBTI",
+    "내 Agent「{nickname}」는 {code} {persona}, LV {level}이에요. 당신의 Agent는 어떤 유형일까요? {url} #AgentMBTI",
+    "My agent “{nickname}” is {code}, {persona}, LV {level}. What type is yours? {url} #AgentMBTI"
+  ],
+  "請幫我把這張 Agent MBTI 角色卡分享到社群，先問我要發到哪個平台。": [
+    "请帮我把这张 Agent MBTI 角色卡分享到社群，先问我要发到哪个平台。",
+    "この Agent MBTI のキャラクターカードを SNS に共有してください。まずどのプラットフォームに投稿するか聞いてください。",
+    "이 Agent MBTI 캐릭터 카드를 SNS에 공유해 주세요. 먼저 어느 플랫폼에 올릴지 물어봐 주세요.",
+    "Please share this Agent MBTI character card on social media. First ask me which platform to post on."
+  ],
+  "卡片連結：{url}（貼上後會顯示卡片圖，收到的人也能點開驗證）": [
+    "卡片链接：{url}（贴上后会显示卡片图，收到的人也能点开验证）",
+    "カードのリンク：{url}（貼るとカード画像が表示され、受け取った人は開いて確かめられます）",
+    "카드 링크: {url} (붙이면 카드 이미지가 보이고, 받은 사람은 열어서 확인할 수 있어요)",
+    "Card link: {url} (it unfolds into the card image, and anyone can open it to verify)"
+  ],
+  "建議文案：{post}": [
+    "建议文案：{post}",
+    "投稿文の例：{post}",
+    "추천 문구: {post}",
+    "Suggested post: {post}"
+  ],
+  "可以依平台調整語氣和長度（X 不超過 280 字元），但不要改動類型、等級和連結。發文前先把最終內容給我確認，得到同意才送出。不要讀取或上傳我電腦裡的其他檔案。": [
+    "可以依平台调整语气和长度（X 不超过 280 字符），但不要改动类型、等级和链接。发文前先把最终内容给我确认，得到同意才送出。不要读取或上传我电脑里的其他文件。",
+    "プラットフォームに合わせて口調や長さを調整してかまいません（X は 280 文字以内）。ただしタイプ、レベル、リンクは変えないでください。投稿前に最終的な内容を見せ、私の同意を得てから送信してください。私のパソコンのほかのファイルは読み取ったりアップロードしたりしないでください。",
+    "플랫폼에 맞게 말투와 길이를 조정해도 돼요(X는 280자 이내). 단, 유형·레벨·링크는 바꾸지 마세요. 올리기 전에 최종 내용을 보여 주고 제 동의를 받은 뒤 보내 주세요. 제 컴퓨터의 다른 파일은 읽거나 올리지 마세요.",
+    "Adjust the tone and length for the platform (X stays under 280 characters), but keep the type, level and link unchanged. Show me the final text and post only after I approve. Do not read or upload any other files from my computer."
   ]
 }

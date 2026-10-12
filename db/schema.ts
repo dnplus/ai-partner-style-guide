@@ -31,3 +31,8 @@ export const teams=sqliteTable('teams',{
 export const teamEntries=sqliteTable('team_entries',{
  id:text('id').primaryKey(),teamId:text('team_id').notNull(),sessionId:text('session_id').notNull(),member:text('member').notNull(),snapshot:text('snapshot').notNull(),withdrawHash:text('withdraw_hash').notNull(),createdAt:integer('created_at').notNull(),
 },table=>[index('team_entries_team').on(table.teamId,table.createdAt),uniqueIndex('team_entries_session').on(table.teamId,table.sessionId)]);
+
+// A public, revocable mirror of one result: the server renders it from the stored record, so a doctored PNG cannot match it.
+export const publicCards=sqliteTable('public_cards',{
+ id:text('id').primaryKey(),sessionId:text('session_id').notNull().unique(),card:text('card').notNull(),revokeHash:text('revoke_hash').notNull(),createdAt:integer('created_at').notNull(),expiresAt:integer('expires_at').notNull(),
+},table=>[index('public_cards_expiry').on(table.expiresAt)]);

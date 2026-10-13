@@ -3628,5 +3628,11 @@
     "コピーしました。Agent に貼り付けてください。",
     "복사했어요. Agent에 붙여 넣으세요.",
     "Copied. Paste it into your agent."
+  ],
+  "重新取得指令": [
+    "重新获取指令",
+    "指示をもう一度取得",
+    "지시를 다시 받기",
+    "Get the prompt again"
   ]
 }

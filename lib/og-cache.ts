@@ -4,7 +4,8 @@
 export async function cachedImage(request: Request, key: string, render: () => Promise<Response>) {
   const cache = (globalThis as {caches?: {default?: Cache}}).caches?.default;
   const cacheKey = new Request(new URL('/__og-cache/' + encodeURIComponent(key), request.url).href);
-  try { const hit = await cache?.match(cacheKey); if (hit) return hit; } catch { /* render instead */ }
+  // A cached response has immutable headers, and the framework adds its own on the way out, so hand back a copy.
+  try { const hit = await cache?.match(cacheKey); if (hit) return new Response(hit.body, hit); } catch { /* render instead */ }
   const response = await render();
   if (cache && response.ok) try { await cache.put(cacheKey, response.clone()); } catch { /* serve uncached */ }
   return response;

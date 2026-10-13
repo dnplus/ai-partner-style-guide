@@ -70,10 +70,6 @@ function ReportSummary({report}:{report:Report}){
     </div></details>
   </>;
 }
-function SelfTypePick({value,onChange}:{value:TypeCode|null;onChange:(value:TypeCode|null)=>void}){
-  const {t}=useLocale();
-  return <div className="self-type-pick"><label htmlFor="self-type">{t("你覺得自己是哪一型？")}</label><select id="self-type" value={value??""} onChange={e=>onChange(typeCodes.find(code=>code===e.target.value)??null)}><option value="">{t("不確定")}</option>{typeCodes.map(code=><option key={code} value={code}>{code} · {t(personas[code].name)}</option>)}</select><p>{t("只拿來對照，不影響結果。")}</p></div>;
-}
 function TeamShare({invite,sessionId,onShare,onWithdraw}:{invite:TeamInvite;sessionId:string;onShare:(member:string)=>Promise<string>;onWithdraw:()=>Promise<string>}){
   const {t,locale}=useLocale();
   const [member,setMember]=useState(""),[busy,setBusy]=useState(false),[error,setError]=useState("");
@@ -127,7 +123,6 @@ export function PersonaApp({turnstileSiteKey}:{turnstileSiteKey:string}) {
     const effectiveScope=active?(collectionScope??createCollectorScope(active.expiresAt-SESSION_TTL_MS,timeZone)):null;
     const instructions = active ? collectorInstructions(active, origin, resumeMode, locale,effectiveScope!) : "";
     const agentState = describeProgress(flow.agentProgress, flow.clock, locale);
-    const countdown = `${Math.floor(flow.remaining / 60).toString().padStart(2, "0")}:${(flow.remaining % 60).toString().padStart(2, "0")}`;
     useEffect(() => {
         if (!flow.ready || initialized.current)
             return;
@@ -182,7 +177,6 @@ export function PersonaApp({turnstileSiteKey}:{turnstileSiteKey:string}) {
         const timer = setTimeout(() => focus.current?.querySelector<HTMLElement>("h1")?.focus({ preventScroll: true }), 50);
         return () => clearTimeout(timer);
     }, [stage, flow.ready]);
-    function pickSelfType(value:TypeCode|null){setSelfType(value);void flow.saveSelfType(value);}
     function go(next: Stage) { setNotice(""); flow.setError(""); setStage(next); }
     function back() {
         const previous: Record<Stage, Stage> = { cover: "cover", identity: "cover", instructions: "identity", fixture: "instructions", waiting: "instructions", reveal: "cover" };
@@ -315,12 +309,11 @@ export function PersonaApp({turnstileSiteKey}:{turnstileSiteKey:string}) {
             setExporting(false);
         }
     }
-    // What the agent has reported so far. It sits under the prompt, so nobody has to leave the prompt to watch.
+    // Silent until there is something to say: the agent reported a step, needs a host approval, or the site lost its connection.
+    const reported = flow.agentProgress.phase !== "not_connected";
     const waitingPanel = <>
-        <div className={"waiting-status " + flow.connection} role="status"><i />{flow.connection === "retrying" ? t("網站暫時連不上收件服務") : flow.connection === "checking" ? t("正在確認收件狀態") : agentState.title}</div>
-        {(flow.connection==="retrying"||agentState.stale||["awaiting_host_approval","paused"].includes(flow.agentProgress.phase))&&<p className="lead waiting-explanation">{flow.connection==="retrying"?t("這不代表 Agent 中斷。網站會自動重試，請保留這個分頁。"):agentState.details}</p>}
-        <SelfTypePick value={selfType} onChange={pickSelfType}/>
-        <details className="waiting-help"><summary>{t("查看進度與協助")}</summary><p>{t("完成後，這頁會自動揭曉。")} {t("連結剩餘 {time}",{time:countdown})}</p>{flow.agentProgress.updatedAt&&<p>{t("最後訊號：")}{agentState.lastPhase} · {new Date(flow.agentProgress.updatedAt).toLocaleTimeString(locale,{hour12:false})}</p>}{flow.connection==="retrying"&&<button className="quiet-button" onClick={flow.retry}>{t("立即重試")}</button>}<p>{t("只需在 Agent 確認一次來源、期間與摘要傳送範圍。若主機另外要求讀取或連線核准，請在原生提示處處理；網站不會代替核准。")}</p><p>{t("超過 90 秒沒有新階段訊號時，我們會明確標示未知。若分析已完成，請 Agent 保留最小摘要；換連結後明確核准新目的地，不用重掃資料。")}</p>{flow.lastChecked && <p>{t("網站上次連上收件服務：")}{new Date(flow.lastChecked).toLocaleTimeString(locale, { hour12: false })}</p>}<button className="quiet-button" disabled={flow.busy} onClick={renew}>{t("沿用分析，換新連結")}</button></details>
+        {(reported || flow.connection === "retrying") && <div className={"waiting-status " + flow.connection} role="status"><i />{flow.connection === "retrying" ? t("網站暫時連不上收件服務") : agentState.title}</div>}
+        {flow.agentProgress.phase === "awaiting_host_approval" && !agentState.stale && <p className="lead waiting-explanation">{agentState.details}</p>}
     </>;
     return <div className="app-root" data-ready={flow.ready && localeReady} data-stage={stage} inert={!flow.ready || !localeReady}>
     <header className="journey-header">
@@ -356,13 +349,12 @@ export function PersonaApp({turnstileSiteKey}:{turnstileSiteKey:string}) {
           <button className="primary" disabled={!demo&&!scopeOptionsSchema.safeParse(scopeOptions).success} onClick={demo ? () => go("fixture") : copy}>{demo ? t("查看示範範圍") : copied ? t("再複製一次") : t("複製專屬指令")}{demo ? <ArrowRight size={20}/> : <Copy size={19}/>}</button>
           {!demo && !resumeMode && <CollectorScopeOptions value={scopeOptions} onChange={changeScope} timeZone={timeZone}/>}
           {!demo && <details className="instruction-disclosure" open={manual} onToggle={e => setManual(e.currentTarget.open)}><summary>{t("查看／手動複製指令")}</summary><textarea className="instruction-box" aria-label={t("貼給 Agent 的指令")} value={instructions} readOnly onFocus={e => e.currentTarget.select()}/></details>}
-        </> : <><p className="small-note">{t("重整後不保留提交權杖。已複製的指令仍可使用。")}</p><button className="quiet-button" disabled={flow.busy} onClick={renew}>{t("沒複製到？換新連結")}</button></>}
+        </> : <button className="primary" disabled={flow.busy} onClick={renew}>{t("重新取得指令")}<Copy size={19}/></button>}
         {!demo && waitingPanel}
       </section>}
       {stage === "fixture" && active && <section className="fixture-screen screen">
         <p className="eyebrow">{t("虛構資料 · 沒有讀取你的紀錄")}</p><h1 tabIndex={-1}>{t("一次同意，")}<br />{t("接著等它揭曉。")}</h1><p className="lead">{t("確認這次範圍，剩下的自動完成。")}</p>
         <div className="scope-card"><p><b>{t("來源與期間")}</b><span>{t("網站內建的 3 個虛構任務，2026/10/01–10/09。沒有你的對話。")}</span></p><p><b>{t("傳送內容")}</b><span>{t("暱稱、日期、來源與缺口、用量彙總、抽象任務與四軸判斷、階段狀態。")}</span></p><p><b>{t("目的地")}</b><span>{t("目前網站的這個收件連結，有效至 {time}。",{time:new Date(active.expiresAt).toLocaleTimeString(locale,{hour12:false})})}</span></p></div>
-        <SelfTypePick value={selfType} onChange={pickSelfType}/>
         <label className="check-field"><input type="checkbox" checked={fixtureConsent} onChange={e => setFixtureConsent(e.target.checked)}/>{t("我同意此範圍的虛構摘要自動驗證並傳送。")}</label>
         <button className="primary" disabled={!fixtureConsent || sending} onClick={sendFixture}>{sending ? t("處理中…") : t("同意並開始示範")}<ArrowRight size={20}/></button>
       </section>}

@@ -3,7 +3,7 @@ import {makeLevelFixture} from '../../lib/fixture.ts';
 import {base,ready,create,asNewClient} from './support.ts';
 
 test('a visitor from a public card compares with its owner, shares the pair, and the badge mirrors the card',async({page,browser})=>{
- await ready(page);const a=await create(page,'Compare Owner');
+ test.setTimeout(90000);await ready(page);const a=await create(page,'Compare Owner');
  expect((await page.request.post('/api/collect/'+a.id,{headers:{Authorization:'Bearer '+a.writeToken,'Idempotency-Key':'browser-compare-'+a.id},data:{...makeLevelFixture(a.nickname),kind:'observed'}})).status()).toBe(201);
  await page.getByRole('button',{name:'分享卡片',exact:true}).click();
  const dialog=page.getByRole('dialog',{name:'挑個尺寸，分享這一面。'});
@@ -32,5 +32,7 @@ test('a visitor from a public card compares with its owner, shares the pair, and
  await view.goto(pair!);await expect(view.locator('.compare-page h1')).toContainText('Compare Owner');await expect(view.locator('.compare-page h1')).toContainText('Compare Guest');
  const html=await (await visitor.request.get(pair!)).text();expect(html).toContain('<meta property="og:image" content="'+pair+'/og"');expect(html).toContain('noindex');
  const og=await visitor.request.get(pair!+'/og');expect(og.status()).toBe(200);expect(og.headers()['content-type']).toBe('image/png');
+ // The second fetch is served from the edge cache and must be just as good.
+ const cached=await visitor.request.get(pair!+'/og');expect(cached.status()).toBe(200);expect((await cached.body()).length).toBe((await og.body()).length);
  await visitor.close();
 });

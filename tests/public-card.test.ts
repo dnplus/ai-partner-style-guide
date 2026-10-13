@@ -93,9 +93,10 @@ test('deleting the session without keeping the result removes its card; an expir
 
 test('the post and the agent prompt carry the link, the type and the level, and ask before posting', () => {
   const card = toCardObservation(toReport({...makeLevelFixture('小克'), kind: 'observed'}));
-  const url = 'https://agent-mbti.example/c/abcdefghijklmnopqrstuv';
+  const url = 'https://ai-partner-style.example/c/abcdefghijklmnopqrstuv';
   const post = postText(card, url, 'zh-TW', false);
-  assert.ok(post.includes(url) && post.includes(card.assessment.pattern) && post.includes('LV ' + card.usageLevel.value) && post.includes('#AgentMBTI'));
+  assert.ok(post.includes(url) && post.includes(card.assessment.pattern) && post.includes('LV ' + card.usageLevel.value) && post.includes('#AIPartnerStyle'));
+  assert.ok(!/mbti/i.test(post + postText(card, url, 'en', true)));
   assert.equal(postText(card, url, 'en', true).includes(card.assessment.pattern), false);
   const prompt = agentSharePrompt(card, url, 'en', false).split('\n');
   assert.equal(prompt.length, 4);

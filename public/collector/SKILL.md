@@ -1,11 +1,11 @@
 ---
-name: agent-mbti-collector
-description: Scan local agent logs with the verified collect.py and submit one minimal Agent MBTI observation.
+name: ai-partner-style-collector
+description: Scan local agent logs with the verified collect.py and submit one minimal AI Partner Style Guide observation.
 ---
 
-# Submit one Agent MBTI observation
+# Submit one AI Partner Style Guide observation
 
-This is a record of how the user leads a coding agent. The letters use the custom rubric `agent-workstyle-v2`, judged from the user's own turns. This is not an official MBTI assessment, not a psychological diagnosis, and not a claim that a model has a fixed personality. The site checks that the summary is internally consistent. It cannot check the logs that stay on this machine.
+This is a record of how the user leads a coding agent. The letters use the custom rubric `agent-workstyle-v2`, judged from the user's own turns. This is not a personality test, not a psychological diagnosis, and not a claim that a model has a fixed personality. The site checks that the summary is internally consistent. It cannot check the logs that stay on this machine.
 
 You run `public/collector/collect.py`. You do not write a scanner, and you do not walk the disk looking for logs.
 
@@ -65,7 +65,7 @@ The script uses a `tokscale` binary that is already on `PATH` for `existing` and
 
 ## Classify from user turns
 
-`candidates` holds at most 24 sessions, refs `C01` through `C24`. Each one has at least two human messages and one agent message. Tool calls alone do not qualify. A session whose first human message is an automation template, or the Agent MBTI prompt itself, is left out. The same first human message, compared on its first 120 characters, is kept once. Consecutive tool calls become one tool turn. That turn lists up to four tool names, then `(+N)` when more names remain, and `xN` when the turn covers more than one call. The script keeps the first human message and the agent message after it, plus the tool turn after that agent message when one is next. For each later human message it keeps the agent message before it, the human message, and the agent message after it, plus the tool turn after that later agent message when one is next. It also keeps the last agent message. Middle groups are spaced evenly inside a budget of 24 turns. A candidate keeps at most 28 turns. When the kept groups would pass 28 turns, the script keeps fewer middle groups, so the opening exchange and the last agent message always stay. Each turn has `n`, `role` of `user` or `agent`, `kind` of `message` or `tool`, and redacted `text` cut to about 200 characters.
+`candidates` holds at most 24 sessions, refs `C01` through `C24`. Each one has at least two human messages and one agent message. Tool calls alone do not qualify. A session whose first human message is an automation template, or this site's own prompt, is left out. The same first human message, compared on its first 120 characters, is kept once. Consecutive tool calls become one tool turn. That turn lists up to four tool names, then `(+N)` when more names remain, and `xN` when the turn covers more than one call. The script keeps the first human message and the agent message after it, plus the tool turn after that agent message when one is next. For each later human message it keeps the agent message before it, the human message, and the agent message after it, plus the tool turn after that later agent message when one is next. It also keeps the last agent message. Middle groups are spaced evenly inside a budget of 24 turns. A candidate keeps at most 28 turns. When the kept groups would pass 28 turns, the script keeps fewer middle groups, so the opening exchange and the last agent message always stay. Each turn has `n`, `role` of `user` or `agent`, `kind` of `message` or `tool`, and redacted `text` cut to about 200 characters.
 
 Build one task per candidate: `C01` becomes `T001`, `C02` becomes `T002`, and so on. Do not split a candidate into several tasks, and do not merge candidates, even when the user changed goals inside one session. Judge the session as a whole. One vote per session keeps the result stable from one scan, and one agent, to the next. Skip a candidate only when its user turns carry no goal at all, and leave its number unused. Each task has `id`, `date`, `source`, `context`, and `axes`. `context` is `research`, `build`, `writing`, `planning`, `support`, or `other`. `date` is inside `observedPeriod` and is not in the future. `source` is one of `coverage.sources`.
 
@@ -96,7 +96,7 @@ For each axis the server counts the tasks that picked each side and ignores `unc
 
 Omit `assessment`. The summary rejects it. The server derives `type`, `pattern`, `status`, and per-axis `value` and `strength`. Four decided letters, clear or lean, become one of `INTJ`, `INTP`, `ENTJ`, `ENTP`, `INFJ`, `INFP`, `ENFJ`, `ENFP`, `ISTJ`, `ISFJ`, `ESTJ`, `ESFJ`, `ISTP`, `ISFP`, `ESTP`, `ESFP`, with status `complete`. Any `?` yields `type` null, status `incomplete`, and a pattern such as `IN?J`. Do not convert an older type, a usage level, or a title. Card art does not enter the score.
 
-Letter names follow the Myers & Briggs Foundation pages [The MBTI preferences](https://www.myersbriggs.org/my-mbti-personality-type/the-mbti-preferences/) and [The 16 MBTI types](https://www.myersbriggs.org/my-mbti-personality-type/the-16-mbti-personality-types/). The axis rules, the cuts, and the descriptions belong to `agent-workstyle-v2`. They do not use an official instrument.
+Letter names follow the four preference pairs and the 16 standard codes as published by the Myers & Briggs Foundation. This site is not affiliated with it. The axis rules, the cuts, and the descriptions belong to `agent-workstyle-v2`. They do not use an official instrument.
 
 ## Usage level evidence
 
@@ -135,14 +135,16 @@ The script writes `summary.json.idempotency` with mode `0600` before the POST an
 
 Read the printed HTTP outcome.
 
-- `http 201`. The summary was stored.
-- `http 200`. The same key and the same body were already stored.
+- `http 201`. The summary was stored. The script then prints a `done:` line.
+- `http 200`. The same key and the same body were already stored. The script then prints a `done:` line.
 - `http 409`. A different result is already stored. Stop. Do not change the key.
 - `http 404` or `http 410`. The session is expired, or the rules require a new observation. Stop.
 - `http 422`. The summary or the nickname was rejected. Fix the summary and submit again. The server has not stored the key yet.
 - `http 413` or `http 400`. The body or the key was refused. Shrink the body to 24 KiB and keep the key valid. Do not add fields.
 - `http 302`, or any other redirect status. Stop. Do not follow the `Location`.
 - `http 503` or `network_error` after the retries. Tell the user the submit did not land. Keep the summary and the key.
+
+After a `done:` line, end with one short message in the user's language: the card is ready in the browser tab that opened this observation. You cannot read the result, so do not guess the type or the level.
 
 A general 401 or 403 is not a reason to change credentials or widen access. There is no site-wide token. This write token can post status and can submit one summary for this session. It cannot read or list results.
 

@@ -203,11 +203,11 @@
     "이전 단계로",
     "Back"
   ],
-  "你的 Agent MBTI": [
-    "你的 Agent MBTI",
-    "あなたの Agent MBTI",
-    "당신의 Agent MBTI",
-    "Your Agent MBTI"
+  "你的 AI 夥伴風格指南": [
+    "你的 AI 伙伴风格指南",
+    "あなたの AI パートナー・スタイルガイド",
+    "당신의 AI 파트너 스타일 가이드",
+    "Your AI Partner Style Guide"
   ],
   "示範": [
     "示范",
@@ -221,11 +221,11 @@
     "당신의 Agent,",
     "Your Agent."
   ],
-  "是哪一種 MBTI？": [
-    "是哪一种 MBTI？",
-    "どんな MBTI？",
-    "어떤 MBTI일까요?",
-    "Which MBTI?"
+  "是哪種夥伴風格？": [
+    "是哪种伙伴风格？",
+    "どんなパートナースタイル？",
+    "어떤 파트너 스타일일까요?",
+    "Which partner style?"
   ],
   "你怎麼帶它做事，": [
     "你怎么带它做事，",
@@ -767,11 +767,11 @@
     "일하는 방식이 됩니다.",
     "shapes how it works."
   ],
-  "這是一段以授權使用紀錄為依據的合作觀察。借用四組字母，以自訂規則描述合作風格，非官方 MBTI 評量。網站只接收你事前明確授權範圍內的最小摘要，授權後自動驗證與傳送。": [
-    "这是一段以授权使用记录为依据的合作观察。借用四组字母，以自定义规则描述合作风格，非官方 MBTI 评估。网站只接收你事先明确授权范围内的最小摘要，授权后自动验证与发送。",
-    "許可された使用記録に基づく協働の観察です。4組の文字と独自ルールで仕事のスタイルを表します。公式の MBTI 検査ではありません。サイトには事前に明示的に許可した範囲の最小限の要約だけを、自動検証後に送信します。",
-    "허용된 사용 기록을 바탕으로 협업을 관찰합니다. 네 쌍의 문자와 자체 규칙으로 작업 스타일을 설명하며 공식 MBTI 검사가 아닙니다. 사전에 명시적으로 허용한 범위의 최소 요약만 자동 검증 후 사이트로 전송합니다.",
-    "An observation of collaboration based on authorized usage records. Four letter pairs and original rules describe working style; this is not an official MBTI assessment. The site receives only the minimal summary within the scope you explicitly approve beforehand, validated and submitted automatically."
+  "這是一段以授權使用紀錄為依據的合作觀察。借用四組字母，以自訂規則描述合作風格，並非人格測驗。網站只接收你事前明確授權範圍內的最小摘要，授權後自動驗證與傳送。": [
+    "这是一段以授权使用记录为依据的合作观察。借用四组字母，以自定义规则描述合作风格，并非人格测验。网站只接收你事先明确授权范围内的最小摘要，授权后自动验证与发送。",
+    "許可された使用記録に基づく協働の観察です。4組の文字と独自ルールで仕事のスタイルを表します。性格検査ではありません。サイトには事前に明示的に許可した範囲の最小限の要約だけを、自動検証後に送信します。",
+    "허용된 사용 기록을 바탕으로 협업을 관찰합니다. 네 쌍의 문자와 자체 규칙으로 작업 스타일을 설명하며 성격 검사가 아닙니다. 사전에 명시적으로 허용한 범위의 최소 요약만 자동 검증 후 사이트로 전송합니다.",
+    "An observation of collaboration based on authorized usage records. Four letter pairs and original rules describe working style; this is not a personality test. The site receives only the minimal summary within the scope you explicitly approve beforehand, validated and submitted automatically."
   ],
   "觀察依據與 16 種風格": [
     "观察依据与 16 种风格",
@@ -959,11 +959,11 @@
     "관찰로 돌아가기",
     "Back to observation"
   ],
-  "你的 Agent MBTI · 插畫圖庫": [
-    "你的 Agent MBTI · 插画图库",
-    "あなたの Agent MBTI · イラスト一覧",
-    "당신의 Agent MBTI · 그림 갤러리",
-    "Your Agent MBTI · Art gallery"
+  "你的 AI 夥伴風格指南 · 插畫圖庫": [
+    "你的 AI 伙伴风格指南 · 插画图库",
+    "あなたの AI パートナー・スタイルガイド · イラスト一覧",
+    "당신의 AI 파트너 스타일 가이드 · 그림 갤러리",
+    "Your AI Partner Style Guide · Art gallery"
   ],
   "張": [
     "张",
@@ -1073,11 +1073,11 @@
     "언어",
     "Language"
   ],
-  "你的 Agent MBTI｜讓合作長出自己的風格": [
-    "你的 Agent MBTI｜让合作长出自己的风格",
-    "あなたの Agent MBTI｜協働から育つスタイル",
-    "당신의 Agent MBTI｜협업이 만드는 스타일",
-    "Your Agent MBTI — A style shaped by collaboration"
+  "你的 AI 夥伴風格指南｜讓合作長出自己的風格": [
+    "你的 AI 伙伴风格指南｜让合作长出自己的风格",
+    "あなたの AI パートナー・スタイルガイド｜協働から育つスタイル",
+    "당신의 AI 파트너 스타일 가이드｜협업이 만드는 스타일",
+    "Your AI Partner Style Guide — A style shaped by collaboration"
   ],
   "路線策畫家": [
     "路线策划家",
@@ -1607,17 +1607,17 @@
     "이 전용 그림은 제작 중입니다. 완료 후 다운로드할 수 있습니다.",
     "This dedicated artwork is still in progress. Download is available when complete."
   ],
-  "合作風格觀察 · 非官方 MBTI 評量 · 造型與分型無關": [
-    "合作风格观察 · 非官方 MBTI 评估 · 造型与分型无关",
-    "協働スタイルの観察 · 非公式 MBTI · 見た目は分類と無関係",
-    "협업 스타일 관찰 · 비공식 MBTI · 외형은 유형과 무관",
-    "Collaboration observation · unofficial MBTI · appearance does not affect type"
+  "合作風格觀察 · 並非人格測驗 · 造型與分型無關": [
+    "合作风格观察 · 并非人格测验 · 造型与分型无关",
+    "協働スタイルの観察 · 性格検査ではありません · 見た目は分類と無関係",
+    "협업 스타일 관찰 · 성격 검사 아님 · 외형은 유형과 무관",
+    "Collaboration observation · not a personality test · appearance does not affect type"
   ],
-  "你的 Agent MBTI · 中性觀察卡": [
-    "你的 Agent MBTI · 中性观察卡",
-    "あなたの Agent MBTI · 中立の観察カード",
-    "당신의 Agent MBTI · 중립 관찰 카드",
-    "Your Agent MBTI · neutral observation card"
+  "你的 AI 夥伴風格指南 · 中性觀察卡": [
+    "你的 AI 伙伴风格指南 · 中性观察卡",
+    "あなたの AI パートナー・スタイルガイド · 中立の観察カード",
+    "당신의 AI 파트너 스타일 가이드 · 중립 관찰 카드",
+    "Your AI Partner Style Guide · neutral observation card"
   ],
   "證據不足的方向不補猜，不使用其他分型的插畫": [
     "证据不足的方向不猜测，不使用其他类型的插画",
@@ -1901,11 +1901,11 @@
     "Agent 이름을 입력해 주세요.",
     "Please enter your Agent’s name."
   ],
-  "以授權紀錄觀察合作風格，取得專屬角色卡。非官方 MBTI 評量。": [
-    "用授权记录观察合作风格，获取专属角色卡。非官方 MBTI 评估。",
-    "許可された記録から協働スタイルを観察し、専用カードを作成。公式の MBTI 検査ではありません。",
-    "허용된 기록으로 협업 스타일을 관찰하고 전용 카드를 만듭니다. 공식 MBTI 검사가 아닙니다.",
-    "Observe collaboration style from authorized records and collect your character card. Not an official MBTI assessment."
+  "以授權紀錄觀察合作風格，取得專屬角色卡。並非人格測驗。": [
+    "用授权记录观察合作风格，获取专属角色卡。并非人格测验。",
+    "許可された記録から協働スタイルを観察し、専用カードを作成。性格検査ではありません。",
+    "허용된 기록으로 협업 스타일을 관찰하고 전용 카드를 만듭니다. 성격 검사가 아닙니다.",
+    "Observe collaboration style from authorized records and collect your character card. Not a personality test."
   ],
   "{ready} / {total} 張": [
     "{ready} / {total} 张",
@@ -2279,11 +2279,11 @@
     "활용 레벨 판단 방식",
     "How usage levels work"
   ],
-  "等級與 MBTI、用量和模型無關。LV0–3 看你帶 Agent 時怎麼查核與修正；LV4 看你寫下的技能、規則或腳本，是否被其他工作階段再次使用；LV5 再看自動化是否無人值守跑過兩週，且資產持續維護。沒有證據就保持未知，等級也不代表能力上限。": [
-    "等级与 MBTI、用量和模型无关。LV0–3 看你带 Agent 时怎么核查与修正；LV4 看你写下的技能、规则或脚本，是否被其他会话再次使用；LV5 再看自动化是否无人值守运行过两周，且资产持续维护。没有证据就保持未知，等级也不代表能力上限。",
-    "レベルは MBTI・使用量・モデルとは関係ありません。LV0〜3 は Agent と進めるときの確認と修正、LV4 は書いたスキル・ルール・スクリプトが別のセッションで再利用されたか、LV5 はさらに自動化が2週間以上無人で動き、資産が保守され続けたかを見ます。根拠がなければ不明のままで、レベルは能力の上限ではありません。",
-    "레벨은 MBTI, 사용량, 모델과 무관합니다. LV0–3은 Agent와 일할 때의 확인과 수정을, LV4는 작성한 스킬·규칙·스크립트가 다른 세션에서 다시 쓰였는지를, LV5는 여기에 더해 자동화가 2주 이상 무인으로 돌며 자산이 계속 관리되었는지를 봅니다. 근거가 없으면 미확인으로 남고, 레벨은 능력의 한계가 아닙니다.",
-    "Levels are independent of MBTI, volume, and model. LV0–3 look at how you check and fix work with the agent. LV4 looks at whether skills, rules, or scripts you wrote get reused by other sessions. LV5 adds automation that runs unattended for two weeks while its assets keep being maintained. Missing evidence stays unknown, and a level is not a ceiling on ability."
+  "等級與類型、用量和模型無關。LV0–3 看你帶 Agent 時怎麼查核與修正；LV4 看你寫下的技能、規則或腳本，是否被其他工作階段再次使用；LV5 再看自動化是否無人值守跑過兩週，且資產持續維護。沒有證據就保持未知，等級也不代表能力上限。": [
+    "等级与类型、用量和模型无关。LV0–3 看你带 Agent 时怎么核查与修正；LV4 看你写下的技能、规则或脚本，是否被其他会话再次使用；LV5 再看自动化是否无人值守运行过两周，且资产持续维护。没有证据就保持未知，等级也不代表能力上限。",
+    "レベルはタイプ・使用量・モデルとは関係ありません。LV0〜3 は Agent と進めるときの確認と修正、LV4 は書いたスキル・ルール・スクリプトが別のセッションで再利用されたか、LV5 はさらに自動化が2週間以上無人で動き、資産が保守され続けたかを見ます。根拠がなければ不明のままで、レベルは能力の上限ではありません。",
+    "레벨은 유형, 사용량, 모델과 무관합니다. LV0–3은 Agent와 일할 때의 확인과 수정을, LV4는 작성한 스킬·규칙·스크립트가 다른 세션에서 다시 쓰였는지를, LV5는 여기에 더해 자동화가 2주 이상 무인으로 돌며 자산이 계속 관리되었는지를 봅니다. 근거가 없으면 미확인으로 남고, 레벨은 능력의 한계가 아닙니다.",
+    "Levels are independent of type, volume, and model. LV0–3 look at how you check and fix work with the agent. LV4 looks at whether skills, rules, or scripts you wrote get reused by other sessions. LV5 adds automation that runs unattended for two weeks while its assets keep being maintained. Missing evidence stays unknown, and a level is not a ceiling on ability."
   ],
   " · 上善無形": [
     " · 上善無形",
@@ -2453,11 +2453,11 @@
     "시도하며 조정하는 편이에요. 잘 된 방법은 다시 쓸 수 있는 스킬이나 스크립트로 남겨 두세요.",
     "You adjust as you go. When something works, keep it as a reusable skill or script."
   ],
-  "借用四組字母，以自訂規則描述你帶 Agent 的方式，非官方 MBTI 評量。這是這段期間的帶法觀察，不是心理診斷，也不是模型的固定性格。": [
-    "借用四组字母，以自定规则描述你带 Agent 的方式，非官方 MBTI 评量。这是这段期间的带法观察，不是心理诊断，也不是模型的固定性格。",
-    "4組の文字を借り、独自のルールであなたの Agent の導き方を表します。公式の MBTI 診断ではありません。この期間の導き方の観察であり、心理診断でもモデルの固定的な性格でもありません。",
-    "네 쌍의 글자를 빌려 자체 규칙으로 당신이 Agent를 이끄는 방식을 설명합니다. 공식 MBTI 평가가 아닙니다. 이 기간의 이끄는 방식에 대한 관찰이며, 심리 진단도 모델의 고정된 성격도 아닙니다.",
-    "Four letter pairs borrowed under a custom rubric to describe how you lead your Agent. Not an official MBTI assessment. This observes one period; it is not a psychological diagnosis or a fixed model personality."
+  "借用四組字母，以自訂規則描述你帶 Agent 的方式，並非人格測驗。這是這段期間的帶法觀察，不是心理診斷，也不是模型的固定性格。": [
+    "借用四组字母，以自定规则描述你带 Agent 的方式，并非人格测验。这是这段期间的带法观察，不是心理诊断，也不是模型的固定性格。",
+    "4組の文字を借り、独自のルールであなたの Agent の導き方を表します。性格検査ではありません。この期間の導き方の観察であり、心理診断でもモデルの固定的な性格でもありません。",
+    "네 쌍의 글자를 빌려 자체 규칙으로 당신이 Agent를 이끄는 방식을 설명합니다. 성격 검사가 아닙니다. 이 기간의 이끄는 방식에 대한 관찰이며, 심리 진단도 모델의 고정된 성격도 아닙니다.",
+    "Four letter pairs borrowed under a custom rubric to describe how you lead your Agent. Not a personality test. This observes one period; it is not a psychological diagnosis or a fixed model personality."
   ],
   "你常在途中看結果、改方向，邊做邊帶它。": [
     "你常在途中看结果、改方向，边做边带它。",
@@ -3143,23 +3143,23 @@
     "이 공개 카드를 찾을 수 없어요.",
     "This public card was not found."
   ],
-  "我的 Agent「{nickname}」拿到一張角色卡。你的 Agent 會是哪一型？ {url} #AgentMBTI": [
-    "我的 Agent「{nickname}」拿到一张角色卡。你的 Agent 会是哪一型？ {url} #AgentMBTI",
-    "私の Agent「{nickname}」がキャラクターカードを手に入れました。あなたの Agent は何タイプ？ {url} #AgentMBTI",
-    "내 Agent「{nickname}」가 캐릭터 카드를 받았어요. 당신의 Agent는 어떤 유형일까요? {url} #AgentMBTI",
-    "My agent “{nickname}” got a character card. What type is yours? {url} #AgentMBTI"
+  "我的 Agent「{nickname}」幫我畫了一張角色卡。你和 Agent 是哪一種夥伴風格？ {url} #AIPartnerStyle": [
+    "我的 Agent「{nickname}」帮我画了一张角色卡。你和 Agent 是哪一种伙伴风格？ {url} #AIPartnerStyle",
+    "私の Agent「{nickname}」がキャラクターカードを描いてくれました。あなたと Agent はどんなパートナースタイル？ {url} #AIPartnerStyle",
+    "내 Agent「{nickname}」가 캐릭터 카드를 그려 줬어요. 당신과 Agent는 어떤 파트너 스타일일까요? {url} #AIPartnerStyle",
+    "My agent “{nickname}” drew me a character card. What’s your partner style with your agent? {url} #AIPartnerStyle"
   ],
-  "我的 Agent「{nickname}」是 {code} {persona}，LV {level}。你的 Agent 會是哪一型？ {url} #AgentMBTI": [
-    "我的 Agent「{nickname}」是 {code} {persona}，LV {level}。你的 Agent 会是哪一型？ {url} #AgentMBTI",
-    "私の Agent「{nickname}」は {code} {persona}、LV {level}。あなたの Agent は何タイプ？ {url} #AgentMBTI",
-    "내 Agent「{nickname}」는 {code} {persona}, LV {level}이에요. 당신의 Agent는 어떤 유형일까요? {url} #AgentMBTI",
-    "My agent “{nickname}” is {code}, {persona}, LV {level}. What type is yours? {url} #AgentMBTI"
+  "我的 Agent「{nickname}」說我是 {code} {persona}，LV {level}。你和 Agent 是哪一種夥伴風格？ {url} #AIPartnerStyle": [
+    "我的 Agent「{nickname}」说我是 {code} {persona}，LV {level}。你和 Agent 是哪一种伙伴风格？ {url} #AIPartnerStyle",
+    "私の Agent「{nickname}」によると、私は {code} {persona}、LV {level}。あなたと Agent はどんなパートナースタイル？ {url} #AIPartnerStyle",
+    "내 Agent「{nickname}」가 말하길 나는 {code} {persona}, LV {level}이래요. 당신과 Agent는 어떤 파트너 스타일일까요? {url} #AIPartnerStyle",
+    "My agent “{nickname}” says I’m {code}, {persona}, LV {level}. What’s your partner style with your agent? {url} #AIPartnerStyle"
   ],
-  "請幫我把這張 Agent MBTI 角色卡分享到社群，先問我要發到哪個平台。": [
-    "请帮我把这张 Agent MBTI 角色卡分享到社群，先问我要发到哪个平台。",
-    "この Agent MBTI のキャラクターカードを SNS に共有してください。まずどのプラットフォームに投稿するか聞いてください。",
-    "이 Agent MBTI 캐릭터 카드를 SNS에 공유해 주세요. 먼저 어느 플랫폼에 올릴지 물어봐 주세요.",
-    "Please share this Agent MBTI character card on social media. First ask me which platform to post on."
+  "請幫我把這張 AI 夥伴風格角色卡分享到社群，先問我要發到哪個平台。": [
+    "请帮我把这张 AI 伙伴风格角色卡分享到社群，先问我要发到哪个平台。",
+    "この AI パートナースタイルのキャラクターカードを SNS に共有してください。まずどのプラットフォームに投稿するか聞いてください。",
+    "이 AI 파트너 스타일 캐릭터 카드를 SNS에 공유해 주세요. 먼저 어느 플랫폼에 올릴지 물어봐 주세요.",
+    "Please share this AI Partner Style character card on social media. First ask me which platform to post on."
   ],
   "卡片連結：{url}（貼上後會顯示卡片圖，收到的人也能點開驗證）": [
     "卡片链接：{url}（贴上后会显示卡片图，收到的人也能点开验证）",
@@ -3197,23 +3197,41 @@
     "사이트 메뉴",
     "Site navigation"
   ],
-  "非官方 MBTI 評量。MBTI 是 The Myers-Briggs Company 的註冊商標，本站與其無關；類型、規則與文案皆為本專案自訂。": [
-    "非官方 MBTI 评量。MBTI 是 The Myers-Briggs Company 的注册商标，本站与其无关；类型、规则与文案均为本项目自定。",
-    "公式の MBTI 診断ではありません。MBTI は The Myers-Briggs Company の登録商標で、本サイトとは関係ありません。タイプ・ルール・文章はすべて本プロジェクト独自のものです。",
-    "공식 MBTI 검사가 아니에요. MBTI는 The Myers-Briggs Company의 등록 상표이며 이 사이트와 관련이 없어요. 유형, 규칙, 문구는 모두 이 프로젝트가 직접 정했어요.",
-    "Not an official MBTI assessment. MBTI is a registered trademark of The Myers-Briggs Company, which is not affiliated with this site; the types, rules and copy are this project's own."
+  "由 {name} 製作": [
+    "由 {name} 制作",
+    "制作：{name}",
+    "제작: {name}",
+    "Made by {name}"
   ],
-  "這是官方 MBTI 嗎？": [
-    "这是官方 MBTI 吗？",
-    "公式の MBTI ですか？",
-    "공식 MBTI인가요?",
-    "Is this the official MBTI?"
+  "GitHub 原始碼": [
+    "GitHub 源代码",
+    "GitHub のソースコード",
+    "GitHub 소스 코드",
+    "Source on GitHub"
   ],
-  "不是。只借用四組字母與 16 個代碼的命名，用本專案自訂的規則描述你帶 Agent 的方式；不是心理測驗，也不推斷人格。MBTI 是 The Myers-Briggs Company 的註冊商標，本站與其無關。": [
-    "不是。只借用四组字母与 16 个代码的命名，用本项目自定的规则描述你带 Agent 的方式；不是心理测验，也不推断人格。MBTI 是 The Myers-Briggs Company 的注册商标，本站与其无关。",
-    "いいえ。4 組の文字と 16 個のコードの名前だけを借り、本プロジェクト独自のルールで Agent の導き方を表しています。心理テストではなく、性格も推定しません。MBTI は The Myers-Briggs Company の登録商標で、本サイトとは関係ありません。",
-    "아니요. 네 쌍의 글자와 16개 코드의 이름만 빌려, 이 프로젝트가 정한 규칙으로 Agent를 이끄는 방식을 설명해요. 심리 검사가 아니며 성격을 추정하지도 않아요. MBTI는 The Myers-Briggs Company의 등록 상표이며 이 사이트와 관련이 없어요.",
-    "No. It borrows only the four letter pairs and the names of the 16 codes, and uses this project's own rules to describe how you lead an agent. It is not a psychological test and does not infer personality. MBTI is a registered trademark of The Myers-Briggs Company, which is not affiliated with this site."
+  "YouTube 頻道": [
+    "YouTube 频道",
+    "YouTube チャンネル",
+    "YouTube 채널",
+    "YouTube channel"
+  ],
+  "並非人格測驗，與任何人格測驗機構無關；四碼只借用常見的 16 型命名，類型、規則與文案皆為本專案自訂。": [
+    "并非人格测验，与任何人格测验机构无关；四码只借用常见的 16 型命名，类型、规则与文案均为本项目自定。",
+    "性格検査ではなく、どの性格検査の団体とも関係ありません。4 文字は一般的な 16 タイプの呼び方を借りただけで、タイプ・ルール・文章はすべて本プロジェクト独自のものです。",
+    "성격 검사가 아니며 어떤 성격 검사 기관과도 관련이 없어요. 네 글자는 흔히 쓰는 16유형 표기만 빌렸고, 유형, 규칙, 문구는 모두 이 프로젝트가 직접 정했어요.",
+    "Not a personality test and not affiliated with any personality assessment organization. The four letters only borrow the familiar 16-type notation; the types, rules and copy are this project's own."
+  ],
+  "這是人格測驗嗎？": [
+    "这是人格测验吗？",
+    "性格検査ですか？",
+    "성격 검사인가요?",
+    "Is this a personality test?"
+  ],
+  "不是。只借用四組字母與 16 個代碼的命名，用本專案自訂的規則描述你帶 Agent 的方式；不是心理測驗，也不推斷人格，與任何人格測驗機構無關。": [
+    "不是。只借用四组字母与 16 个代码的命名，用本项目自定的规则描述你带 Agent 的方式；不是心理测验，也不推断人格，与任何人格测验机构无关。",
+    "いいえ。4 組の文字と 16 個のコードの名前だけを借り、本プロジェクト独自のルールで Agent の導き方を表しています。心理テストではなく、性格も推定せず、どの性格検査の団体とも関係ありません。",
+    "아니요. 네 쌍의 글자와 16개 코드의 이름만 빌려, 이 프로젝트가 정한 규칙으로 Agent를 이끄는 방식을 설명해요. 심리 검사가 아니며 성격을 추정하지도 않고, 어떤 성격 검사 기관과도 관련이 없어요.",
+    "No. It borrows only the four letter pairs and the names of the 16 codes, and uses this project's own rules to describe how you lead an agent. It is not a psychological test, does not infer personality, and is not affiliated with any personality assessment organization."
   ],
   "怎麼判斷我的類型？": [
     "怎么判断我的类型？",
@@ -3311,11 +3329,11 @@
     "범위는 로컬에 어떤 기록이 있는지에 달려 있고, 웹 대화는 포함되지 않아요.",
     "Coverage depends on which logs exist locally; web chats are not included."
   ],
-  "用你本機的 Agent 對話紀錄，看你帶 Agent 的方式屬於 16 型中的哪一型，並得到 LV0–5 使用等級與角色卡。非官方 MBTI 評量。": [
-    "用你本机的 Agent 对话记录，看你带 Agent 的方式属于 16 型中的哪一型，并得到 LV0–5 使用等级与角色卡。非官方 MBTI 评量。",
-    "ローカルの Agent との会話記録から、あなたの Agent の導き方が 16 タイプのどれかを調べ、LV0–5 の活用レベルとキャラクターカードを受け取れます。公式の MBTI 診断ではありません。",
-    "로컬의 Agent 대화 기록으로 당신이 Agent를 이끄는 방식이 16가지 유형 중 무엇인지 알아보고, LV0–5 활용 레벨과 캐릭터 카드를 받아요. 공식 MBTI 검사가 아니에요.",
-    "Uses your local agent conversation logs to find which of 16 types describes how you lead your agent, plus an LV0–5 usage level and a character card. Not an official MBTI assessment."
+  "用你本機的 Agent 對話紀錄，看你帶 Agent 的方式屬於 16 型中的哪一型，並得到 LV0–5 使用等級與角色卡。並非人格測驗。": [
+    "用你本机的 Agent 对话记录，看你带 Agent 的方式属于 16 型中的哪一型，并得到 LV0–5 使用等级与角色卡。并非人格测验。",
+    "ローカルの Agent との会話記録から、あなたの Agent の導き方が 16 タイプのどれかを調べ、LV0–5 の活用レベルとキャラクターカードを受け取れます。性格検査ではありません。",
+    "로컬의 Agent 대화 기록으로 당신이 Agent를 이끄는 방식이 16가지 유형 중 무엇인지 알아보고, LV0–5 활용 레벨과 캐릭터 카드를 받아요. 성격 검사가 아니에요.",
+    "Uses your local agent conversation logs to find which of 16 types describes how you lead your agent, plus an LV0–5 usage level and a character card. Not a personality test."
   ],
   "16 種帶 Agent 的方式": [
     "16 种带 Agent 的方式",

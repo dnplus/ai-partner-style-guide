@@ -8,7 +8,7 @@ type Props={searchParams:Promise<{lang?:string}>};
 export const dynamic='force-dynamic';
 export async function generateMetadata({searchParams}:Props){
  const locale=localeFor((await searchParams).lang),t=translator(locale);
- return infoMetadata('/levels',locale,t('使用等級 LV0–5')+'｜'+t('你的 Agent MBTI'),t('等級和類型無關，也不看用量或模型；沒有證據時保持未知，不會當成 LV0。'));
+ return infoMetadata('/levels',locale,t('使用等級 LV0–5')+'｜'+t('你的 AI 夥伴風格指南'),t('等級和類型無關，也不看用量或模型；沒有證據時保持未知，不會當成 LV0。'));
 }
 export default async function LevelsPage({searchParams}:Props){
  const locale=localeFor((await searchParams).lang),t=translator(locale);

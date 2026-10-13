@@ -1,6 +1,6 @@
 # Third-party notices
 
-The active v2 agent-workstyle rubric, thresholds, labels and descriptions are original project material. Letter-pair names and the standard 16 code notation refer to the Myers & Briggs Foundation. This is not an official MBTI assessment, and it does not use the official instrument, questions or scoring. The usage-level-v2 rules and their descriptions are also original project material.
+The active v2 agent-workstyle rubric, thresholds, labels and descriptions are original project material. Letter-pair names and the standard 16 code notation refer to the Myers & Briggs Foundation. This project is not affiliated with it or with The Myers-Briggs Company, is not a personality test, and does not use any official instrument, questions or scoring. The usage-level-v2 rules and their descriptions are also original project material.
 
 ## Fan artwork
 

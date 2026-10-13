@@ -283,10 +283,11 @@ test("submit keeps the bearer token off disk and retries only a 503", async () =
     assert.equal(args.includes(token), false);
     const first = await run(args, home);
     assert.equal(first.status, 0, first.stderr);
-    assert.equal(first.stdout, "http 201\n");
+    const done = `done: the card is ready in the browser tab that opened http://127.0.0.1:${endpoint.port}\n`;
+    assert.equal(first.stdout, "http 201\n" + done);
     const retried = await run(args, home);
     assert.equal(retried.status, 0, retried.stderr);
-    assert.equal(retried.stdout, "http 200\n");
+    assert.equal(retried.stdout, "http 200\n" + done);
     assert.equal(endpoint.requests.length, 4);
     assert.deepEqual(endpoint.requests.map((request) => request.key), [endpoint.requests[0].key, endpoint.requests[0].key, endpoint.requests[0].key, endpoint.requests[0].key]);
     assert.equal(endpoint.requests[0].auth, "Bearer " + token);

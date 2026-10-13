@@ -36,7 +36,7 @@ export async function ogImage(request:Request,card:OgCard){
    </div>
   </div>
   <div style={{display:'flex',flexDirection:'column',flex:1,height:495}}>
-   <div style={{display:'flex',fontSize:30,color:'#bba4d4',letterSpacing:2}}>{t('你的 Agent MBTI')} · {theme.label.toUpperCase()}</div>
+   <div style={{display:'flex',fontSize:30,color:'#bba4d4',letterSpacing:2}}>{t('你的 AI 夥伴風格指南')} · {theme.label.toUpperCase()}</div>
    <div style={{display:'flex',fontFamily:'Noto Serif',fontSize:168,lineHeight:1.05,marginTop:18,color:accent}}>{letters.map((l,i)=><span key={i} style={{opacity:l.lean?0.38:1}}>{l.letter}</span>)}</div>
    <div style={{display:'flex',fontSize:56,marginTop:8}}>{card.type?t(personaFor(card.type).name):t('未定型')}</div>
    {showLevel&&<div style={{display:'flex',marginTop:30}}><div style={{display:'flex',alignItems:'center',gap:14,padding:'12px 26px',borderRadius:22,border:`3px solid ${rarity==='common'?'#c1a2e6':accent}`,fontSize:34}}><span>LV {card.level??'?'}</span><span style={{fontSize:28,color:'#c9b7de'}}>{t(card.level==null?'待觀察':levelNames[card.level])}</span></div></div>}

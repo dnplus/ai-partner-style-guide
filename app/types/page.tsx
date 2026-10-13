@@ -13,7 +13,7 @@ type Props={searchParams:Promise<{lang?:string}>};
 export const dynamic='force-dynamic';
 export async function generateMetadata({searchParams}:Props){
  const locale=localeFor((await searchParams).lang),t=translator(locale);
- return infoMetadata('/types',locale,t('16 種帶 Agent 的方式')+'｜'+t('你的 Agent MBTI'),t('每一型描述的是你帶 Agent 的方式，不是你的人格，也不是模型的性格。'));
+ return infoMetadata('/types',locale,t('16 種帶 Agent 的方式')+'｜'+t('你的 AI 夥伴風格指南'),t('每一型描述的是你帶 Agent 的方式，不是你的人格，也不是模型的性格。'));
 }
 export default async function TypesPage({searchParams}:Props){
  const locale=localeFor((await searchParams).lang),t=translator(locale),base=await requestOrigin();

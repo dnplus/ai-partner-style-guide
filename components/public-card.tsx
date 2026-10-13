@@ -3,6 +3,7 @@ import Link from "next/link";
 import {ArrowRight} from "lucide-react";
 import {useLocale, LocaleSwitch} from "./locale-provider.tsx";
 import {HoloCard} from "./holo-card.tsx";
+import {CreatorLinks} from "./creator-links.tsx";
 import {personaFor} from "../lib/catalog.ts";
 import {measuredCode} from "../lib/card-composition.ts";
 import type {PublicCard} from "../lib/public-card-service.ts";
@@ -11,7 +12,7 @@ export function PublicCardView({data}: {data: PublicCard | null}) {
   const {t, ready} = useLocale();
   const card = data?.card;
   return <div className="app-root public-root" data-ready={ready}>
-    <header className="journey-header"><div className="brand"><span aria-hidden="true">✧</span>{t("你的 Agent MBTI")}<span aria-hidden="true">✧</span></div></header>
+    <header className="journey-header"><div className="brand"><span aria-hidden="true">✧</span>{t("你的 AI 夥伴風格指南")}<span aria-hidden="true">✧</span></div></header>
     <main className="public-card-page">
       {data && card ? <section className="final-screen public-card">
         <div className="final-card-area"><div className="reveal-art"><HoloCard report={card} style={data.style} family={data.family} nicknameOnly={data.nicknameOnly}/></div></div>
@@ -29,6 +30,6 @@ export function PublicCardView({data}: {data: PublicCard | null}) {
         <Link className="primary" href="/">{t("測測你的 Agent 是哪一型")}<ArrowRight size={20}/></Link>
       </section>}
     </main>
-    <footer className="journey-footer"><LocaleSwitch/></footer>
+    <footer className="journey-footer"><LocaleSwitch/><CreatorLinks t={t}/></footer>
   </div>;
 }

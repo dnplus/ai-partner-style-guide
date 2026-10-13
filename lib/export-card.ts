@@ -31,12 +31,12 @@ export async function makeCardFile(report:CardObservation,style:ArtStyle,family:
  const promoY=portrait?size.height-120:landscape?400:460;write(t('你的 Agent，會是哪一型？'),textX,promoY,portrait?28:27,textMax,'#4c345f','600');write(new URL(home).host,textX,promoY+40,19,textMax,'#785e8b');
  write(model.credit,40,size.height-18,landscape?12:16,size.width-80,'#675674');
  const blob=await new Promise<Blob>((resolve,reject)=>canvas.toBlob(b=>b?resolve(b):reject(new Error('圖片匯出失敗')),'image/png'));
- const filename='agent-mbti-'+family+'-'+style+'-'+locale+'-'+format+'-'+t('角色卡')+(nicknameOnly?'-nickname':'')+'.png';return {file:new File([blob],filename,{type:'image/png'}),width:size.width,height:size.height,composition:model,qr:home,format};
+ const filename='ai-partner-style-'+family+'-'+style+'-'+locale+'-'+format+'-'+t('角色卡')+(nicknameOnly?'-nickname':'')+'.png';return {file:new File([blob],filename,{type:'image/png'}),width:size.width,height:size.height,composition:model,qr:home,format};
 }
 export function saveCardFile(file:File){const url=URL.createObjectURL(file),a=document.createElement('a');a.href=url;a.download=file.name;a.click();setTimeout(()=>URL.revokeObjectURL(url),10000);}
 export async function downloadCard(report:CardObservation,style:ArtStyle,family:Family,nicknameOnly:boolean,home:string,locale:Locale='zh-TW',format:ExportFormat='card'){
  const result=await makeCardFile(report,style,family,nicknameOnly,home,locale,format);saveCardFile(result.file);return {width:result.width,height:result.height,bytes:result.file.size,locale,filename:result.file.name};
 }
 export function shareText(report:CardObservation,nicknameOnly:boolean,home:string,locale:Locale='zh-TW',includeBrief=true){
- const t=translator(locale);return [t('你的 Agent MBTI'),report.nickname,...(nicknameOnly?[]:[selfContrast(report,t)||measuredCode(report,t),'LV '+(report.usageLevel.value??'?'),...(includeBrief?report.brief.map(line=>t(line)):[])]),home].join('\n');
+ const t=translator(locale);return [t('你的 AI 夥伴風格指南'),report.nickname,...(nicknameOnly?[]:[selfContrast(report,t)||measuredCode(report,t),'LV '+(report.usageLevel.value??'?'),...(includeBrief?report.brief.map(line=>t(line)):[])]),home].join('\n');
 }

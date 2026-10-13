@@ -8,12 +8,13 @@ import {CardShare} from "./card-share.tsx";
 import {Turnstile} from "./turnstile.tsx";
 import {levelDescriptions,nextStepFor} from "../lib/usage-level.ts";
 import { HoloCard } from "./holo-card.tsx";
+import {CreatorLinks} from "./creator-links.tsx";
 import { usePersonaSession } from "./use-persona-session.ts";
 import { collectorInstructions } from "../lib/collector-instructions.ts";
 import {CollectorScopeOptions} from "./collector-scope-options.tsx";
 import {createCollectorScope,collectorScopeSchema,defaultScopeOptions,scopeOptionsSchema,SESSION_TTL_MS,type CollectorScope} from "../lib/collector-scope.ts";
 import { makeLevelFixture, demoReport } from "../lib/fixture.ts";
-import { toCardObservation, type Report } from "../lib/assessment.ts";
+import { CAVEAT, toCardObservation, type Report } from "../lib/assessment.ts";
 import { families, personas, personaFor, modelLabels, clientLabels, artFor, artCounts, defaultFamily, type ArtStyle, type Family } from "../lib/catalog.ts";
 import { axisDefinitions, letterLabels, letterTips, contextLabels } from "../lib/workstyle.ts";
 import { downloadCard } from "../lib/export-card.ts";
@@ -61,7 +62,7 @@ function ReportSummary({report}:{report:Report}){
       {rows.length>0&&<dl className="metrics-list">{rows.map(([label,value])=><div key={label}><dt>{t(label)}</dt><dd>{value}</dd></div>)}</dl>}
       <details className="evidence-details"><summary>{t("看任務脈絡")}</summary>{report.tasks.map(task=><section className="task-evidence" key={task.id}><h3>{task.id} · {t(contextLabels[task.context])}</h3><p>{task.date} · {t(clientLabels[task.source])}</p></section>)}</details>
       <h2>{t("還沒看到的部分")}</h2><p>{report.coverage.gaps.length?list(report.coverage.gaps.map(g=>t(gaps[g])))+(locale.startsWith("zh")||locale==="ja"?"。":"."):t("沒有回報額外缺口；不代表已讀取所有紀錄。")} {t("網站只檢查 Agent 摘要的一致性，沒有檢視原始紀錄。")}</p>
-      <p className="fineprint">{t(report.caveat)} {t("每軸只看你的訊息，每個任務選一邊；少於三個任務或打平就保留問號。用量與模型家族不參與分型。")}</p>
+      <p className="fineprint">{t(CAVEAT)}{t("每軸只看你的訊息，每個任務選一邊；少於三個任務或打平就保留問號。用量與模型家族不參與分型。")}</p>
     </div></details>
   </>;
 }
@@ -289,14 +290,14 @@ export function PersonaApp({turnstileSiteKey}:{turnstileSiteKey:string}) {
     return <div className="app-root" data-ready={flow.ready && localeReady} data-stage={stage} inert={!flow.ready || !localeReady}>
     <header className="journey-header">
       {stage !== "cover" && stage!=="reveal" && <button className="back-button" aria-label={t("返回上一步")} disabled={flow.busy || sending} onClick={back}><ArrowLeft size={22}/></button>}
-      <div className="brand"><span aria-hidden="true">✧</span>{t("你的 Agent MBTI")}<span aria-hidden="true">✧</span></div>
+      <div className="brand"><span aria-hidden="true">✧</span>{t("你的 AI 夥伴風格指南")}<span aria-hidden="true">✧</span></div>
       {demo && stage !== "cover" && <span className="demo-badge">{t("示範")}</span>}
     </header>
     {stage !== "cover" && <div className="journey-progress" aria-label={t("第 {step} 個階段，共 3 個階段",{step:progress})}><div><i style={{ width: `${progress / 3 * 100}%` }}/></div><span>{progress} / 3</span></div>}
     <main ref={focus} className={`journey journey-${stage}`}>
       {team.invite&&(stage==="cover"||stage==="identity")&&<p className="team-pill"><span>{t("團隊觀察 · {team}",{team:team.invite.name})}</span><button className="quiet-button" onClick={team.leave}>{t("不參加")}</button></p>}
       {stage === "cover" && <section className="cover-screen screen" aria-labelledby="cover-title">
-        <h1 id="cover-title" tabIndex={-1}>{t("你的 Agent，")}<br />{t("是哪一種 MBTI？")}</h1>
+        <h1 id="cover-title" tabIndex={-1}>{t("你的 Agent，")}<br />{t("是哪種夥伴風格？")}</h1>
         <p className="cover-tagline">{t("你怎麼帶它做事，")}<br className="mobile-break"/>{t("它就長出怎樣的工作風格。")}</p><div className="cover-art"><HoloCard report={toCardObservation(demoReport)} style="chibi" family="codex" nicknameOnly teaser/></div>
         <button className="primary" onClick={start}>{flow.lastResult ? t("打開上次的卡片") : active ? t("繼續這次觀察") : t("開始觀察")}<ArrowRight size={22}/></button>{flow.lastResult&&<div className="remembered-actions"><button className="quiet-button" onClick={startNew}>{t("開始新的觀察")}</button><button className="quiet-button" onClick={()=>erase()}>{t("清除上次結果")}</button></div>}
       </section>}
@@ -348,10 +349,10 @@ export function PersonaApp({turnstileSiteKey}:{turnstileSiteKey:string}) {
       </>}
       {(flow.error || notice) && <p className="inline-notice" role="status">{noticeText(locale,flow.error || notice)}</p>}
     </main>
-    <footer className="journey-footer"><LocaleSwitch /><button onClick={() => about.current?.showModal()}>{t("關於這份觀察")}</button><nav className="journey-links" aria-label={t("網站導覽")}>{([["/types","16 種類型"],["/levels","使用等級"],["/method","怎麼判斷"]] as const).map(([href,label])=><Link key={href} href={localized(href,locale)}>{t(label)}</Link>)}</nav></footer>
-    <dialog ref={about} className="about-dialog" aria-labelledby="about-title"><button className="icon-button dialog-close" onClick={() => about.current?.close()} aria-label={t("關閉說明")}><X size={22}/></button><h2 id="about-title">{t("你怎麼帶它，")}<br />{t("它就怎麼做事。")}</h2><p>{t("這是一段以授權使用紀錄為依據的合作觀察。借用四組字母，以自訂規則描述合作風格，非官方 MBTI 評量。網站只接收你事前明確授權範圍內的最小摘要，授權後自動驗證與傳送。")}</p>
+    <footer className="journey-footer"><LocaleSwitch /><button onClick={() => about.current?.showModal()}>{t("關於這份觀察")}</button><nav className="journey-links" aria-label={t("網站導覽")}>{([["/types","16 種類型"],["/levels","使用等級"],["/method","怎麼判斷"]] as const).map(([href,label])=><Link key={href} href={localized(href,locale)}>{t(label)}</Link>)}</nav><CreatorLinks t={t}/></footer>
+    <dialog ref={about} className="about-dialog" aria-labelledby="about-title"><button className="icon-button dialog-close" onClick={() => about.current?.close()} aria-label={t("關閉說明")}><X size={22}/></button><h2 id="about-title">{t("你怎麼帶它，")}<br />{t("它就怎麼做事。")}</h2><p>{t("這是一段以授權使用紀錄為依據的合作觀察。借用四組字母，以自訂規則描述合作風格，並非人格測驗。網站只接收你事前明確授權範圍內的最小摘要，授權後自動驗證與傳送。")}</p>
       <details><summary>{t("觀察依據與 16 種風格")}</summary><p>{t("借用 E/I 推進節奏、S/N 指令焦點、T/F 驗收依據、J/P 工作框架，只看你帶 Agent 時說了什麼。這不是人格診斷，也不是模型的固定性格。")}</p><p>{t("每個任務每軸選一邊，看不出來就跳過。少於三個任務或打平保留問號，差距不大標成傾向。舊結果需要重新分析。")}<a href="/collector/SKILL.md" target="_blank" rel="noreferrer">{t("完整觀察方式 ↗")}</a></p><div className="about-types">{Object.entries(personas).map(([code, p]) => <div key={code}><b>{code}</b><span>{t(p.name)}</span></div>)}</div></details>
-      <details><summary>{t("使用等級如何判斷")}</summary><p>{t("等級與 MBTI、用量和模型無關。LV0–3 看你帶 Agent 時怎麼查核與修正；LV4 看你寫下的技能、規則或腳本，是否被其他工作階段再次使用；LV5 再看自動化是否無人值守跑過兩週，且資產持續維護。沒有證據就保持未知，等級也不代表能力上限。")}</p></details>
+      <details><summary>{t("使用等級如何判斷")}</summary><p>{t("等級與類型、用量和模型無關。LV0–3 看你帶 Agent 時怎麼查核與修正；LV4 看你寫下的技能、規則或腳本，是否被其他工作階段再次使用；LV5 再看自動化是否無人值守跑過兩週，且資產持續維護。沒有證據就保持未知，等級也不代表能力上限。")}</p></details>
       <details><summary>{t("角色來源與非商業授權")}</summary><p>{t("六個家族 × 16 型 × 一般／Q 版，共 192 格專屬插畫。目前")}{artCounts.ready}{t("張完成")}{artCounts.complete ? t("。") : t("，其餘製作中，缺圖不以其他型替代。")}{t("插畫依構圖選配，與分型計算獨立。Codex 使用 GPT 娘的同人改編，並非官方 Codex 角色。圖片改編參考")}<a href="https://github.com/Apprentice-Geo/AI-Fanworks/tree/main/ApprenTice/images" target="_blank" rel="noreferrer">ApprenTice</a>{t("；角色原作參考 ZipZipPipe，DeepSeek 另含上善無形。")}</p><p>{t("AI 輔助再創作，")}<a href="https://creativecommons.org/licenses/by-nc-sa/4.0/" target="_blank" rel="noreferrer">CC BY-NC-SA 4.0</a>{t("，限非商業、署名及相同方式分享。上游權利鏈尚未全面核實，沒有模型業者背書。")}</p><a href="/art-provenance.md" target="_blank" rel="noreferrer">{t("完整素材來源 ↗")}</a><br /><a href="/art-gallery">{t("瀏覽全部插畫圖庫 ↗")}</a></details>
       <details><summary>{t("資料如何使用")}</summary><p>{t("提交連結 30 分鐘後失效。此裝置可用安全 Cookie 開啟最近結果，最長保留 7 天；可隨時清除。原始紀錄與提交權杖不存入瀏覽器儲存空間，結果沒有公開網址。")}</p><p>{t("不需登入，也不收集 Email。結果只能由建立連結的這個瀏覽器讀取，除非你主動分享到團隊看板；分享的只有卡片與統計，可隨時撤回。Agent 只能透過短效專屬連結提交一次摘要，不能讀取結果。")}</p></details>
       {!active && <button className="quiet-button demo-entry" onClick={() => { setDemo(true); setNickname(t("示範搭檔")); about.current?.close(); go("identity"); }}>{t("使用虛構資料體驗")}<ArrowRight size={16}/></button>}

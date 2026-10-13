@@ -343,7 +343,7 @@ export function PersonaApp({turnstileSiteKey}:{turnstileSiteKey:string}) {
         <h1 tabIndex={-1}>{active ? <>{t("你的連結，")}<br />{t("還在等你。")}</> : <>{t("這位搭檔，")}<br />{t("該怎麼稱呼？")}</>}</h1>{resumeMode && !active && <p className="small-note renewal-note">{t("將建立新的收件連結。舊連結不延長；新指令會要求你明確核准新目的地，已保存的最小摘要可繼續使用。")}</p>}
         <form onSubmit={create} className="identity-form">
           <label className="sr-only" htmlFor="nickname">{t("Agent 的名字")}</label><input id="nickname" className="nickname-input" autoComplete="off" placeholder={t("Agent 的名字")} value={active?.nickname ?? nickname} onInvalid={e=>e.currentTarget.setCustomValidity(t("請填寫 Agent 的名字。"))} onInput={e=>e.currentTarget.setCustomValidity("")} onChange={e => setNickname(e.target.value)} required maxLength={24} readOnly={!!active}/>
-          <p className="field-caption">{active ? t("返回不會建立第二個連結") : t("這個名字會出現在卡片上")}</p>
+          <p className="field-caption">{t("這個名字會出現在卡片上")}</p>
           {!active&&<Turnstile key={turnstileMount} siteKey={turnstileSiteKey} action={TURNSTILE_ACTION} language={locale.toLowerCase()} onToken={setTurnstileToken} onError={()=>setNotice("人機驗證載入失敗，請重新整理頁面。")}/>}
           <button className="primary wide" disabled={flow.busy||!active&&!turnstileToken}>{flow.busy ? t("建立中…") : active ? t("繼續這個連結") : t("建立我的連結")}<ArrowRight size={20}/></button>
         </form>

@@ -85,7 +85,7 @@ export function HoloCard({ report, style, family, nicknameOnly = false, teaser =
         event.preventDefault();
     }
     return <div className="card-stage">
-    <div className="orbit orbit-one" aria-hidden="true"/><div className="orbit-star star-one" aria-hidden="true">✦</div><div className="orbit-star star-two" aria-hidden="true">✦</div>
+    <div className="orbit orbit-one" aria-hidden="true"><span className="orbit-star star-one">✦</span><span className="orbit-star star-two">✦</span></div>
     <div ref={card} className={reveal ? "holo-card revealing" : "holo-card"} data-testid="holo-card" data-rarity={rarity} style={{ "--family-color": theme.color } as CSSProperties} tabIndex={0} role="group" aria-roledescription={t("可旋轉角色卡")} aria-label={t("{name}卡片，{style}，使用方向鍵或拖曳旋轉",{name:teaser?t("Codex 主題預覽"):report.nickname+" · "+t(nicknameOnly?"暱稱收藏":persona.name),style:t(style==="regular"?"一般":"Q 版")})} onPointerDown={(e) => { if (!motion.current)
         return; dragging.current = true; e.currentTarget.setPointerCapture(e.pointerId); move(e); }} onPointerMove={move} onPointerUp={(e) => { dragging.current = false; if (e.currentTarget.hasPointerCapture(e.pointerId))
         e.currentTarget.releasePointerCapture(e.pointerId); }} onPointerCancel={() => { dragging.current = false; }} onPointerLeave={() => { if (!dragging.current && motion.current)

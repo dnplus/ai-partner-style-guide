@@ -1,6 +1,5 @@
 "use client";
 import { useLocale, LocaleSwitch } from "./locale-provider.tsx";
-import Link from "next/link";
 import {localized} from "../lib/site-content.ts";
 import { useEffect, useRef, useState, useSyncExternalStore, type FormEvent } from "react";
 import { ArrowLeft, ArrowRight, Copy, Download, X } from "lucide-react";
@@ -9,6 +8,7 @@ import {Turnstile} from "./turnstile.tsx";
 import {levelDescriptions,nextStepFor} from "../lib/usage-level.ts";
 import { HoloCard } from "./holo-card.tsx";
 import {CreatorLinks} from "./creator-links.tsx";
+import {CardShuffle} from "./card-shuffle.tsx";
 import { usePersonaSession } from "./use-persona-session.ts";
 import { collectorInstructions } from "../lib/collector-instructions.ts";
 import {CollectorScopeOptions} from "./collector-scope-options.tsx";
@@ -25,6 +25,10 @@ import {noticeText} from "../lib/i18n.ts";
 import {objectiveStats,compactNumber} from "../lib/objective-stats.ts";
 import {useTeamInvite,type TeamInvite} from "./team-invite.ts";
 import {usePublicLink} from "./public-link.ts";
+import {useCompare} from "./use-compare.ts";
+import {CompareView} from "./compare-view.tsx";
+import {compareAssessments} from "../lib/compare.ts";
+import {comparePost} from "../lib/share-kit.ts";
 import { reportCollectorProgress, submitAuthorizedSummary } from "../lib/collector-runner.ts";
 type Stage = "cover" | "identity" | "instructions" | "fixture" | "waiting" | "reveal";
 // Origin and time zone never change while the page is open; the server renders the fallbacks.
@@ -87,12 +91,14 @@ export function PersonaApp({turnstileSiteKey}:{turnstileSiteKey:string}) {
     const { t, locale, ready: localeReady } = useLocale();
     const flow = usePersonaSession();
     const team = useTeamInvite();
+    const compare = useCompare();
     const [stage, setStage] = useState<Stage>("cover");
     const [nickname, setNickname] = useState("");
     const [style, setStyle] = useState<ArtStyle>("chibi");
     const [family, setFamily] = useState<Family>("codex");
     const [nicknameOnly, setNicknameOnly] = useState(false);
     const [manual, setManual] = useState(false);
+    const [copied, setCopied] = useState(false);
     const [notice, setNotice] = useState("");
     const [turnstileToken, setTurnstileToken] = useState("");
     const [turnstileMount, setTurnstileMount] = useState(0);
@@ -130,7 +136,7 @@ export function PersonaApp({turnstileSiteKey}:{turnstileSiteKey:string}) {
             // Resume the tab's own view of this session once the stored session has loaded.
             // eslint-disable-next-line react-hooks/set-state-in-effect
             setNickname(active.nickname);
-            setStage("waiting");
+            setStage("instructions");
             try {
                 const saved = JSON.parse(sessionStorage.getItem(UI_KEY) ?? "null");
                 if (saved?.id === active.id) {
@@ -187,9 +193,23 @@ export function PersonaApp({turnstileSiteKey}:{turnstileSiteKey:string}) {
             go("reveal");
         else if (flow.lastResult){ flow.openLast(); go("reveal"); }
         else if (active)
-            go("waiting");
+            go("instructions");
         else
             go("identity");
+    }
+    // The comparison link needs this person's own public card, so sharing it creates (or reuses) one.
+    async function shareCompare() {
+        const theirs = compare.target;
+        if (!theirs?.assessment) return;
+        const mine = await publicLink.ensure({family, style, nicknameOnly: false, locale});
+        if (!mine) { setNotice("暫時無法處理，請稍後再試。"); return; }
+        const result = compareAssessments(card.assessment, theirs.assessment);
+        const url = origin + "/vs/" + theirs.id + "/" + mine.id;
+        const text = comparePost(theirs.nickname, result.kind, result.same, result.known, url, locale);
+        try {
+            if (navigator.share) { await navigator.share({text}); return; }
+        } catch (error) { if (error instanceof DOMException && error.name === "AbortError") return; }
+        try { await navigator.clipboard.writeText(text); setNotice("比較連結已複製。"); } catch { setNotice("無法自動複製，請選取下方文字。"); }
     }
     async function startNew(){if(await flow.startFresh()){received.current=null;restoreStage.current=null;setNickname("");setResumeMode(false);setDemo(false);setNicknameOnly(false);setCollectionScope(null);setSelfType(null);sessionStorage.removeItem(UI_KEY);go("identity");}}
     async function create(event: FormEvent) {
@@ -216,12 +236,20 @@ export function PersonaApp({turnstileSiteKey}:{turnstileSiteKey:string}) {
     async function copy() {
         try {
             await navigator.clipboard.writeText(instructions);
-            go("waiting");
+            // Stay on this page: if the clipboard is lost, the prompt is still one click away.
+            setCopied(true);
+            setNotice("已複製，貼到你的 Agent。");
         }
         catch {
             setManual(true);
             setNotice("自動複製未成功，請選取下方指令手動複製。");
         }
+    }
+    // The scope only shapes the prompt, so it can change after the link exists; the copy button then copies the new prompt.
+    function changeScope(next: typeof scopeOptions) {
+        setScopeOptions(next);
+        setCopied(false);
+        if (active && scopeOptionsSchema.safeParse(next).success) setCollectionScope(createCollectorScope(active.expiresAt - SESSION_TTL_MS, timeZone, next));
     }
     async function erase(next: Stage = "cover") {
         if (await flow.erase()) {
@@ -287,14 +315,22 @@ export function PersonaApp({turnstileSiteKey}:{turnstileSiteKey:string}) {
             setExporting(false);
         }
     }
+    // What the agent has reported so far. It sits under the prompt, so nobody has to leave the prompt to watch.
+    const waitingPanel = <>
+        <div className={"waiting-status " + flow.connection} role="status"><i />{flow.connection === "retrying" ? t("網站暫時連不上收件服務") : flow.connection === "checking" ? t("正在確認收件狀態") : agentState.title}</div>
+        {(flow.connection==="retrying"||agentState.stale||["awaiting_host_approval","paused"].includes(flow.agentProgress.phase))&&<p className="lead waiting-explanation">{flow.connection==="retrying"?t("這不代表 Agent 中斷。網站會自動重試，請保留這個分頁。"):agentState.details}</p>}
+        <SelfTypePick value={selfType} onChange={pickSelfType}/>
+        <details className="waiting-help"><summary>{t("查看進度與協助")}</summary><p>{t("完成後，這頁會自動揭曉。")} {t("連結剩餘 {time}",{time:countdown})}</p>{flow.agentProgress.updatedAt&&<p>{t("最後訊號：")}{agentState.lastPhase} · {new Date(flow.agentProgress.updatedAt).toLocaleTimeString(locale,{hour12:false})}</p>}{flow.connection==="retrying"&&<button className="quiet-button" onClick={flow.retry}>{t("立即重試")}</button>}<p>{t("只需在 Agent 確認一次來源、期間與摘要傳送範圍。若主機另外要求讀取或連線核准，請在原生提示處處理；網站不會代替核准。")}</p><p>{t("超過 90 秒沒有新階段訊號時，我們會明確標示未知。若分析已完成，請 Agent 保留最小摘要；換連結後明確核准新目的地，不用重掃資料。")}</p>{flow.lastChecked && <p>{t("網站上次連上收件服務：")}{new Date(flow.lastChecked).toLocaleTimeString(locale, { hour12: false })}</p>}<button className="quiet-button" disabled={flow.busy} onClick={renew}>{t("沿用分析，換新連結")}</button></details>
+    </>;
     return <div className="app-root" data-ready={flow.ready && localeReady} data-stage={stage} inert={!flow.ready || !localeReady}>
     <header className="journey-header">
       {stage !== "cover" && stage!=="reveal" && <button className="back-button" aria-label={t("返回上一步")} disabled={flow.busy || sending} onClick={back}><ArrowLeft size={22}/></button>}
       <div className="brand"><span aria-hidden="true">✧</span>{t("你的 AI 夥伴風格指南")}<span aria-hidden="true">✧</span></div>
       {demo && stage !== "cover" && <span className="demo-badge">{t("示範")}</span>}
     </header>
-    {stage !== "cover" && <div className="journey-progress" aria-label={t("第 {step} 個階段，共 3 個階段",{step:progress})}><div><i style={{ width: `${progress / 3 * 100}%` }}/></div><span>{progress} / 3</span></div>}
+    {stage !== "cover" && stage !== "reveal" && <div className="journey-progress" aria-label={t("第 {step} 個階段，共 3 個階段",{step:progress})}><div><i style={{ width: `${progress / 3 * 100}%` }}/></div><span>{progress} / 3</span></div>}
     <main ref={focus} className={`journey journey-${stage}`}>
+      {compare.target&&(stage==="cover"||stage==="identity")&&<p className="team-pill"><span>{t("測完會和 {nickname} 比一比",{nickname:compare.target.nickname})}</span><button className="quiet-button" onClick={compare.leave}>{t("不比了")}</button></p>}
       {team.invite&&(stage==="cover"||stage==="identity")&&<p className="team-pill"><span>{t("團隊觀察 · {team}",{team:team.invite.name})}</span><button className="quiet-button" onClick={team.leave}>{t("不參加")}</button></p>}
       {stage === "cover" && <section className="cover-screen screen" aria-labelledby="cover-title">
         <h1 id="cover-title" tabIndex={-1}>{t("你的 Agent，")}<br />{t("是哪種夥伴風格？")}</h1>
@@ -308,20 +344,20 @@ export function PersonaApp({turnstileSiteKey}:{turnstileSiteKey:string}) {
         <form onSubmit={create} className="identity-form">
           <label className="sr-only" htmlFor="nickname">{t("Agent 的名字")}</label><input id="nickname" className="nickname-input" autoComplete="off" placeholder={t("Agent 的名字")} value={active?.nickname ?? nickname} onInvalid={e=>e.currentTarget.setCustomValidity(t("請填寫 Agent 的名字。"))} onInput={e=>e.currentTarget.setCustomValidity("")} onChange={e => setNickname(e.target.value)} required maxLength={24} readOnly={!!active}/>
           <p className="field-caption">{active ? t("返回不會建立第二個連結") : t("這個名字會出現在卡片上")}</p>
-          {!active&&!demo&&!resumeMode&&<CollectorScopeOptions value={scopeOptions} onChange={setScopeOptions} timeZone={timeZone}/>}
           {!active&&<Turnstile key={turnstileMount} siteKey={turnstileSiteKey} action={TURNSTILE_ACTION} language={locale.toLowerCase()} onToken={setTurnstileToken} onError={()=>setNotice("人機驗證載入失敗，請重新整理頁面。")}/>}
           <button className="primary wide" disabled={flow.busy||!active&&!turnstileToken}>{flow.busy ? t("建立中…") : active ? t("繼續這個連結") : t("建立我的連結")}<ArrowRight size={20}/></button>
         </form>
       </section>}
       {stage === "instructions" && active && <section className="instructions-screen screen">
-        <div className="sealed-card small" aria-hidden="true"><span>✧</span></div>
+        <CardShuffle/>
         <h1 tabIndex={-1}>{demo ? <>{t("先選好，")}<br />{t("這次觀察的範圍。")}</> : <>{t("把這段指令，")}<br />{t("交給你的 Agent。")}</>}</h1>
         {demo ? <p className="lead">{t("使用虛構資料，走過同一個收件流程。")}</p> : <ol className="handoff-steps">{["複製專屬指令","貼到 Claude Code、Codex 或 Cursor","它問你時，回覆「同意」"].map((step,i)=><li key={step}><b aria-hidden="true">{i+1}</b>{t(step)}</li>)}</ol>}
         {active.writeToken ? <>
-          <button className="primary" onClick={demo ? () => go("fixture") : copy}>{demo ? t("查看示範範圍") : t("複製專屬指令")}{demo ? <ArrowRight size={20}/> : <Copy size={19}/>}</button>
-          {!demo && <details className="instruction-disclosure" open={manual} onToggle={e => setManual(e.currentTarget.open)}><summary>{t("查看／手動複製指令")}</summary><textarea className="instruction-box" aria-label={t("貼給 Agent 的指令")} value={instructions} readOnly onFocus={e => e.currentTarget.select()}/><button className="quiet-button" onClick={() => go("waiting")}>{t("我已複製，開始等待")}<ArrowRight size={16}/></button></details>}
-        </> : <><p className="small-note">{t("重整後不保留提交權杖。已複製的指令仍可使用。")}</p><button className="primary" onClick={() => go("waiting")}>{t("繼續等待")}<ArrowRight size={20}/></button><button className="quiet-button" disabled={flow.busy} onClick={renew}>{t("沒複製到？換新連結")}</button></>}
-        <p className="small-note">{!demo&&<>{t("完成後，這頁會自動揭曉。")} </>}{t("連結剩餘 {time}",{time:countdown})} {t(origin.startsWith("http://127.0.0.1")?"· 目前僅限同一台電腦使用":" · 可在已授權的 Agent 使用")}</p>
+          <button className="primary" disabled={!demo&&!scopeOptionsSchema.safeParse(scopeOptions).success} onClick={demo ? () => go("fixture") : copy}>{demo ? t("查看示範範圍") : copied ? t("再複製一次") : t("複製專屬指令")}{demo ? <ArrowRight size={20}/> : <Copy size={19}/>}</button>
+          {!demo && !resumeMode && <CollectorScopeOptions value={scopeOptions} onChange={changeScope} timeZone={timeZone}/>}
+          {!demo && <details className="instruction-disclosure" open={manual} onToggle={e => setManual(e.currentTarget.open)}><summary>{t("查看／手動複製指令")}</summary><textarea className="instruction-box" aria-label={t("貼給 Agent 的指令")} value={instructions} readOnly onFocus={e => e.currentTarget.select()}/></details>}
+        </> : <><p className="small-note">{t("重整後不保留提交權杖。已複製的指令仍可使用。")}</p><button className="quiet-button" disabled={flow.busy} onClick={renew}>{t("沒複製到？換新連結")}</button></>}
+        {!demo && waitingPanel}
       </section>}
       {stage === "fixture" && active && <section className="fixture-screen screen">
         <p className="eyebrow">{t("虛構資料 · 沒有讀取你的紀錄")}</p><h1 tabIndex={-1}>{t("一次同意，")}<br />{t("接著等它揭曉。")}</h1><p className="lead">{t("確認這次範圍，剩下的自動完成。")}</p>
@@ -331,16 +367,13 @@ export function PersonaApp({turnstileSiteKey}:{turnstileSiteKey:string}) {
         <button className="primary" disabled={!fixtureConsent || sending} onClick={sendFixture}>{sending ? t("處理中…") : t("同意並開始示範")}<ArrowRight size={20}/></button>
       </section>}
       {stage === "waiting" && <section className="waiting-screen screen">
-        <div className="sealed-card" aria-hidden="true"><span>✧</span><i className="card-scan"/></div>
+        <CardShuffle/>
         <h1 tabIndex={-1}>{flow.connection === "retrying" ? <>{t("正在重新連上，")}<br />{t("請稍等一下。")}</> : <>{t("等它帶回，")}<br />{t("你們的合作線索。")}</>}</h1>
-        <div className={"waiting-status " + flow.connection} role="status"><i />{flow.connection === "retrying" ? t("網站暫時連不上收件服務") : flow.connection === "checking" ? t("正在確認收件狀態") : agentState.title}</div>
-        {(flow.connection==="retrying"||agentState.stale||["awaiting_host_approval","paused"].includes(flow.agentProgress.phase))&&<p className="lead waiting-explanation">{flow.connection==="retrying"?t("這不代表 Agent 中斷。網站會自動重試，請保留這個分頁。"):agentState.details}</p>}
-        <SelfTypePick value={selfType} onChange={pickSelfType}/>
-        <details className="waiting-help"><summary>{t("查看進度與協助")}</summary><p>{t("連結剩餘 {time}",{time:countdown})}</p>{flow.agentProgress.updatedAt&&<p>{t("最後訊號：")}{agentState.lastPhase} · {new Date(flow.agentProgress.updatedAt).toLocaleTimeString(locale,{hour12:false})}</p>}<button className="quiet-button" onClick={()=>go("instructions")}>{t("重看指令")}</button>{flow.connection==="retrying"&&<button className="quiet-button" onClick={flow.retry}>{t("立即重試")}</button>}<p>{t("只需在 Agent 確認一次來源、期間與摘要傳送範圍。若主機另外要求讀取或連線核准，請在原生提示處處理；網站不會代替核准。")}</p><p>{t("超過 90 秒沒有新階段訊號時，我們會明確標示未知。若分析已完成，請 Agent 保留最小摘要；換連結後明確核准新目的地，不用重掃資料。")}</p>{flow.lastChecked && <p>{t("網站上次連上收件服務：")}{new Date(flow.lastChecked).toLocaleTimeString(locale, { hour12: false })}</p>}<button className="quiet-button" disabled={flow.busy} onClick={renew}>{t("沿用分析，換新連結")}</button></details>
+        {waitingPanel}
       </section>}
       {stage === "reveal" && result && <section className="reveal-screen screen final-screen">
-        <div className="final-card-area"><div className="reveal-art"><HoloCard report={card} style={style} family={family} nicknameOnly={nicknameOnly} reveal/></div><div className="style-switch" aria-label={t("卡片畫風")}><button aria-pressed={style==="regular"} onClick={()=>setStyle("regular")}>{t("一般")}</button><button aria-pressed={style==="chibi"} onClick={()=>setStyle("chibi")}>{t("Q 版")}</button></div><p className="drag-hint"><span className="motion-hint">{t("拖曳卡片，看看另一道光")}</span><span className="reduced-hint">{t("已依偏好使用靜態卡面")}</span></p></div>
-        <div className="final-copy">{card.kind==="fixture"&&<p className="eyebrow">{t("示範資料 · 非個人評估")}</p>}<h1 tabIndex={-1}>{card.nickname}</h1><p className="final-subtitle">{t(personaFor(card.assessment.type).name)}</p>{selfContrast(card,t)&&<p className="self-contrast">{selfContrast(card,t)}</p>}<div className="brief-reading">{card.brief.map(line=><p key={line}>{t(line)}</p>)}</div><p className="next-step"><b>{t("下一步")}</b><span>{t(nextStepFor(card.usageLevel))}</span></p>{team.invite&&card.kind==="observed"&&active&&<TeamShare invite={team.invite} sessionId={active.id} onShare={member=>team.share(active.id,active.readToken,member)} onWithdraw={team.withdraw}/>}
+        <div className="final-card-area"><div className="reveal-art"><HoloCard report={card} style={style} family={family} nicknameOnly={nicknameOnly} reveal/></div><div className="style-switch" aria-label={t("卡片畫風")}><button aria-pressed={style==="regular"} onClick={()=>setStyle("regular")}>{t("一般")}</button><button aria-pressed={style==="chibi"} onClick={()=>setStyle("chibi")}>{t("Q 版")}</button></div></div>
+        <div className="final-copy">{card.kind==="fixture"&&<p className="eyebrow">{t("示範資料 · 非個人評估")}</p>}<h1 tabIndex={-1}>{card.nickname}</h1><p className="final-subtitle">{t(personaFor(card.assessment.type).name)}</p>{selfContrast(card,t)&&<p className="self-contrast">{selfContrast(card,t)}</p>}<div className="brief-reading">{card.brief.map(line=><p key={line}>{t(line)}</p>)}</div><p className="next-step"><b>{t("下一步")}</b><span>{t(nextStepFor(card.usageLevel))}</span></p>{compare.target?.assessment&&!nicknameOnly&&<CompareView t={t} mine={{label:t("你"),assessment:card.assessment}} theirs={{label:compare.target.nickname,assessment:compare.target.assessment}}>{card.kind==="observed"&&<button className="secondary-action" disabled={publicLink.linking} onClick={shareCompare}>{t("分享比較結果")}</button>}</CompareView>}{team.invite&&card.kind==="observed"&&active&&<TeamShare invite={team.invite} sessionId={active.id} onShare={member=>team.share(active.id,active.readToken,member)} onWithdraw={team.withdraw}/>}
         <div className="final-actions"><button className="primary" onClick={exportPng} disabled={exporting||!!card.assessment.type&&!artFor(family,card.assessment.type,style)}>{exporting?t("製作圖片中…"):t("下載我的角色卡")}<Download size={20}/></button><CardShare card={card} style={style} family={family} nicknameOnly={nicknameOnly} home={origin+"/"} link={publicLink.link} linking={publicLink.linking} onCreateLink={()=>publicLink.create({family,style,nicknameOnly,locale})} onRevokeLink={publicLink.revoke}/></div>
         <details className="card-options"><summary>{t("卡片選項")}</summary><div><label htmlFor="card-family">{t("卡面主題")}</label><select id="card-family" value={family} onChange={e=>setFamily(e.target.value as Family)}>{families.map(f=><option key={f.id} value={f.id}>{f.label}</option>)}</select><label className="check-field"><input type="checkbox" checked={nicknameOnly} onChange={e=>setNicknameOnly(e.target.checked)}/>{t("只顯示暱稱，隱藏分型")}</label><p>{t("此選項也會隱藏等級與短句。")}</p></div></details>
         {result.report&&<div className="inline-report"><ReportSummary report={result.report}/></div>}
@@ -349,7 +382,7 @@ export function PersonaApp({turnstileSiteKey}:{turnstileSiteKey:string}) {
       </>}
       {(flow.error || notice) && <p className="inline-notice" role="status">{noticeText(locale,flow.error || notice)}</p>}
     </main>
-    <footer className="journey-footer"><LocaleSwitch /><button onClick={() => about.current?.showModal()}>{t("關於這份觀察")}</button><nav className="journey-links" aria-label={t("網站導覽")}>{([["/types","16 種類型"],["/levels","使用等級"],["/method","怎麼判斷"]] as const).map(([href,label])=><Link key={href} href={localized(href,locale)}>{t(label)}</Link>)}</nav><CreatorLinks t={t}/></footer>
+    <footer className="journey-footer"><LocaleSwitch /><button onClick={() => about.current?.showModal()}>{t("關於這份觀察")}</button><a className="journey-link" href={localized("/types",locale)}>{t("16 種類型")}</a><CreatorLinks t={t}/></footer>
     <dialog ref={about} className="about-dialog" aria-labelledby="about-title"><button className="icon-button dialog-close" onClick={() => about.current?.close()} aria-label={t("關閉說明")}><X size={22}/></button><h2 id="about-title">{t("你怎麼帶它，")}<br />{t("它就怎麼做事。")}</h2><p>{t("這是一段以授權使用紀錄為依據的合作觀察。借用四組字母，以自訂規則描述合作風格，並非人格測驗。網站只接收你事前明確授權範圍內的最小摘要，授權後自動驗證與傳送。")}</p>
       <details><summary>{t("觀察依據與 16 種風格")}</summary><p>{t("借用 E/I 推進節奏、S/N 指令焦點、T/F 驗收依據、J/P 工作框架，只看你帶 Agent 時說了什麼。這不是人格診斷，也不是模型的固定性格。")}</p><p>{t("每個任務每軸選一邊，看不出來就跳過。少於三個任務或打平保留問號，差距不大標成傾向。舊結果需要重新分析。")}<a href="/collector/SKILL.md" target="_blank" rel="noreferrer">{t("完整觀察方式 ↗")}</a></p><div className="about-types">{Object.entries(personas).map(([code, p]) => <div key={code}><b>{code}</b><span>{t(p.name)}</span></div>)}</div></details>
       <details><summary>{t("使用等級如何判斷")}</summary><p>{t("等級與類型、用量和模型無關。LV0–3 看你帶 Agent 時怎麼查核與修正；LV4 看你寫下的技能、規則或腳本，是否被其他工作階段再次使用；LV5 再看自動化是否無人值守跑過兩週，且資產持續維護。沒有證據就保持未知，等級也不代表能力上限。")}</p></details>

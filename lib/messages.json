@@ -3424,5 +3424,209 @@
     "よくある質問",
     "자주 묻는 질문",
     "FAQ"
+  ],
+  "你們都習慣邊做邊掌舵，一起帶 Agent 很熱鬧，記得留一個人看全局。": [
+    "你们都习惯边做边掌舵，一起带 Agent 很热闹，记得留一个人看全局。",
+    "二人とも途中で舵を切るタイプ。一緒に Agent を動かすとにぎやかなので、全体を見る役を一人決めておきましょう。",
+    "둘 다 작업 중에 방향을 잡는 편이에요. 함께 Agent를 이끌면 활기차니, 한 사람은 전체를 보도록 하세요.",
+    "You both steer as you go. Leading agents together gets lively, so let one of you keep the big picture."
+  ],
+  "你們都在開場把話講清楚，之後放手，先對齊目標就很順。": [
+    "你们都在开场把话讲清楚，之后放手，先对齐目标就很顺。",
+    "二人とも最初にしっかり伝えてから任せるタイプ。目標さえ揃えればスムーズです。",
+    "둘 다 처음에 분명히 말하고 맡기는 편이에요. 목표만 맞추면 순조로워요.",
+    "You both brief clearly up front and then let go. Agree on the goal first and it runs smoothly."
+  ],
+  "你們都給具體做法，交接時連檔案和指令都講得清清楚楚。": [
+    "你们都给具体做法，交接时连文件和指令都讲得清清楚楚。",
+    "二人とも具体的なやり方を渡すタイプ。引き継ぎではファイルやコマンドまで明確です。",
+    "둘 다 구체적인 방법을 주는 편이에요. 인수인계 때 파일과 명령까지 분명해요.",
+    "You both hand over the concrete how, so handoffs spell out files and commands."
+  ],
+  "你們都給方向不給路線，Agent 發揮空間大，記得一起定好驗收。": [
+    "你们都给方向不给路线，Agent 发挥空间大，记得一起定好验收。",
+    "二人とも方向だけ示して道筋は任せるタイプ。Agent の自由度が高いので、検収基準は一緒に決めましょう。",
+    "둘 다 방향만 주고 경로는 맡기는 편이에요. Agent의 재량이 크니 검수 기준은 함께 정하세요.",
+    "You both give direction, not routes. Your agents get plenty of room, so agree on what done looks like."
+  ],
+  "你們都看證據驗收，測試和數字就是共同語言。": [
+    "你们都看证据验收，测试和数字就是共同语言。",
+    "二人とも根拠で検収するタイプ。テストと数字が共通言語です。",
+    "둘 다 근거로 검수하는 편이에요. 테스트와 숫자가 공통 언어예요.",
+    "You both check by evidence. Tests and numbers are your shared language."
+  ],
+  "你們都看感受驗收，對品味和使用者體驗很有共識。": [
+    "你们都看感受验收，对品味和用户体验很有共识。",
+    "二人とも感覚で検収するタイプ。センスや使い心地の感覚が合っています。",
+    "둘 다 느낌으로 검수하는 편이에요. 취향과 사용자 경험에 대한 감각이 잘 맞아요.",
+    "You both check by feel, and you agree on taste and how it feels to use."
+  ],
+  "你們都會把做法留下來，很快就能累積一套共用的技能和腳本。": [
+    "你们都会把做法留下来，很快就能累积一套共用的技能和脚本。",
+    "二人ともやり方を残すタイプ。共有のスキルやスクリプトがすぐに貯まります。",
+    "둘 다 방법을 남기는 편이에요. 함께 쓰는 스킬과 스크립트가 금방 쌓여요.",
+    "You both keep what works, so a shared set of skills and scripts piles up fast."
+  ],
+  "你們都愛邊試邊調，點子很多，記得挑一個留下來。": [
+    "你们都爱边试边调，点子很多，记得挑一个留下来。",
+    "二人とも試しながら調整するタイプ。アイデアは豊富なので、一つは残しておきましょう。",
+    "둘 다 해 보며 조정하는 편이에요. 아이디어가 많으니 하나는 남겨 두세요.",
+    "You both try and adjust as you go. Plenty of ideas, so pick one to keep."
+  ],
+  "一個開場定調、一個途中掌舵：讓定調的人寫需求，掌舵的人盯中間結果。": [
+    "一个开场定调、一个途中掌舵：让定调的人写需求，掌舵的人盯中间结果。",
+    "一人は最初に方針を決め、一人は途中で舵を切る。方針役が要件を書き、舵取り役が途中経過を見ましょう。",
+    "한 사람은 처음에 방향을 정하고, 한 사람은 중간에 조정해요. 정하는 사람이 요구 사항을 쓰고, 조정하는 사람이 중간 결과를 보세요.",
+    "One sets the course up front, one steers along the way. Let the first write the brief and the second watch the drafts."
+  ],
+  "一個給做法、一個給方向：給方向的人說要去哪，給做法的人補上怎麼走。": [
+    "一个给做法、一个给方向：给方向的人说要去哪，给做法的人补上怎么走。",
+    "一人はやり方、一人は方向を示す。方向役が行き先を決め、やり方役が道順を補いましょう。",
+    "한 사람은 방법을, 한 사람은 방향을 줘요. 방향을 주는 사람이 목적지를 말하고, 방법을 주는 사람이 길을 채우세요.",
+    "One gives the how, one gives the direction. One says where to go, the other fills in the route."
+  ],
+  "一個看證據、一個看感受：合起來剛好是「能用」加上「好用」。": [
+    "一个看证据、一个看感受：合起来刚好是「能用」加上「好用」。",
+    "一人は根拠、一人は感覚で検収。合わせれば「動く」と「使いやすい」がそろいます。",
+    "한 사람은 근거로, 한 사람은 느낌으로 검수해요. 합치면 '작동한다'와 '쓰기 좋다'가 함께 갖춰져요.",
+    "One checks by evidence, one by feel. Together you get “it works” and “it’s nice to use”."
+  ],
+  "一個留下流程、一個邊試邊調：試出來的做法，交給另一位整理成資產。": [
+    "一个留下流程、一个边试边调：试出来的做法，交给另一位整理成资产。",
+    "一人は仕組みを残し、一人は試しながら調整する。試して見つけたやり方を、もう一人が資産にまとめましょう。",
+    "한 사람은 절차를 남기고, 한 사람은 해 보며 조정해요. 시도해서 찾은 방법을 다른 사람이 자산으로 정리하세요.",
+    "One builds lasting process, one experiments. Let the experimenter find it and the other turn it into an asset."
+  ],
+  "這一軸還看不出來，多帶幾次 Agent 就會清楚。": [
+    "这一轴还看不出来，多带几次 Agent 就会清楚。",
+    "この軸はまだ見えません。Agent との作業が増えればはっきりします。",
+    "이 축은 아직 보이지 않아요. Agent와 더 일하면 분명해져요.",
+    "Not visible on this axis yet. A few more sessions with your agent will tell."
+  ],
+  "分身搭檔": [
+    "分身搭档",
+    "分身コンビ",
+    "분신 콤비",
+    "Twin partners"
+  ],
+  "默契搭檔": [
+    "默契搭档",
+    "息ぴったりコンビ",
+    "찰떡 콤비",
+    "In-sync partners"
+  ],
+  "互補搭檔": [
+    "互补搭档",
+    "補い合うコンビ",
+    "보완 콤비",
+    "Complementary partners"
+  ],
+  "反差搭檔": [
+    "反差搭档",
+    "正反対コンビ",
+    "정반대 콤비",
+    "Opposite partners"
+  ],
+  "還在認識的搭檔": [
+    "还在认识的搭档",
+    "まだ知り合い中のコンビ",
+    "아직 알아가는 콤비",
+    "Still getting acquainted"
+  ],
+  "{same} / {known} 軸相同": [
+    "{same} / {known} 轴相同",
+    "{known} 軸中 {same} 軸が同じ",
+    "{known}개 축 중 {same}개 같음",
+    "{same} of {known} axes match"
+  ],
+  "測完和 {nickname} 比一比": [
+    "测完和 {nickname} 比一比",
+    "診断して {nickname} と比べよう",
+    "테스트하고 {nickname}님과 비교하기",
+    "Take it and compare with {nickname}"
+  ],
+  "測完會和 {nickname} 比一比": [
+    "测完会和 {nickname} 比一比",
+    "診断後に {nickname} と比べます",
+    "테스트 후 {nickname}님과 비교해요",
+    "You’ll be compared with {nickname}"
+  ],
+  "不比了": [
+    "不比了",
+    "比べない",
+    "비교 안 할래요",
+    "Skip"
+  ],
+  "你和 {nickname}": [
+    "你和 {nickname}",
+    "あなたと {nickname}",
+    "당신과 {nickname}",
+    "You and {nickname}"
+  ],
+  "你": [
+    "你",
+    "あなた",
+    "당신",
+    "You"
+  ],
+  "分享比較結果": [
+    "分享比较结果",
+    "比較結果をシェア",
+    "비교 결과 공유",
+    "Share the comparison"
+  ],
+  "比較連結已複製。": [
+    "比较链接已复制。",
+    "比較リンクをコピーしました。",
+    "비교 링크를 복사했어요.",
+    "Comparison link copied."
+  ],
+  "我和「{nickname}」帶 Agent 是{kind}，{same} / {known} 軸相同。你們呢？ {url} #AIPartnerStyle": [
+    "我和「{nickname}」带 Agent 是{kind}，{same} / {known} 轴相同。你们呢？ {url} #AIPartnerStyle",
+    "私と「{nickname}」の Agent の導き方は{kind}、{known} 軸中 {same} 軸が同じでした。あなたたちは？ {url} #AIPartnerStyle",
+    "나와 「{nickname}」님은 Agent를 이끄는 방식이 {kind}, {known}개 축 중 {same}개가 같아요. 여러분은요? {url} #AIPartnerStyle",
+    "“{nickname}” and I are {kind} at leading agents: {same} of {known} axes match. What about you two? {url} #AIPartnerStyle"
+  ],
+  "你也來比一比": [
+    "你也来比一比",
+    "あなたも比べてみよう",
+    "당신도 비교해 보세요",
+    "Compare yours"
+  ],
+  "兩張卡都由網站依各自的提交紀錄畫出。": [
+    "两张卡都由网站依各自的提交记录画出。",
+    "どちらのカードも、それぞれの提出記録からサイトが描いています。",
+    "두 카드 모두 각자의 제출 기록으로 사이트가 그렸어요.",
+    "Both cards are drawn by the site from each person’s own submission."
+  ],
+  "這組比較已失效：其中一張卡已撤回或過期。": [
+    "这组比较已失效：其中一张卡已撤回或过期。",
+    "この比較は無効です。どちらかのカードが取り消されたか期限切れです。",
+    "이 비교는 더 이상 유효하지 않아요. 카드 중 하나가 철회되었거나 만료되었어요.",
+    "This comparison is gone: one of the cards was revoked or expired."
+  ],
+  "README 徽章": [
+    "README 徽章",
+    "README バッジ",
+    "README 배지",
+    "README badge"
+  ],
+  "徽章語法已複製，貼進 GitHub README 即可。": [
+    "徽章语法已复制，贴进 GitHub README 即可。",
+    "バッジのコードをコピーしました。GitHub の README に貼るだけです。",
+    "배지 코드를 복사했어요. GitHub README에 붙여 넣으면 돼요.",
+    "Badge markdown copied. Paste it into your GitHub README."
+  ],
+  "再複製一次": [
+    "再复制一次",
+    "もう一度コピー",
+    "다시 복사",
+    "Copy again"
+  ],
+  "已複製，貼到你的 Agent。": [
+    "已复制，贴到你的 Agent。",
+    "コピーしました。Agent に貼り付けてください。",
+    "복사했어요. Agent에 붙여 넣으세요.",
+    "Copied. Paste it into your agent."
   ]
 }

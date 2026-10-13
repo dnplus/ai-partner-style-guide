@@ -73,6 +73,16 @@ npm run preview                  # 已建置的 Worker：http://127.0.0.1:5188
 
 預覽用的插畫 JPEG 在 `npm run build` 時由 `scripts/build-og-assets.mjs` 產生（satori 不支援 WebP），不進版本控制。預覽字型是固定字串的子集，存在 `public/og/fonts/`；改了型名、等級名或預覽文案後執行 `npm run og:fonts`，`tests/og.test.ts` 會檢查涵蓋範圍。
 
+## 和他比一比、README 徽章與擴散量測
+
+公開卡片頁的主按鈕是「測完和 {暱稱} 比一比」，連到 `/?vs=<卡片ID>`。訪客測完後，揭曉頁會多一塊雙人比較：四軸逐一對照，依相同的軸數命名（分身／默契／互補／反差搭檔）。按「分享比較結果」時，網站會替訪客建立（或沿用）自己的公開卡片，再產生比較連結 `/vs/<A>/<B>`。這頁和它的 1200×630 預覽圖（`/vs/<A>/<B>/og`）都由伺服器依兩張卡的紀錄畫出，任一張撤回就失效，也維持 `noindex`。比較時讀取的 `GET /api/cards/<id>` 只回公開頁已顯示的內容；只顯示暱稱的卡片不提供類型，也就不能比較。
+
+分享視窗的「README 徽章」會複製 `[![AI Partner Style](…/c/<id>/badge.svg)](…/c/<id>?via=badge)`。徽章只用拉丁字母，顏色跟著稀有度；卡片撤回或過期後，徽章會變成「take the test」，不會在別人的 README 裡壞掉。
+
+擴散量測只記每日總數，不記任何識別資料：`funnel` 表的每一列是「日期 × 來源 × 步驟 → 次數」。來源有三種：`link`（貼出去的卡片或比較連結）、`qr`（下載圖片上的 QR，網址帶 `?via=qr`）、`badge`（README 徽章）。步驟依序是 `card_view`（真人打開卡片或比較頁；連結預覽爬蟲不算）、`landing`（帶著來源進首頁）、`session`、`result`、`share`。來源記在這個分頁的 sessionStorage，建立連結時隨請求送出，存在會話上，所以後續的提交與公開卡片都會算回同一個來源。用 `npm run stats` 查正式站的數字。
+
+預覽圖（`/og`、`/c/<id>/og`、`/vs/<A>/<B>/og`）會先確認卡片還在，再查 Cache API 的快取。快取鍵包含卡片內容的雜湊，所以重建卡面會換一張新圖。workers.dev 網域上 Cache API 是否生效，Cloudflare 文件沒有明說；不生效時只是每次都重畫。
+
 ## 公開頁面與 AEO
 
 首頁、`/types`（16 型總覽）、`/types/<代碼>`、`/levels`、`/method`（流程、計分、限制與常見問答）與 `/art-gallery` 開放索引；結果、`/team` 與個人卡片頁維持 `noindex`。內容頁由伺服器依 `catalog`、`workstyle`、`usage-level` 與 `lib/site-content.ts` 產生，五種語言各有網址（`?lang=zh-CN|ja|ko|en`，預設繁中），附 canonical、hreflang、各型的 OG 預覽（`/og?type=…`）與 JSON-LD（WebApplication、DefinedTermSet／DefinedTerm、BreadcrumbList、FAQPage）。`/sitemap.xml`、`/robots.txt`（`Content-Signal: search=yes, ai-input=yes`）與 `/llms.txt` 由同一份資料產生，不會和頁面脫節。每頁頁尾標明並非人格測驗、與任何人格測驗機構無關，並附上製作者的 GitHub 與 YouTube 連結（`lib/creator.ts`，網址留空就不顯示）。

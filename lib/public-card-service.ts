@@ -1,6 +1,7 @@
 import {z} from 'zod';
 import {json,HttpError,failure,hashSecret,constantEqual,sameOriginRequest,readJsonBody,readSessionReport} from './session-service.ts';
 import {rememberedResult} from './remembered-service.ts';
+import {countStep,funnelSource} from './funnel.ts';
 import {toCardObservation,storedSelfType,type CardObservation,type Report} from './assessment.ts';
 import {PROTOCOL_VERSION} from './contract.ts';
 import {families,type ArtStyle,type Family} from './catalog.ts';
@@ -27,7 +28,7 @@ export async function createPublicCard(db:D1Database,request:Request,now=Date.no
   const parsed=createSchema.safeParse(await readJsonBody(request));
   if(!parsed.success)return failure(400,'請檢查卡片選項。');
   const input=parsed.data;
-  let source:{id:string;report:string|null;self_type:string|null}|null=null;
+  let source:{id:string;report:string|null;self_type:string|null;via?:string|null}|null=null;
   if(input.sessionId&&input.readToken)source=await readSessionReport(db,request,input.sessionId,input.readToken,now);
   else source=await rememberedResult(db,request,now);
   const report=source?.report?JSON.parse(source.report) as Report:null;
@@ -40,6 +41,7 @@ export async function createPublicCard(db:D1Database,request:Request,now=Date.no
   const revokeToken=hex(32);
   const saved=await db.prepare('INSERT INTO public_cards (id,session_id,card,revoke_hash,created_at,expires_at) VALUES (?1,?2,?3,?4,?5,?6) ON CONFLICT(session_id) DO UPDATE SET card=excluded.card,revoke_hash=excluded.revoke_hash,expires_at=excluded.expires_at RETURNING id')
    .bind(publicId(),source.id,JSON.stringify(card),await hashSecret(revokeToken),now,now+CARD_TTL_MS).first<{id:string}>();
+  await countStep(db,'share',funnelSource(source.via),now);
   return json({id:saved!.id,url:new URL('/c/'+saved!.id,request.url).href,revokeToken},201);
  }catch(error){
   if(error instanceof HttpError)return json({error:error.message},error.status);
@@ -68,3 +70,9 @@ export async function loadPublicCard(db:D1Database,id:string,now=Date.now()):Pro
  if(!row||row.expires_at<=now)return null;
  return {...JSON.parse(row.card),createdAt:row.created_at};
 }
+
+// What a visitor arriving through ?vs= needs to compare against: only what the public card page already shows.
+export function compareTarget(id:string,data:PublicCard){
+ return {id,nickname:data.card.nickname,family:data.family,style:data.style,assessment:data.nicknameOnly?null:data.card.assessment};
+}
+export type CompareTarget=ReturnType<typeof compareTarget>;

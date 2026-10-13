@@ -23,8 +23,11 @@ export function LocaleProvider({children}:{children:React.ReactNode}) {
     if(!ready)return;
     document.documentElement.lang=locale;
     document.documentElement.style.setProperty("--body",bodyFonts[locale]);
-    document.title=value.t("你的 AI 夥伴風格指南｜讓合作長出自己的風格");
-    document.querySelector('meta[name="description"]')?.setAttribute("content",value.t("以授權紀錄觀察合作風格，取得專屬角色卡。並非人格測驗。"));
+    // Only the app itself takes the generic title; every other page keeps the specific one it was served with.
+    if(location.pathname==="/"){
+      document.title=value.t("你的 AI 夥伴風格指南｜讓合作長出自己的風格");
+      document.querySelector('meta[name="description"]')?.setAttribute("content",value.t("以授權紀錄觀察合作風格，取得專屬角色卡。並非人格測驗。"));
+    }
   },[locale,ready,value]);
   return <LocaleContext.Provider value={value}>{children}</LocaleContext.Provider>;
 }

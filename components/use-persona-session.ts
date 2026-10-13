@@ -6,6 +6,7 @@ import { toReport, validateSubmission, type CardObservation, type Report } from 
 import {usageLevelSchema} from "../lib/usage-level.ts";
 import { nicknameSchema, assessmentSchema, selfTypeSchema, PROTOCOL_VERSION, TURNSTILE_HEADER, type TypeCode } from "../lib/contract.ts";
 import type { LocalSession } from "../lib/collector-instructions.ts";
+import { storedVia } from "./use-compare.ts";
 import { receivedProgressSchema, emptyProgress, type ReceivedProgress } from "../lib/collector-progress.ts";
 
 export const SESSION_KEY = "agent-mbti-session-v2";
@@ -102,7 +103,7 @@ export function usePersonaSession() {
     const current=++generation.current;
     try {
       if(session && !expired) throw new Error("你已有一個連結，請先繼續或結束這次觀察。");
-      const response=await fetch("/api/sessions",{method:"POST",headers:{"Content-Type":"application/json",[TURNSTILE_HEADER]:turnstileToken},body:JSON.stringify({...profile,protocolVersion:PROTOCOL_VERSION}),redirect:"error"});
+      const response=await fetch("/api/sessions",{method:"POST",headers:{"Content-Type":"application/json",[TURNSTILE_HEADER]:turnstileToken},body:JSON.stringify({...profile,protocolVersion:PROTOCOL_VERSION,via:storedVia()??undefined}),redirect:"error"});
       const value=await response.json() as {error?:unknown};
       if(!response.ok) throw new Error(typeof value.error==="string" ? value.error : "建立失敗，請再試一次。");
       const next=sessionSchema.parse(value);

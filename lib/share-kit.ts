@@ -17,3 +17,12 @@ export function agentSharePrompt(card:CardObservation,url:string,locale:Locale,n
  const t=translator(locale);
  return [t('請幫我把這張 AI 夥伴風格角色卡分享到社群，先問我要發到哪個平台。'),t('卡片連結：{url}（貼上後會顯示卡片圖，收到的人也能點開驗證）',{url}),t('建議文案：{post}',{post:postText(card,url,locale,nicknameOnly)}),t('可以依平台調整語氣和長度（X 不超過 280 字元），但不要改動類型、等級和連結。發文前先把最終內容給我確認，得到同意才送出。不要讀取或上傳我電腦裡的其他檔案。')].join('\n');
 }
+
+// A README badge that links back to the card; the via tag tells a badge click apart from a pasted link.
+export const badgeMarkdown=(url:string)=>`[![AI Partner Style](${url}/badge.svg)](${url}?via=badge)`;
+
+// The post for a two-person comparison; the link unfolds into both cards.
+export function comparePost(theirs:string,kind:string,same:number,known:number,url:string,locale:Locale){
+ const t=translator(locale);
+ return t('我和「{nickname}」帶 Agent 是{kind}，{same} / {known} 軸相同。你們呢？ {url} #AIPartnerStyle',{nickname:theirs,kind:t(kind),same,known,url});
+}

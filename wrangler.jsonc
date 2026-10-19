@@ -5,7 +5,9 @@
   "main": "vinext/server/fetch-handler",
   "compatibility_date": "2026-05-22",
   "compatibility_flags": ["nodejs_compat"],
+  // The site lives on its own domain; workers.dev stays on so old links reach proxy.ts and get redirected.
   "workers_dev": true,
+  "routes": [{ "pattern": "urai.dnplus.dev", "custom_domain": true }],
   "observability": {
     "enabled": true,
     "traces": { "enabled": true }
@@ -30,7 +32,7 @@
   ],
   "vars": {
     // Cloudflare's always-pass test key for local dev; `npm run deploy` passes the production key,
-    // which only renders on agent-mbti.dnplus.workers.dev.
+    // whose widget allows urai.dnplus.dev and agent-mbti.dnplus.workers.dev.
     "TURNSTILE_SITE_KEY": "1x00000000000000000000AA"
   },
   "secrets": {

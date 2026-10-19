@@ -6,7 +6,7 @@ Your AI Partner Style Guide：讓你的 Agent 讀自己的本機紀錄，看你�
 
 以本人授權的使用紀錄，觀察你帶領 Agent 的合作方式。三個主步驟：命名與選填偏好 → 將專屬指令交給自己的 Agent → 同一屏揭曉完整卡片、簡短解讀與完整報告。一般／Q 版切換、下載、分享都留在第三步。
 
-不需登入，也不收集 Email。每次觀察建立一組匿名會話：讀取權杖只留在建立連結的瀏覽器，寫入權杖只交給 Agent 提交一次摘要。部署在自己的 Cloudflare 帳號（Workers + D1 + 靜態資源），網址為 `agent-mbti.<子網域>.workers.dev`。
+不需登入，也不收集 Email。每次觀察建立一組匿名會話：讀取權杖只留在建立連結的瀏覽器，寫入權杖只交給 Agent 提交一次摘要。部署在自己的 Cloudflare 帳號（Workers + D1 + 靜態資源），正式網址為 https://urai.dnplus.dev 。
 
 ## 本機使用
 
@@ -26,7 +26,7 @@ npm run preview                  # 已建置的 Worker：http://127.0.0.1:5188
 
 ## 部署
 
-正式站是 https://agent-mbti.dnplus.workers.dev。D1 `agent-mbti` 已綁在 `wrangler.jsonc`，Turnstile secret 已設在 Worker 上，正式 site key 由 `npm run deploy` 以 `--var` 帶入，所以本機一直用測試金鑰。
+正式站是 https://urai.dnplus.dev（Worker 自訂網域）。舊網址 `agent-mbti.dnplus.workers.dev` 的頁面由 `proxy.ts` 301 轉到新網域；`/api` 與 `/collector` 不轉，讓執行中的 Agent 照舊送出。D1 `agent-mbti` 已綁在 `wrangler.jsonc`，Turnstile secret 已設在 Worker 上，正式 site key 由 `npm run deploy` 以 `--var` 帶入，所以本機一直用測試金鑰。
 
 每次更新只需 `npm run deploy`；有新 migration 時先跑 `npm run db:migrate:remote`。部署到別的帳號或網域時，要換掉 `wrangler.jsonc` 的 `database_id`、deploy 指令裡的 site key，並重設 `TURNSTILE_SECRET_KEY`。
 
@@ -81,7 +81,7 @@ npm run preview                  # 已建置的 Worker：http://127.0.0.1:5188
 
 擴散量測只記每日總數，不記任何識別資料：`funnel` 表的每一列是「日期 × 來源 × 步驟 → 次數」。來源有三種：`link`（貼出去的卡片或比較連結）、`qr`（下載圖片上的 QR，網址帶 `?via=qr`）、`badge`（README 徽章）。步驟依序是 `card_view`（真人打開卡片或比較頁；連結預覽爬蟲不算）、`landing`（帶著來源進首頁）、`session`、`result`、`share`。來源記在這個分頁的 sessionStorage，建立連結時隨請求送出，存在會話上，所以後續的提交與公開卡片都會算回同一個來源。用 `npm run stats` 查正式站的數字。
 
-預覽圖（`/og`、`/c/<id>/og`、`/vs/<A>/<B>/og`）會先確認卡片還在，再查 Cache API 的快取。快取鍵包含卡片內容的雜湊，所以重建卡面會換一張新圖。workers.dev 網域上 Cache API 是否生效，Cloudflare 文件沒有明說；不生效時只是每次都重畫。
+預覽圖（`/og`、`/c/<id>/og`、`/vs/<A>/<B>/og`）會先確認卡片還在，再查 Cache API 的快取。快取鍵包含卡片內容的雜湊，所以重建卡面會換一張新圖。正式站實測第二次讀取會回 `cf-cache-status: HIT`。
 
 ## 公開頁面與 AEO
 

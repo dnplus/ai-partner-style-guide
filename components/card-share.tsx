@@ -3,7 +3,7 @@ import {useEffect,useRef,useState} from 'react';
 import {X,Download,Share2,Copy,Link2} from 'lucide-react';
 import {useLocale} from './locale-provider.tsx';
 import {makeCardFile,saveCardFile,shareText,exportFormats,type ExportFormat} from '../lib/export-card.ts';
-import {agentSharePrompt} from '../lib/share-kit.ts';
+import {agentSharePrompt,badgeMarkdown} from '../lib/share-kit.ts';
 import {lookOf,type PublicLink} from './public-link.ts';
 import type {CardObservation} from '../lib/assessment.ts';
 import type {ArtStyle,Family} from '../lib/catalog.ts';
@@ -32,7 +32,7 @@ export function CardShare({card,style,family,nicknameOnly,home,link,linking,onCr
  return <><button className="secondary-action" onClick={()=>{setNotice('');setOpen(true);dialog.current?.showModal();}}><Share2 size={18}/>{t('分享卡片')}</button><dialog ref={dialog} className="share-dialog" onClose={()=>setOpen(false)} aria-labelledby="share-title"><button className="icon-button dialog-close" aria-label={t('關閉分享')} onClick={close}><X size={22}/></button><h2 id="share-title">{t('挑個尺寸，分享這一面。')}</h2><div className="format-options" aria-label={t('分享尺寸')}>{Object.entries(exportFormats).filter(([key])=>key!=='card').map(([key,f])=><button key={key} aria-pressed={format===key} onClick={()=>{setNotice('');setFormat(key as ExportFormat);}}><span className={'format-icon '+key}/><b>{t(f.label)}</b><small>{f.width} × {f.height}</small></button>)}</div>
   {onCreateLink&&card.kind==='observed'&&<div className="verify-link">{link?<>
    <p><b>{t('可驗證連結')}</b><code>{link.url}</code></p>
-   <div className="verify-actions"><button className="quiet-button" onClick={()=>copy(link.url,'連結已複製。')}><Copy size={14}/>{t('複製連結')}</button><button className="quiet-button" onClick={()=>copy(agentSharePrompt(card,link.url,locale,nicknameOnly),'已複製給 Agent 的分享指令。')}>{t('交給 Agent 分享')}</button>{link.look!==look&&<button className="quiet-button" disabled={linking} onClick={()=>run(onCreateLink)}>{t('更新公開卡面')}</button>}<button className="quiet-button" disabled={linking} onClick={()=>run(onRevokeLink)}>{t('撤回連結')}</button></div>
+   <div className="verify-actions"><button className="quiet-button" onClick={()=>copy(link.url,'連結已複製。')}><Copy size={14}/>{t('複製連結')}</button><button className="quiet-button" onClick={()=>copy(agentSharePrompt(card,link.url,locale,nicknameOnly),'已複製給 Agent 的分享指令。')}>{t('交給 Agent 分享')}</button><button className="quiet-button" onClick={()=>copy(badgeMarkdown(link.url),'徽章語法已複製，貼進 GitHub README 即可。')}>{t('README 徽章')}</button>{link.look!==look&&<button className="quiet-button" disabled={linking} onClick={()=>run(onCreateLink)}>{t('更新公開卡面')}</button>}<button className="quiet-button" disabled={linking} onClick={()=>run(onRevokeLink)}>{t('撤回連結')}</button></div>
   </>:<>
    <p><b>{t('可驗證連結')}</b><span>{t('建立公開卡片頁：連結貼到社群會顯示卡片圖，收到的人也能點開確認這張卡是真的。可隨時撤回。')}</span></p>
    <button className="secondary-action" disabled={linking} onClick={()=>run(onCreateLink)}><Link2 size={16}/>{linking?t('建立中…'):t('建立可驗證連結')}</button>

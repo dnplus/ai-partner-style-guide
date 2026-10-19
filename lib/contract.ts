@@ -1,5 +1,6 @@
 import { z } from "zod";
 import {systemEvidenceSchema,usageEvidenceSchema} from "./usage-level.ts";
+import { funnelSources } from "./funnel.ts";
 
 export const PROTOCOL_VERSION = "3.0" as const;
 export const TURNSTILE_HEADER = "CF-Turnstile-Response";
@@ -19,7 +20,7 @@ export const axisResultSchema = z.union([
 ]);
 export const nicknameSchema = z.string().trim().min(1).max(24).regex(/^[\p{L}\p{N}\p{M} _·-]+$/u);
 export const createSchema = z.object({
-  protocolVersion: z.literal(PROTOCOL_VERSION), nickname: nicknameSchema,
+  protocolVersion: z.literal(PROTOCOL_VERSION), nickname: nicknameSchema, via: z.enum(funnelSources).optional(),
 }).strict();
 export const assessmentSchema = z.object({ type: z.enum(typeCodes).nullable(), pattern: z.string().regex(/^[EI?][SN?][TF?][JP?]$/), status: z.enum(["complete", "incomplete"]), axes: z.array(axisResultSchema).length(4) }).strict();
 const count = z.number().int().min(0).max(Number.MAX_SAFE_INTEGER).nullable();

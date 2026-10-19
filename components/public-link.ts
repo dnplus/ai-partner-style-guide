@@ -17,18 +17,21 @@ export function usePublicLink(source: LinkSource | null) {
   const [link, setLink] = useState<{resultId: string; value: PublicLink | null} | null>(null);
   const [linking, setLinking] = useState(false);
   const current = source ? (link?.resultId === source.resultId ? link.value : stored(source.resultId)) : null;
-  async function create(options: {family: Family; style: ArtStyle; nicknameOnly: boolean; locale: Locale}) {
-    if (!source || linking) return "";
+  async function make(options: {family: Family; style: ArtStyle; nicknameOnly: boolean; locale: Locale}): Promise<{message: string; value: PublicLink | null}> {
+    if (!source || linking) return {message: "", value: null};
     setLinking(true);
     try {
       const response = await fetch("/api/remembered/card", {method: "POST", headers: {"Content-Type": "application/json"}, body: JSON.stringify({...(source.sessionId && source.readToken ? {sessionId: source.sessionId, readToken: source.readToken} : {}), ...options}), redirect: "error"});
       const data = await response.json().catch(() => ({})) as {id?: string; url?: string; revokeToken?: string; error?: string};
-      if (!response.ok || !data.id || !data.url || !data.revokeToken) return data.error ?? "暫時無法處理，請稍後再試。";
+      if (!response.ok || !data.id || !data.url || !data.revokeToken) return {message: data.error ?? "暫時無法處理，請稍後再試。", value: null};
       const value = {id: data.id, url: data.url, revokeToken: data.revokeToken, look: lookOf(options.family, options.style, options.nicknameOnly)};
       store(source.resultId, value); setLink({resultId: source.resultId, value});
-      return current ? "公開卡片已更新。" : "可驗證連結已建立。";
-    } catch { return "暫時無法處理，請稍後再試。"; } finally { setLinking(false); }
+      return {message: current ? "公開卡片已更新。" : "可驗證連結已建立。", value};
+    } catch { return {message: "暫時無法處理，請稍後再試。", value: null}; } finally { setLinking(false); }
   }
+  const create = async (options: Parameters<typeof make>[0]) => (await make(options)).message;
+  // The compare link needs this person's own public card; reuse it when one exists.
+  const ensure = async (options: Parameters<typeof make>[0]) => current ?? (await make(options)).value;
   async function revoke() {
     if (!source || !current || linking) return "";
     setLinking(true);
@@ -39,5 +42,5 @@ export function usePublicLink(source: LinkSource | null) {
       return "連結已撤回。";
     } catch { return "暫時無法處理，請稍後再試。"; } finally { setLinking(false); }
   }
-  return {link: current, linking, create, revoke};
+  return {link: current, linking, create, ensure, revoke};
 }

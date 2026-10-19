@@ -1,7 +1,6 @@
 "use client";
 import {useEffect, useMemo, useState, type FormEvent} from "react";
 import {ArrowLeft, Copy, RefreshCw} from "lucide-react";
-import Link from "next/link";
 import {useLocale, LocaleSwitch} from "./locale-provider.tsx";
 import {Turnstile} from "./turnstile.tsx";
 import {TURNSTILE_ACTION} from "../lib/contract.ts";
@@ -116,7 +115,7 @@ export function TeamApp({turnstileSiteKey}: {turnstileSiteKey: string}) {
   const invite = board ? `${origin}/?team=${board.joinCode}` : "";
 
   return <div className="app-root team-root" data-ready={ready}>
-    <header className="journey-header"><Link className="back-button" href="/" aria-label={t("回到觀察")}><ArrowLeft size={22}/></Link><div className="brand"><span aria-hidden="true">✧</span>{t("團隊看板")}<span aria-hidden="true">✧</span></div></header>
+    <header className="journey-header"><a className="back-button" href="/" aria-label={t("回到觀察")}><ArrowLeft size={22}/></a><div className="brand"><span aria-hidden="true">✧</span>{t("團隊看板")}<span aria-hidden="true">✧</span></div></header>
     <main className="team-page">
       {!key && <section className="screen team-create">
         <h1>{t("建立團隊看板")}</h1>

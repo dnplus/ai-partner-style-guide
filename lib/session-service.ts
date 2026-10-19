@@ -1,10 +1,11 @@
 import { createSchema, progressSchema, selfTypeSchema, PROTOCOL_VERSION } from "./contract.ts";
+import { countStep, funnelSource } from "./funnel.ts";
 import { toReport, toCardObservation, storedSelfType, validateSubmission, type Report } from "./assessment.ts";
 
 export const TTL_MS = 30 * 60 * 1000;
 const MAX_BYTES = 24 * 1024;
 const secureHeaders = { "Content-Type": "application/json; charset=utf-8", "Cache-Control": "no-store, private", "Referrer-Policy": "no-referrer", "X-Content-Type-Options": "nosniff", "Cross-Origin-Resource-Policy": "same-origin", "Vary": "Origin" };
-type Row = { id: string; protocol_version: string; progress_phase: string; progress_sequence: number; progress_at: number | null; approval_kind: string | null; read_hash: string; write_hash: string; nickname: string; expires_at: number; report: string | null; payload_hash: string | null; idempotency_key: string | null; submitted_at: number | null; self_type: string | null };
+type Row = { id: string; protocol_version: string; progress_phase: string; progress_sequence: number; progress_at: number | null; approval_kind: string | null; read_hash: string; write_hash: string; nickname: string; expires_at: number; report: string | null; payload_hash: string | null; idempotency_key: string | null; submitted_at: number | null; self_type: string | null; via: string | null };
 export class HttpError extends Error {
   status: number;
   constructor(status: number, message: string) { super(message); this.status = status; }
@@ -61,8 +62,10 @@ export async function handleSession(db: D1Database, request: Request, id?: strin
       const writeToken = randomToken();
       const newId = crypto.randomUUID();
       const expiresAt = now + TTL_MS;
-      await db.prepare("INSERT INTO sessions (id, read_hash, write_hash, nickname, created_at, expires_at, protocol_version) VALUES (?1, ?2, ?3, ?4, ?5, ?6, ?7)")
-        .bind(newId, await digest(readToken), await digest(writeToken), parsed.data.nickname, now, expiresAt, PROTOCOL_VERSION).run();
+      const via = parsed.data.via ?? null;
+      await db.prepare("INSERT INTO sessions (id, read_hash, write_hash, nickname, created_at, expires_at, protocol_version, via) VALUES (?1, ?2, ?3, ?4, ?5, ?6, ?7, ?8)")
+        .bind(newId, await digest(readToken), await digest(writeToken), parsed.data.nickname, now, expiresAt, PROTOCOL_VERSION, via).run();
+      await countStep(db, "session", via, now);
       return json({ id: newId, readToken, writeToken, expiresAt, nickname: parsed.data.nickname }, 201);
     }
     const row = await authorize(db, request, id, mode === "session" ? "read" : "write", now);
@@ -106,7 +109,7 @@ export async function handleSession(db: D1Database, request: Request, id?: strin
       const stored = JSON.stringify(toReport(data));
       const result = await db.prepare("UPDATE sessions SET report = ?1, payload_hash = ?2, idempotency_key = ?3, submitted_at = ?4 WHERE id = ?5 AND report IS NULL AND expires_at > ?4")
         .bind(stored, payloadHash, key, now, id).run();
-      if (result.meta.changes === 1) return json({ accepted: true, duplicate: false }, 201);
+      if (result.meta.changes === 1) { await countStep(db, "result", funnelSource(row.via), now); return json({ accepted: true, duplicate: false }, 201); }
       const current = await db.prepare("SELECT payload_hash, idempotency_key FROM sessions WHERE id = ?1").bind(id).first<Row>();
       if (current?.payload_hash === payloadHash && current.idempotency_key === key) return json({ accepted: true, duplicate: true });
       failure(409, "此會話已收到一份結果；相同內容請使用原重試識別碼。");

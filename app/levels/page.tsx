@@ -15,7 +15,7 @@ export default async function LevelsPage({searchParams}:Props){
  return <InfoShell locale={locale} path="/levels">
   <h1>{t('使用等級 LV0–5')}</h1>
   <p className="info-lead">{t('等級和類型無關，也不看用量或模型；沒有證據時保持未知，不會當成 LV0。')}</p>
-  <ol className="info-levels">{levelNames.map((name,level)=><li key={name}><h2>LV {level} · {t(name)}</h2><p>{t(levelDescriptions[usageBases[level]])}</p><p className="info-tip">{t('下一步')}：{t(nextSteps[level as 0])}</p></li>)}</ol>
   <Cta locale={locale}/>
+  <ol className="info-levels">{levelNames.map((name,level)=><li key={name}><h2>LV {level} · {t(name)}</h2><p>{t(levelDescriptions[usageBases[level]])}</p><p className="info-tip">{t('下一步')}：{t(nextSteps[level as 0])}</p></li>)}</ol>
  </InfoShell>;
 }

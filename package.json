@@ -20,7 +20,8 @@
     "test:browser": "playwright test",
     "schema": "node scripts/export-schema.mjs",
     "verify:art": "node scripts/verify-art.mjs",
-    "og:fonts": "node scripts/build-og-fonts.mjs"
+    "og:fonts": "node scripts/build-og-fonts.mjs",
+    "stats": "wrangler d1 execute DB --remote --config wrangler.jsonc --command \"SELECT day, source, step, count FROM funnel ORDER BY day DESC, source, step LIMIT 300\""
   },
   "dependencies": {
     "drizzle-orm": "0.45.2",

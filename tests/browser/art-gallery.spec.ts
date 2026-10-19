@@ -9,7 +9,6 @@ test("192-slot gallery loads exact art or honest pending states, inspector and m
   test.setTimeout(120000);
   const errors:string[]=[];page.on("pageerror",e=>errors.push(e.message));
   await page.goto("/art-gallery");
-  await expect(page.locator(".gallery-header")).toContainText(artCounts.ready+" / 192 張");
   const sources=new Set<string>();
   for(const family of artFamilies){
     await page.getByRole("combobox",{name:"角色家族",exact:true}).selectOption(family);

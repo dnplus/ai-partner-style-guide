@@ -1,4 +1,4 @@
-import { sqliteTable, text, integer, index, uniqueIndex } from "drizzle-orm/sqlite-core";
+import { sqliteTable, text, integer, index, uniqueIndex, primaryKey } from "drizzle-orm/sqlite-core";
 
 export const sessions = sqliteTable("sessions", {
   id: text("id").primaryKey(),
@@ -17,6 +17,7 @@ export const sessions = sqliteTable("sessions", {
   payloadHash: text("payload_hash"),
   report: text("report"),
   selfType: text("self_type"),
+  via: text("via"),
 }, (table) => [index("sessions_expiry").on(table.expiresAt)]);
 
 export const rememberedResults=sqliteTable('remembered_results',{
@@ -36,3 +37,8 @@ export const teamEntries=sqliteTable('team_entries',{
 export const publicCards=sqliteTable('public_cards',{
  id:text('id').primaryKey(),sessionId:text('session_id').notNull().unique(),card:text('card').notNull(),revokeHash:text('revoke_hash').notNull(),createdAt:integer('created_at').notNull(),expiresAt:integer('expires_at').notNull(),
 },table=>[index('public_cards_expiry').on(table.expiresAt)]);
+
+// How many people reached each step, per day and per entry point. No ids, so no row can be traced to a visitor.
+export const funnel=sqliteTable('funnel',{
+ day:text('day').notNull(),source:text('source').notNull(),step:text('step').notNull(),count:integer('count').notNull().default(0),
+},table=>[primaryKey({columns:[table.day,table.source,table.step]})]);

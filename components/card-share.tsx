@@ -24,7 +24,7 @@ export function CardShare({card,style,family,nicknameOnly,home,link,linking,onCr
  async function share(){
   if(!file||busy.current)return;busy.current=true;setSharing(true);setNotice('');
   try{
-   if(navigator.share&&navigator.canShare?.({files:[file]})){await navigator.share({files:[file],title:t('你的 Agent MBTI'),text});setNotice('已交給系統分享選單。');}
+   if(navigator.share&&navigator.canShare?.({files:[file]})){await navigator.share({files:[file],title:t('你的 AI 夥伴風格指南'),text});setNotice('已交給系統分享選單。');}
    else{saveCardFile(file);try{await navigator.clipboard.writeText(text);setNotice('圖片已下載，分享文字與首頁連結已複製。');}catch{setNotice('圖片已下載，請複製下方文字與首頁連結。');}}
   }catch(error){if(error instanceof DOMException&&error.name==='AbortError')setNotice('已取消分享。');else{saveCardFile(file);setNotice('系統分享未完成，已改為下載圖片。');}}
   finally{busy.current=false;setSharing(false);}

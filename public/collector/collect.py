@@ -67,8 +67,9 @@ TURN_CAP = 600
 TURN_BUDGET = 24
 INJECT_RE = re.compile(r"^\s*(<[A-Za-z][\w\-]*[\s>/]|#\s*AGENTS\.md|# (Browser|Files)\b|\[Request interrupted)")
 TEMPLATE_RE = re.compile(r"\b(Task|Automation|Job|Run|Contract) ID:|kbctl work contract", re.I)
-# The Agent MBTI prompt itself opens a session that only pastes instructions and approves them.
-COLLECTOR_PROMPT_RE = re.compile(r"Agent MBTI.{0,80}?collect\.py", re.S)
+# The site's own prompt opens a session that only pastes instructions and approves them.
+# The second name matches prompts pasted before the rename, which still sit in recent logs.
+COLLECTOR_PROMPT_RE = re.compile(r"(?:AI Partner Style Guide|Agent MBTI).{0,80}?collect\.py", re.S)
 SAMPLE_SALT = "agent-mbti-sample-v1"
 SYSTEM_BUDGET = 6.0
 LINE_CAP = 4 * 1024
@@ -1598,7 +1599,7 @@ def idempotency_key(summary_path):
 
 
 def post_json(origin, path, body, token, idempotency=None):
-    headers = {"Content-Type": "application/json", "Authorization": "Bearer " + token, "User-Agent": "agent-mbti-collector"}
+    headers = {"Content-Type": "application/json", "Authorization": "Bearer " + token, "User-Agent": "ai-partner-style-collector"}
     if idempotency:
         headers["Idempotency-Key"] = idempotency
     opener = urllib.request.build_opener(NoRedirect)
@@ -1618,13 +1619,13 @@ def post_json(origin, path, body, token, idempotency=None):
             code = None
         if code in {409, 404, 410}:
             print(f"http {code}")
-            return
+            return code
         if code is not None and code != 503:
             print(f"http {code}")
-            return
+            return code
         if attempt == 2:
             print("network_error" if code is None else "http 503")
-            return
+            return code
 
 
 def require_regular(path, message):
@@ -1677,7 +1678,10 @@ def command_submit(args):
     if len(body) > 24 * 1024:
         fail("summary_too_large")
     token = read_token()
-    post_json(origin, "/api/collect/" + args.session, body, token, idempotency_key(args.summary))
+    code = post_json(origin, "/api/collect/" + args.session, body, token, idempotency_key(args.summary))
+    if code in {200, 201}:
+        # The agent cannot read the result, so it points the person back to the tab that can.
+        print(f"done: the card is ready in the browser tab that opened {origin}")
 
 
 def command_status(args):

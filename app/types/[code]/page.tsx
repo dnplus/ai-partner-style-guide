@@ -15,8 +15,8 @@ export const dynamic='force-dynamic';
 const typeOf=(code:string)=>typeCodes.find(c=>c===code.toUpperCase()) as TypeCode|undefined;
 export async function generateMetadata({params,searchParams}:Props){
  const type=typeOf((await params).code),locale=localeFor((await searchParams).lang),t=translator(locale);
- if(!type)return {title:t('你的 Agent MBTI')};
- return infoMetadata('/types/'+type.toLowerCase(),locale,`${type} ${t(personas[type].name)}｜${t('你的 Agent MBTI')}`,t(personas[type].line)+' '+[...type].map(letter=>t(observedLines[letter])).join(' '),type);
+ if(!type)return {title:t('你的 AI 夥伴風格指南')};
+ return infoMetadata('/types/'+type.toLowerCase(),locale,`${type} ${t(personas[type].name)}｜${t('你的 AI 夥伴風格指南')}`,t(personas[type].line)+' '+[...type].map(letter=>t(observedLines[letter])).join(' '),type);
 }
 export default async function TypePage({params,searchParams}:Props){
  const type=typeOf((await params).code);if(!type)notFound();

@@ -8,7 +8,7 @@ type Props={searchParams:Promise<{lang?:string}>};
 export const dynamic='force-dynamic';
 export async function generateMetadata({searchParams}:Props){
  const locale=localeFor((await searchParams).lang),t=translator(locale);
- return infoMetadata('/method',locale,t('怎麼判斷的')+'｜'+t('你的 Agent MBTI'),t(faq[1][1]));
+ return infoMetadata('/method',locale,t('怎麼判斷的')+'｜'+t('你的 AI 夥伴風格指南'),t(faq[1][1]));
 }
 export default async function MethodPage({searchParams}:Props){
  const locale=localeFor((await searchParams).lang),t=translator(locale);

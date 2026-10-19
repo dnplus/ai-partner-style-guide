@@ -1,6 +1,6 @@
 {
   "zh-TW": {
-    "intro": "這是你的 Agent MBTI。請用已驗證的 collect.py 收集本機合作紀錄，不要自己寫掃描器。",
+    "intro": "這是你的 AI 夥伴風格指南（AI Partner Style Guide）。請用已驗證的 collect.py 收集本機合作紀錄，不要自己寫掃描器。",
     "destination": "目的地 {origin}，會話 {id}，暱稱 {nickname}，到期 {expires}。",
     "token": "寫入權杖 {token}。只從標準輸入交給 collect.py，不要放進命令參數、檔案或對話。",
     "scope": "from={from} to={to} tz={timeZone} sources={sources} tokscale={tokscaleMode}",
@@ -14,7 +14,7 @@
     "confirmation": "我會在本機分析{sources}，範圍為最近 {days} 天（{window}）。{tokscale}完成後，只把暱稱、用量與合作風格的最小摘要送回這個網站的本次觀察，不傳對話原文或檔案內容。是否同意？"
   },
   "en": {
-    "intro": "This is Your Agent MBTI. Use the verified collect.py to collect local collaboration records. Do not write your own scanner.",
+    "intro": "This is Your AI Partner Style Guide. Use the verified collect.py to collect local collaboration records. Do not write your own scanner.",
     "destination": "Destination {origin}, session {id}, nickname {nickname}, expires {expires}.",
     "token": "Write token {token}. Pass it to collect.py on stdin only. Do not put it in arguments, files, or the chat.",
     "scope": "from={from} to={to} tz={timeZone} sources={sources} tokscale={tokscaleMode}",
@@ -28,7 +28,7 @@
     "confirmation": "I will analyze {sources} locally for the last {days} days ({window}). {tokscale} When ready, I will send only your nickname and a minimal usage/workstyle summary back to this observation on this website, without raw conversations or file contents. Do you agree?"
   },
   "zh-CN": {
-    "intro": "这是你的 Agent MBTI。请用已验证的 collect.py 收集本地合作记录，不要自己写扫描器。",
+    "intro": "这是你的 AI 伙伴风格指南（AI Partner Style Guide）。请用已验证的 collect.py 收集本地合作记录，不要自己写扫描器。",
     "destination": "目的地 {origin}，会话 {id}，昵称 {nickname}，到期 {expires}。",
     "token": "写入令牌 {token}。只从标准输入交给 collect.py，不要放进命令参数、文件或对话。",
     "scope": "from={from} to={to} tz={timeZone} sources={sources} tokscale={tokscaleMode}",
@@ -42,7 +42,7 @@
     "confirmation": "我会在本地分析{sources}，范围为最近 {days} 天（{window}）。{tokscale}完成后，只把昵称、用量与合作风格的最小摘要发回这个网站的本次观察，不发送对话原文或文件内容。是否同意？"
   },
   "ja": {
-    "intro": "これは Your Agent MBTI です。検証済みの collect.py でローカルの協働記録を集め、自作のスキャナは書かないでください。",
+    "intro": "これは Your AI Partner Style Guide です。検証済みの collect.py でローカルの協働記録を集め、自作のスキャナは書かないでください。",
     "destination": "送信先 {origin}、セッション {id}、ニックネーム {nickname}、期限 {expires}。",
     "token": "書き込みトークン {token}。collect.py の標準入力だけに渡し、引数、ファイル、会話には置かないでください。",
     "scope": "from={from} to={to} tz={timeZone} sources={sources} tokscale={tokscaleMode}",
@@ -56,7 +56,7 @@
     "confirmation": "{sources}を対象に、直近 {days} 日間（{window}）をローカルで分析します。{tokscale}完成後は名前と利用量・協働スタイルの最小要約だけを、このサイトの今回の観察へ送り、会話原文やファイル内容は送りません。同意しますか？"
   },
   "ko": {
-    "intro": "이것은 Your Agent MBTI입니다. 검증된 collect.py로 로컬 협업 기록을 수집하고, 스캐너를 직접 작성하지 마세요.",
+    "intro": "이것은 Your AI Partner Style Guide입니다. 검증된 collect.py로 로컬 협업 기록을 수집하고, 스캐너를 직접 작성하지 마세요.",
     "destination": "목적지 {origin}, 세션 {id}, 닉네임 {nickname}, 만료 {expires}.",
     "token": "쓰기 토큰 {token}. collect.py 표준 입력으로만 전달하고, 인자, 파일, 대화에는 넣지 마세요.",
     "scope": "from={from} to={to} tz={timeZone} sources={sources} tokscale={tokscaleMode}",

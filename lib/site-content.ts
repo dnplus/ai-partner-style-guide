@@ -2,7 +2,7 @@ import {translator,locales,type Locale} from './i18n.ts';
 
 // Answer-first copy for the public pages, the FAQ schema and llms.txt, kept in one place so they never drift apart.
 export const faq=[
- ['這是官方 MBTI 嗎？','不是。只借用四組字母與 16 個代碼的命名，用本專案自訂的規則描述你帶 Agent 的方式；不是心理測驗，也不推斷人格。MBTI 是 The Myers-Briggs Company 的註冊商標，本站與其無關。'],
+ ['這是人格測驗嗎？','不是。只借用四組字母與 16 個代碼的命名，用本專案自訂的規則描述你帶 Agent 的方式；不是心理測驗，也不推斷人格，與任何人格測驗機構無關。'],
  ['怎麼判斷我的類型？','你的 Agent 用 collect.py 在本機抽樣最近 60 天的對話，每段對話只看你說了什麼，四軸各選一邊。伺服器統計後，至少 3 票且多數勝出才給字母，差距小時標成傾向。'],
  ['會上傳我的對話嗎？','不會。只上傳暱稱、日期、來源、用量彙總和每段對話的四軸判斷；對話原文、程式碼與檔案路徑都留在你的電腦。'],
  ['使用等級怎麼算？','LV0–3 看你如何查核與修正 Agent 的結果；LV4–5 看你寫下的技能、規則或腳本是否被其他工作階段重用，以及自動化是否穩定運作兩週以上。沒有證據時保持未知。'],
@@ -14,4 +14,4 @@ export const limits=['結果由本人的 Agent 在本機計算，網站只檢查
 export const infoPaths=['/types','/levels','/method'] as const;
 export const localeFor=(value:string|string[]|undefined):Locale=>locales.find(l=>l===value)??'zh-TW';
 export const localized=(path:string,locale:Locale)=>locale==='zh-TW'?path:path+(path.includes('?')?'&':'?')+'lang='+locale;
-export function siteDescription(locale:Locale){return translator(locale)('用你本機的 Agent 對話紀錄，看你帶 Agent 的方式屬於 16 型中的哪一型，並得到 LV0–5 使用等級與角色卡。非官方 MBTI 評量。');}
+export function siteDescription(locale:Locale){return translator(locale)('用你本機的 Agent 對話紀錄，看你帶 Agent 的方式屬於 16 型中的哪一型，並得到 LV0–5 使用等級與角色卡。並非人格測驗。');}

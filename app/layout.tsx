@@ -2,8 +2,8 @@ import type { Metadata } from "next";
 import "./globals.css";
 import { LocaleProvider } from "../components/locale-provider.tsx";
 export const metadata: Metadata = {
-  title: "你的 Agent MBTI｜讓合作長出自己的風格",
-  description: "以授權紀錄觀察合作風格，取得專屬角色卡。非官方 MBTI 評量。",
+  title: "你的 AI 夥伴風格指南｜讓合作長出自己的風格",
+  description: "以授權紀錄觀察合作風格，取得專屬角色卡。並非人格測驗。",
   referrer: "no-referrer",
   icons: { icon: "/favicon.svg" },
 };

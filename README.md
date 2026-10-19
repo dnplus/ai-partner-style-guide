@@ -1,4 +1,8 @@
-# 你的 Agent MBTI
+# 你的 AI 夥伴風格指南
+
+Your AI Partner Style Guide：讓你的 Agent 讀自己的本機紀錄，看你帶它做事的方式屬於 16 型中的哪一型，拿到一張可驗證、可分享的角色卡。
+
+由 [dnplus](https://github.com/dnplus) 製作。開發過程與更多 AI 協作實驗在 YouTube 頻道 [@GinsengTryCatch](https://www.youtube.com/@GinsengTryCatch)。
 
 以本人授權的使用紀錄，觀察你帶領 Agent 的合作方式。三個主步驟：命名與選填偏好 → 將專屬指令交給自己的 Agent → 同一屏揭曉完整卡片、簡短解讀與完整報告。一般／Q 版切換、下載、分享都留在第三步。
 
@@ -34,7 +38,7 @@ npm run preview                  # 已建置的 Worker：http://127.0.0.1:5188
 
 ## 判定與資料
 
-借用標準 16 個 MBTI 代碼，描述你帶 Agent 的方式（`agent-workstyle-v2`）。只看你的訊息，不看 Agent 自己的習慣；規則、門檻、稱號及描述是本專案的定義，並非心理測驗。
+借用常見的 16 型四碼，描述你帶 Agent 的方式（`agent-workstyle-v2`）。只看你的訊息，不看 Agent 自己的習慣；規則、門檻、稱號及描述是本專案的定義，並非心理測驗。
 
 - E/I：途中掌舵（看中間結果、改方向或範圍）／開場定調（目標與限制先講清楚，之後少插手）。
 - S/N：給具體做法（檔案、步驟、指令、範例）／給目標與方向，路線交給 Agent。
@@ -45,7 +49,7 @@ npm run preview                  # 已建置的 Worker：http://127.0.0.1:5188
 
 **獨立的使用等級 LV0–5**（`usage-level-v2`）分兩個面向。LV0–3 看 Agent 在授權紀錄中看到的人為證據：未查核就採用、出錯後重試、兩個獨立任務確認結果可用，以及同一任務先講清範圍與完成標準再驗證修正。LV4–5 只看 `collect.py` 計算並原樣帶入摘要的 `systemEvidence`：LV4 需至少一個工作階段寫下技能、規則或腳本等資產，且至少兩個工作階段用到其他階段寫下的資產；LV5 另需至少三個自動化工作階段、跨度 14 天以上、至少一種排程／CI／hook／heartbeat 機制，以及自動化開始後仍有資產更新。沒有證據就是未知，不能當 LV0。
 
-[觀察設計](docs/DESIGN-MBTI.md)、[collector 技能](public/collector/SKILL.md)、[空白模板](public/collector-template.json)、[JSON schema](public/collector-schema.json)、[第三方聲明](THIRD_PARTY_NOTICES.md)。schema 3.0 的每個 task 帶 `axes`，可選 `usageEvidence` 與 `systemEvidence`；缺少時對應的等級保持未知。更早的舊型別不會被偷偷轉成 MBTI。
+[觀察設計](docs/DESIGN.md)、[collector 技能](public/collector/SKILL.md)、[空白模板](public/collector-template.json)、[JSON schema](public/collector-schema.json)、[第三方聲明](THIRD_PARTY_NOTICES.md)。schema 3.0 的每個 task 帶 `axes`，可選 `usageEvidence` 與 `systemEvidence`；缺少時對應的等級保持未知。更早的舊型別不會被偷偷轉成新的四碼。
 
 ## 已實作
 
@@ -53,7 +57,7 @@ npm run preview                  # 已建置的 Worker：http://127.0.0.1:5188
 - 外部 Agent 的 callback 只需其短效寫入權杖，不能讀取結果。一次原子提交、相同 key／內容可重試；嚴格 JSON、24 KiB 上限、來源／日期／引用與結果一致性驗證。
 - 三步流程、真實進度、返回、斷線重試、到期換新目的地；寫入權杖不持久保存。30 分鐘不是掃描耗時保證。
 - 最近結果保存最多 7 天，以 HttpOnly、SameSite=Strict、HTTPS Secure 且限 `/api/remembered` 的 Cookie 讀取。可清除或開始新觀察。localStorage 只有語言偏好；sessionStorage 有短效讀取權限及介面偏好，不含原始紀錄。
-- 同一套 SVG composition 驅動預覽和 PNG，預設顯示 Agent MBTI、四碼、等級、稱號、暱稱、短句。暱稱模式需明確選取。CSS 3D 厚度、柔影、角度虹彩、選擇性 foil、桌面拖曳／手機觸控／方向鍵；reduced-motion 靜態卡。
+- 同一套 SVG composition 驅動預覽和 PNG，預設顯示產品名、四碼、等級、稱號、暱稱、短句。暱稱模式需明確選取。CSS 3D 厚度、柔影、角度虹彩、選擇性 foil、桌面拖曳／手機觸控／方向鍵；reduced-motion 靜態卡。
 - 六家族 × 16 型 × 一般／Q 版，共 192 張不同插畫。換造型不重新判定；未知使用中性卡面。`/art-gallery` 可檢視完整圖庫。
 - 繁中、簡中、日文、韓文、英文；流程、指令、報告、等級、分享與下載均隨語言切換。
 - 1080×1620 卡片、1080×1350 直式、1080×1920 限時、1080² 正方形、1200×630 橫式 PNG。QR 和文字指向目前網站的首頁（取自 `location.origin`），沒有私人結果或權杖。系統支援檔案分享時使用 Web Share，否則下載並提供文字；沒有自動發文。
@@ -71,7 +75,7 @@ npm run preview                  # 已建置的 Worker：http://127.0.0.1:5188
 
 ## 公開頁面與 AEO
 
-首頁、`/types`（16 型總覽）、`/types/<代碼>`、`/levels`、`/method`（流程、計分、限制與常見問答）與 `/art-gallery` 開放索引；結果、`/team` 與個人卡片頁維持 `noindex`。內容頁由伺服器依 `catalog`、`workstyle`、`usage-level` 與 `lib/site-content.ts` 產生，五種語言各有網址（`?lang=zh-CN|ja|ko|en`，預設繁中），附 canonical、hreflang、各型的 OG 預覽（`/og?type=…`）與 JSON-LD（WebApplication、DefinedTermSet／DefinedTerm、BreadcrumbList、FAQPage）。`/sitemap.xml`、`/robots.txt`（`Content-Signal: search=yes, ai-input=yes`）與 `/llms.txt` 由同一份資料產生，不會和頁面脫節。每頁頁尾標明非官方，以及 MBTI 為 The Myers-Briggs Company 的註冊商標。
+首頁、`/types`（16 型總覽）、`/types/<代碼>`、`/levels`、`/method`（流程、計分、限制與常見問答）與 `/art-gallery` 開放索引；結果、`/team` 與個人卡片頁維持 `noindex`。內容頁由伺服器依 `catalog`、`workstyle`、`usage-level` 與 `lib/site-content.ts` 產生，五種語言各有網址（`?lang=zh-CN|ja|ko|en`，預設繁中），附 canonical、hreflang、各型的 OG 預覽（`/og?type=…`）與 JSON-LD（WebApplication、DefinedTermSet／DefinedTerm、BreadcrumbList、FAQPage）。`/sitemap.xml`、`/robots.txt`（`Content-Signal: search=yes, ai-input=yes`）與 `/llms.txt` 由同一份資料產生，不會和頁面脫節。每頁頁尾標明並非人格測驗、與任何人格測驗機構無關，並附上製作者的 GitHub 與 YouTube 連結（`lib/creator.ts`，網址留空就不顯示）。
 
 ## 卡面稀有度
 
@@ -83,7 +87,7 @@ npm run preview                  # 已建置的 Worker：http://127.0.0.1:5188
 
 測試與驗證腳本的輸出寫到 `evidence/`，不納入版本控制。
 
-本專案交付的是 Agent 指令和最小摘要驗證／提交協定。網站本身不掃描紀錄。`collect.py` 在時間預算內抽樣本地日誌，供合作風格分類。抽樣順序由每個檔案路徑的雜湊決定，同一批紀錄重跑會讀到同一批 session，新紀錄只會逐步替換，重測結果因此比較穩定（分類仍由 Agent 判讀，換模型仍可能有差異）。token 取自 Tokscale 的 client／model 總量。它不算完整會話數。24 個 task、48 個 MBTI observation、64 個成果 observation、24 KiB 是上傳限制，不是模型讀取紀錄的成本上限。
+本專案交付的是 Agent 指令和最小摘要驗證／提交協定。網站本身不掃描紀錄。`collect.py` 在時間預算內抽樣本地日誌，供合作風格分類。抽樣順序由每個檔案路徑的雜湊決定，同一批紀錄重跑會讀到同一批 session，新紀錄只會逐步替換，重測結果因此比較穩定（分類仍由 Agent 判讀，換模型仍可能有差異）。token 取自 Tokscale 的 client／model 總量。它不算完整會話數。24 個 task、48 個四軸 observation、64 個成果 observation、24 KiB 是上傳限制，不是模型讀取紀錄的成本上限。
 
 圖片是 ApprenTice 同人衍生，角色參考 ZipZipPipe；DeepSeek 另含上善無形。CC BY-NC-SA 4.0：非商業、署名及相同方式分享。GPT 龍娘是 Codex 主題改編，並非官方角色；上游權利鏈未全面核實，沒有模型業者背書。[素材來源](public/art-provenance.md)。
 

@@ -23,8 +23,10 @@ export function validateSubmission(input: unknown, now = Date.now()) {
   if (data.observedPeriod.to > new Date(now+14*60*60*1000).toISOString().slice(0, 10)) throw new Error("Future observations are not valid");
   return data;
 }
+// Reports stored before the rename still carry the old wording, so screens show this constant rather than report.caveat.
+export const CAVEAT = "借用四組字母，以自訂規則描述你帶 Agent 的方式，並非人格測驗。這是這段期間的帶法觀察，不是心理診斷，也不是模型的固定性格。";
 export function toReport(data: Submission) {
-  return { ...data, usageLevel: deriveUsageLevel(data), assessment: deriveAssessment(data), rubric: RUBRIC.id, caveat: "借用四組字母，以自訂規則描述你帶 Agent 的方式，非官方 MBTI 評量。這是這段期間的帶法觀察，不是心理診斷，也不是模型的固定性格。" };
+  return { ...data, usageLevel: deriveUsageLevel(data), assessment: deriveAssessment(data), rubric: RUBRIC.id, caveat: CAVEAT };
 }
 export type Report = ReturnType<typeof toReport>;
 export type CardObservation = Pick<Report, "nickname" | "kind" | "assessment"> & { modelFamily: Report["metrics"]["mostUsedModelFamily"]; usageLevel:UsageLevel; brief:string[]; selfType:TypeCode|null };

@@ -1,7 +1,7 @@
 "use client";
 import {useEffect, useState} from "react";
 import {useLocale} from "./locale-provider.tsx";
-import {artFor, families, personas, type Family} from "../lib/catalog.ts";
+import {artFor, displayArt, families, personas, type Family} from "../lib/catalog.ts";
 import {typeCodes, type TypeCode} from "../lib/contract.ts";
 
 // While the agent works, a card keeps turning over and lands on a different character and type each time.
@@ -13,7 +13,7 @@ const pick = (previous?: Face): Face => {
   while (previous && next.family === previous.family && next.type === previous.type);
   return next;
 };
-const preload = (face: Face) => { const src = artFor(face.family, face.type, "chibi"); if (src) new Image().src = src; };
+const preload = (face: Face) => { const src = displayArt(artFor(face.family, face.type, "chibi")); if (src) new Image().src = src; };
 
 export function CardShuffle() {
   const {t} = useLocale();
@@ -28,7 +28,7 @@ export function CardShuffle() {
     setFace(next);
     const after = pick(next); preload(after); setNext(after);
   }
-  const art = artFor(face.family, face.type, "chibi");
+  const art = displayArt(artFor(face.family, face.type, "chibi"));
   return <div className="card-shuffle" aria-hidden="true">
     <div className="card-shuffle-inner" onAnimationIteration={turned}>
       <div className="card-shuffle-face">{art && <img src={art} alt="" draggable={false}/>}<span className="card-shuffle-code">{face.type}</span><span className="card-shuffle-name">{t(personas[face.type].name)}</span></div>

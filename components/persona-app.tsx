@@ -15,7 +15,7 @@ import {CollectorScopeOptions} from "./collector-scope-options.tsx";
 import {createCollectorScope,collectorScopeSchema,defaultScopeOptions,scopeOptionsSchema,SESSION_TTL_MS,type CollectorScope} from "../lib/collector-scope.ts";
 import { makeLevelFixture, demoReport } from "../lib/fixture.ts";
 import { CAVEAT, toCardObservation, type Report } from "../lib/assessment.ts";
-import { families, personas, personaFor, modelLabels, clientLabels, artFor, artCounts, defaultFamily, type ArtStyle, type Family } from "../lib/catalog.ts";
+import { families, personas, personaFor, modelLabels, clientLabels, artFor, displayArt, artCounts, defaultFamily, type ArtStyle, type Family } from "../lib/catalog.ts";
 import { axisDefinitions, letterLabels, letterTips, contextLabels } from "../lib/workstyle.ts";
 import { downloadCard } from "../lib/export-card.ts";
 import { selfContrast } from "../lib/card-composition.ts";
@@ -328,11 +328,11 @@ export function PersonaApp({turnstileSiteKey}:{turnstileSiteKey:string}) {
       {stage === "cover" && <section className="cover-screen screen" aria-labelledby="cover-title">
         <h1 id="cover-title" tabIndex={-1}>{t("你的 Agent，")}<br />{t("是哪種夥伴風格？")}</h1>
         <p className="cover-tagline">{t("你怎麼帶它做事，")}<br className="mobile-break"/>{t("它就長出怎樣的工作風格。")}</p><div className="cover-art"><HoloCard report={toCardObservation(demoReport)} style="chibi" family="codex" nicknameOnly teaser/></div>
-        <button className="primary" onClick={start}>{flow.lastResult ? t("打開上次的卡片") : active ? t("繼續這次觀察") : t("開始觀察")}<ArrowRight size={22}/></button>{flow.lastResult&&<div className="remembered-actions"><button className="quiet-button" onClick={startNew}>{t("開始新的觀察")}</button><button className="quiet-button" onClick={()=>erase()}>{t("清除上次結果")}</button></div>}
+        <button className="primary" onClick={start}>{flow.lastResult ? t("打開上次的卡片") : active ? t("繼續這次觀察") : t("開始觀察")}<ArrowRight size={22}/></button><p className="cover-needs">{t("需要 Claude Code、Codex 或 Cursor · 對話不離開你的電腦")}</p>{flow.lastResult&&<div className="remembered-actions"><button className="quiet-button" onClick={startNew}>{t("開始新的觀察")}</button><button className="quiet-button" onClick={()=>erase()}>{t("清除上次結果")}</button></div>}
       </section>}
       {stage !== "cover" && expired ? <section className="screen recovery-screen"><div className="sealed-card" aria-hidden="true"><span>✧</span></div><h1 tabIndex={-1}>{t("這道光，")}<br />{t("暫時收起了。")}</h1><p className="lead">{t("連結已到期或失效。請讓 Agent 保留已整理的最小摘要，")}<br />{t("換新連結後，只需明確核准新的收件目的地。")}</p><button className="primary" disabled={flow.busy} onClick={renew}>{t("沿用分析，換新連結")}<ArrowRight size={20}/></button></section> : <>
       {stage === "identity" && <section className="identity-screen screen">
-        <img className="identity-art" src={artFor("codex", "INTJ", "chibi")!} alt=""/>
+        <img className="identity-art" src={displayArt(artFor("codex", "INTJ", "chibi"))!} alt=""/>
         <h1 tabIndex={-1}>{active ? <>{t("你的連結，")}<br />{t("還在等你。")}</> : <>{t("這位搭檔，")}<br />{t("該怎麼稱呼？")}</>}</h1>{resumeMode && !active && <p className="small-note renewal-note">{t("將建立新的收件連結。舊連結不延長；新指令會要求你明確核准新目的地，已保存的最小摘要可繼續使用。")}</p>}
         <form onSubmit={create} className="identity-form">
           <label className="sr-only" htmlFor="nickname">{t("Agent 的名字")}</label><input id="nickname" className="nickname-input" autoComplete="off" placeholder={t("Agent 的名字")} value={active?.nickname ?? nickname} onInvalid={e=>e.currentTarget.setCustomValidity(t("請填寫 Agent 的名字。"))} onInput={e=>e.currentTarget.setCustomValidity("")} onChange={e => setNickname(e.target.value)} required maxLength={24} readOnly={!!active}/>

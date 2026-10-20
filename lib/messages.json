@@ -3634,5 +3634,29 @@
     "指示をもう一度取得",
     "지시를 다시 받기",
     "Get the prompt again"
+  ],
+  "需要 Claude Code、Codex 或 Cursor · 對話不離開你的電腦": [
+    "需要 Claude Code、Codex 或 Cursor · 对话不离开你的电脑",
+    "Claude Code・Codex・Cursor のいずれかが必要 · 会話はあなたの PC から出ません",
+    "Claude Code, Codex 또는 Cursor 필요 · 대화는 내 컴퓨터를 떠나지 않아요",
+    "Needs Claude Code, Codex or Cursor · your conversations stay on your computer"
+  ],
+  "找不到這一頁": [
+    "找不到这一页",
+    "このページは見つかりません",
+    "페이지를 찾을 수 없어요",
+    "Page not found"
+  ],
+  "連結可能打錯了，或是已經撤回。": [
+    "链接可能打错了，或是已经撤回。",
+    "リンクが間違っているか、取り消された可能性があります。",
+    "링크가 잘못되었거나 이미 철회되었을 수 있어요.",
+    "The link may be mistyped, or it was withdrawn."
+  ],
+  "找不到這一頁｜你的 AI 夥伴風格指南": [
+    "找不到这一页｜你的 AI 伙伴风格指南",
+    "ページが見つかりません｜あなたの AI パートナー・スタイルガイド",
+    "페이지를 찾을 수 없어요｜당신의 AI 파트너 스타일 가이드",
+    "Page not found | Your AI Partner Style Guide"
   ]
 }

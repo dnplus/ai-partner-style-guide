@@ -31,6 +31,9 @@ export const artCounts={ready:artSlots.filter(s=>s.status==="ready").length,tota
 export function artSlot(family:Family,type:TypeCode|null,style:ArtStyle){
   return type ? artSlots.find(s=>s.family===family&&s.type===type&&s.style===style)??null : null;
 }
+// Pages show art at card size, so they load a build-time copy: "view" is 640px wide, "thumb" 240px.
+// The downloadable PNG keeps using the original.
+export const displayArt=(src:string|null,size:"view"|"thumb"="view")=>src?.replace("/art/mbti/","/art/"+size+"/")??null;
 export function artFor(family:Family,type:TypeCode|null,style:ArtStyle){
   const slot=artSlot(family,type,style);return slot?.status==="ready" ? slot.src : null;
 }

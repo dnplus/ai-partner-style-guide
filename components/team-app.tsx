@@ -4,7 +4,7 @@ import {ArrowLeft, Copy, RefreshCw} from "lucide-react";
 import {useLocale, LocaleSwitch} from "./locale-provider.tsx";
 import {Turnstile} from "./turnstile.tsx";
 import {TURNSTILE_ACTION} from "../lib/contract.ts";
-import {artFor, defaultFamily, personaFor, modelLabels, clientLabels} from "../lib/catalog.ts";
+import {artFor, displayArt, defaultFamily, personaFor, modelLabels, clientLabels} from "../lib/catalog.ts";
 import {levelNames} from "../lib/usage-level.ts";
 import {rarityFor} from "../lib/card-composition.ts";
 import {compactNumber} from "../lib/objective-stats.ts";
@@ -30,7 +30,7 @@ function Member({name, entries, onRemove}: {name: string; entries: Entry[]; onRe
   const n = (value: number | null, bound = false) => value === null ? "—" : (bound && s.stats.partial ? "≥ " : "") + compactNumber(value, locale);
   const tokens = s.stats.inputTokens === null && s.stats.outputTokens === null ? "—" : compactNumber((s.stats.inputTokens ?? 0) + (s.stats.outputTokens ?? 0), locale);
   return <article className="team-member" data-rarity={rarityFor(level)}>
-    <div className="team-member-art">{art ? <img src={art} alt="" loading="lazy"/> : <span aria-hidden="true">✧</span>}</div>
+    <div className="team-member-art">{art ? <img src={displayArt(art, "thumb")!} alt="" loading="lazy"/> : <span aria-hidden="true">✧</span>}</div>
     <div className="team-member-body">
       <header><h2>{name}</h2><span className="team-level">LV {level ?? "?"}<small>{t(level === null ? "待觀察" : levelNames[level])}</small></span></header>
       <p className="team-type"><Code snapshot={s}/> <span>{t(personaFor(s.assessment.type).name)}</span> · <span className="team-agent">{s.nickname}</span></p>

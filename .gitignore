@@ -55,5 +55,7 @@ next-env.d.ts
 # Generated test and verification output.
 /evidence/
 
-# Social preview art generated from public/art at build time.
+# Social preview and display-size art generated from public/art at build time.
 /public/og/art/
+/public/art/view/
+/public/art/thumb/

@@ -385,3 +385,7 @@ html[lang="en"] .art-grid .card-copy h2,html[lang="ko"] .art-grid .card-copy h2{
 @media (prefers-reduced-motion:no-preference){.card-shuffle-inner{animation:shuffle-turn 3.4s cubic-bezier(.65,0,.3,1) infinite}}
 @keyframes shuffle-turn{0%{transform:rotateY(180deg)}26%,74%{transform:rotateY(360deg)}100%{transform:rotateY(540deg)}}
 @media(max-width:640px){.card-shuffle{width:150px;height:225px;margin-bottom:22px}.card-shuffle-code{font-size:26px;bottom:28px}.card-shuffle-back span{font-size:76px}}
+
+/* One line under the start button: what a visitor needs before they try. */
+.cover-needs{margin-top:14px;font-size:12px;color:#8b809b;letter-spacing:.02em}
+@media (prefers-reduced-motion:no-preference){.app-root[data-ready="true"] .cover-needs{animation:copy-in .5s var(--ease-out) 1.6s backwards}}

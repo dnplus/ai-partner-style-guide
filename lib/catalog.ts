@@ -37,7 +37,7 @@ export function defaultFamily(modelFamily: string, client?: string): Family {
 }
 export const modelLabels: Record<string, string> = { openai: "OpenAI / GPT", anthropic: "Anthropic / Claude", google: "Google / Gemini", xai: "xAI / Grok", deepseek: "DeepSeek", zai: "Z.ai / GLM", other: "其他模型", unknown: "尚未確認" };
 export const clientLabels: Record<string, string> = { codex: "Codex", "claude-code": "Claude Code", antigravity: "Antigravity", cursor: "Cursor", chatgpt: "ChatGPT", other: "其他工具", unknown: "尚未確認" };
-export {artFor,artSlot,artCounts} from "./art-catalog.ts";
+export {artFor,artSlot,artCounts,displayArt} from "./art-catalog.ts";
 export function artTitle(family:Family,locale:Locale="zh-TW") {
   const t=translator(locale);
   return family==="codex"?t("GPT 娘的 Codex 主題同人改編"):t("{family} 角色同人改編",{family:families.find(f=>f.id===family)!.label});

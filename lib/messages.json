@@ -3658,5 +3658,131 @@
     "ページが見つかりません｜あなたの AI パートナー・スタイルガイド",
     "페이지를 찾을 수 없어요｜당신의 AI 파트너 스타일 가이드",
     "Page not found | Your AI Partner Style Guide"
+  ],
+  "普通": [
+    "普通",
+    "ノーマル",
+    "일반",
+    "Common"
+  ],
+  "稀有": [
+    "稀有",
+    "レア",
+    "레어",
+    "Rare"
+  ],
+  "史詩": [
+    "史诗",
+    "エピック",
+    "에픽",
+    "Epic"
+  ],
+  "傳說": [
+    "传说",
+    "レジェンド",
+    "전설",
+    "Legendary"
+  ],
+  "待鑑定": [
+    "待鉴定",
+    "未鑑定",
+    "감정 전",
+    "Unrated"
+  ],
+  "卡片稀有度": [
+    "卡片稀有度",
+    "カードのレア度",
+    "카드 희귀도",
+    "Card rarity"
+  ],
+  "稀有度怎麼來": [
+    "稀有度怎么来",
+    "レア度の決まり方",
+    "희귀도는 어떻게 정해지나요",
+    "How rarity is earned"
+  ],
+  "你們剛開始搭檔：結果常直接拿來用，出錯了就換個說法再試。": [
+    "你们刚开始搭档：结果常直接拿来用，出错了就换个说法再试。",
+    "組み始めたばかり。結果をそのまま使い、うまくいかなければ言い方を変えて試します。",
+    "이제 막 짝이 된 사이예요. 결과를 바로 쓰고, 틀리면 말을 바꿔 다시 시도해요.",
+    "You've just started working together: results often go straight into use, and when something's off you rephrase and try again."
+  ],
+  "你們有默契了：結果先確認再用，出錯時能指出哪裡不對，讓它改對。": [
+    "你们有默契了：结果先确认再用，出错时能指出哪里不对，让它改对。",
+    "息が合ってきた。結果は確かめてから使い、間違いはどこが違うか指摘して直させます。",
+    "손발이 맞기 시작했어요. 결과는 확인하고 쓰고, 틀리면 어디가 틀렸는지 짚어 고치게 해요.",
+    "You're in sync: you check results before using them, and point out exactly what's wrong so it gets fixed."
+  ],
+  "你們有共用的工具箱：你寫下的技能、規則或腳本，會在別的工作裡被再次拿出來用。": [
+    "你们有共用的工具箱：你写下的技能、规则或脚本，会在别的工作里被再次拿出来用。",
+    "共有の道具箱がある。書いたスキル・ルール・スクリプトが別の作業でまた使われます。",
+    "함께 쓰는 도구함이 있어요. 적어 둔 스킬·규칙·스크립트가 다른 작업에서 다시 쓰여요.",
+    "You share a toolbox: the skills, rules or scripts you wrote get picked up again in other work."
+  ],
+  "你們的搭檔會自己運轉：排程、CI 或 hook 讓它在你不在時也持續工作，工具箱也一直在更新。": [
+    "你们的搭档会自己运转：排程、CI 或 hook 让它在你不在时也持续工作，工具箱也一直在更新。",
+    "コンビが自走している。スケジュール・CI・hook で不在中も動き続け、道具箱も更新され続けます。",
+    "짝이 스스로 돌아가요. 스케줄·CI·hook으로 내가 없어도 계속 일하고, 도구함도 계속 갱신돼요.",
+    "Your partnership runs on its own: schedules, CI or hooks keep it working while you're away, and the toolbox keeps getting updated."
+  ],
+  "紀錄裡還看不出你們怎麼確認與重用，多搭檔幾次就能鑑定。": [
+    "记录里还看不出你们怎么确认与重用，多搭档几次就能鉴定。",
+    "記録からはまだ確認や再利用の様子が見えません。もう少し組めば鑑定できます。",
+    "기록만으로는 아직 확인과 재사용 방식이 보이지 않아요. 몇 번 더 함께하면 감정할 수 있어요.",
+    "The records don't show yet how you check and reuse work; a few more sessions together and the card can be rated."
+  ],
+  "稀有度看的是你和 Agent 搭檔得多深：會不會確認結果、有沒有留下能重用的東西、能不能自己運轉。和類型、用量、模型都無關。": [
+    "稀有度看的是你和 Agent 搭档得多深：会不会确认结果、有没有留下能重用的东西、能不能自己运转。和类型、用量、模型都无关。",
+    "レア度は Agent とどれだけ深く組めているかを表します。結果を確かめるか、再利用できるものを残すか、自走しているか。タイプ・使用量・モデルとは関係ありません。",
+    "희귀도는 Agent와 얼마나 깊이 함께하는지를 봐요. 결과를 확인하는지, 다시 쓸 수 있는 것을 남기는지, 스스로 돌아가는지. 유형·사용량·모델과는 무관해요.",
+    "Rarity reflects how deep your partnership with your agent runs: whether you check results, leave behind things that get reused, and let it run on its own. It has nothing to do with type, volume or model."
+  ],
+  "卡片稀有度怎麼來？": [
+    "卡片稀有度怎么来？",
+    "カードのレア度はどう決まる？",
+    "카드 희귀도는 어떻게 정해지나요?",
+    "How is card rarity decided?"
+  ],
+  "普通到稀有，看你會不會確認 Agent 的結果、出錯時能不能指出問題讓它改對；史詩看你寫下的技能、規則或腳本有沒有被其他工作再次使用；傳說再看自動化是否穩定運作兩週以上。看不出來就是待鑑定。": [
+    "普通到稀有，看你会不会确认 Agent 的结果、出错时能不能指出问题让它改对；史诗看你写下的技能、规则或脚本有没有被其他工作再次使用；传说再看自动化是否稳定运行两周以上。看不出来就是待鉴定。",
+    "ノーマルからレアは、Agent の結果を確かめるか、間違いを指摘して直させられるかで決まります。エピックは書いたスキル・ルール・スクリプトが別の作業で再利用されたか、レジェンドはさらに自動化が 2 週間以上安定して動いたかを見ます。判断できないときは未鑑定です。",
+    "일반에서 레어는 Agent의 결과를 확인하는지, 틀렸을 때 문제를 짚어 고치게 하는지로 정해져요. 에픽은 적어 둔 스킬·규칙·스크립트가 다른 작업에서 다시 쓰였는지, 전설은 여기에 더해 자동화가 2주 이상 안정적으로 돌았는지를 봐요. 알 수 없으면 감정 전이에요.",
+    "Common to Rare depends on whether you check your agent's results and can point out what's wrong so it gets fixed. Epic looks at whether the skills, rules or scripts you wrote get reused in other work, and Legendary adds automation that has run steadily for two weeks or more. When the records can't tell, the card stays unrated."
+  ],
+  "用你本機的 Agent 對話紀錄，看你帶 Agent 的方式屬於 16 型中的哪一型，抽一張有稀有度的角色卡。並非人格測驗。": [
+    "用你本机的 Agent 对话记录，看你带 Agent 的方式属于 16 型中的哪一型，抽一张有稀有度的角色卡。并非人格测验。",
+    "ローカルの Agent との会話記録から、あなたの Agent の導き方が 16 タイプのどれかを調べ、レア度つきのキャラクターカードを引けます。性格検査ではありません。",
+    "로컬의 Agent 대화 기록으로 당신이 Agent를 이끄는 방식이 16가지 유형 중 무엇인지 알아보고, 희귀도가 있는 캐릭터 카드를 뽑아요. 성격 검사가 아니에요.",
+    "Uses your local agent conversation logs to find which of 16 types describes how you lead your agent, and draws you a character card with a rarity. Not a personality test."
+  ],
+  "我的 Agent「{nickname}」說我是 {code} {persona}（{rarity}）。你和 Agent 是哪一種夥伴風格？ {url} #AIPartnerStyle": [
+    "我的 Agent「{nickname}」说我是 {code} {persona}（{rarity}）。你和 Agent 是哪一种伙伴风格？ {url} #AIPartnerStyle",
+    "私の Agent「{nickname}」によると、私は {code} {persona}（{rarity}）。あなたと Agent はどんなパートナースタイル？ {url} #AIPartnerStyle",
+    "내 Agent「{nickname}」가 말하길 나는 {code} {persona}({rarity})래요. 당신과 Agent는 어떤 파트너 스타일일까요? {url} #AIPartnerStyle",
+    "My agent “{nickname}” says I’m {code}, {persona} ({rarity}). What’s your partner style with your agent? {url} #AIPartnerStyle"
+  ],
+  "做完一件事後，親手確認結果真的能用，卡片就有線索可鑑定。": [
+    "做完一件事后，亲手确认结果真的能用，卡片就有线索可鉴定。",
+    "ひとつ終えたら、結果が本当に使えるか自分で確かめると、カードを鑑定する手がかりが残ります。",
+    "한 가지 일을 끝낸 뒤 결과가 정말 쓸 만한지 직접 확인하면, 카드를 감정할 단서가 생겨요.",
+    "After you finish something, check for yourself that the result really works. That gives the card something to be rated on."
+  ],
+  "已是傳說卡。定期檢查自動化的產出，別讓它默默走樣。": [
+    "已是传说卡。定期检查自动化的产出，别让它默默走样。",
+    "レジェンドカードです。自動化の出力を定期的に確認し、知らないうちに崩れないようにしましょう。",
+    "이미 전설 카드예요. 자동화 결과를 정기적으로 점검해 조용히 어긋나지 않게 하세요.",
+    "Your card is already Legendary. Review what the automation produces now and then so it does not drift unnoticed."
+  ],
+  "可以依平台調整語氣和長度（X 不超過 280 字元），但不要改動類型、稀有度和連結。發文前先把最終內容給我確認，得到同意才送出。不要讀取或上傳我電腦裡的其他檔案。": [
+    "可以依平台调整语气和长度（X 不超过 280 字符），但不要改动类型、稀有度和链接。发文前先把最终内容给我确认，得到同意才送出。不要读取或上传我电脑里的其他文件。",
+    "プラットフォームに合わせて口調や長さを調整してかまいません（X は 280 文字以内）。ただしタイプ、レア度、リンクは変えないでください。投稿前に最終的な内容を見せ、私の同意を得てから送信してください。私のパソコンのほかのファイルは読み取ったりアップロードしたりしないでください。",
+    "플랫폼에 맞게 말투와 길이를 조정해도 돼요(X는 280자 이내). 단, 유형·희귀도·링크는 바꾸지 마세요. 올리기 전에 최종 내용을 보여 주고 제 동의를 받은 뒤 보내 주세요. 제 컴퓨터의 다른 파일은 읽거나 올리지 마세요.",
+    "Adjust the tone and length for the platform (X stays under 280 characters), but keep the type, rarity and link unchanged. Show me the final text and post only after I approve. Do not read or upload any other files from my computer."
+  ],
+  "揭曉角色卡、卡片稀有度與下一步建議。": [
+    "揭晓角色卡、卡片稀有度与下一步建议。",
+    "キャラクターカード、カードのレア度、次の一歩が公開されます。",
+    "캐릭터 카드, 카드 희귀도, 다음 단계가 공개돼요.",
+    "Reveal your character card, its rarity and a next step."
   ]
 }

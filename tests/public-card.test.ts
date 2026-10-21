@@ -95,7 +95,7 @@ test('the post and the agent prompt carry the link, the type and the level, and 
   const card = toCardObservation(toReport({...makeLevelFixture('小克'), kind: 'observed'}));
   const url = 'https://ai-partner-style.example/c/abcdefghijklmnopqrstuv';
   const post = postText(card, url, 'zh-TW', false);
-  assert.ok(post.includes(url) && post.includes(card.assessment.pattern) && post.includes('LV ' + card.usageLevel.value) && post.includes('#AIPartnerStyle'));
+  assert.ok(post.includes(url) && post.includes(card.assessment.pattern) && post.includes('（史詩）') && !post.includes('LV') && post.includes('#AIPartnerStyle'));
   assert.ok(!/mbti/i.test(post + postText(card, url, 'en', true)));
   assert.equal(postText(card, url, 'en', true).includes(card.assessment.pattern), false);
   const prompt = agentSharePrompt(card, url, 'en', false).split('\n');

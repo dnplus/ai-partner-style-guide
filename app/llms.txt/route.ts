@@ -1,6 +1,6 @@
 import {translator} from '../../lib/i18n.ts';
 import {personas} from '../../lib/catalog.ts';
-import {levelNames,levelDescriptions,usageBases} from '../../lib/usage-level.ts';
+import {RARITY_LEAD,UNRATED,rarityDescriptions,rarityNames,rarityOrder} from '../../lib/rarity.ts';
 import {typeCodes} from '../../lib/contract.ts';
 import {faq,steps,limits,siteDescription} from '../../lib/site-content.ts';
 import {CREATOR} from '../../lib/creator.ts';
@@ -11,9 +11,9 @@ export function GET(request:Request){
   'It describes how a person leads a coding agent, judged only from the person\'s own messages. It is not a personality test. Pages exist in Traditional Chinese (default), Simplified Chinese, Japanese, Korean and English: add ?lang=zh-CN, ?lang=ja, ?lang=ko or ?lang=en.','',
   '## How it works','',...steps.map((s,i)=>`${i+1}. ${t(s)}`),'',
   '## For agents','',`- [Collector skill](${base}/collector/SKILL.md): verify and run collect.py, ask the user once, submit one minimal summary. Transcripts never leave the machine.`,'',
-  '## Pages','',`- [The 16 types](${base}/types?lang=en)`,`- [Usage levels LV0–5](${base}/levels?lang=en)`,`- [Method, limits and FAQ](${base}/method?lang=en)`,`- [Art gallery](${base}/art-gallery)`,'',
+  '## Pages','',`- [The 16 types](${base}/types?lang=en)`,`- [Card rarity](${base}/levels?lang=en)`,`- [Method, limits and FAQ](${base}/method?lang=en)`,`- [Art gallery](${base}/art-gallery)`,'',
   '## The 16 types','',...typeCodes.map(code=>`- [${code} — ${t(personas[code].name)}](${base}/types/${code.toLowerCase()}?lang=en): ${t(personas[code].line)}`),'',
-  '## Usage levels','',...levelNames.map((name,level)=>`- LV${level} ${t(name)}: ${t(levelDescriptions[usageBases[level]])}`),'',
+  '## Card rarity','',t(RARITY_LEAD),'',...rarityOrder.map(r=>`- ${t(rarityNames[r])}: ${t(rarityDescriptions[r])}`),`- ${t(UNRATED)}: ${t(rarityDescriptions.unrated)}`,'',
   '## Limits','',...limits.map(l=>`- ${t(l)}`),'',
   '## FAQ','',...faq.flatMap(([q,a])=>[`### ${t(q)}`,'',t(a),'']),
   '## Maker','',`Made by ${CREATOR.name}.`,...[['Source code',CREATOR.repo],['GitHub',CREATOR.github],['YouTube',CREATOR.youtube]].filter(([,url])=>url).map(([label,url])=>`- [${label}](${url})`),'',

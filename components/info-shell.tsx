@@ -7,7 +7,7 @@ import {CreatorLinks} from "./creator-links.tsx";
 // Server-rendered frame for the public pages: plain links for crawlers, one language per URL, the disclaimer on every page.
 export function InfoShell({locale, path, children}: {locale: Locale; path: string; children: ReactNode}) {
   const t = translator(locale);
-  const nav: [string, string][] = [["/types", "16 種類型"], ["/levels", "使用等級"], ["/method", "怎麼判斷"], ["/art-gallery", "插畫圖庫"]];
+  const nav: [string, string][] = [["/types", "16 種類型"], ["/levels", "卡片稀有度"], ["/method", "怎麼判斷"], ["/art-gallery", "插畫圖庫"]];
   return <div className="info-root" lang={locale}>
     <header className="info-header">
       <a className="brand" href={localized("/", locale)}><span aria-hidden="true">✧</span>{t("你的 AI 夥伴風格指南")}<span aria-hidden="true">✧</span></a>

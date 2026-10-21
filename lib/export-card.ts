@@ -3,6 +3,7 @@ import {translator,type Locale} from './i18n.ts';
 import type {ArtStyle,Family} from './catalog.ts';
 import type {CardObservation} from './assessment.ts';
 import {cardComposition,cardSvg,measuredCode,selfContrast} from './card-composition.ts';
+import {rarityLabel} from './rarity.ts';
 export const exportFormats={card:{width:1080,height:1620,label:'收藏卡'},feed:{width:1080,height:1350,label:'直式貼文'},story:{width:1080,height:1920,label:'限時尺寸'},square:{width:1080,height:1080,label:'正方形'},landscape:{width:1200,height:630,label:'橫式貼文'}} as const;
 export type ExportFormat=keyof typeof exportFormats;
 export const tagged=(url:string,via:string)=>{const u=new URL(url);u.searchParams.set('via',via);return u.href;};
@@ -40,5 +41,5 @@ export async function downloadCard(report:CardObservation,style:ArtStyle,family:
  const result=await makeCardFile(report,style,family,nicknameOnly,home,locale,format);saveCardFile(result.file);return {width:result.width,height:result.height,bytes:result.file.size,locale,filename:result.file.name};
 }
 export function shareText(report:CardObservation,nicknameOnly:boolean,home:string,locale:Locale='zh-TW',includeBrief=true){
- const t=translator(locale);return [t('你的 AI 夥伴風格指南'),report.nickname,...(nicknameOnly?[]:[selfContrast(report,t)||measuredCode(report,t),'LV '+(report.usageLevel.value??'?'),...(includeBrief?report.brief.map(line=>t(line)):[])]),home].join('\n');
+ const t=translator(locale);return [t('你的 AI 夥伴風格指南'),report.nickname,...(nicknameOnly?[]:[selfContrast(report,t)||measuredCode(report,t),t(rarityLabel(report.usageLevel.value)),...(includeBrief?report.brief.map(line=>t(line)):[])]),home].join('\n');
 }

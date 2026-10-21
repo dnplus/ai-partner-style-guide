@@ -1,7 +1,7 @@
 import {translator,bodyFonts,type Locale,type Translate} from './i18n.ts';
 import {artFor,families,personaFor,type Family,type ArtStyle} from './catalog.ts';
 import {letterLabels} from './workstyle.ts';
-import {levelNames} from './usage-level.ts';
+import {rarityFor,rarityLabel,type Rarity} from './rarity.ts';
 import type {CardObservation} from './assessment.ts';
 export function measuredCode(card:CardObservation,t:Translate){
  return card.assessment.axes.some(axis=>axis.value!=='?')?card.assessment.pattern:t('未定型');
@@ -11,13 +11,12 @@ export function selfContrast(card:CardObservation,t:Translate){
  return card.assessment.type===card.selfType?t('你帶 Agent 時也是 {type}',{type:card.selfType}):t('你以為你是 {self}，帶 Agent 時是 {measured}',{self:card.selfType,measured:card.assessment.pattern});
 }
 // Higher usage levels earn a showier frame; hiding the level also hides the rarity.
-export type Rarity='common'|'rare'|'epic'|'legendary';
-export const rarityFor=(level:number|null):Rarity=>level===null||level<2?'common':level<4?'rare':level<5?'epic':'legendary';
+export {rarityFor,type Rarity} from './rarity.ts';
 export function cardComposition(report:CardObservation,style:ArtStyle,family:Family,nicknameOnly=false,locale:Locale='zh-TW'){
  const t=translator(locale),theme=families.find(f=>f.id===family)!;
  const known=report.assessment.axes.filter(axis=>axis.value!=='?');
  const leans=report.assessment.axes.map(axis=>axis.strength==='lean');
- return {rarity:nicknameOnly?'common' as Rarity:rarityFor(report.usageLevel.value),family:theme.label.toUpperCase(),modelLabel:t('你的 AI 夥伴風格指南'),type:nicknameOnly?'':measuredCode(report,t),leans:known.length?leans:[],title:nicknameOnly?'':t(personaFor(report.assessment.type).name),nickname:report.nickname,level:nicknameOnly?'':'LV '+(report.usageLevel.value??'?'),levelTitle:nicknameOnly?'':t(report.usageLevel.value===null?'待觀察':levelNames[report.usageLevel.value]),tagline:nicknameOnly?'':selfContrast(report,t)||known.toSorted((a,b)=>Number(a.strength==='lean')-Number(b.strength==='lean')).slice(0,2).map(axis=>t(letterLabels[axis.value])).join(' · ')||t('輪廓還在形成'),legend:nicknameOnly||!leans.includes(true)?'':t('淡色＝傾向'),art:artFor(family,report.assessment.type,style),fixture:report.kind==='fixture',font:bodyFonts[locale],locale,nicknameOnly,credit:'ApprenTice · ZipZipPipe'+(family==='deepseek'?' · 上善無形':'')+' · AI adaptation · CC BY-NC-SA 4.0 · Apprentice-Geo/AI-Fanworks'};
+ return {rarity:nicknameOnly?'common' as Rarity:rarityFor(report.usageLevel.value),family:theme.label.toUpperCase(),modelLabel:t('你的 AI 夥伴風格指南'),type:nicknameOnly?'':measuredCode(report,t),leans:known.length?leans:[],title:nicknameOnly?'':t(personaFor(report.assessment.type).name),nickname:report.nickname,level:nicknameOnly?'':t(rarityLabel(report.usageLevel.value)),levelTitle:nicknameOnly?'':t('卡片稀有度'),tagline:nicknameOnly?'':selfContrast(report,t)||known.toSorted((a,b)=>Number(a.strength==='lean')-Number(b.strength==='lean')).slice(0,2).map(axis=>t(letterLabels[axis.value])).join(' · ')||t('輪廓還在形成'),legend:nicknameOnly||!leans.includes(true)?'':t('淡色＝傾向'),art:artFor(family,report.assessment.type,style),fixture:report.kind==='fixture',font:bodyFonts[locale],locale,nicknameOnly,credit:'ApprenTice · ZipZipPipe'+(family==='deepseek'?' · 上善無形':'')+' · AI adaptation · CC BY-NC-SA 4.0 · Apprentice-Geo/AI-Fanworks'};
 }
 export type CardComposition=ReturnType<typeof cardComposition>;
 const xml=(s:string)=>s.replaceAll('&','&amp;').replaceAll('<','&lt;').replaceAll('>','&gt;').replaceAll('"','&quot;').replaceAll("'",'&apos;');

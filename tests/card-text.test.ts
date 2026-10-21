@@ -38,17 +38,17 @@ test("zh-TW card and share text contrast a different self-type, confirm a matchi
   assert.equal(cardComposition(estp("INTJ"),"chibi","codex").tagline,"你以為你是 INTJ，帶 Agent 時是 ESTP");
   assert.equal(cardComposition(estp("ESTP"),"chibi","codex").tagline,"你帶 Agent 時也是 ESTP");
   assert.equal(cardComposition(estp(null),"chibi","codex").tagline,"給做法 · 看證據");
-  assert.equal(shareText(estp("INTJ"),false,home),"你的 AI 夥伴風格指南\n阿星\n你以為你是 INTJ，帶 Agent 時是 ESTP\nLV ?\n你給的多是具體做法：檔案、步驟、指令、範例。\n你驗收時看證據：測試、數字、規格、差異。\nhttps://ai-partner-style.example.workers.dev/");
-  assert.equal(shareText(estp("ESTP"),false,home,"zh-TW",false),"你的 AI 夥伴風格指南\n阿星\n你帶 Agent 時也是 ESTP\nLV ?\nhttps://ai-partner-style.example.workers.dev/");
-  assert.equal(shareText(estp(null),false,home,"zh-TW",false),"你的 AI 夥伴風格指南\n阿星\nESTP\nLV ?\nhttps://ai-partner-style.example.workers.dev/");
+  assert.equal(shareText(estp("INTJ"),false,home),"你的 AI 夥伴風格指南\n阿星\n你以為你是 INTJ，帶 Agent 時是 ESTP\n待鑑定\n你給的多是具體做法：檔案、步驟、指令、範例。\n你驗收時看證據：測試、數字、規格、差異。\nhttps://ai-partner-style.example.workers.dev/");
+  assert.equal(shareText(estp("ESTP"),false,home,"zh-TW",false),"你的 AI 夥伴風格指南\n阿星\n你帶 Agent 時也是 ESTP\n待鑑定\nhttps://ai-partner-style.example.workers.dev/");
+  assert.equal(shareText(estp(null),false,home,"zh-TW",false),"你的 AI 夥伴風格指南\n阿星\nESTP\n待鑑定\nhttps://ai-partner-style.example.workers.dev/");
 });
 
 test("en card and share text follow the same three cases",()=>{
   assert.equal(cardComposition(estp("INTJ"),"chibi","codex",false,"en").tagline,"You thought you were INTJ. Leading your Agent, you're ESTP");
   assert.equal(cardComposition(estp("ESTP"),"chibi","codex",false,"en").legend,"Faded = leaning");
-  assert.equal(shareText(estp("INTJ"),false,home,"en"),"Your AI Partner Style Guide\n阿星\nYou thought you were INTJ. Leading your Agent, you're ESTP\nLV ?\nYou mostly hand over the how: files, steps, commands, examples.\nYou check results by evidence: tests, numbers, specs, diffs.\nhttps://ai-partner-style.example.workers.dev/");
-  assert.equal(shareText(estp("ESTP"),false,home,"en",false),"Your AI Partner Style Guide\n阿星\nLeading your Agent, you're ESTP too\nLV ?\nhttps://ai-partner-style.example.workers.dev/");
-  assert.equal(shareText(estp(null),false,home,"en",false),"Your AI Partner Style Guide\n阿星\nESTP\nLV ?\nhttps://ai-partner-style.example.workers.dev/");
+  assert.equal(shareText(estp("INTJ"),false,home,"en"),"Your AI Partner Style Guide\n阿星\nYou thought you were INTJ. Leading your Agent, you're ESTP\nUnrated\nYou mostly hand over the how: files, steps, commands, examples.\nYou check results by evidence: tests, numbers, specs, diffs.\nhttps://ai-partner-style.example.workers.dev/");
+  assert.equal(shareText(estp("ESTP"),false,home,"en",false),"Your AI Partner Style Guide\n阿星\nLeading your Agent, you're ESTP too\nUnrated\nhttps://ai-partner-style.example.workers.dev/");
+  assert.equal(shareText(estp(null),false,home,"en",false),"Your AI Partner Style Guide\n阿星\nESTP\nUnrated\nhttps://ai-partner-style.example.workers.dev/");
 });
 
 test("a partial result contrasts against its pattern, an empty one never contrasts, and nickname-only hides everything",()=>{

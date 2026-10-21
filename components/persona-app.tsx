@@ -8,6 +8,7 @@ import {Turnstile} from "./turnstile.tsx";
 import {levelDescriptions,nextStepFor} from "../lib/usage-level.ts";
 import { HoloCard } from "./holo-card.tsx";
 import {CreatorLinks} from "./creator-links.tsx";
+import {RARITY_LEAD, rarityLabel} from "../lib/rarity.ts";
 import {CardShuffle} from "./card-shuffle.tsx";
 import { usePersonaSession } from "./use-persona-session.ts";
 import { collectorInstructions } from "../lib/collector-instructions.ts";
@@ -56,7 +57,7 @@ function ReportSummary({report}:{report:Report}){
   return <>
     <details className="report-details"><summary>{t("打開完整觀察報告")}</summary><div className="report-content">
       <p className="report-period">{report.observedPeriod.from} — {report.observedPeriod.to}</p>
-      <h2>{t("使用等級")} · LV {report.usageLevel.value??"?"}</h2><p>{t(report.usageLevel.basis?levelDescriptions[report.usageLevel.basis]:"使用等級尚待更多成果線索。")}</p>
+      <h2>{t("卡片稀有度")} · {t(rarityLabel(report.usageLevel.value))}</h2><p>{t(report.usageLevel.basis?levelDescriptions[report.usageLevel.basis]:"使用等級尚待更多成果線索。")}</p>
       <h2>{t("你怎麼帶它，它怎麼做事。")}</h2>
       {report.assessment.axes.map((axis,i)=><section className="axis-finding" key={axis.axis}>
         <h3>{t(axisDefinitions[i].name)} · {axis.value==="?"?t(letterLabels["?"]):axis.value+" "+t(letterLabels[axis.value])}{axis.strength==="lean"&&" · "+t("傾向")}</h3>
@@ -377,7 +378,7 @@ export function PersonaApp({turnstileSiteKey}:{turnstileSiteKey:string}) {
     <footer className="journey-footer"><LocaleSwitch /><button onClick={() => about.current?.showModal()}>{t("關於這份觀察")}</button><a className="journey-link" href={localized("/types",locale)}>{t("16 種類型")}</a><CreatorLinks t={t}/></footer>
     <dialog ref={about} className="about-dialog" aria-labelledby="about-title"><button className="icon-button dialog-close" onClick={() => about.current?.close()} aria-label={t("關閉說明")}><X size={22}/></button><h2 id="about-title">{t("你怎麼帶它，")}<br />{t("它就怎麼做事。")}</h2><p>{t("這是一段以授權使用紀錄為依據的合作觀察。借用四組字母，以自訂規則描述合作風格，並非人格測驗。網站只接收你事前明確授權範圍內的最小摘要，授權後自動驗證與傳送。")}</p>
       <details><summary>{t("觀察依據與 16 種風格")}</summary><p>{t("借用 E/I 推進節奏、S/N 指令焦點、T/F 驗收依據、J/P 工作框架，只看你帶 Agent 時說了什麼。這不是人格診斷，也不是模型的固定性格。")}</p><p>{t("每個任務每軸選一邊，看不出來就跳過。少於三個任務或打平保留問號，差距不大標成傾向。舊結果需要重新分析。")}<a href="/collector/SKILL.md" target="_blank" rel="noreferrer">{t("完整觀察方式 ↗")}</a></p><div className="about-types">{Object.entries(personas).map(([code, p]) => <div key={code}><b>{code}</b><span>{t(p.name)}</span></div>)}</div></details>
-      <details><summary>{t("使用等級如何判斷")}</summary><p>{t("等級與類型、用量和模型無關。LV0–3 看你帶 Agent 時怎麼查核與修正；LV4 看你寫下的技能、規則或腳本，是否被其他工作階段再次使用；LV5 再看自動化是否無人值守跑過兩週，且資產持續維護。沒有證據就保持未知，等級也不代表能力上限。")}</p></details>
+      <details><summary>{t("稀有度怎麼來")}</summary><p>{t(RARITY_LEAD)}</p></details>
       <details><summary>{t("角色來源與非商業授權")}</summary><p>{t("六個家族 × 16 型 × 一般／Q 版，共 192 格專屬插畫。目前")}{artCounts.ready}{t("張完成")}{artCounts.complete ? t("。") : t("，其餘製作中，缺圖不以其他型替代。")}{t("插畫依構圖選配，與分型計算獨立。Codex 使用 GPT 娘的同人改編，並非官方 Codex 角色。圖片改編參考")}<a href="https://github.com/Apprentice-Geo/AI-Fanworks/tree/main/ApprenTice/images" target="_blank" rel="noreferrer">ApprenTice</a>{t("；角色原作參考 ZipZipPipe，DeepSeek 另含上善無形。")}</p><p>{t("AI 輔助再創作，")}<a href="https://creativecommons.org/licenses/by-nc-sa/4.0/" target="_blank" rel="noreferrer">CC BY-NC-SA 4.0</a>{t("，限非商業、署名及相同方式分享。上游權利鏈尚未全面核實，沒有模型業者背書。")}</p><a href="/art-provenance.md" target="_blank" rel="noreferrer">{t("完整素材來源 ↗")}</a><br /><a href="/art-gallery">{t("瀏覽全部插畫圖庫 ↗")}</a></details>
       <details><summary>{t("資料如何使用")}</summary><p>{t("提交連結 30 分鐘後失效。此裝置可用安全 Cookie 開啟最近結果，最長保留 7 天；可隨時清除。原始紀錄與提交權杖不存入瀏覽器儲存空間，結果沒有公開網址。")}</p><p>{t("不需登入，也不收集 Email。結果只能由建立連結的這個瀏覽器讀取，除非你主動分享到團隊看板；分享的只有卡片與統計，可隨時撤回。Agent 只能透過短效專屬連結提交一次摘要，不能讀取結果。")}</p></details>
       {!active && <button className="quiet-button demo-entry" onClick={() => { setDemo(true); setNickname(t("示範搭檔")); about.current?.close(); go("identity"); }}>{t("使用虛構資料體驗")}<ArrowRight size={16}/></button>}

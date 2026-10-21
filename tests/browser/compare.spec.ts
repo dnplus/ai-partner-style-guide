@@ -9,7 +9,7 @@ test('a visitor from a public card compares with its owner, shares the pair, and
  const dialog=page.getByRole('dialog',{name:'挑個尺寸，分享這一面。'});
  await dialog.getByRole('button',{name:'建立可驗證連結'}).click();
  const url=(await dialog.locator('.verify-link code').textContent())!,ownerId=url.split('/c/')[1];
- const badge=await page.request.get(url+'/badge.svg');expect(badge.headers()['content-type']).toContain('image/svg+xml');expect(await badge.text()).toContain('INTJ · LV 4');
+ const badge=await page.request.get(url+'/badge.svg');expect(badge.headers()['content-type']).toContain('image/svg+xml');expect(await badge.text()).toContain('INTJ · Epic');
 
  const visitor=await browser.newContext({baseURL:base,locale:'zh-TW'}),view=await visitor.newPage();await asNewClient(view);
  await view.goto(url);

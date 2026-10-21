@@ -395,3 +395,10 @@ html[lang="en"] .art-grid .card-copy h2,html[lang="ko"] .art-grid .card-copy h2{
 .info-levels li[data-rarity="epic"]{border:2px solid #b48af0;background:linear-gradient(135deg,#fbf7ff,#f1e8ff)}
 .info-levels li[data-rarity="rare"]{border:2px solid #9fd9d0;background:linear-gradient(135deg,#f7fffd,#ecfbf7)}
 .info-levels li[data-rarity="unrated"]{border-style:dashed}
+
+/* The ring wraps the card: the far half stays behind it, the near half crosses in front. Each copy shows one half,
+   with room left on the open sides so the stars riding the ring are not cut off. */
+.orbit-back{clip-path:inset(-60% -30% 50% -30%)}
+/* Both halves share one stroke, so the ring reads as one line; only what it covers changes. */
+.orbit.orbit-back,.orbit.orbit-front{border-color:#d6c2ffcc;border-width:1.5px;filter:drop-shadow(0 0 4px #c4a2ff99)}
+.orbit.orbit-front{z-index:3;clip-path:inset(50% -30% -60% -30%)}

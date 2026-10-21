@@ -389,3 +389,9 @@ html[lang="en"] .art-grid .card-copy h2,html[lang="ko"] .art-grid .card-copy h2{
 /* One line under the start button: what a visitor needs before they try. */
 .cover-needs{margin-top:14px;font-size:12px;color:#8b809b;letter-spacing:.02em}
 @media (prefers-reduced-motion:no-preference){.app-root[data-ready="true"] .cover-needs{animation:copy-in .5s var(--ease-out) 1.6s backwards}}
+
+/* The rarity page shows each tier in its card frame colours. */
+.info-levels li[data-rarity="legendary"]{border:2px solid #e2b85c;background:linear-gradient(135deg,#fffaf0,#fff3d6)}
+.info-levels li[data-rarity="epic"]{border:2px solid #b48af0;background:linear-gradient(135deg,#fbf7ff,#f1e8ff)}
+.info-levels li[data-rarity="rare"]{border:2px solid #9fd9d0;background:linear-gradient(135deg,#f7fffd,#ecfbf7)}
+.info-levels li[data-rarity="unrated"]{border-style:dashed}

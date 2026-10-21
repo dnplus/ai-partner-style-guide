@@ -1,6 +1,6 @@
 const evidenceDir=process.env.BROWSER_EVIDENCE_DIR??"evidence/final-card";
 import {test,expect} from "@playwright/test";
-import {artSlots,artFamilies,artStyles,artCounts} from "../../lib/art-catalog.ts";
+import {artSlots,artFamilies,artStyles,artCounts,displayArt} from "../../lib/art-catalog.ts";
 import {typeCodes,type TypeCode} from "../../lib/contract.ts";
 import {makeFixture} from "../../lib/fixture.ts";
 import {asNewClient} from "./support.ts";
@@ -19,7 +19,7 @@ test("192-slot gallery loads exact art or honest pending states, inspector and m
         const card=page.locator('[data-slot="'+family+":"+slot.type+":"+style+'"]');
         await expect(card.locator(".card-code")).toHaveText(slot.type);
         if(slot.status==="ready"){
-          const img=card.locator(".card-front image");await expect(img).toHaveAttribute("href",slot.src!);
+          const img=card.locator(".card-front image");await expect(img).toHaveAttribute("href",displayArt(slot.src)!);
           expect(await img.evaluate(async(img:SVGImageElement)=>{const r=await fetch(img.href.baseVal);const bitmap=await createImageBitmap(await r.blob());return bitmap.width>=512&&bitmap.height>=512;})).toBe(true);
           await expect(img).toHaveAttribute("preserveAspectRatio","xMidYMid meet");
           expect(sources.has(slot.src!)).toBe(false);sources.add(slot.src!);
@@ -31,7 +31,7 @@ test("192-slot gallery loads exact art or honest pending states, inspector and m
   expect(sources.size).toBe(artCounts.ready);
   await page.getByRole("button",{name:"放大檢視 INTP",exact:true}).click();await expect(page.getByRole("dialog")).toBeVisible();
   await page.getByRole("dialog").getByRole("button",{name:"一般",exact:true}).click();
-  await expect(page.getByRole("dialog").locator(".card-front image")).toHaveAttribute("href","/art/mbti/glm/intp-regular.webp");
+  await expect(page.getByRole("dialog").locator(".card-front image")).toHaveAttribute("href","/art/view/glm/intp-regular.webp");
   await page.screenshot({animations:"disabled",path:evidenceDir+"/gallery-inspector.png"});
   await page.getByRole("button",{name:"關閉插畫",exact:true}).click();
   await page.setViewportSize({width:390,height:844});await page.getByRole("combobox",{name:"角色家族",exact:true}).selectOption("codex");await page.getByRole("button",{name:"Q 版",exact:true}).first().click();
@@ -63,7 +63,7 @@ test("every type reaches its own art through real callback; theme and style neve
           await page.getByRole("button",{name:style==="regular" ? "一般" : "Q 版",exact:true}).click();
           const slot=artSlots.find(s=>s.family===family&&s.type===type&&s.style===style)!;
           await expect(page.locator(".card-code")).toHaveText(type);
-          if(slot.status==="ready"){await expect(page.locator(".card-front image")).toHaveAttribute("href",slot.src!);used.add(slot.src!);await expect(page.getByRole("button",{name:"下載我的角色卡",exact:true})).toBeEnabled();}
+          if(slot.status==="ready"){await expect(page.locator(".card-front image")).toHaveAttribute("href",displayArt(slot.src)!);used.add(slot.src!);await expect(page.getByRole("button",{name:"下載我的角色卡",exact:true})).toBeEnabled();}
           else{await expect(page.locator(".card-front image")).toHaveCount(0);await expect(page.getByRole("button",{name:"下載我的角色卡",exact:true})).toBeDisabled();}
         }
       }

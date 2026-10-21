@@ -60,8 +60,8 @@ test('every comparison line and pairing name has four translations', () => {
 });
 
 test('the badge shows the code and level, and a revoked card becomes an invitation', () => {
-  const svg = badgeSvg('INTJ · LV 4', badgeColors.epic);
-  assert.match(svg, /^<svg [^>]*role="img" aria-label="AI Partner Style: INTJ · LV 4"/);
+  const svg = badgeSvg('INTJ · Epic', badgeColors.epic);
+  assert.match(svg, /^<svg [^>]*role="img" aria-label="AI Partner Style: INTJ · Epic"/);
   assert.ok(svg.includes(badgeColors.epic) && !svg.includes('<script'));
   assert.ok(badgeSvg('<x>&', badgeColors.missing).includes('&lt;x&gt;&amp;'));
   assert.equal(badgeMarkdown('https://x.example/c/abc'), '[![AI Partner Style](https://x.example/c/abc/badge.svg)](https://x.example/c/abc?via=badge)');

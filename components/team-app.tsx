@@ -5,8 +5,7 @@ import {useLocale, LocaleSwitch} from "./locale-provider.tsx";
 import {Turnstile} from "./turnstile.tsx";
 import {TURNSTILE_ACTION} from "../lib/contract.ts";
 import {artFor, displayArt, defaultFamily, personaFor, modelLabels, clientLabels} from "../lib/catalog.ts";
-import {levelNames} from "../lib/usage-level.ts";
-import {rarityFor} from "../lib/card-composition.ts";
+import {rarityFor, rarityLabel, rarityNames, rarityOrder, UNRATED} from "../lib/rarity.ts";
 import {compactNumber} from "../lib/objective-stats.ts";
 import {noticeText} from "../lib/i18n.ts";
 import type {TeamSnapshot} from "../lib/team-service.ts";
@@ -32,7 +31,7 @@ function Member({name, entries, onRemove}: {name: string; entries: Entry[]; onRe
   return <article className="team-member" data-rarity={rarityFor(level)}>
     <div className="team-member-art">{art ? <img src={displayArt(art, "thumb")!} alt="" loading="lazy"/> : <span aria-hidden="true">✧</span>}</div>
     <div className="team-member-body">
-      <header><h2>{name}</h2><span className="team-level">LV {level ?? "?"}<small>{t(level === null ? "待觀察" : levelNames[level])}</small></span></header>
+      <header><h2>{name}</h2><span className="team-level">{t(rarityLabel(level))}<small>{t("卡片稀有度")}</small></span></header>
       <p className="team-type"><Code snapshot={s}/> <span>{t(personaFor(s.assessment.type).name)}</span> · <span className="team-agent">{s.nickname}</span></p>
       <dl className="team-stats">
         <div><dt>{t("工作階段")}</dt><dd>{n(s.stats.sessions)}</dd></div>
@@ -111,7 +110,7 @@ export function TeamApp({turnstileSiteKey}: {turnstileSiteKey: string}) {
   }, [board]);
   const latest = members.map(([, entries]) => entries[0].snapshot);
   const tally = (letter: string) => latest.filter((s) => s.assessment.axes.some((axis) => axis.value === letter)).length;
-  const levels = [null, 0, 1, 2, 3, 4, 5].map((level) => [level, latest.filter((s) => s.usageLevel.value === level).length] as const).filter(([, count]) => count > 0);
+  const rarities = [null, ...rarityOrder].map((rarity) => [rarity, latest.filter((s) => rarity === null ? s.usageLevel.value === null : s.usageLevel.value !== null && rarityFor(s.usageLevel.value) === rarity).length] as const).filter(([, count]) => count > 0);
   const invite = board ? `${origin}/?team=${board.joinCode}` : "";
 
   return <div className="app-root team-root" data-ready={ready}>
@@ -137,7 +136,7 @@ export function TeamApp({turnstileSiteKey}: {turnstileSiteKey: string}) {
           <div><b>{t("看板網址")}</b><p>{t("這個網址就是看板的鑰匙，請收藏，只分享給管理者。")}</p><button className="secondary-action" onClick={() => void copy(location.href, "看板網址已複製。")}><Copy size={16}/>{t("複製看板網址")}</button></div>
         </div>
         {members.length > 0 && <div className="team-summary">
-          <p>{levels.map(([level, count]) => <span key={String(level)} className="team-chip" data-rarity={rarityFor(level)}>LV {level ?? "?"} × {count}</span>)}</p>
+          <p>{rarities.map(([rarity, count]) => <span key={String(rarity)} className="team-chip" data-rarity={rarity ?? "common"}>{t(rarity ? rarityNames[rarity] : UNRATED)} × {count}</span>)}</p>
           <p>{[["E", "I"], ["S", "N"], ["T", "F"], ["J", "P"]].map(([a, b]) => <span key={a} className="team-chip">{a} {tally(a)} · {b} {tally(b)}</span>)}</p>
         </div>}
         {members.length === 0 ? <p className="team-empty">{t("還沒有人分享。把邀請連結傳給成員吧。")}</p>

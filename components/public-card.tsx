@@ -5,6 +5,7 @@ import {HoloCard} from "./holo-card.tsx";
 import {CreatorLinks} from "./creator-links.tsx";
 import {personaFor} from "../lib/catalog.ts";
 import {measuredCode} from "../lib/card-composition.ts";
+import {rarityLabel} from "../lib/rarity.ts";
 import type {PublicCard} from "../lib/public-card-service.ts";
 
 export function PublicCardView({id, via, data}: {id: string; via: string; data: PublicCard | null}) {
@@ -18,7 +19,7 @@ export function PublicCardView({id, via, data}: {id: string; via: string; data: 
         <div className="final-copy">
           <p className="eyebrow public-verified">{t("由網站依提交紀錄產生 · {date}", {date: new Date(data.createdAt).toISOString().slice(0, 10)})}</p>
           <h1>{card.nickname}</h1>
-          {!data.nicknameOnly && <p className="final-subtitle">{measuredCode(card, t)} · {t(personaFor(card.assessment.type).name)} · LV {card.usageLevel.value ?? "?"}</p>}
+          {!data.nicknameOnly && <p className="final-subtitle">{measuredCode(card, t)} · {t(personaFor(card.assessment.type).name)} · {t(rarityLabel(card.usageLevel.value))}</p>}
           {!data.nicknameOnly && <div className="brief-reading">{card.brief.map((line) => <p key={line}>{t(line)}</p>)}</div>}
           <a className="primary public-cta" href={data.nicknameOnly ? `/?via=${via}` : `/?vs=${id}&via=${via}`}>{data.nicknameOnly ? t("測測你的 Agent 是哪一型") : t("測完和 {nickname} 比一比", {nickname: card.nickname})}<ArrowRight size={20}/></a>
           <p className="small-note">{t("這張卡由網站依當次提交的摘要畫出，和本人下載的圖片內容一致才是真的。摘要由本人的 Agent 在本機計算，網站無法檢視原始紀錄。")}</p>

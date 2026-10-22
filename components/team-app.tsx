@@ -5,6 +5,7 @@ import {useLocale, LocaleSwitch} from "./locale-provider.tsx";
 import {Turnstile} from "./turnstile.tsx";
 import {TURNSTILE_ACTION} from "../lib/contract.ts";
 import {artFor, displayArt, defaultFamily, personaFor, modelLabels, clientLabels} from "../lib/catalog.ts";
+import {CreatorLinks} from "./creator-links.tsx";
 import {rarityFor, rarityLabel, rarityNames, rarityOrder, UNRATED} from "../lib/rarity.ts";
 import {compactNumber} from "../lib/objective-stats.ts";
 import {noticeText} from "../lib/i18n.ts";
@@ -148,6 +149,6 @@ export function TeamApp({turnstileSiteKey}: {turnstileSiteKey: string}) {
       </section>}
       {notice && <p className="inline-notice" role="status">{noticeText(locale, notice)}</p>}
     </main>
-    <footer className="journey-footer"><LocaleSwitch/></footer>
+    <footer className="journey-footer"><LocaleSwitch/><CreatorLinks t={t}/></footer>
   </div>;
 }

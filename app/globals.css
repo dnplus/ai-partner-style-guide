@@ -438,3 +438,6 @@ html[lang="en"] .art-grid .card-copy h2,html[lang="ko"] .art-grid .card-copy h2{
 .final-copy .report-details[open]>summary{border-bottom:1px solid #ece3f7}
 .final-copy .card-options{margin-top:14px}
 .final-copy .card-options>summary{font-size:11px;color:#9a8aa8}
+
+/* Keep the compare block from touching the download button below it. */
+.final-copy .compare-view{margin-bottom:18px}

@@ -219,13 +219,13 @@
     "你的 Agent，",
     "あなたの Agent、",
     "당신의 Agent,",
-    "Your Agent."
+    "With your agent,"
   ],
   "是哪種夥伴風格？": [
     "是哪种伙伴风格？",
     "どんなパートナースタイル？",
     "어떤 파트너 스타일일까요?",
-    "Which partner style?"
+    "what’s your partner style?"
   ],
   "你怎麼帶它做事，": [
     "你怎么带它做事，",
@@ -3916,5 +3916,17 @@
     "あなたの Agent はあなたをどう言う？",
     "당신의 Agent는 당신을 뭐라고 할까요?",
     "What would your agent say about you?"
+  ],
+  "用 Claude Code、Codex 等 Agent": [
+    "用 Claude Code、Codex 等 Agent",
+    "Claude Code・Codex などの Agent で",
+    "Claude Code, Codex 같은 Agent로",
+    "With Claude Code, Codex and other agents"
+  ],
+  "貼到 Claude Code、Codex 等 Agent": [
+    "贴到 Claude Code、Codex 等 Agent",
+    "Claude Code・Codex などの Agent に貼る",
+    "Claude Code, Codex 같은 Agent에 붙여 넣기",
+    "Paste it into Claude Code, Codex or another agent"
   ]
 }

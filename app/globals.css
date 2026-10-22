@@ -415,3 +415,26 @@ html[lang="en"] .art-grid .card-copy h2,html[lang="ko"] .art-grid .card-copy h2{
 /* Both halves share one stroke, so the ring reads as one line; only what it covers changes. */
 .orbit.orbit-back,.orbit.orbit-front{border-color:#d6c2ffcc;border-width:1.5px;filter:drop-shadow(0 0 4px #c4a2ff99)}
 .orbit.orbit-front{z-index:3;clip-path:inset(50% -30% -60% -30%)}
+
+/* After the reveal flip lands, a soft glow in the card's rarity colour rises behind it. No rays, no flash. */
+.reveal-burst{position:absolute;left:50%;top:50%;width:150%;aspect-ratio:1;translate:-50% -50%;z-index:-1;pointer-events:none;border-radius:50%;opacity:0;background:radial-gradient(circle,var(--burst) 0,transparent 58%)}
+.reveal-burst[data-rarity="common"]{--burst:#cbb6f433}
+.reveal-burst[data-rarity="rare"]{--burst:#86dccd44}
+.reveal-burst[data-rarity="epic"]{--burst:#b083f255}
+.reveal-burst[data-rarity="legendary"]{--burst:#f2c35f66}
+@media (prefers-reduced-motion:no-preference){.reveal-burst{animation:glow-rise 1.6s ease-out 1.25s both}}
+@keyframes glow-rise{from{opacity:0;scale:.7}to{opacity:1;scale:1}}
+
+/* The full report is the main thing under the card actions; card options sit below it as small text. */
+.final-copy .report-details{margin:18px 0 0;border:1px solid #dccdf0;border-radius:18px;background:#ffffffb8;box-shadow:0 10px 26px #5b3aa012;overflow:hidden}
+.final-copy .report-details>summary{display:flex;align-items:center;gap:14px;padding:16px 18px;text-align:left;color:var(--ink)}
+.final-copy .report-details>summary:after{content:none}
+.final-copy .report-details>summary>svg:first-child{color:var(--violet);flex-shrink:0}
+.final-copy .report-details>summary span{display:grid;gap:2px;flex:1}
+.final-copy .report-details>summary b{font-size:16px;font-weight:650}
+.final-copy .report-details>summary small{font-size:12px;color:#7d6c8e}
+.final-copy .report-details .report-chevron{color:#9a86b0;transition:rotate .2s}
+.final-copy .report-details[open] .report-chevron{rotate:180deg}
+.final-copy .report-details[open]>summary{border-bottom:1px solid #ece3f7}
+.final-copy .card-options{margin-top:14px}
+.final-copy .card-options>summary{font-size:11px;color:#9a8aa8}

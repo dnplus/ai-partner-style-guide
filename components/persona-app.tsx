@@ -2,7 +2,7 @@
 import { useLocale, LocaleSwitch } from "./locale-provider.tsx";
 import {localized} from "../lib/site-content.ts";
 import { useEffect, useRef, useState, useSyncExternalStore, type FormEvent } from "react";
-import { ArrowLeft, ArrowRight, Copy, Download, ShieldCheck, Sparkles, Terminal, X } from "lucide-react";
+import { ArrowLeft, ArrowRight, ChevronDown, Copy, Download, FileText, ShieldCheck, Sparkles, Terminal, X } from "lucide-react";
 import {CardShare} from "./card-share.tsx";
 import {Turnstile} from "./turnstile.tsx";
 import {levelDescriptions,nextStepFor} from "../lib/usage-level.ts";
@@ -55,7 +55,7 @@ function ReportSummary({report}:{report:Report}){
     ...names.filter(([,key])=>key!=="unknown").map(([label,key,labels])=>[label,t(labels[key])]),
   ] as [string,string|null][]).filter((row):row is [string,string]=>row[1]!==null);
   return <>
-    <details className="report-details"><summary>{t("打開完整觀察報告")}</summary><div className="report-content">
+    <details className="report-details"><summary><FileText size={22} aria-hidden="true"/><span><b>{t("完整觀察報告")}</b><small>{t("四軸怎麼判斷、稀有度從哪來、這次看了多少紀錄")}</small></span><ChevronDown className="report-chevron" size={18} aria-hidden="true"/></summary><div className="report-content">
       <p className="report-period">{report.observedPeriod.from} — {report.observedPeriod.to}</p>
       <h2>{t("卡片稀有度")} · {t(rarityLabel(report.usageLevel.value))}</h2><p>{t(report.usageLevel.basis?levelDescriptions[report.usageLevel.basis]:"使用等級尚待更多成果線索。")}</p>
       <h2>{t("你怎麼帶它，它怎麼做事。")}</h2>
@@ -328,7 +328,7 @@ export function PersonaApp({turnstileSiteKey}:{turnstileSiteKey:string}) {
       {team.invite&&(stage==="cover"||stage==="identity")&&<p className="team-pill"><span>{t("團隊觀察 · {team}",{team:team.invite.name})}</span><button className="quiet-button" onClick={team.leave}>{t("不參加")}</button></p>}
       {stage === "cover" && <section className="cover-screen screen" aria-labelledby="cover-title">
         <h1 id="cover-title" tabIndex={-1}>{t("你的 Agent，")}<br />{t("是哪種夥伴風格？")}</h1>
-        <p className="cover-tagline">{t("你怎麼帶它做事，")}<br className="mobile-break"/>{t("它就長出怎樣的工作風格。")}</p><div className="cover-art"><HoloCard report={toCardObservation(demoReport)} style="chibi" family="codex" nicknameOnly teaser/></div>
+        <p className="cover-tagline">{t("讓你的 Agent 讀完你們的對話，")}<br className="mobile-break"/>{t("說說你是哪種搭檔。")}</p><div className="cover-art"><HoloCard report={toCardObservation(demoReport)} style="chibi" family="codex" nicknameOnly teaser/></div>
         <button className="primary" onClick={start}>{flow.lastResult ? t("打開上次的卡片") : active ? t("繼續這次觀察") : t("開始觀察")}<ArrowRight size={22}/></button><ul className="cover-promises"><li><Terminal size={15} aria-hidden="true"/>{t("用 Claude Code、Codex 或 Cursor")}</li><li><ShieldCheck size={15} aria-hidden="true"/>{t("對話不離開你的電腦")}</li><li><Sparkles size={15} aria-hidden="true"/>{t("免登入，抽一張角色卡")}</li></ul>{flow.lastResult&&<div className="remembered-actions"><button className="quiet-button" onClick={startNew}>{t("開始新的觀察")}</button><button className="quiet-button" onClick={()=>erase()}>{t("清除上次結果")}</button></div>}
       </section>}
       {stage !== "cover" && expired ? <section className="screen recovery-screen"><div className="sealed-card" aria-hidden="true"><span>✧</span></div><h1 tabIndex={-1}>{t("這道光，")}<br />{t("暫時收起了。")}</h1><p className="lead">{t("連結已到期或失效。請讓 Agent 保留已整理的最小摘要，")}<br />{t("換新連結後，只需明確核准新的收件目的地。")}</p><button className="primary" disabled={flow.busy} onClick={renew}>{t("沿用分析，換新連結")}<ArrowRight size={20}/></button></section> : <>
@@ -368,8 +368,8 @@ export function PersonaApp({turnstileSiteKey}:{turnstileSiteKey:string}) {
         <div className="final-card-area"><div className="reveal-art"><HoloCard report={card} style={style} family={family} nicknameOnly={nicknameOnly} reveal/></div><div className="style-switch" aria-label={t("卡片畫風")}><button aria-pressed={style==="regular"} onClick={()=>setStyle("regular")}>{t("一般")}</button><button aria-pressed={style==="chibi"} onClick={()=>setStyle("chibi")}>{t("Q 版")}</button></div></div>
         <div className="final-copy">{card.kind==="fixture"&&<p className="eyebrow">{t("示範資料 · 非個人評估")}</p>}<h1 tabIndex={-1}>{card.nickname}</h1><p className="final-subtitle">{t(personaFor(card.assessment.type).name)}</p>{selfContrast(card,t)&&<p className="self-contrast">{selfContrast(card,t)}</p>}<div className="brief-reading">{card.brief.map(line=><p key={line}>{t(line)}</p>)}</div><p className="next-step"><b>{t("下一步")}</b><span>{t(nextStepFor(card.usageLevel))}</span></p>{compare.target?.assessment&&!nicknameOnly&&<CompareView t={t} mine={{label:t("你"),assessment:card.assessment}} theirs={{label:compare.target.nickname,assessment:compare.target.assessment}}>{card.kind==="observed"&&<button className="secondary-action" disabled={publicLink.linking} onClick={shareCompare}>{t("分享比較結果")}</button>}</CompareView>}{team.invite&&card.kind==="observed"&&active&&<TeamShare invite={team.invite} sessionId={active.id} onShare={member=>team.share(active.id,active.readToken,member)} onWithdraw={team.withdraw}/>}
         <div className="final-actions"><button className="primary" onClick={exportPng} disabled={exporting||!!card.assessment.type&&!artFor(family,card.assessment.type,style)}>{exporting?t("製作圖片中…"):t("下載我的角色卡")}<Download size={20}/></button><CardShare card={card} style={style} family={family} nicknameOnly={nicknameOnly} home={origin+"/"} link={publicLink.link} linking={publicLink.linking} onCreateLink={()=>publicLink.create({family,style,nicknameOnly,locale})} onRevokeLink={publicLink.revoke}/></div>
-        <details className="card-options"><summary>{t("卡片選項")}</summary><div><label htmlFor="card-family">{t("卡面主題")}</label><select id="card-family" value={family} onChange={e=>setFamily(e.target.value as Family)}>{families.map(f=><option key={f.id} value={f.id}>{f.label}</option>)}</select><label className="check-field"><input type="checkbox" checked={nicknameOnly} onChange={e=>setNicknameOnly(e.target.checked)}/>{t("只顯示暱稱，隱藏分型")}</label><p>{t("此選項也會隱藏等級與短句。")}</p></div></details>
         {result.report&&<div className="inline-report"><ReportSummary report={result.report}/></div>}
+        <details className="card-options"><summary>{t("卡片選項")}</summary><div><label htmlFor="card-family">{t("卡面主題")}</label><select id="card-family" value={family} onChange={e=>setFamily(e.target.value as Family)}>{families.map(f=><option key={f.id} value={f.id}>{f.label}</option>)}</select><label className="check-field"><input type="checkbox" checked={nicknameOnly} onChange={e=>setNicknameOnly(e.target.checked)}/>{t("只顯示暱稱，隱藏分型")}</label><p>{t("此選項也會隱藏等級與短句。")}</p></div></details>
         <div className="result-management"><button className="quiet-button" onClick={startNew}>{t("開始新的觀察")}</button><button className="quiet-button" disabled={flow.busy} onClick={()=>erase()}>{t("清除這次結果")}</button></div>{flow.rememberError&&<p className="small-note">{t("此裝置暫時無法記住結果，請先下載卡片。")}</p>}</div>
       </section>}
       </>}

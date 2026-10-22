@@ -9,8 +9,8 @@ import type {CardObservation} from './assessment.ts';
 export function postText(card:CardObservation,url:string,locale:Locale,nicknameOnly:boolean){
  const t=translator(locale);
  return nicknameOnly
-  ?t('我的 Agent「{nickname}」幫我畫了一張角色卡。你和 Agent 是哪一種夥伴風格？ {url} #AIPartnerStyle',{nickname:card.nickname,url})
-  :t('我的 Agent「{nickname}」說我是 {code} {persona}（{rarity}）。你和 Agent 是哪一種夥伴風格？ {url} #AIPartnerStyle',{nickname:card.nickname,code:measuredCode(card,t),persona:t(personaFor(card.assessment.type).name),rarity:t(rarityLabel(card.usageLevel.value)),url});
+  ?t('我的 Agent「{nickname}」看完我們的對話，幫我畫了一張角色卡。你的 Agent 會怎麼畫你？ {url} #AIPartnerStyle',{nickname:card.nickname,url})
+  :t('我的 Agent「{nickname}」看完我們的對話，說我是 {code} {persona}（{rarity}）。你的 Agent 會怎麼說你？ {url} #AIPartnerStyle',{nickname:card.nickname,code:measuredCode(card,t),persona:t(personaFor(card.assessment.type).name),rarity:t(rarityLabel(card.usageLevel.value)),url});
 }
 
 // What the visitor hands to their own agent: the agent posts with its own tools, and only after the visitor approves the final text.

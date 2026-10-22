@@ -3874,5 +3874,41 @@
     "ログイン不要でカードを引く",
     "로그인 없이 캐릭터 카드 뽑기",
     "No sign-up, draw a character card"
+  ],
+  "讓你的 Agent 讀完你們的對話，": [
+    "让你的 Agent 读完你们的对话，",
+    "Agent にふたりの会話を読ませて、",
+    "Agent에게 우리 대화를 읽게 하고,",
+    "Let your agent read your conversations"
+  ],
+  "說說你是哪種搭檔。": [
+    "说说你是哪种搭档。",
+    "あなたがどんな相棒か語ってもらおう。",
+    "당신이 어떤 파트너인지 들어 보세요.",
+    "and tell you what kind of partner you are."
+  ],
+  "我的 Agent「{nickname}」看完我們的對話，幫我畫了一張角色卡。你的 Agent 會怎麼畫你？ {url} #AIPartnerStyle": [
+    "我的 Agent「{nickname}」看完我们的对话，帮我画了一张角色卡。你的 Agent 会怎么画你？ {url} #AIPartnerStyle",
+    "私の Agent「{nickname}」がふたりの会話を読んで、キャラクターカードを描いてくれました。あなたの Agent はあなたをどう描く？ {url} #AIPartnerStyle",
+    "내 Agent「{nickname}」가 우리 대화를 읽고 캐릭터 카드를 그려 줬어요. 당신의 Agent는 당신을 어떻게 그릴까요? {url} #AIPartnerStyle",
+    "My agent “{nickname}” read our conversations and drew me a character card. How would your agent draw you? {url} #AIPartnerStyle"
+  ],
+  "我的 Agent「{nickname}」看完我們的對話，說我是 {code} {persona}（{rarity}）。你的 Agent 會怎麼說你？ {url} #AIPartnerStyle": [
+    "我的 Agent「{nickname}」看完我们的对话，说我是 {code} {persona}（{rarity}）。你的 Agent 会怎么说你？ {url} #AIPartnerStyle",
+    "私の Agent「{nickname}」がふたりの会話を読んで、私は {code} {persona}（{rarity}）だって。あなたの Agent はあなたをどう言う？ {url} #AIPartnerStyle",
+    "내 Agent「{nickname}」가 우리 대화를 읽고 나는 {code} {persona}({rarity})래요. 당신의 Agent는 당신을 뭐라고 할까요? {url} #AIPartnerStyle",
+    "My agent “{nickname}” read our conversations and says I’m {code}, {persona} ({rarity}). What would your agent say about you? {url} #AIPartnerStyle"
+  ],
+  "完整觀察報告": [
+    "完整观察报告",
+    "観察レポート全文",
+    "전체 관찰 보고서",
+    "Full observation report"
+  ],
+  "四軸怎麼判斷、稀有度從哪來、這次看了多少紀錄": [
+    "四轴怎么判断、稀有度从哪来、这次看了多少记录",
+    "4軸の判定、レア度の根拠、今回読んだ記録の量",
+    "네 축의 판단, 희귀도의 근거, 이번에 본 기록의 양",
+    "How each axis was read, where the rarity comes from, how much was observed"
   ]
 }

@@ -329,7 +329,7 @@ export function PersonaApp({turnstileSiteKey}:{turnstileSiteKey:string}) {
       {stage === "cover" && <section className="cover-screen screen" aria-labelledby="cover-title">
         <h1 id="cover-title" tabIndex={-1}>{t("你的 Agent，")}<br />{t("是哪種夥伴風格？")}</h1>
         <p className="cover-tagline">{t("讓你的 Agent 讀完你們的對話，")}<br className="mobile-break"/>{t("說說你是哪種搭檔。")}</p><div className="cover-art"><HoloCard report={toCardObservation(demoReport)} style="chibi" family="codex" nicknameOnly teaser/></div>
-        <button className="primary" onClick={start}>{flow.lastResult ? t("打開上次的卡片") : active ? t("繼續這次觀察") : t("開始觀察")}<ArrowRight size={22}/></button><ul className="cover-promises"><li><Terminal size={15} aria-hidden="true"/>{t("用 Claude Code、Codex 或 Cursor")}</li><li><ShieldCheck size={15} aria-hidden="true"/>{t("對話不離開你的電腦")}</li><li><Sparkles size={15} aria-hidden="true"/>{t("免登入，抽一張角色卡")}</li></ul>{flow.lastResult&&<div className="remembered-actions"><button className="quiet-button" onClick={startNew}>{t("開始新的觀察")}</button><button className="quiet-button" onClick={()=>erase()}>{t("清除上次結果")}</button></div>}
+        <button className="primary" onClick={start}>{flow.lastResult ? t("打開上次的卡片") : active ? t("繼續這次觀察") : t("開始觀察")}<ArrowRight size={22}/></button><ul className="cover-promises"><li><Terminal size={15} aria-hidden="true"/>{t("用 Claude Code、Codex 等 Agent")}</li><li><ShieldCheck size={15} aria-hidden="true"/>{t("對話不離開你的電腦")}</li><li><Sparkles size={15} aria-hidden="true"/>{t("免登入，抽一張角色卡")}</li></ul>{flow.lastResult&&<div className="remembered-actions"><button className="quiet-button" onClick={startNew}>{t("開始新的觀察")}</button><button className="quiet-button" onClick={()=>erase()}>{t("清除上次結果")}</button></div>}
       </section>}
       {stage !== "cover" && expired ? <section className="screen recovery-screen"><div className="sealed-card" aria-hidden="true"><span>✧</span></div><h1 tabIndex={-1}>{t("這道光，")}<br />{t("暫時收起了。")}</h1><p className="lead">{t("連結已到期或失效。請讓 Agent 保留已整理的最小摘要，")}<br />{t("換新連結後，只需明確核准新的收件目的地。")}</p><button className="primary" disabled={flow.busy} onClick={renew}>{t("沿用分析，換新連結")}<ArrowRight size={20}/></button></section> : <>
       {stage === "identity" && <section className="identity-screen screen">
@@ -345,7 +345,7 @@ export function PersonaApp({turnstileSiteKey}:{turnstileSiteKey:string}) {
       {stage === "instructions" && active && <section className="instructions-screen screen">
         <CardShuffle/>
         <h1 tabIndex={-1}>{demo ? <>{t("先選好，")}<br />{t("這次觀察的範圍。")}</> : <>{t("把這段指令，")}<br />{t("交給你的 Agent。")}</>}</h1>
-        {demo ? <p className="lead">{t("使用虛構資料，走過同一個收件流程。")}</p> : <ol className="handoff-steps">{["複製專屬指令","貼到 Claude Code、Codex 或 Cursor","它問你時，回覆「同意」"].map((step,i)=><li key={step}><b aria-hidden="true">{i+1}</b>{t(step)}</li>)}</ol>}
+        {demo ? <p className="lead">{t("使用虛構資料，走過同一個收件流程。")}</p> : <ol className="handoff-steps">{["複製專屬指令","貼到 Claude Code、Codex 等 Agent","它問你時，回覆「同意」"].map((step,i)=><li key={step}><b aria-hidden="true">{i+1}</b>{t(step)}</li>)}</ol>}
         {active.writeToken ? <>
           <button className="primary" disabled={!demo&&!scopeOptionsSchema.safeParse(scopeOptions).success} onClick={demo ? () => go("fixture") : copy}>{demo ? t("查看示範範圍") : copied ? t("再複製一次") : t("複製專屬指令")}{demo ? <ArrowRight size={20}/> : <Copy size={19}/>}</button>
           {!demo && !resumeMode && <CollectorScopeOptions value={scopeOptions} onChange={changeScope} timeZone={timeZone}/>}

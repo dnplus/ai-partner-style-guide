@@ -10,6 +10,9 @@ export function LocaleProvider({children}:{children:React.ReactNode}) {
   useEffect(()=>{
     let saved:string|null=null;
     try { saved=localStorage.getItem(LOCALE_KEY); } catch {}
+    // A ?lang= link (from a translated page or a shared URL) wins, and is remembered for the next page.
+    const asked=new URLSearchParams(location.search).get("lang");
+    if(locales.includes(asked as Locale)){saved=asked;try{localStorage.setItem(LOCALE_KEY,asked!);}catch{}}
     // The saved and browser languages exist only on the client; the app stays inert until this runs.
     // eslint-disable-next-line react-hooks/set-state-in-effect
     setCurrent(locales.includes(saved as Locale) ? saved as Locale : resolveLocale(navigator.languages));

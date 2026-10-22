@@ -3784,5 +3784,95 @@
     "キャラクターカード、カードのレア度、次の一歩が公開されます。",
     "캐릭터 카드, 카드 희귀도, 다음 단계가 공개돼요.",
     "Reveal your character card, its rarity and a next step."
+  ],
+  "思考方式": [
+    "思考方式",
+    "考え方",
+    "생각하는 방식",
+    "How you think it through"
+  ],
+  "下次留意：你是先想清楚再交代，還是邊聊邊把想法理清？": [
+    "下次留意：你是先想清楚再交代，还是边聊边把想法理清？",
+    "次は注目してみて：先に考えをまとめてから伝える？それとも話しながら整理する？",
+    "다음엔 살펴보세요: 먼저 생각을 정리하고 전하나요, 아니면 대화하며 정리하나요?",
+    "Next time, notice: do you think it through before handing it over, or sort it out while you talk?"
+  ],
+  "邊聊邊想": [
+    "边聊边想",
+    "話しながら考える",
+    "대화하며 생각",
+    "Thinks out loud"
+  ],
+  "想好再說": [
+    "想好再说",
+    "考えてから話す",
+    "생각하고 말하기",
+    "Thinks it through first"
+  ],
+  "你習慣在對話裡把想法聊清楚。試著把聊出來的結論寫進開場，下次省下來回。": [
+    "你习惯在对话里把想法聊清楚。试着把聊出来的结论写进开场，下次省下来回。",
+    "会話の中で考えを整理するタイプ。話して出た結論を最初の指示に書いておくと、次はやり取りが減ります。",
+    "대화 속에서 생각을 정리하는 편이에요. 대화로 나온 결론을 첫 지시에 적어 두면 다음엔 주고받기가 줄어요.",
+    "You sort your thinking out in the conversation. Put the conclusions you reach into the opening brief, and next time there's less back and forth."
+  ],
+  "你習慣想好再交代。遇到長任務，留一個中途檢查點，讓它有機會提醒你沒想到的地方。": [
+    "你习惯想好再交代。遇到长任务，留一个中途检查点，让它有机会提醒你没想到的地方。",
+    "考えをまとめてから任せるタイプ。長い作業では途中の確認ポイントを置くと、見落としを Agent が指摘できます。",
+    "생각을 정리한 뒤 맡기는 편이에요. 긴 작업에는 중간 점검을 두면 Agent가 놓친 부분을 짚어 줄 수 있어요.",
+    "You think it through before handing it over. On long tasks, leave a checkpoint midway so the agent can flag what you didn't foresee."
+  ],
+  "你常邊聊邊想，在對話裡看到中間結果就調整方向。": [
+    "你常边聊边想，在对话里看到中间结果就调整方向。",
+    "話しながら考え、途中の結果を見て方向を調整します。",
+    "대화하며 생각하고, 중간 결과를 보면 방향을 조정해요.",
+    "You think out loud, adjusting direction as soon as you see intermediate results."
+  ],
+  "你習慣先把目標想清楚，一次交代完整，之後很少插手。": [
+    "你习惯先把目标想清楚，一次交代完整，之后很少插手。",
+    "先に目標を考え抜き、一度でしっかり伝え、その後はあまり口を出しません。",
+    "먼저 목표를 충분히 생각하고 한 번에 전한 뒤, 이후엔 거의 끼어들지 않아요.",
+    "You think the goal through first, hand it over complete, and rarely step in after that."
+  ],
+  "你們都邊聊邊想，一起帶 Agent 很熱鬧，記得留一個人看全局。": [
+    "你们都边聊边想，一起带 Agent 很热闹，记得留一个人看全局。",
+    "二人とも話しながら考えるタイプ。一緒に Agent を動かすとにぎやかなので、全体を見る役を一人決めておきましょう。",
+    "둘 다 대화하며 생각하는 편이에요. 함께 Agent를 이끌면 활기차니, 한 사람은 전체를 보도록 하세요.",
+    "You both think out loud. Leading agents together gets lively, so let one of you keep the big picture."
+  ],
+  "你們都想好再說，開場就交代完整，先對齊目標就很順。": [
+    "你们都想好再说，开场就交代完整，先对齐目标就很顺。",
+    "二人とも考えてから話すタイプ。最初にしっかり伝えるので、目標さえ揃えればスムーズです。",
+    "둘 다 생각하고 말하는 편이에요. 처음에 충분히 전하니 목표만 맞추면 순조로워요.",
+    "You both think it through first and brief fully up front. Agree on the goal and it runs smoothly."
+  ],
+  "一個想好再說、一個邊聊邊想：讓想好的人寫需求，邊聊的人盯中間結果。": [
+    "一个想好再说、一个边聊边想：让想好的人写需求，边聊的人盯中间结果。",
+    "一人は考えてから話し、一人は話しながら考える。考える役が要件を書き、話す役が途中経過を見ましょう。",
+    "한 사람은 생각하고 말하고, 한 사람은 대화하며 생각해요. 생각하는 사람이 요구 사항을 쓰고, 대화하는 사람이 중간 결과를 보세요.",
+    "One thinks it through first, one thinks out loud. Let the first write the brief and the second watch the drafts."
+  ],
+  "借用 E/I 思考方式、S/N 指令焦點、T/F 驗收依據、J/P 工作框架，只看你帶 Agent 時說了什麼。這不是人格診斷，也不是模型的固定性格。": [
+    "借用 E/I 思考方式、S/N 指令焦点、T/F 验收依据、J/P 工作框架，只看你带 Agent 时说了什么。这不是人格诊断，也不是模型的固定性格。",
+    "E/I 考え方、S/N 指示の焦点、T/F 受け入れの基準、J/P 仕事の枠組みを借り、Agent を導くときにあなたが言ったことだけを見ます。性格診断でも、モデルの固定的な性格でもありません。",
+    "E/I 생각하는 방식, S/N 지시의 초점, T/F 검수 기준, J/P 작업 틀을 빌려, Agent를 이끌 때 당신이 한 말만 봅니다. 성격 진단도, 모델의 고정된 성격도 아닙니다.",
+    "Borrowing E/I how you think it through, S/N instruction focus, T/F acceptance basis, and J/P work frame, it reads only what you said while leading your Agent. Not a personality diagnosis, and not a fixed model personality."
+  ],
+  "用 Claude Code、Codex 或 Cursor": [
+    "用 Claude Code、Codex 或 Cursor",
+    "Claude Code・Codex・Cursor で",
+    "Claude Code, Codex, Cursor로",
+    "With Claude Code, Codex or Cursor"
+  ],
+  "對話不離開你的電腦": [
+    "对话不离开你的电脑",
+    "会話は PC から出ません",
+    "대화는 내 컴퓨터를 떠나지 않아요",
+    "Your chats stay on your computer"
+  ],
+  "免登入，抽一張角色卡": [
+    "免登录，抽一张角色卡",
+    "ログイン不要でカードを引く",
+    "로그인 없이 캐릭터 카드 뽑기",
+    "No sign-up, draw a character card"
   ]
 }

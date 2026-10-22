@@ -16,7 +16,7 @@ export function GET(request:Request){
   '## Card rarity','',t(RARITY_LEAD),'',...rarityOrder.map(r=>`- ${t(rarityNames[r])}: ${t(rarityDescriptions[r])}`),`- ${t(UNRATED)}: ${t(rarityDescriptions.unrated)}`,'',
   '## Limits','',...limits.map(l=>`- ${t(l)}`),'',
   '## FAQ','',...faq.flatMap(([q,a])=>[`### ${t(q)}`,'',t(a),'']),
-  '## Maker','',`Made by ${CREATOR.name}.`,...[['Source code',CREATOR.repo],['GitHub',CREATOR.github],['YouTube',CREATOR.youtube]].filter(([,url])=>url).map(([label,url])=>`- [${label}](${url})`),'',
+  '## Maker','',`Made by [${CREATOR.name}](${CREATOR.site}).`,'',
  ].join('\n');
  return new Response(text,{headers:{'Content-Type':'text/plain; charset=utf-8','Cache-Control':'public, max-age=3600'}});
 }

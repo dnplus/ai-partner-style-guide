@@ -1,7 +1,5 @@
-// Who made the site. Shown in page footers, the public card page and llms.txt; leave a URL empty to hide that link.
+// Who made the site. The footer, llms.txt and the home page's structured data link here.
 export const CREATOR = {
   name: 'dnplus',
-  github: 'https://github.com/dnplus',
-  youtube: 'https://www.youtube.com/@GinsengTryCatch',
-  repo: 'https://github.com/dnplus/ai-partner-style-guide',
+  site: 'https://ginseng.dnplus.dev',
 } as const;

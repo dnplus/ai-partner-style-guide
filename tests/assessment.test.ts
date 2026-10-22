@@ -103,7 +103,7 @@ test("report and card carry the derived assessment, never counts or evidence",()
   assert.equal(report.rubric,"agent-workstyle-v2");
   const card=toCardObservation(report);
   assert.deepEqual(Object.keys(card).sort(),["assessment","brief","kind","modelFamily","nickname","selfType","usageLevel"]);
-  assert.deepEqual(card.brief,["你習慣開場就把目標講清楚，之後很少插手。","你多半給目標和方向，路線交給它自己找。"]);
+  assert.deepEqual(card.brief,["你習慣先把目標想清楚，一次交代完整，之後很少插手。","你多半給目標和方向，路線交給它自己找。"]);
   assert.doesNotMatch(JSON.stringify(card),/tasks|Tokens|period|email|rubric|count/);
 });
 test("the brief leads with clear letters before lean ones",()=>{

@@ -35,7 +35,7 @@ export function toCardObservation(report: Report, selfType: TypeCode | null = nu
 }
 export const storedSelfType = (value: string | null): TypeCode | null => typeCodes.find((code) => code === value) ?? null;
 
-export const observedLines:Record<string,string>={E:"你常在途中看結果、改方向，邊做邊帶它。",I:"你習慣開場就把目標講清楚，之後很少插手。",S:"你給的多是具體做法：檔案、步驟、指令、範例。",N:"你多半給目標和方向，路線交給它自己找。",T:"你驗收時看證據：測試、數字、規格、差異。",F:"你驗收時看感受：語氣、品味、用的人舒不舒服。",J:"你把工作當成有章法的事：先排計畫，留下能重用的流程。",P:"你把工作當成探索：邊試邊調，用完就走。"};
+export const observedLines:Record<string,string>={E:"你常邊聊邊想，在對話裡看到中間結果就調整方向。",I:"你習慣先把目標想清楚，一次交代完整，之後很少插手。",S:"你給的多是具體做法：檔案、步驟、指令、範例。",N:"你多半給目標和方向，路線交給它自己找。",T:"你驗收時看證據：測試、數字、規格、差異。",F:"你驗收時看感受：語氣、品味、用的人舒不舒服。",J:"你把工作當成有章法的事：先排計畫，留下能重用的流程。",P:"你把工作當成探索：邊試邊調，用完就走。"};
 export function briefFor(assessment:Assessment){
  const known=assessment.axes.filter(axis=>axis.value!=="?").sort((a,b)=>Number(a.strength==="lean")-Number(b.strength==="lean"));
  const lines=known.slice(0,2).map(axis=>observedLines[axis.value]);

@@ -2,7 +2,7 @@
 
 Your AI Partner Style Guide：讓你的 Agent 讀自己的本機紀錄，看你帶它做事的方式屬於 16 型中的哪一型，拿到一張可驗證、可分享的角色卡。
 
-由 [dnplus](https://github.com/dnplus) 製作。開發過程與更多 AI 協作實驗在 YouTube 頻道 [@GinsengTryCatch](https://www.youtube.com/@GinsengTryCatch)。
+由 [dnplus](https://ginseng.dnplus.dev) 製作。
 
 以本人授權的使用紀錄，觀察你帶領 Agent 的合作方式。三個主步驟：命名與選填偏好 → 將專屬指令交給自己的 Agent → 同一屏揭曉完整卡片、簡短解讀與完整報告。一般／Q 版切換、下載、分享都留在第三步。
 
@@ -40,7 +40,7 @@ npm run preview                  # 已建置的 Worker：http://127.0.0.1:5188
 
 借用常見的 16 型四碼，描述你帶 Agent 的方式（`agent-workstyle-v2`）。只看你的訊息，不看 Agent 自己的習慣；規則、門檻、稱號及描述是本專案的定義，並非心理測驗。
 
-- E/I：途中掌舵（看中間結果、改方向或範圍）／開場定調（目標與限制先講清楚，之後少插手）。
+- E/I 思考方式：邊聊邊想（在對話裡理清想法，看中間結果改方向或範圍）／想好再說（先把目標與限制想清楚，一次交代，之後少插手）。
 - S/N：給具體做法（檔案、步驟、指令、範例）／給目標與方向，路線交給 Agent。
 - T/F：以明確檢查驗收（測試、數字、規格、差異）／以感受、品味、受眾體驗驗收。沒有驗收就是 unclear。
 - J/P：當成有結構或會留下來的工作（計畫、流程、可重用資產）／開放式探索、一次性使用。
@@ -85,7 +85,7 @@ npm run preview                  # 已建置的 Worker：http://127.0.0.1:5188
 
 ## 公開頁面與 AEO
 
-首頁、`/types`（16 型總覽）、`/types/<代碼>`、`/levels`、`/method`（流程、計分、限制與常見問答）與 `/art-gallery` 開放索引；結果、`/team` 與個人卡片頁維持 `noindex`。內容頁由伺服器依 `catalog`、`workstyle`、`usage-level` 與 `lib/site-content.ts` 產生，五種語言各有網址（`?lang=zh-CN|ja|ko|en`，預設繁中），附 canonical、hreflang、各型的 OG 預覽（`/og?type=…`）與 JSON-LD（WebApplication、DefinedTermSet／DefinedTerm、BreadcrumbList、FAQPage）。`/sitemap.xml`、`/robots.txt`（`Content-Signal: search=yes, ai-input=yes`）與 `/llms.txt` 由同一份資料產生，不會和頁面脫節。每頁頁尾標明並非人格測驗、與任何人格測驗機構無關，並附上製作者的 GitHub 與 YouTube 連結（`lib/creator.ts`，網址留空就不顯示）。
+首頁、`/types`（16 型總覽）、`/types/<代碼>`、`/levels`、`/method`（流程、計分、限制與常見問答）與 `/art-gallery` 開放索引；結果、`/team` 與個人卡片頁維持 `noindex`。內容頁由伺服器依 `catalog`、`workstyle`、`usage-level` 與 `lib/site-content.ts` 產生，五種語言各有網址（`?lang=zh-CN|ja|ko|en`，預設繁中），附 canonical、hreflang、各型的 OG 預覽（`/og?type=…`）與 JSON-LD（WebApplication、DefinedTermSet／DefinedTerm、BreadcrumbList、FAQPage）。`/sitemap.xml`、`/robots.txt`（`Content-Signal: search=yes, ai-input=yes`）與 `/llms.txt` 由同一份資料產生，不會和頁面脫節。每頁頁尾標明並非人格測驗、與任何人格測驗機構無關，並附上製作者連結（`lib/creator.ts`）。
 
 ## 卡面稀有度
 

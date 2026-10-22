@@ -2,7 +2,8 @@ import {InfoShell,Cta} from '../../components/info-shell.tsx';
 import {translator} from '../../lib/i18n.ts';
 import {localeFor} from '../../lib/site-content.ts';
 import {infoMetadata} from '../../lib/info-metadata.ts';
-import {RARITY_LEAD,UNRATED,rarityDescriptions,rarityNames,rarityOrder} from '../../lib/rarity.ts';
+import {RARITY_LEAD,UNRATED,rarityDescriptions} from '../../lib/rarity.ts';
+import {RarityShowcase} from '../../components/rarity-showcase.tsx';
 
 type Props={searchParams:Promise<{lang?:string}>};
 export const dynamic='force-dynamic';
@@ -17,6 +18,7 @@ export default async function RarityPage({searchParams}:Props){
   <h1>{t('卡片稀有度')}</h1>
   <p className="info-lead">{t(RARITY_LEAD)}</p>
   <Cta locale={locale}/>
-  <ol className="info-levels">{[...rarityOrder].reverse().map(r=><li key={r} data-rarity={r}><h2>{t(rarityNames[r])}</h2><p>{t(rarityDescriptions[r])}</p></li>)}<li data-rarity="unrated"><h2>{t(UNRATED)}</h2><p>{t(rarityDescriptions.unrated)}</p></li></ol>
+  <RarityShowcase locale={locale}/>
+  <p className="rarity-unrated"><b>{t(UNRATED)}</b>{t(rarityDescriptions.unrated)}</p>
  </InfoShell>;
 }

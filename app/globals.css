@@ -390,11 +390,22 @@ html[lang="en"] .art-grid .card-copy h2,html[lang="ko"] .art-grid .card-copy h2{
 .cover-needs{margin-top:14px;font-size:12px;color:#8b809b;letter-spacing:.02em}
 @media (prefers-reduced-motion:no-preference){.app-root[data-ready="true"] .cover-needs{animation:copy-in .5s var(--ease-out) 1.6s backwards}}
 
-/* The rarity page shows each tier in its card frame colours. */
-.info-levels li[data-rarity="legendary"]{border:2px solid #e2b85c;background:linear-gradient(135deg,#fffaf0,#fff3d6)}
-.info-levels li[data-rarity="epic"]{border:2px solid #b48af0;background:linear-gradient(135deg,#fbf7ff,#f1e8ff)}
-.info-levels li[data-rarity="rare"]{border:2px solid #9fd9d0;background:linear-gradient(135deg,#f7fffd,#ecfbf7)}
-.info-levels li[data-rarity="unrated"]{border-style:dashed}
+/* The rarity page shows a real card in each frame, highest rarity first. */
+.rarity-showcase{list-style:none;padding:0;margin:28px 0 8px;display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:28px 22px}
+.rarity-showcase li{display:flex;flex-direction:column;align-items:center;text-align:center}
+.rarity-showcase .card-stage{padding:0 0 10px}
+.rarity-showcase .orbit{display:none}
+.rarity-showcase .holo-card{width:100%;max-width:220px;transform:rotateX(var(--rx)) rotateY(var(--ry));border-radius:20px}
+.info-page .rarity-showcase h2{margin:10px 0 6px;font:700 24px/1.2 var(--display)}
+.rarity-showcase li[data-rarity="legendary"] h2{color:#b8862b}
+.rarity-showcase li[data-rarity="epic"] h2{color:#8a5ad6}
+.rarity-showcase li[data-rarity="rare"] h2{color:#3f9c8f}
+.rarity-showcase li[data-rarity="common"] h2{color:#6c5680}
+.rarity-showcase p{font-size:14px;line-height:1.75;color:#5d4b6e;max-width:230px}
+.rarity-unrated{margin-top:26px;padding:14px 18px;border:1px dashed var(--line);border-radius:14px;font-size:14px;color:#6c5680}
+.rarity-unrated b{margin-right:10px;color:var(--ink)}
+@media(max-width:900px){.rarity-showcase{grid-template-columns:repeat(2,minmax(0,1fr))}}
+@media(max-width:420px){.rarity-showcase{gap:22px 12px}.rarity-showcase p{font-size:13px}}
 
 /* The ring wraps the card: the far half stays behind it, the near half crosses in front. Each copy shows one half,
    with room left on the open sides so the stars riding the ring are not cut off. */

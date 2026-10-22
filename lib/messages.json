@@ -3910,5 +3910,11 @@
     "4軸の判定、レア度の根拠、今回読んだ記録の量",
     "네 축의 판단, 희귀도의 근거, 이번에 본 기록의 양",
     "How each axis was read, where the rarity comes from, how much was observed"
+  ],
+  "你的 Agent 會怎麼說你？": [
+    "你的 Agent 会怎么说你？",
+    "あなたの Agent はあなたをどう言う？",
+    "당신의 Agent는 당신을 뭐라고 할까요?",
+    "What would your agent say about you?"
   ]
 }

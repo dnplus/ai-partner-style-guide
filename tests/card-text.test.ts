@@ -38,17 +38,17 @@ test("zh-TW card and share text contrast a different self-type, confirm a matchi
   assert.equal(cardComposition(estp("INTJ"),"chibi","codex").tagline,"你以為你是 INTJ，帶 Agent 時是 ESTP");
   assert.equal(cardComposition(estp("ESTP"),"chibi","codex").tagline,"你帶 Agent 時也是 ESTP");
   assert.equal(cardComposition(estp(null),"chibi","codex").tagline,"給做法 · 看證據");
-  assert.equal(shareText(estp("INTJ"),false,home),"你的 AI 夥伴風格指南\n阿星\n你以為你是 INTJ，帶 Agent 時是 ESTP\n待鑑定\n你給的多是具體做法：檔案、步驟、指令、範例。\n你驗收時看證據：測試、數字、規格、差異。\nhttps://ai-partner-style.example.workers.dev/");
-  assert.equal(shareText(estp("ESTP"),false,home,"zh-TW",false),"你的 AI 夥伴風格指南\n阿星\n你帶 Agent 時也是 ESTP\n待鑑定\nhttps://ai-partner-style.example.workers.dev/");
-  assert.equal(shareText(estp(null),false,home,"zh-TW",false),"你的 AI 夥伴風格指南\n阿星\nESTP\n待鑑定\nhttps://ai-partner-style.example.workers.dev/");
+  assert.equal(shareText(estp("INTJ"),false,home),"我的 Agent「阿星」看完我們的對話，說我是 ESTP 即刻實驗者（待鑑定）。你的 Agent 會怎麼說你？ https://ai-partner-style.example.workers.dev/ #AIPartnerStyle\n你以為你是 INTJ，帶 Agent 時是 ESTP\n你給的多是具體做法：檔案、步驟、指令、範例。\n你驗收時看證據：測試、數字、規格、差異。");
+  assert.equal(shareText(estp("ESTP"),false,home,"zh-TW",false),"我的 Agent「阿星」看完我們的對話，說我是 ESTP 即刻實驗者（待鑑定）。你的 Agent 會怎麼說你？ https://ai-partner-style.example.workers.dev/ #AIPartnerStyle\n你帶 Agent 時也是 ESTP");
+  assert.equal(shareText(estp(null),false,home,"zh-TW",false),"我的 Agent「阿星」看完我們的對話，說我是 ESTP 即刻實驗者（待鑑定）。你的 Agent 會怎麼說你？ https://ai-partner-style.example.workers.dev/ #AIPartnerStyle");
 });
 
 test("en card and share text follow the same three cases",()=>{
   assert.equal(cardComposition(estp("INTJ"),"chibi","codex",false,"en").tagline,"You thought you were INTJ. Leading your Agent, you're ESTP");
   assert.equal(cardComposition(estp("ESTP"),"chibi","codex",false,"en").legend,"Faded = leaning");
-  assert.equal(shareText(estp("INTJ"),false,home,"en"),"Your AI Partner Style Guide\n阿星\nYou thought you were INTJ. Leading your Agent, you're ESTP\nUnrated\nYou mostly hand over the how: files, steps, commands, examples.\nYou check results by evidence: tests, numbers, specs, diffs.\nhttps://ai-partner-style.example.workers.dev/");
-  assert.equal(shareText(estp("ESTP"),false,home,"en",false),"Your AI Partner Style Guide\n阿星\nLeading your Agent, you're ESTP too\nUnrated\nhttps://ai-partner-style.example.workers.dev/");
-  assert.equal(shareText(estp(null),false,home,"en",false),"Your AI Partner Style Guide\n阿星\nESTP\nUnrated\nhttps://ai-partner-style.example.workers.dev/");
+  assert.equal(shareText(estp("INTJ"),false,home,"en"),"My agent “阿星” read our conversations and says I’m ESTP, Live experimenter (Unrated). What would your agent say about you? https://ai-partner-style.example.workers.dev/ #AIPartnerStyle\nYou thought you were INTJ. Leading your Agent, you're ESTP\nYou mostly hand over the how: files, steps, commands, examples.\nYou check results by evidence: tests, numbers, specs, diffs.");
+  assert.equal(shareText(estp("ESTP"),false,home,"en",false),"My agent “阿星” read our conversations and says I’m ESTP, Live experimenter (Unrated). What would your agent say about you? https://ai-partner-style.example.workers.dev/ #AIPartnerStyle\nLeading your Agent, you're ESTP too");
+  assert.equal(shareText(estp(null),false,home,"en",false),"My agent “阿星” read our conversations and says I’m ESTP, Live experimenter (Unrated). What would your agent say about you? https://ai-partner-style.example.workers.dev/ #AIPartnerStyle");
 });
 
 test("a partial result contrasts against its pattern, an empty one never contrasts, and nickname-only hides everything",()=>{
@@ -58,7 +58,7 @@ test("a partial result contrasts against its pattern, an empty one never contras
   empty.tasks=empty.tasks.map(task=>({...task,axes:{EI:"unclear",SN:"unclear",TF:"unclear",JP:"unclear"}}));
   const blank=cardComposition(card(empty,"INTJ"),"chibi","codex");
   assert.deepEqual([blank.type,blank.tagline,blank.legend,blank.leans],["未定型","輪廓還在形成","",[]]);
-  assert.equal(shareText(estp("INTJ"),true,home),"你的 AI 夥伴風格指南\n阿星\nhttps://ai-partner-style.example.workers.dev/");
+  assert.equal(shareText(estp("INTJ"),true,home),"我的 Agent「阿星」看完我們的對話，幫我畫了一張角色卡。你的 Agent 會怎麼畫你？ https://ai-partner-style.example.workers.dev/ #AIPartnerStyle");
   assert.equal(cardComposition(estp("INTJ"),"chibi","codex",true).tagline,"");
 });
 

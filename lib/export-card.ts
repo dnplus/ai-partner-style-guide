@@ -3,7 +3,7 @@ import {translator,type Locale} from './i18n.ts';
 import type {ArtStyle,Family} from './catalog.ts';
 import type {CardObservation} from './assessment.ts';
 import {cardComposition,cardSvg,measuredCode,selfContrast} from './card-composition.ts';
-import {rarityLabel} from './rarity.ts';
+import {postText} from './share-kit.ts';
 export const exportFormats={card:{width:1080,height:1620,label:'收藏卡'},feed:{width:1080,height:1350,label:'直式貼文'},story:{width:1080,height:1920,label:'限時尺寸'},square:{width:1080,height:1080,label:'正方形'},landscape:{width:1200,height:630,label:'橫式貼文'}} as const;
 export type ExportFormat=keyof typeof exportFormats;
 export const tagged=(url:string,via:string)=>{const u=new URL(url);u.searchParams.set('via',via);return u.href;};
@@ -31,7 +31,7 @@ export async function makeCardFile(report:CardObservation,style:ArtStyle,family:
  }
  const textX=landscape?440:square?cardX+cardW+46:58,textMax=landscape?680:square?size.width-textX-50:qrX-85;
  if(!portrait){write(model.modelLabel,textX,landscape?122:139,34,textMax);write(model.type?model.type+' · '+model.level:model.nickname,textX,landscape?197:224,landscape?58:48,textMax,'#35213f','600');write(model.title||t('角色卡'),textX,landscape?255:286,31,textMax);if(model.tagline)write(model.tagline,textX,landscape?305:338,24,textMax,'#735d85');}
- const promoY=portrait?size.height-120:landscape?400:460;write(t('你的 Agent，會是哪一型？'),textX,promoY,portrait?28:27,textMax,'#4c345f','600');write(new URL(home).host,textX,promoY+40,19,textMax,'#785e8b');
+ const promoY=portrait?size.height-120:landscape?400:460;write(t('你的 Agent 會怎麼說你？'),textX,promoY,portrait?28:27,textMax,'#4c345f','600');write(new URL(home).host,textX,promoY+40,19,textMax,'#785e8b');
  write(model.credit,40,size.height-18,landscape?12:16,size.width-80,'#675674');
  const blob=await new Promise<Blob>((resolve,reject)=>canvas.toBlob(b=>b?resolve(b):reject(new Error('圖片匯出失敗')),'image/png'));
  const filename='ai-partner-style-'+family+'-'+style+'-'+locale+'-'+format+'-'+t('角色卡')+(nicknameOnly?'-nickname':'')+'.png';return {file:new File([blob],filename,{type:'image/png'}),width:size.width,height:size.height,composition:model,qr:tagged(home,'qr'),format};
@@ -40,6 +40,9 @@ export function saveCardFile(file:File){const url=URL.createObjectURL(file),a=do
 export async function downloadCard(report:CardObservation,style:ArtStyle,family:Family,nicknameOnly:boolean,home:string,locale:Locale='zh-TW',format:ExportFormat='card'){
  const result=await makeCardFile(report,style,family,nicknameOnly,home,locale,format);saveCardFile(result.file);return {width:result.width,height:result.height,bytes:result.file.size,locale,filename:result.file.name};
 }
+// The words that travel with the image: the same hook as a link post, then the self-contrast and the short reading.
 export function shareText(report:CardObservation,nicknameOnly:boolean,home:string,locale:Locale='zh-TW',includeBrief=true){
- const t=translator(locale);return [t('你的 AI 夥伴風格指南'),report.nickname,...(nicknameOnly?[]:[selfContrast(report,t)||measuredCode(report,t),t(rarityLabel(report.usageLevel.value)),...(includeBrief?report.brief.map(line=>t(line)):[])]),home].join('\n');
+ const t=translator(locale),lines=[postText(report,home,locale,nicknameOnly)];
+ if(!nicknameOnly){const contrast=selfContrast(report,t);if(contrast)lines.push(contrast);if(includeBrief)lines.push(...report.brief.map(line=>t(line)));}
+ return lines.join('\n');
 }
